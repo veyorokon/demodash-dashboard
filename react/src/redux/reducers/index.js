@@ -1,18 +1,34 @@
-import {TOGGLE_NAV} from "redux/constants";
-import {updateState} from "lib";
+import {UPDATE_REGISTRATION_FORM} from "redux/constants";
+import {updateState, validateEmail} from "lib";
 
 const initialState = {
-  navOpen: false
+  registrationForm: {
+    email: "",
+    fullName: "",
+    password: "",
+    passwordConfirmation: "",
+    submitDisabled: true,
+    errorMessage: "",
+    isValidEmail: false
+  }
 };
 
 export default function rootReducer(state = initialState, action) {
   const {payload} = action;
+  let newState;
 
   switch (action.type) {
-    case TOGGLE_NAV:
-      return updateState(state, ["navOpen"], !state.navOpen);
+    case UPDATE_REGISTRATION_FORM:
+      newState = updateState(
+        state,
+        ["registrationForm", payload.field],
+        payload.value,
+        false
+      );
+      newState.registrationForm.isValidEmail = validateEmail(payload.value);
+      console.log(newState.registrationForm);
+      return Object.assign({}, state, newState);
     default:
-      if (payload) return Object.assign({}, state, payload);
       return state;
   }
 }

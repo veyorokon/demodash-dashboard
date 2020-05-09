@@ -1,14 +1,13 @@
 import React from "react";
-import {Section, Box, Text, Flex, Image, Link, Hidden, Input} from "components";
+import {Section, Box, Text, Flex, Image, Link, Hidden} from "components";
 import styled from "styled-components";
 import {responsive as r} from "lib";
-import {MultiForm} from "./Components";
+import {MultiForm, ConnectedUserForm, VertTabs, TabPanel} from "./Components";
 import checkmark from "assets/svg/checkmark.svg";
 import logo from "assets/svg/logo.svg";
 import influencer from "assets/svg/influencer.svg";
 import storefront from "assets/svg/storefront.svg";
 import brand from "assets/svg/brand.svg";
-import VertTabs, {TabPanel} from "./Components/VertTabs";
 
 const LeftColumn = styled(Hidden)`
   flex-grow: 46;
@@ -116,40 +115,6 @@ const Panel = props => (
       {props.children && props.children}
     </Box>
   </TabPanel>
-);
-
-const UserForm = props => (
-  <Flex
-    justifySelf="flex-start"
-    mb={r("unset -----> auto")}
-    flexGrow="0"
-    flexDirection="column"
-  >
-    <Hidden height="fit-content" flexGrow="0" up={7}>
-      <LogoTitle />
-    </Hidden>
-    <Text color="navys.0" mt={r("4")} mb={4} fs={"2rem"}>
-      Create your account:
-    </Text>
-    <Text mb={3} color="navys.1" fs={"1.6rem"}>
-      Email
-    </Text>
-    <Input height={"4.4rem"} mb={3} br={2} type="email" />
-
-    <Text mb={3} color="navys.1" fs={"1.6rem"}>
-      Full name
-    </Text>
-    <Input height={"4.4rem"} mb={3} br={2} />
-
-    <Text mb={3} color="navys.1" fs={"1.6rem"}>
-      Password
-    </Text>
-    <Input height={"4.4rem"} mb={3} br={2} type="password" />
-    <Text mb={3} color="navys.1" fs={"1.6rem"}>
-      Password confirmation
-    </Text>
-    <Input height={"4.4rem"} mb={3} br={2} type="password" />
-  </Flex>
 );
 
 const AccountForm = props => (
@@ -260,8 +225,15 @@ class RegistrationForm extends React.Component {
                   () => console.log("accountform")
                 ]}
                 buttonText={["Continue", "Complete"]}
+                buttonDisabled={[true, false]}
               >
-                <UserForm />
+                <ConnectedUserForm
+                  header={
+                    <Hidden height="fit-content" flexGrow="0" up={7}>
+                      <LogoTitle />
+                    </Hidden>
+                  }
+                />
                 <AccountForm account={account} />
               </MultiForm>
               <Flex

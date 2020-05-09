@@ -11,7 +11,6 @@ import {Box, Flex, Text, Button} from "components";
 import styled, {css} from "styled-components";
 
 const SubmitButton = styled(Button)`
-  cursor: pointer;
   height: 5rem;
   width: 100%;
   border: none;
@@ -107,6 +106,9 @@ class NavigationTabs extends React.Component {
 
   render() {
     const {selected} = this.state;
+    const disabled =
+      (this.props.buttonDisabled && this.props.buttonDisabled[selected]) ||
+      false;
     return (
       <>
         {this.props.children.map((elem, index) => (
@@ -117,12 +119,14 @@ class NavigationTabs extends React.Component {
 
         <Box>
           <SubmitButton
-            hoverBg="#173bd0"
+            disabled={disabled}
+            hoverBg={disabled ? "#b2afe2" : "#173bd0"}
+            bg={disabled ? "#b2afe2" : "blues.0"}
+            cursor={disabled ? "no-drop" : "pointer"}
             minHeight="5rem"
             mt={4}
             mb={3}
             br={3}
-            bg={"blues.0"}
             onClick={() => this.handleChange(selected + 1)}
             color={"blacks.0"}
           >

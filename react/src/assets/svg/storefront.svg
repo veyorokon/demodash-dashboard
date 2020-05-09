@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="202px" height="166px" viewBox="0 0 202 166" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>storefront-colour</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-214.000000, -328.000000)" fill-rule="nonzero">
+            <g id="storefront-colour" transform="translate(214.000000, 328.000000)">
+                <rect id="Rectangle" fill="#DE8E68" x="14" y="8" width="150" height="158"></rect>
+                <rect id="Rectangle" fill="#D37C59" x="10" y="156" width="158" height="10"></rect>
+                <rect id="Rectangle" fill="#ED6E58" x="31" y="105" width="40" height="61"></rect>
+                <rect id="Rectangle" fill="#FED892" x="81" y="105" width="74" height="35"></rect>
+                <rect id="Rectangle" fill="#FED892" x="4" y="55" width="170" height="4"></rect>
+                <rect id="Rectangle" fill="#FED892" x="4" y="0" width="170" height="9"></rect>
+                <g id="Group-2" transform="translate(23.000000, 14.000000)">
+                    <rect id="Rectangle" fill="#FED892" x="0" y="0" width="28" height="35"></rect>
+                    <rect id="Rectangle" fill="#FFFFFF" x="2" y="2" width="25" height="34"></rect>
+                    <rect id="Rectangle" fill="#FED892" x="51" y="0" width="28" height="35"></rect>
+                    <rect id="Rectangle" fill="#FFFFFF" x="53" y="2" width="25" height="34"></rect>
+                    <rect id="Rectangle" fill="#FED892" x="103" y="0" width="28" height="35"></rect>
+                    <rect id="Rectangle" fill="#FFFFFF" x="104" y="2" width="25" height="34"></rect>
+                    <polygon id="Path" fill="#C7FCFF" points="27 7 2 32.6637168 2 36 3.03092784 36 27 11.3945808"></polygon>
+                    <polygon id="Path" fill="#C7FCFF" points="20.556701 2 2 20.5635359 2 30 27 4.9907919 27 2"></polygon>
+                    <polygon id="Path" fill="#C7FCFF" points="78 7 53 32.6637168 53 36 54.0309278 36 78 11.3945808"></polygon>
+                    <polygon id="Path" fill="#C7FCFF" points="71.556701 2 53 20.5635359 53 30 78 4.9907919 78 2"></polygon>
+                    <polygon id="Path" fill="#C7FCFF" points="129 7 104 32.6637168 104 36 105.030928 36 129 11.3945808"></polygon>
+                    <polygon id="Path" fill="#C7FCFF" points="122.556701 2 104 20.5635359 104 30 129 4.9907919 129 2"></polygon>
+                </g>
+                <rect id="Rectangle" fill="#ED6E58" x="0" y="87" width="178" height="7"></rect>
+                <polygon id="Path" fill="#FD8369" points="178 87 163.864706 59 14.1352941 59 0 87"></polygon>
+                <rect id="Rectangle" fill="#ED6E58" x="14" y="59" width="5" height="28"></rect>
+                <rect id="Rectangle" fill="#ED6E58" x="25" y="59" width="5" height="28"></rect>
+                <rect id="Rectangle" fill="#ED6E58" x="37" y="59" width="5" height="28"></rect>
+                <rect id="Rectangle" fill="#ED6E58" x="48" y="59" width="5" height="28"></rect>
+                <rect id="Rectangle" fill="#ED6E58" x="59" y="59" width="5" height="28"></rect>
+                <rect id="Rectangle" fill="#ED6E58" x="70" y="59" width="5" height="28"></rect>
+                <rect id="Rectangle" fill="#ED6E58" x="81" y="59" width="5" height="28"></rect>
+                <rect id="Rectangle" fill="#ED6E58" x="92" y="59" width="5" height="28"></rect>
+                <rect id="Rectangle" fill="#ED6E58" x="103" y="59" width="5" height="28"></rect>
+                <rect id="Rectangle" fill="#ED6E58" x="115" y="59" width="5" height="28"></rect>
+                <rect id="Rectangle" fill="#ED6E58" x="126" y="59" width="5" height="28"></rect>
+                <rect id="Rectangle" fill="#ED6E58" x="137" y="59" width="5" height="28"></rect>
+                <rect id="Rectangle" fill="#ED6E58" x="148" y="59" width="5" height="28"></rect>
+                <rect id="Rectangle" fill="#ED6E58" x="159" y="59" width="5" height="28"></rect>
+                <rect id="Rectangle" fill="#FFFFFF" x="83" y="107" width="69" height="31"></rect>
+                <rect id="Rectangle" fill="#74D5DE" x="33" y="107" width="36" height="59"></rect>
+                <rect id="Rectangle" fill="#ED6E58" x="32" y="134" width="38" height="2"></rect>
+                <rect id="Rectangle" fill="#FD8369" x="164" y="40" width="22" height="3"></rect>
+                <circle id="Oval" fill="#74D5DE" cx="191" cy="42" r="11"></circle>
+                <circle id="Oval" fill="#FED892" cx="191" cy="42" r="8"></circle>
+                <polygon id="Path" fill="#C7FCFF" points="115.620414 107 85 138 105.379586 138 136 107"></polygon>
+                <polygon id="Path" fill="#C7FCFF" points="112.94669 138 144 107 140.05331 107 109 138"></polygon>
+                <polygon id="Path" fill="#C7FCFF" points="152 107 147.819598 107 117 138 126.185294 138 152 112.034188"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

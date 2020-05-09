@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeshare-frontend
+  namespace: staging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kubeshare-frontend
+  template:
+    metadata:
+      labels:
+        app: kubeshare-frontend
+    spec:
+      containers:
+        - name: main
+          image: docker-registry.kubeshare.com/nodejs/kubeshare_frontend
+          ports:
+          - containerPort: 80

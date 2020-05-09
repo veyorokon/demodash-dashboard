@@ -1,0 +1,15 @@
+apiVersion: skaffold/v1beta15
+kind: Config
+build:
+  artifacts:
+    - image: docker-registry.kubeshare.com/nodejs/kubeshare_frontend
+      context: react
+  tagPolicy:
+    gitCommit:
+  local:
+    useBuildkit: true
+
+deploy:
+  kubectl:
+    manifests:
+    - k8s/general/*

@@ -10,7 +10,6 @@ function updateField(event, field) {
 
 export function UserForm(props) {
   const {updateRegistrationForm} = props;
-
   return (
     <Flex
       justifySelf="flex-start"

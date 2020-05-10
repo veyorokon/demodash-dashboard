@@ -98,7 +98,7 @@ class NavigationTabs extends React.Component {
     } catch (error) {
       console.log(error);
       const {updateRegistrationForm} = this.props;
-      let errorMessage = error.message;
+      let errorMessage = error.message.replace("GraphQL error: ", "");
       updateRegistrationForm({field: "errorMessage", value: errorMessage});
     }
   }

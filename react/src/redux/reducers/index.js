@@ -1,5 +1,13 @@
-import {UPDATE_REGISTRATION_FORM} from "redux/constants";
+import {UPDATE_REGISTRATION_FORM, UPDATE_ACCOUNT_FORM} from "redux/constants";
 import {updateState, validateEmail, validatePassword} from "lib";
+
+const anchor = window.location.hash.toLowerCase().replace("#", "");
+const type =
+  anchor === "storefront"
+    ? "storefront"
+    : anchor === "influencer"
+    ? "influencer"
+    : "brand";
 
 // const initialState = {
 //   registrationForm: {
@@ -11,7 +19,10 @@ import {updateState, validateEmail, validatePassword} from "lib";
 //     errorField: "",
 //     isValidEmail: false,
 //     isValidPassword: false
-//   }
+//   },
+//   accountForm: {
+//   type: type
+// }
 // };
 
 const initialState = {
@@ -24,6 +35,9 @@ const initialState = {
     errorField: "",
     isValidEmail: true,
     isValidPassword: true
+  },
+  accountForm: {
+    type: type
   }
 };
 
@@ -68,6 +82,8 @@ export default function rootReducer(state = initialState, action) {
         newState.registrationForm.errorField = "email";
       }
       return Object.assign({}, state, newState);
+    case UPDATE_ACCOUNT_FORM:
+      return updateState(state, ["accountForm"], payload);
     default:
       return state;
   }

@@ -5,6 +5,9 @@ import influencer from "assets/svg/influencer.svg";
 import storefront from "assets/svg/storefront.svg";
 import brand from "assets/svg/brand.svg";
 
+import {connect} from "react-redux";
+import {updateAccountForm} from "redux/actions";
+
 const Panel = props => (
   <TabPanel
     height={"100%"}
@@ -32,7 +35,8 @@ const Panel = props => (
   </TabPanel>
 );
 
-export default function AccountForm(props) {
+function AccountForm(props) {
+  const {updateAccountForm} = props;
   return (
     <Flex
       justifySelf="flex-start"
@@ -54,21 +58,40 @@ export default function AccountForm(props) {
               "You ship demo products to storefronts and influencers; and purchases to customers."
             }
             svg={brand}
+            callBack={() => updateAccountForm({type: "brand"})}
           ></Panel>
           <Panel
             text={
               "Demo products on customers at your storefront and earn commission for each sale."
             }
             svg={storefront}
+            callBack={() => updateAccountForm({type: "storefront"})}
           ></Panel>
           <Panel
             text={
               "Demo products for followers on your social media and earn commission for each sale."
             }
             svg={influencer}
+            callBack={() => updateAccountForm({type: "influencer"})}
           ></Panel>
         </VertTabs>
       </Flex>
     </Flex>
   );
 }
+
+const mapStateToProps = state => {
+  return state.accountForm;
+};
+function mapDispatchToProps(dispatch) {
+  return {
+    updateAccountForm: payload => dispatch(updateAccountForm(payload))
+  };
+}
+
+const ConnectedAccountForm = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AccountForm);
+
+export default ConnectedAccountForm;

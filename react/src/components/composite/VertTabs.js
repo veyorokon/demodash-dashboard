@@ -90,6 +90,7 @@ class NavigationTabs extends React.Component {
   }
 
   handleChange = index => {
+    this.props.children[index].props.callBack();
     this.setState({selected: index});
   };
 
@@ -141,6 +142,7 @@ class VertTabs extends React.Component {
         <NavigationTabs
           selected={this.props.selected}
           tabHeaders={this.props.tabHeaders}
+          {...this.props}
         >
           {this.props.children}
         </NavigationTabs>

@@ -64,6 +64,7 @@ export default function rootReducer(state = initialState, action) {
         payload.field === "passwordConfirmation"
       )
         newState = checkPasswords(newState);
+      console.log(newState);
       return Object.assign({}, state, newState);
     default:
       return state;

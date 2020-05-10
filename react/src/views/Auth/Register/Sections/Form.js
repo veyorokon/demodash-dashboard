@@ -4,10 +4,11 @@ import {Section, Box, Text, Flex, Image, Link, Hidden} from "components";
 import styled from "styled-components";
 import {responsive as r} from "lib";
 import {MultiForm, ConnectedUserForm, AccountForm} from "./Forms";
+
 import checkmark from "assets/svg/checkmark.svg";
 import logo from "assets/svg/logo.svg";
 import {Mutation} from "@apollo/react-components";
-import {setToken} from "lib";
+import {setToken, clearToken} from "lib";
 import {gql} from "apollo-boost";
 
 const CREATE_USER = gql`
@@ -79,7 +80,6 @@ const Footer = props => (
     </Link>
   </>
 );
-
 const LogoTitle = props => (
   <Flex alignItems="center">
     <Link h="fit-content" href="https://demodash.com">
@@ -100,6 +100,20 @@ const LogoTitle = props => (
 );
 
 class RegistrationForm extends React.Component {
+  componentDidMount() {
+    console.log("cleared token");
+    clearToken();
+  }
+
+  async createUserMutation(createUser) {
+    const {registrationForm} = this.props;
+    const response = await createUser({
+      variables: registrationForm
+    });
+    const token = response.data.createUser.token;
+    setToken(token);
+  }
+
   render() {
     const anchor = window.location.hash.toLowerCase();
     const account =
@@ -171,13 +185,7 @@ class RegistrationForm extends React.Component {
                     minHeight="fit-content"
                     h="60rem"
                     callbacks={[
-                      async () => {
-                        const response = await createUser({
-                          variables: registrationForm
-                        });
-                        const token = response.data.createUser.token;
-                        setToken(token);
-                      },
+                      () => this.createUserMutation(createUser),
                       () => console.log("accountform")
                     ]}
                     buttonText={["Continue", "Complete"]}

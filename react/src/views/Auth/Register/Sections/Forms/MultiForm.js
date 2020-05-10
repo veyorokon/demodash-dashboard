@@ -9,6 +9,8 @@
 import React from "react";
 import {Box, Flex, Text, Button} from "components";
 import styled, {css} from "styled-components";
+import {connect} from "react-redux";
+import {updateRegistrationForm} from "redux/actions";
 
 const SubmitButton = styled(Button)`
   height: 5rem;
@@ -23,7 +25,6 @@ const SubmitButton = styled(Button)`
     background: ${props => props.hoverBg || "none"};
   }
 `;
-
 const Menu = styled(Flex)`
   z-index: 10;
   max-width: 100%;
@@ -31,7 +32,6 @@ const Menu = styled(Flex)`
   flex-direction: column;
   justify-content: space-between;
 `;
-
 const Hide = styled(Box)`
   transition: opacity 0.8s ease-in-out;
   visibility: hidden;
@@ -53,7 +53,6 @@ const Hide = styled(Box)`
       display: none;
     `}
 `;
-
 const NavigationBullet = styled(Button)`
   cursor: pointer;
   transition: all 0.3s ease-out;
@@ -71,7 +70,6 @@ const NavigationBullet = styled(Button)`
       background: black;
     `}
 `;
-
 const PanelNavigation = styled(Flex)`
   width: fit-content;
   align-self: center;
@@ -93,16 +91,17 @@ class NavigationTabs extends React.Component {
     };
   }
 
-  getInitialState() {
-    return {
-      selected: this.props.selected || 0
-    };
+  async handleChange(index) {
+    try {
+      await this.props.callbacks[index - 1]();
+      this.setState({selected: index});
+    } catch (error) {
+      console.log(error);
+      const {updateRegistrationForm} = this.props;
+      let errorMessage = error.message;
+      updateRegistrationForm({field: "errorMessage", value: errorMessage});
+    }
   }
-
-  handleChange = index => {
-    this.props.callbacks[index - 1]();
-    this.setState({selected: index});
-  };
 
   render() {
     const {selected} = this.state;
@@ -155,6 +154,17 @@ class NavigationTabs extends React.Component {
   }
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    updateRegistrationForm: payload => dispatch(updateRegistrationForm(payload))
+  };
+}
+
+const ConnectedNavigationTabs = connect(
+  null,
+  mapDispatchToProps
+)(NavigationTabs);
+
 class MultiForm extends React.Component {
   constructor(props) {
     super(props);
@@ -166,7 +176,10 @@ class MultiForm extends React.Component {
   render() {
     return (
       <Menu {...this.props}>
-        <NavigationTabs selected={this.props.selected || 0} {...this.props} />
+        <ConnectedNavigationTabs
+          selected={this.props.selected || 0}
+          {...this.props}
+        />
       </Menu>
     );
   }

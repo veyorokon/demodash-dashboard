@@ -26,7 +26,6 @@ export default function rootReducer(state = initialState, action) {
         false
       );
       newState.registrationForm.isValidEmail = validateEmail(payload.value);
-      console.log(newState.registrationForm);
       return Object.assign({}, state, newState);
     default:
       return state;

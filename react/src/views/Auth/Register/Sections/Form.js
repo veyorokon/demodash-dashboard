@@ -1,13 +1,11 @@
 import React from "react";
+import {connect} from "react-redux";
 import {Section, Box, Text, Flex, Image, Link, Hidden} from "components";
 import styled from "styled-components";
 import {responsive as r} from "lib";
-import {MultiForm, ConnectedUserForm, VertTabs, TabPanel} from "./Components";
+import {MultiForm, ConnectedUserForm, AccountForm} from "./Components";
 import checkmark from "assets/svg/checkmark.svg";
 import logo from "assets/svg/logo.svg";
-import influencer from "assets/svg/influencer.svg";
-import storefront from "assets/svg/storefront.svg";
-import brand from "assets/svg/brand.svg";
 
 const LeftColumn = styled(Hidden)`
   flex-grow: 46;
@@ -90,79 +88,12 @@ const LogoTitle = props => (
   </Flex>
 );
 
-const Panel = props => (
-  <TabPanel
-    height={"100%"}
-    display="flex"
-    flexDirection="column"
-    alignItems="center"
-    justifyContent="space-around"
-  >
-    <Image mb={4} mt={4} maxWidth={"100%"} h={r("16rem ")} src={props.svg} />
-    <Box>
-      <Text
-        lineHeight={"1.5"}
-        as="p"
-        fw={400}
-        fs={r("1.8rem")}
-        color="navys.2"
-        textAlign={r("center")}
-        letterSpacing="-0.5px"
-        maxWidth="60rem"
-      >
-        {props.text}
-      </Text>
-      {props.children && props.children}
-    </Box>
-  </TabPanel>
-);
-
-const AccountForm = props => (
-  <Flex
-    justifySelf="flex-start"
-    mb={r("unset -----> auto")}
-    flexGrow="0"
-    flexDirection="column"
-  >
-    <Hidden height="fit-content" flexGrow="0" up={7}>
-      <LogoTitle />
-    </Hidden>
-    <Text color="navys.0" mt={r("4")} mb={4} fs={"2rem"}>
-      Choose your account type:
-    </Text>
-    <Flex mt={3} h="100%">
-      <VertTabs
-        tabHeaders={["Brand", "Storefront", "Influencer"]}
-        selected={props.account}
-      >
-        <Panel
-          text={
-            "You ship demo products to storefronts and influencers; and purchases to customers."
-          }
-          svg={brand}
-        ></Panel>
-        <Panel
-          text={
-            "Demo products on customers at your storefront and earn commission for each sale."
-          }
-          svg={storefront}
-        ></Panel>
-        <Panel
-          text={
-            "Demo products for followers on your social media and earn commission for each sale."
-          }
-          svg={influencer}
-        ></Panel>
-      </VertTabs>
-    </Flex>
-  </Flex>
-);
-
 class RegistrationForm extends React.Component {
   render() {
     const anchor = window.location.hash.toLowerCase();
     const account =
       anchor === "#storefront" ? 1 : anchor === "#influencer" ? 2 : 0;
+    const createUserButtonDisabled = !this.props.isValidEmail;
     return (
       <Section bg={"whites.0"} height={"fit-content"} overflow="hidden">
         <Flex h={"100vh"}>
@@ -225,7 +156,7 @@ class RegistrationForm extends React.Component {
                   () => console.log("accountform")
                 ]}
                 buttonText={["Continue", "Complete"]}
-                buttonDisabled={[true, false]}
+                buttonDisabled={[createUserButtonDisabled, false]}
               >
                 <ConnectedUserForm
                   header={
@@ -234,7 +165,14 @@ class RegistrationForm extends React.Component {
                     </Hidden>
                   }
                 />
-                <AccountForm account={account} />
+                <AccountForm
+                  header={
+                    <Hidden height="fit-content" flexGrow="0" up={7}>
+                      <LogoTitle />
+                    </Hidden>
+                  }
+                  account={account}
+                />
               </MultiForm>
               <Flex
                 alignItems="flex-start"
@@ -271,4 +209,13 @@ class RegistrationForm extends React.Component {
     );
   }
 }
-export default RegistrationForm;
+const mapStateToProps = state => {
+  return state.registrationForm;
+};
+
+const ConnectedRegistrationForm = connect(
+  mapStateToProps,
+  null
+)(RegistrationForm);
+
+export default ConnectedRegistrationForm;

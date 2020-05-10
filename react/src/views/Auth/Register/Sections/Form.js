@@ -7,7 +7,7 @@ import {MultiForm, ConnectedUserForm, AccountForm} from "./Forms";
 import checkmark from "assets/svg/checkmark.svg";
 import logo from "assets/svg/logo.svg";
 import {Mutation} from "@apollo/react-components";
-// import {getToken} from "lib";
+import {setToken} from "lib";
 import {gql} from "apollo-boost";
 
 const CREATE_USER = gql`
@@ -108,17 +108,7 @@ class RegistrationForm extends React.Component {
     const createUserButtonDisabled =
       !registrationForm.isValidEmail || !registrationForm.isValidPassword;
     return (
-      <Mutation
-        mutation={CREATE_USER}
-        // refetchQueries={[
-        //   {
-        //     query: USER,
-        //     variables: {
-        //       token: getToken()
-        //     }
-        //   }
-        // ]}
-      >
+      <Mutation mutation={CREATE_USER}>
         {createUser => (
           <Section bg={"whites.0"} height={"fit-content"} overflow="hidden">
             <Flex h={"100vh"}>
@@ -181,7 +171,13 @@ class RegistrationForm extends React.Component {
                     minHeight="fit-content"
                     h="60rem"
                     callbacks={[
-                      () => createUser({variables: registrationForm}),
+                      async () => {
+                        const response = await createUser({
+                          variables: registrationForm
+                        });
+                        const token = response.data.createUser.token;
+                        setToken(token);
+                      },
                       () => console.log("accountform")
                     ]}
                     buttonText={["Continue", "Complete"]}

@@ -10,12 +10,19 @@
 
 import updateState from "./updateState";
 import responsive from "./responsive";
-import {validateEmail, validatePassword, clearToken, getToken} from "./utility";
+import {
+  validateEmail,
+  validatePassword,
+  clearToken,
+  getToken,
+  setToken
+} from "./utility";
 export {
   updateState,
   responsive,
   validateEmail,
   validatePassword,
   clearToken,
-  getToken
+  getToken,
+  setToken
 };

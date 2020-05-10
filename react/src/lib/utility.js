@@ -15,14 +15,18 @@ export function validatePassword(password, passwordConfirmation) {
 }
 
 export function clearToken() {
-  localStorage.removeItem("sessionToken");
+  window.localStorage.removeItem("sessionToken");
 }
 
 export function getToken() {
   try {
-    return localStorage.getItem("sessionToken");
+    return window.localStorage.getItem("sessionToken");
   } catch (err) {
     clearToken();
     return null;
   }
+}
+
+export function setToken(token) {
+  return window.localStorage.setItem("sessionToken", token);
 }

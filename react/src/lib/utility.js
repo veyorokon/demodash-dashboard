@@ -13,3 +13,16 @@ export function validatePassword(password, passwordConfirmation) {
     return [false, "Passwords don't match"];
   return [true, ""];
 }
+
+export function clearToken() {
+  localStorage.removeItem("sessionToken");
+}
+
+export function getToken() {
+  try {
+    return localStorage.getItem("sessionToken");
+  } catch (err) {
+    clearToken();
+    return null;
+  }
+}

@@ -58,9 +58,8 @@ export default function rootReducer(state = initialState, action) {
         payload.value,
         false
       );
-      if (payload.field === "email") {
-        newState = checkEmail(newState);
-      } else if (
+      if (payload.field === "email") newState = checkEmail(newState);
+      else if (
         payload.field === "password" ||
         payload.field === "passwordConfirmation"
       )

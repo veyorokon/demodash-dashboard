@@ -1,7 +1,6 @@
-import {Flex, Text, Image, Box} from "components";
+import {Flex, Text, Image, Box, VertTabs, TabPanel} from "components";
 import React from "react";
 import {responsive as r} from "lib";
-import VertTabs, {TabPanel} from "./VertTabs";
 import influencer from "assets/svg/influencer.svg";
 import storefront from "assets/svg/storefront.svg";
 import brand from "assets/svg/brand.svg";

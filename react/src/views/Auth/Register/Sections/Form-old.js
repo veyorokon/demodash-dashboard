@@ -6,8 +6,6 @@ import {responsive as r} from "lib";
 import {MultiForm, ConnectedUserForm, AccountForm} from "./Forms";
 import checkmark from "assets/svg/checkmark.svg";
 import logo from "assets/svg/logo.svg";
-import {Mutation} from "react-apollo";
-import {getToken} from "lib";
 
 const LeftColumn = styled(Hidden)`
   flex-grow: 46;

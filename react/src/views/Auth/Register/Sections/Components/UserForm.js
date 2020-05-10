@@ -26,6 +26,7 @@ export function UserForm(props) {
         Email
       </Text>
       <Input
+        autocapitalize="none"
         height={"4.4rem"}
         mb={props.errorMessage && props.errorField === "email" ? 1 : 3}
         br={2}

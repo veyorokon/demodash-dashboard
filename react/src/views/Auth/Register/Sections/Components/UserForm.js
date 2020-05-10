@@ -27,12 +27,16 @@ export function UserForm(props) {
       </Text>
       <Input
         height={"4.4rem"}
-        mb={3}
+        mb={props.errorMessage && props.errorField === "email" ? 1 : 3}
         br={2}
         type="email"
         onChange={evt => updateRegistrationForm(updateField(evt, "email"))}
       />
-
+      {props.errorMessage && props.errorField === "email" && (
+        <Text mb={3} color={"oranges.0"}>
+          {props.errorMessage}
+        </Text>
+      )}
       <Text mb={3} color="navys.1" fs={"1.6rem"}>
         Full name
       </Text>
@@ -58,13 +62,18 @@ export function UserForm(props) {
       </Text>
       <Input
         height={"4.4rem"}
-        mb={3}
+        mb={props.errorMessage && props.errorField === "password" ? 1 : 3}
         br={2}
         type="password"
         onChange={evt =>
           updateRegistrationForm(updateField(evt, "passwordConfirmation"))
         }
       />
+      {props.errorMessage && props.errorField === "password" && (
+        <Text mb={3} color={"oranges.0"}>
+          {props.errorMessage}
+        </Text>
+      )}
     </Flex>
   );
 }

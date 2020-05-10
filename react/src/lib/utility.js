@@ -7,7 +7,9 @@ export function validateEmail(email) {
 }
 
 export function validatePassword(password, passwordConfirmation) {
-  if (password.length <= 5 || passwordConfirmation.length <= 5)
+  if (password.length <= 5 && passwordConfirmation.length <= 5)
     return [false, "Password length must be at least 5"];
-  return [password === passwordConfirmation, "Passwords don't match"];
+  if (password !== passwordConfirmation)
+    return [false, "Passwords don't match"];
+  return [true, ""];
 }

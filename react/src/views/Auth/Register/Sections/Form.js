@@ -93,7 +93,8 @@ class RegistrationForm extends React.Component {
     const anchor = window.location.hash.toLowerCase();
     const account =
       anchor === "#storefront" ? 1 : anchor === "#influencer" ? 2 : 0;
-    const createUserButtonDisabled = !this.props.isValidEmail;
+    const createUserButtonDisabled =
+      !this.props.isValidEmail || !this.props.isValidPassword;
     return (
       <Section bg={"whites.0"} height={"fit-content"} overflow="hidden">
         <Flex h={"100vh"}>

@@ -10,5 +10,5 @@
 
 import updateState from "./updateState";
 import responsive from "./responsive";
-import {validateEmail} from "./utility";
-export {updateState, responsive, validateEmail};
+import {validateEmail, validatePassword} from "./utility";
+export {updateState, responsive, validateEmail, validatePassword};

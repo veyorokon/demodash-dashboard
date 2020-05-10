@@ -1,5 +1,5 @@
 import {UPDATE_REGISTRATION_FORM} from "redux/constants";
-import {updateState, validateEmail} from "lib";
+import {updateState, validateEmail, validatePassword} from "lib";
 
 const initialState = {
   registrationForm: {
@@ -9,7 +9,8 @@ const initialState = {
     passwordConfirmation: "",
     submitDisabled: true,
     errorMessage: "",
-    isValidEmail: false
+    isValidEmail: false,
+    isValidPassword: false
   }
 };
 
@@ -25,7 +26,22 @@ export default function rootReducer(state = initialState, action) {
         payload.value,
         false
       );
-      newState.registrationForm.isValidEmail = validateEmail(payload.value);
+      if (payload.field === "email") {
+        const emailValidation = validateEmail(payload.value);
+        newState.registrationForm.isValidEmail = emailValidation[0];
+        newState.registrationForm.errorMessage = emailValidation[1];
+      } else if (
+        payload.field === "password" ||
+        payload.field === "passwordConfirmation"
+      ) {
+        const passwordValidation = validatePassword(
+          newState.registrationForm.password,
+          newState.registrationForm.passwordConfirmation
+        );
+        newState.registrationForm.isValidPassword = passwordValidation[0];
+        newState.registrationForm.errorMessage = passwordValidation[1];
+      }
+      console.log(newState);
       return Object.assign({}, state, newState);
     default:
       return state;

@@ -1,7 +1,13 @@
-import {TOGGLE_NAV} from "redux/constants";
+import {UPDATE_REGISTRATION_FORM, UPDATE_ACCOUNT_FORM} from "redux/constants";
 
-export function toggleNav() {
+export function updateRegistrationForm(payload) {
   return function(dispatch) {
-    return dispatch({type: TOGGLE_NAV, payload: {}});
+    return dispatch({type: UPDATE_REGISTRATION_FORM, payload: payload});
+  };
+}
+
+export function updateAccountForm(payload) {
+  return function(dispatch) {
+    return dispatch({type: UPDATE_ACCOUNT_FORM, payload: payload});
   };
 }

@@ -1,18 +1,90 @@
-import {TOGGLE_NAV} from "redux/constants";
-import {updateState} from "lib";
+import {UPDATE_REGISTRATION_FORM, UPDATE_ACCOUNT_FORM} from "redux/constants";
+import {updateState, validateEmail, validatePassword} from "lib";
+
+const anchor = window.location.hash.toLowerCase().replace("#", "");
+const type =
+  anchor === "storefront"
+    ? "storefront"
+    : anchor === "influencer"
+    ? "influencer"
+    : "brand";
+
+// const initialState = {
+//   registrationForm: {
+//     email: "",
+//     fullName: "",
+//     password: "",
+//     passwordConfirmation: "",
+//     errorMessage: "",
+//     errorField: "",
+//     isValidEmail: false,
+//     isValidPassword: false
+//   },
+//   accountForm: {
+//   type: type
+// }
+// };
 
 const initialState = {
-  navOpen: false
+  registrationForm: {
+    email: "veyorokon@gmail.com",
+    fullName: "Vahid Eyorokon",
+    password: "vE232050$",
+    passwordConfirmation: "vE232050$",
+    errorMessage: "",
+    errorField: "",
+    isValidEmail: true,
+    isValidPassword: true
+  },
+  accountForm: {
+    type: type
+  }
 };
+
+function checkEmail(newState) {
+  const emailValidation = validateEmail(newState.registrationForm.email);
+  newState.registrationForm.isValidEmail = emailValidation[0];
+  newState.registrationForm.errorMessage = emailValidation[1];
+  newState.registrationForm.errorField = "email";
+  return newState;
+}
+
+function checkPasswords(newState) {
+  const passwordValidation = validatePassword(
+    newState.registrationForm.password,
+    newState.registrationForm.passwordConfirmation
+  );
+  newState.registrationForm.isValidPassword = passwordValidation[0];
+  newState.registrationForm.errorMessage = passwordValidation[1];
+  newState.registrationForm.errorField = "password";
+  return newState;
+}
 
 export default function rootReducer(state = initialState, action) {
   const {payload} = action;
+  let newState;
 
   switch (action.type) {
-    case TOGGLE_NAV:
-      return updateState(state, ["navOpen"], !state.navOpen);
+    case UPDATE_REGISTRATION_FORM:
+      newState = updateState(
+        state,
+        ["registrationForm", payload.field],
+        payload.value,
+        false
+      );
+      if (payload.field === "email") newState = checkEmail(newState);
+      else if (
+        payload.field === "password" ||
+        payload.field === "passwordConfirmation"
+      )
+        newState = checkPasswords(newState);
+      else if (payload.field === "errorMessage") {
+        newState.registrationForm.errorField = "email";
+      }
+      return Object.assign({}, state, newState);
+    case UPDATE_ACCOUNT_FORM:
+      return updateState(state, ["accountForm"], payload);
     default:
-      if (payload) return Object.assign({}, state, payload);
       return state;
   }
 }

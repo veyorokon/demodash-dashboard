@@ -8,6 +8,7 @@
 
 import Login from "views/Auth/Login";
 import Register from "views/Auth/Register";
+import Dashboard from "views/Dashboard";
 
 const routes = [
   {
@@ -28,10 +29,10 @@ const routes = [
   },
   {
     path: "/",
-    name: "Login",
-    rtlName: "Login",
+    name: "Dashboard",
+    rtlName: "Dashboard",
     icon: null,
-    component: Login,
+    component: Dashboard,
     layout: "/"
   }
 ];

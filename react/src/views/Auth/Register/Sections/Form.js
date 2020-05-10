@@ -1,15 +1,17 @@
 import React from "react";
 import {connect} from "react-redux";
-import {Section, Box, Text, Flex, Image, Link, Hidden} from "components";
+import {withRouter} from "react-router";
+
 import styled from "styled-components";
 import {responsive as r} from "lib";
 import {MultiForm, ConnectedUserForm, AccountForm} from "./Forms";
-
-import checkmark from "assets/svg/checkmark.svg";
-import logo from "assets/svg/logo.svg";
+import {Section, Box, Text, Flex, Image, Link, Hidden} from "components";
 import {Mutation} from "@apollo/react-components";
 import {setToken, clearToken, getToken} from "lib";
 import {gql} from "apollo-boost";
+
+import checkmark from "assets/svg/checkmark.svg";
+import logo from "assets/svg/logo.svg";
 
 const CREATE_USER = gql`
   mutation createUser($email: String!, $fullName: String, $password: String!) {
@@ -113,7 +115,7 @@ const LogoTitle = props => (
 
 class RegistrationForm extends React.Component {
   componentDidMount() {
-    // clearToken();
+    clearToken();
   }
 
   async createUserMutation(createUser) {
@@ -131,6 +133,7 @@ class RegistrationForm extends React.Component {
     await createAccount({
       variables: {token: token, ...accountForm}
     });
+    this.props.history.push("/");
   }
 
   render() {
@@ -205,7 +208,6 @@ class RegistrationForm extends React.Component {
                       h="fit-content"
                     >
                       <MultiForm
-                        selected={1}
                         minHeight="fit-content"
                         h="60rem"
                         callbacks={[
@@ -282,4 +284,4 @@ const ConnectedRegistrationForm = connect(
   null
 )(RegistrationForm);
 
-export default ConnectedRegistrationForm;
+export default withRouter(ConnectedRegistrationForm);

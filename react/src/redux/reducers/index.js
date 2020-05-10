@@ -1,17 +1,29 @@
 import {UPDATE_REGISTRATION_FORM} from "redux/constants";
 import {updateState, validateEmail, validatePassword} from "lib";
 
+// const initialState = {
+//   registrationForm: {
+//     email: "",
+//     fullName: "",
+//     password: "",
+//     passwordConfirmation: "",
+//     errorMessage: "",
+//     errorField: "",
+//     isValidEmail: false,
+//     isValidPassword: false
+//   }
+// };
+
 const initialState = {
   registrationForm: {
-    email: "",
-    fullName: "",
-    password: "",
-    passwordConfirmation: "",
-    submitDisabled: true,
+    email: "veyorokon@gmail.com",
+    fullName: "Vahid Eyorokon",
+    password: "vE232050$",
+    passwordConfirmation: "vE232050$",
     errorMessage: "",
     errorField: "",
-    isValidEmail: false,
-    isValidPassword: false
+    isValidEmail: true,
+    isValidPassword: true
   }
 };
 

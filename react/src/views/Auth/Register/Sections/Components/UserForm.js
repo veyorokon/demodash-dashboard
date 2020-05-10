@@ -31,6 +31,7 @@ export function UserForm(props) {
         mb={props.errorMessage && props.errorField === "email" ? 1 : 3}
         br={2}
         type="email"
+        value={props.email}
         onChange={evt => updateRegistrationForm(updateField(evt, "email"))}
       />
       {props.errorMessage && props.errorField === "email" && (
@@ -45,6 +46,7 @@ export function UserForm(props) {
         height={"4.4rem"}
         mb={3}
         br={2}
+        value={props.fullName}
         onChange={evt => updateRegistrationForm(updateField(evt, "fullName"))}
       />
 
@@ -56,6 +58,7 @@ export function UserForm(props) {
         mb={3}
         br={2}
         type="password"
+        value={props.password}
         onChange={evt => updateRegistrationForm(updateField(evt, "password"))}
       />
       <Text mb={3} color="navys.1" fs={"1.6rem"}>
@@ -66,6 +69,7 @@ export function UserForm(props) {
         mb={props.errorMessage && props.errorField === "password" ? 1 : 3}
         br={2}
         type="password"
+        value={props.passwordConfirmation}
         onChange={evt =>
           updateRegistrationForm(updateField(evt, "passwordConfirmation"))
         }

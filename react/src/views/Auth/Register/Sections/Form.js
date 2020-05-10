@@ -6,8 +6,17 @@ import {responsive as r} from "lib";
 import {MultiForm, ConnectedUserForm, AccountForm} from "./Forms";
 import checkmark from "assets/svg/checkmark.svg";
 import logo from "assets/svg/logo.svg";
-import {Mutation} from "react-apollo";
-import {getToken} from "lib";
+import {Mutation} from "@apollo/react-components";
+// import {getToken} from "lib";
+import {gql} from "apollo-boost";
+
+const CREATE_USER = gql`
+  mutation createUser($email: String!, $fullName: String, $password: String!) {
+    createUser(email: $email, fullName: $fullName, password: $password) {
+      token
+    }
+  }
+`;
 
 const LeftColumn = styled(Hidden)`
   flex-grow: 46;
@@ -95,125 +104,144 @@ class RegistrationForm extends React.Component {
     const anchor = window.location.hash.toLowerCase();
     const account =
       anchor === "#storefront" ? 1 : anchor === "#influencer" ? 2 : 0;
+    const {registrationForm} = this.props;
     const createUserButtonDisabled =
-      !this.props.isValidEmail || !this.props.isValidPassword;
+      !registrationForm.isValidEmail || !registrationForm.isValidPassword;
     return (
-      <Section bg={"whites.0"} height={"fit-content"} overflow="hidden">
-        <Flex h={"100vh"}>
-          <LeftColumn down={6} bg={"navys.4"}>
-            <Content
-              ml={r("unset --------> 6")}
-              justifyContent="space-around"
-              w={"27rem"}
-            >
-              <Box mb={5} mt={5} w="100%">
-                <LogoTitle />
-                <Feature
-                  mt={5}
-                  title={"Free signup"}
-                  text={
-                    "Your email, name and a password is all you need to start."
-                  }
-                />
-                <Feature
-                  mt={4}
-                  title={"Real-time purchases"}
-                  text={
-                    "From the dashboard, watch as you get sales in real-time."
-                  }
-                />
-                <Feature
-                  mt={4}
-                  title={"Commission processing"}
-                  text={"Automatically track commission sales and payouts."}
-                />
-              </Box>
-              <Flex
-                mb={4}
-                alignItems={"flex-end"}
-                w={"fit-content"}
-                ml={"auto"}
-                mr={"auto"}
-                flexGrow="0"
+      <Mutation
+        mutation={CREATE_USER}
+        // refetchQueries={[
+        //   {
+        //     query: USER,
+        //     variables: {
+        //       token: getToken()
+        //     }
+        //   }
+        // ]}
+      >
+        {createUser => (
+          <Section bg={"whites.0"} height={"fit-content"} overflow="hidden">
+            <Flex h={"100vh"}>
+              <LeftColumn down={6} bg={"navys.4"}>
+                <Content
+                  ml={r("unset --------> 6")}
+                  justifyContent="space-around"
+                  w={"27rem"}
+                >
+                  <Box mb={5} mt={5} w="100%">
+                    <LogoTitle />
+                    <Feature
+                      mt={5}
+                      title={"Free signup"}
+                      text={
+                        "Your email, name and a password is all you need to start."
+                      }
+                    />
+                    <Feature
+                      mt={4}
+                      title={"Real-time purchases"}
+                      text={
+                        "From the dashboard, watch as you get sales in real-time."
+                      }
+                    />
+                    <Feature
+                      mt={4}
+                      title={"Commission processing"}
+                      text={"Automatically track commission sales and payouts."}
+                    />
+                  </Box>
+                  <Flex
+                    mb={4}
+                    alignItems={"flex-end"}
+                    w={"fit-content"}
+                    ml={"auto"}
+                    mr={"auto"}
+                    flexGrow="0"
+                  >
+                    <Footer />
+                  </Flex>
+                </Content>
+              </LeftColumn>
+              <RightColumn
+                h="fit-content"
+                justifyContent="center"
+                overflow="auto"
               >
-                <Footer />
-              </Flex>
-            </Content>
-          </LeftColumn>
-          <RightColumn h="fit-content" justifyContent="center" overflow="auto">
-            <Content
-              mt={r("4 ------> 6")}
-              mb={r("4")}
-              pl={3}
-              pr={3}
-              ml={"auto"}
-              mr={"auto"}
-              w={r("100% ---> 50rem --> 45rem")}
-              h="fit-content"
-            >
-              <MultiForm
-                minHeight="fit-content"
-                h="60rem"
-                callbacks={[
-                  () => console.log("userform"),
-                  () => console.log("accountform")
-                ]}
-                buttonText={["Continue", "Complete"]}
-                buttonDisabled={[createUserButtonDisabled, false]}
-              >
-                <ConnectedUserForm
-                  header={
-                    <Hidden height="fit-content" flexGrow="0" up={7}>
-                      <LogoTitle />
-                    </Hidden>
-                  }
-                />
-                <AccountForm
-                  header={
-                    <Hidden height="fit-content" flexGrow="0" up={7}>
-                      <LogoTitle />
-                    </Hidden>
-                  }
-                  account={account}
-                />
-              </MultiForm>
-              <Flex
-                alignItems="flex-start"
-                flexGrow={0}
-                w={"fit-content"}
-                ml={"auto"}
-                mr={"auto"}
-                mt={4}
-              >
-                <Text mr={2}>Already have an account? </Text>
-                <Link href="/login">
-                  <Text hoverColor={"#212C39"} color="navys.2">
-                    Login
-                  </Text>
-                </Link>
-              </Flex>
-              <Hidden up={7}>
-                <Flex
-                  mt={4}
-                  alignItems={"flex-end"}
-                  w={"fit-content"}
-                  h="fit-content"
+                <Content
+                  mt={r("4 ------> 6")}
+                  mb={r("4")}
+                  pl={3}
+                  pr={3}
                   ml={"auto"}
                   mr={"auto"}
-                  flexGrow="0"
+                  w={r("100% ---> 50rem --> 45rem")}
+                  h="fit-content"
                 >
-                  <Footer />
-                </Flex>
-              </Hidden>
-            </Content>
-          </RightColumn>
-        </Flex>
-      </Section>
+                  <MultiForm
+                    minHeight="fit-content"
+                    h="60rem"
+                    callbacks={[
+                      () => createUser({variables: registrationForm}),
+                      () => console.log("accountform")
+                    ]}
+                    buttonText={["Continue", "Complete"]}
+                    buttonDisabled={[createUserButtonDisabled, false]}
+                  >
+                    <ConnectedUserForm
+                      header={
+                        <Hidden height="fit-content" flexGrow="0" up={7}>
+                          <LogoTitle />
+                        </Hidden>
+                      }
+                    />
+                    <AccountForm
+                      header={
+                        <Hidden height="fit-content" flexGrow="0" up={7}>
+                          <LogoTitle />
+                        </Hidden>
+                      }
+                      account={account}
+                    />
+                  </MultiForm>
+                  <Flex
+                    alignItems="flex-start"
+                    flexGrow={0}
+                    w={"fit-content"}
+                    ml={"auto"}
+                    mr={"auto"}
+                    mt={4}
+                  >
+                    <Text mr={2}>Already have an account? </Text>
+                    <Link href="/login">
+                      <Text hoverColor={"#212C39"} color="navys.2">
+                        Login
+                      </Text>
+                    </Link>
+                  </Flex>
+                  <Hidden up={7}>
+                    <Flex
+                      mt={4}
+                      alignItems={"flex-end"}
+                      w={"fit-content"}
+                      h="fit-content"
+                      ml={"auto"}
+                      mr={"auto"}
+                      flexGrow="0"
+                    >
+                      <Footer />
+                    </Flex>
+                  </Hidden>
+                </Content>
+              </RightColumn>
+            </Flex>
+          </Section>
+        )}
+      </Mutation>
     );
   }
 }
 const mapStateToProps = state => {
-  return state.registrationForm;
+  return {registrationForm: state.registrationForm};
 };
 
 const ConnectedRegistrationForm = connect(

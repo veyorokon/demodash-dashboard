@@ -4,15 +4,15 @@
     <title>storefront-colour</title>
     <desc>Created with Sketch.</desc>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Artboard" transform="translate(-214.000000, -328.000000)" fill-rule="nonzero">
+        <g id="Artboard" transform="translate(-214.000000, -328.000000)">
             <g id="storefront-colour" transform="translate(214.000000, 328.000000)">
-                <rect id="Rectangle" fill="#DE8E68" x="14" y="8" width="150" height="158"></rect>
-                <rect id="Rectangle" fill="#D37C59" x="10" y="156" width="158" height="10"></rect>
-                <rect id="Rectangle" fill="#ED6E58" x="31" y="105" width="40" height="61"></rect>
-                <rect id="Rectangle" fill="#FED892" x="81" y="105" width="74" height="35"></rect>
-                <rect id="Rectangle" fill="#FED892" x="4" y="55" width="170" height="4"></rect>
-                <rect id="Rectangle" fill="#FED892" x="4" y="0" width="170" height="9"></rect>
-                <g id="Group-2" transform="translate(23.000000, 14.000000)">
+                <rect id="Rectangle" fill="#DE8E68" fill-rule="nonzero" x="14" y="8" width="150" height="158"></rect>
+                <rect id="Rectangle" fill="#D37C59" fill-rule="nonzero" x="10" y="156" width="158" height="10"></rect>
+                <rect id="Rectangle" fill="#ED6E58" fill-rule="nonzero" x="31" y="105" width="40" height="61"></rect>
+                <rect id="Rectangle" fill="#FED892" fill-rule="nonzero" x="81" y="105" width="74" height="35"></rect>
+                <rect id="Rectangle" fill="#FED892" fill-rule="nonzero" x="4" y="55" width="170" height="4"></rect>
+                <rect id="Rectangle" fill="#FED892" fill-rule="nonzero" x="4" y="0" width="170" height="9"></rect>
+                <g id="Group-2" transform="translate(23.000000, 14.000000)" fill-rule="nonzero">
                     <rect id="Rectangle" fill="#FED892" x="0" y="0" width="28" height="35"></rect>
                     <rect id="Rectangle" fill="#FFFFFF" x="2" y="2" width="25" height="34"></rect>
                     <rect id="Rectangle" fill="#FED892" x="51" y="0" width="28" height="35"></rect>
@@ -26,31 +26,45 @@
                     <polygon id="Path" fill="#C7FCFF" points="129 7 104 32.6637168 104 36 105.030928 36 129 11.3945808"></polygon>
                     <polygon id="Path" fill="#C7FCFF" points="122.556701 2 104 20.5635359 104 30 129 4.9907919 129 2"></polygon>
                 </g>
-                <rect id="Rectangle" fill="#ED6E58" x="0" y="87" width="178" height="7"></rect>
-                <polygon id="Path" fill="#FD8369" points="178 87 163.864706 59 14.1352941 59 0 87"></polygon>
-                <rect id="Rectangle" fill="#ED6E58" x="14" y="59" width="5" height="28"></rect>
-                <rect id="Rectangle" fill="#ED6E58" x="25" y="59" width="5" height="28"></rect>
-                <rect id="Rectangle" fill="#ED6E58" x="37" y="59" width="5" height="28"></rect>
-                <rect id="Rectangle" fill="#ED6E58" x="48" y="59" width="5" height="28"></rect>
-                <rect id="Rectangle" fill="#ED6E58" x="59" y="59" width="5" height="28"></rect>
-                <rect id="Rectangle" fill="#ED6E58" x="70" y="59" width="5" height="28"></rect>
-                <rect id="Rectangle" fill="#ED6E58" x="81" y="59" width="5" height="28"></rect>
-                <rect id="Rectangle" fill="#ED6E58" x="92" y="59" width="5" height="28"></rect>
-                <rect id="Rectangle" fill="#ED6E58" x="103" y="59" width="5" height="28"></rect>
-                <rect id="Rectangle" fill="#ED6E58" x="115" y="59" width="5" height="28"></rect>
-                <rect id="Rectangle" fill="#ED6E58" x="126" y="59" width="5" height="28"></rect>
-                <rect id="Rectangle" fill="#ED6E58" x="137" y="59" width="5" height="28"></rect>
-                <rect id="Rectangle" fill="#ED6E58" x="148" y="59" width="5" height="28"></rect>
-                <rect id="Rectangle" fill="#ED6E58" x="159" y="59" width="5" height="28"></rect>
-                <rect id="Rectangle" fill="#FFFFFF" x="83" y="107" width="69" height="31"></rect>
-                <rect id="Rectangle" fill="#74D5DE" x="33" y="107" width="36" height="59"></rect>
-                <rect id="Rectangle" fill="#ED6E58" x="32" y="134" width="38" height="2"></rect>
-                <rect id="Rectangle" fill="#FD8369" x="164" y="40" width="22" height="3"></rect>
-                <circle id="Oval" fill="#74D5DE" cx="191" cy="42" r="11"></circle>
-                <circle id="Oval" fill="#FED892" cx="191" cy="42" r="8"></circle>
-                <polygon id="Path" fill="#C7FCFF" points="115.620414 107 85 138 105.379586 138 136 107"></polygon>
-                <polygon id="Path" fill="#C7FCFF" points="112.94669 138 144 107 140.05331 107 109 138"></polygon>
-                <polygon id="Path" fill="#C7FCFF" points="152 107 147.819598 107 117 138 126.185294 138 152 112.034188"></polygon>
+                <rect id="Rectangle" fill="#ED6E58" fill-rule="nonzero" x="0" y="87" width="178" height="7"></rect>
+                <polygon id="Path" fill="#FD8369" fill-rule="nonzero" points="178 87 163.864706 59 14.1352941 59 0 87"></polygon>
+                <rect id="Rectangle" fill="#ED6E58" fill-rule="nonzero" x="14" y="59" width="5" height="28"></rect>
+                <rect id="Rectangle" fill="#ED6E58" fill-rule="nonzero" x="25" y="59" width="5" height="28"></rect>
+                <rect id="Rectangle" fill="#ED6E58" fill-rule="nonzero" x="37" y="59" width="5" height="28"></rect>
+                <rect id="Rectangle" fill="#ED6E58" fill-rule="nonzero" x="48" y="59" width="5" height="28"></rect>
+                <rect id="Rectangle" fill="#ED6E58" fill-rule="nonzero" x="59" y="59" width="5" height="28"></rect>
+                <rect id="Rectangle" fill="#ED6E58" fill-rule="nonzero" x="70" y="59" width="5" height="28"></rect>
+                <rect id="Rectangle" fill="#ED6E58" fill-rule="nonzero" x="81" y="59" width="5" height="28"></rect>
+                <rect id="Rectangle" fill="#ED6E58" fill-rule="nonzero" x="92" y="59" width="5" height="28"></rect>
+                <rect id="Rectangle" fill="#ED6E58" fill-rule="nonzero" x="103" y="59" width="5" height="28"></rect>
+                <rect id="Rectangle" fill="#ED6E58" fill-rule="nonzero" x="115" y="59" width="5" height="28"></rect>
+                <rect id="Rectangle" fill="#ED6E58" fill-rule="nonzero" x="126" y="59" width="5" height="28"></rect>
+                <rect id="Rectangle" fill="#ED6E58" fill-rule="nonzero" x="137" y="59" width="5" height="28"></rect>
+                <rect id="Rectangle" fill="#ED6E58" fill-rule="nonzero" x="148" y="59" width="5" height="28"></rect>
+                <rect id="Rectangle" fill="#ED6E58" fill-rule="nonzero" x="159" y="59" width="5" height="28"></rect>
+                <rect id="Rectangle" fill="#EDEDED" fill-rule="nonzero" x="83" y="107" width="69" height="31"></rect>
+                <g id="Group-2" transform="translate(115.000000, 113.000000)" fill="#FED385">
+                    <g id="Group" transform="translate(0.000000, 0.476646)">
+                        <rect id="Rectangle" x="2" y="0.523354431" width="4" height="4" rx="1"></rect>
+                        <rect id="Rectangle" x="0" y="3.52335443" width="8" height="13" rx="2"></rect>
+                    </g>
+                </g>
+                <g id="Group-3" transform="translate(126.000000, 115.000000)" fill="#ED8A70">
+                    <rect id="Rectangle" x="0" y="4" width="7" height="11" rx="1"></rect>
+                    <rect id="Rectangle" x="3" y="1" width="1" height="2"></rect>
+                    <ellipse id="Oval" cx="3.5" cy="1" rx="1" ry="1"></ellipse>
+                    <rect id="Rectangle" x="1" y="2" width="5" height="4" rx="1"></rect>
+                </g>
+                <g id="Group-4" transform="translate(103.000000, 112.000000)" fill="#74D5DE">
+                    <path d="M2.02005257,3.00975801 L6.99367864,3.00280485 C8.09824706,3.00126066 8.9949285,3.89543847 8.99647269,5.00000689 C8.99647564,5.00211133 8.99647526,5.00421578 8.99647155,5.00632022 L8.97714833,15.9937613 C8.9752101,17.0958644 8.08205114,17.9887012 6.97994743,17.990242 L2.00632136,17.9971952 C0.901752941,17.9987393 0.00507149963,17.1045615 0.00352730683,15.9999931 C0.0035243648,15.9978887 0.0035247443,15.9957842 0.0035284453,15.9936798 L0.0228516742,5.00623873 C0.0247899044,3.90413564 0.917948856,3.01129875 2.02005257,3.00975801 Z" id="Rectangle"></path>
+                    <path d="M4.00178033,0.00473206212 L4.99659066,0.0023762129 C5.54887386,0.00106832946 5.9976481,0.447722075 5.99895598,1.00000528 C5.99895867,1.00114072 5.99895943,1.00227617 5.99895825,1.00341162 L5.995851,3.99630895 C5.99527899,4.54726361 5.54917308,4.9939632 4.99821967,4.99526794 L4.00340934,4.99762379 C3.45112614,4.99893167 3.0023519,4.55227792 3.00104402,3.99999472 C3.00104133,3.99885928 3.00104057,3.99772383 3.00104175,3.99658838 L3.004149,1.00369105 C3.00472101,0.452736388 3.45082692,0.00603679644 4.00178033,0.00473206212 Z" id="Rectangle"></path>
+                </g>
+                <rect id="Rectangle" fill="#F2B185" fill-rule="nonzero" x="94" y="129" width="48" height="1"></rect>
+                <rect id="Rectangle" fill="#74D5DE" fill-rule="nonzero" x="33" y="107" width="36" height="59"></rect>
+                <rect id="Rectangle" fill="#ED6E58" fill-rule="nonzero" x="32" y="134" width="38" height="2"></rect>
+                <rect id="Rectangle" fill="#FD8369" fill-rule="nonzero" x="164" y="40" width="22" height="3"></rect>
+                <circle id="Oval" fill="#74D5DE" fill-rule="nonzero" cx="191" cy="42" r="11"></circle>
+                <circle id="Oval" fill="#FED892" fill-rule="nonzero" cx="191" cy="42" r="8"></circle>
             </g>
         </g>
     </g>

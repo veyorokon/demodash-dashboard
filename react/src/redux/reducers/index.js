@@ -29,7 +29,8 @@ const initialState = {
   },
   loginForm: {
     email: "",
-    password: ""
+    password: "",
+    errorMessage: ""
   }
 };
 
@@ -37,8 +38,8 @@ const initialState = {
 //   registrationForm: {
 //     email: "veyorokon@gmail.com",
 //     fullName: "Vahid Eyorokon",
-//     password: "vE232050$",
-//     passwordConfirmation: "vE232050$",
+//     password: "Ve12345",
+//     passwordConfirmation: "Ve12345",
 //     errorMessage: "",
 //     errorField: "",
 //     isValidEmail: true,
@@ -49,7 +50,8 @@ const initialState = {
 //   },
 //   loginForm: {
 //     email: "",
-//     password: ""
+//     password: "",
+//     errorMessage: ""
 //   }
 // };
 

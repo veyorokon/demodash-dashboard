@@ -17,6 +17,7 @@ const CREATE_USER = gql`
   mutation createUser($email: String!, $fullName: String, $password: String!) {
     createUser(email: $email, fullName: $fullName, password: $password) {
       token
+      expiration
     }
   }
 `;
@@ -123,8 +124,8 @@ class RegistrationForm extends React.Component {
     const response = await createUser({
       variables: registrationForm
     });
-    const token = response.data.createUser.token;
-    setToken(token);
+    const {token, expiration} = response.data.createUser;
+    setToken(token, expiration);
   }
 
   async createAccountMutation(createAccount) {
@@ -133,7 +134,7 @@ class RegistrationForm extends React.Component {
     await createAccount({
       variables: {token: token, ...accountForm}
     });
-    this.props.history.push("/");
+    return this.props.history.push("/dashboard");
   }
 
   render() {

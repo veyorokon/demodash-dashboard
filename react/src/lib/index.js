@@ -15,7 +15,8 @@ import {
   validatePassword,
   clearToken,
   getToken,
-  setToken
+  setToken,
+  getEventVal
 } from "./utility";
 export {
   updateState,
@@ -24,5 +25,6 @@ export {
   validatePassword,
   clearToken,
   getToken,
-  setToken
+  setToken,
+  getEventVal
 };

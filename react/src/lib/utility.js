@@ -30,3 +30,7 @@ export function getToken() {
 export function setToken(token) {
   return window.localStorage.setItem("sessionToken", token);
 }
+
+export function getEventVal(event) {
+  return event.target.value;
+}

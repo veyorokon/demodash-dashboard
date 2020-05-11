@@ -1,4 +1,8 @@
-import {UPDATE_REGISTRATION_FORM, UPDATE_ACCOUNT_FORM} from "redux/constants";
+import {
+  UPDATE_REGISTRATION_FORM,
+  UPDATE_ACCOUNT_FORM,
+  UPDATE_LOGIN_FORM
+} from "redux/constants";
 import {updateState, validateEmail, validatePassword} from "lib";
 
 const anchor = window.location.hash.toLowerCase().replace("#", "");
@@ -9,37 +13,45 @@ const type =
     ? "influencer"
     : "brand";
 
-// const initialState = {
-//   registrationForm: {
-//     email: "",
-//     fullName: "",
-//     password: "",
-//     passwordConfirmation: "",
-//     errorMessage: "",
-//     errorField: "",
-//     isValidEmail: false,
-//     isValidPassword: false
-//   },
-//   accountForm: {
-//   type: type
-// }
-// };
-
 const initialState = {
   registrationForm: {
-    email: "veyorokon@gmail.com",
-    fullName: "Vahid Eyorokon",
-    password: "vE232050$",
-    passwordConfirmation: "vE232050$",
+    email: "",
+    fullName: "",
+    password: "",
+    passwordConfirmation: "",
     errorMessage: "",
     errorField: "",
-    isValidEmail: true,
-    isValidPassword: true
+    isValidEmail: false,
+    isValidPassword: false
   },
   accountForm: {
     type: type
+  },
+  loginForm: {
+    email: "",
+    password: ""
   }
 };
+
+// const initialState = {
+//   registrationForm: {
+//     email: "veyorokon@gmail.com",
+//     fullName: "Vahid Eyorokon",
+//     password: "vE232050$",
+//     passwordConfirmation: "vE232050$",
+//     errorMessage: "",
+//     errorField: "",
+//     isValidEmail: true,
+//     isValidPassword: true
+//   },
+//   accountForm: {
+//     type: type
+//   },
+//   loginForm: {
+//     email: "",
+//     password: ""
+//   }
+// };
 
 function checkEmail(newState) {
   const emailValidation = validateEmail(newState.registrationForm.email);
@@ -84,6 +96,8 @@ export default function rootReducer(state = initialState, action) {
       return Object.assign({}, state, newState);
     case UPDATE_ACCOUNT_FORM:
       return updateState(state, ["accountForm"], payload);
+    case UPDATE_LOGIN_FORM:
+      return updateState(state, ["loginForm"], payload);
     default:
       return state;
   }

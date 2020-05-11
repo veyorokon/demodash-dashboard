@@ -46,8 +46,9 @@ export function currentEpoch() {
 }
 
 export function validateToken() {
-  const expiration = getToken()["expiration"];
-  if (currentEpoch() < expiration) return true;
+  const tokenData = getToken();
+  const {token, expiration} = tokenData;
+  if (token && currentEpoch() < expiration) return true;
   return false;
 }
 

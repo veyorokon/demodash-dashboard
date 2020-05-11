@@ -18,8 +18,8 @@ const App = () =>
       <Provider store={store}>
         <ThemeProvider theme={theme}>
           <Router history={hist}>
-            <Route path="/dashboard" component={Dashboard} />
-            <Route path="/" component={Auth} />
+            <Route path="/auth" component={Auth} />
+            <Route path="/" component={Dashboard} />
           </Router>
         </ThemeProvider>
       </Provider>

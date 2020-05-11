@@ -17,26 +17,30 @@ const routes = {
       name: "Register",
       rtlName: "Register",
       icon: null,
-      component: Register,
-      layout: "/"
+      component: Register
     },
     {
-      path: "/login",
+      path: "/",
       name: "Login",
       rtlName: "Login",
       icon: null,
-      component: Login,
-      layout: "/"
+      component: Login
     }
   ],
   dashboard: [
     {
-      path: "/",
+      path: "/dashboard",
       name: "Dashboard",
       rtlName: "Dashboard",
       icon: null,
-      component: Dashboard,
-      layout: "/"
+      component: Dashboard
+    },
+    {
+      path: "/",
+      name: "Login",
+      rtlName: "Login",
+      icon: null,
+      component: Login
     }
   ]
 };

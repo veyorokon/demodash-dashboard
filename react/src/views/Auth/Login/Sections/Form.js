@@ -1,13 +1,19 @@
 import React from "react";
 import {Section, Box, Text, Flex, Link, Input, Button} from "components";
 import styled from "styled-components";
-import {responsive as r, getEventVal} from "lib";
+import {
+  responsive as r,
+  getEventVal,
+  validateToken,
+  setToken,
+  clearToken,
+  formatErrorMessage
+} from "lib";
 import {connect} from "react-redux";
 import {updateLoginForm} from "redux/actions";
 import {withRouter} from "react-router";
 
 import {Mutation} from "@apollo/react-components";
-import {setToken, clearToken} from "lib";
 import {gql} from "apollo-boost";
 
 const FlexSection = styled(Section)`
@@ -28,7 +34,7 @@ const SubmitButton = styled(Button)`
   border: none;
   outline: none;
   letter-spacing: 0.2px;
-  transition: all 0.3s ease-in-out;
+  transition: width 0.3s ease-in-out;
 
   &:hover {
     color: ${props => props.hoverColor || "black"};
@@ -44,34 +50,46 @@ const formShadow = [
   "rgba(60, 66, 87, 0.12) 0px 7px 14px 0px, rgba(0, 0, 0, 0.12) 0px 3px 6px 0px"
 ];
 
-const TOKEN_AUTH = gql`
-  mutation tokenAuth($email: String!, $password: String!) {
-    tokenAuth(email: $email, password: $password) {
+const AUTH_USER = gql`
+  mutation authUser($email: String!, $password: String!) {
+    authUser(email: $email, password: $password) {
       token
+      expiration
     }
   }
 `;
 
 class LoginForm extends React.Component {
   componentDidMount() {
-    clearToken();
+    const isTokenValid = validateToken();
+    if (isTokenValid) return this.props.history.push("/");
+    return clearToken();
   }
 
-  async tokenAuthMutation(tokenAuth) {
+  async authUserMutation(authUser) {
     const {loginForm} = this.props;
-    const response = await tokenAuth({
-      variables: loginForm
-    });
-    const token = response.data.tokenAuth.token;
-    setToken(token);
-    return this.props.history.push("/");
+    try {
+      const response = await authUser({
+        variables: loginForm
+      });
+      const {token, expiration} = response.data.authUser;
+      setToken(token, expiration);
+      return this.props.history.push("/");
+    } catch (error) {
+      const {updateLoginForm} = this.props;
+      let errorMessage = formatErrorMessage(
+        error,
+        "Invalid credentials. Check username and password."
+      );
+      return updateLoginForm({...loginForm, errorMessage: errorMessage});
+    }
   }
 
   render() {
     const {updateLoginForm, loginForm} = this.props;
     return (
-      <Mutation mutation={TOKEN_AUTH}>
-        {tokenAuth => (
+      <Mutation mutation={AUTH_USER}>
+        {authUser => (
           <FlexSection bg={"navys.4"} height={"fit-content"} overflow="hidden">
             <Box
               h={r("17vh ---> 20vh")}
@@ -138,7 +156,11 @@ class LoginForm extends React.Component {
                   br={2}
                   type="email"
                   onChange={evt =>
-                    updateLoginForm({...loginForm, email: getEventVal(evt)})
+                    updateLoginForm({
+                      ...loginForm,
+                      email: getEventVal(evt),
+                      errorMessage: ""
+                    })
                   }
                 />
 
@@ -146,21 +168,31 @@ class LoginForm extends React.Component {
                   Password
                 </Text>
                 <Input
+                  width="100%"
                   height={"4.4rem"}
-                  mb={3}
+                  mb={2}
                   br={2}
                   type="password"
                   onChange={evt =>
-                    updateLoginForm({...loginForm, password: getEventVal(evt)})
+                    updateLoginForm({
+                      ...loginForm,
+                      password: getEventVal(evt),
+                      errorMessage: ""
+                    })
                   }
                 />
+                {loginForm.errorMessage && (
+                  <Text mb={3} color={"oranges.0"}>
+                    {loginForm.errorMessage}
+                  </Text>
+                )}
                 <SubmitButton
                   hoverBg="#173bd0"
                   minHeight="5rem"
-                  mt={4}
+                  mt={loginForm.errorMessage ? 2 : 4}
                   br={3}
                   bg={"blues.0"}
-                  onClick={() => this.tokenAuthMutation(tokenAuth)}
+                  onClick={() => this.authUserMutation(authUser)}
                 >
                   <Text
                     fw={600}

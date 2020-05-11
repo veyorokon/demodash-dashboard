@@ -16,7 +16,9 @@ import {
   clearToken,
   getToken,
   setToken,
-  getEventVal
+  getEventVal,
+  validateToken,
+  formatErrorMessage
 } from "./utility";
 export {
   updateState,
@@ -26,5 +28,7 @@ export {
   clearToken,
   getToken,
   setToken,
-  getEventVal
+  getEventVal,
+  validateToken,
+  formatErrorMessage
 };

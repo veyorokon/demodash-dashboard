@@ -49,7 +49,8 @@ const initialState = {
   },
   loginForm: {
     email: "",
-    password: ""
+    password: "",
+    errorMessage: ""
   }
 };
 

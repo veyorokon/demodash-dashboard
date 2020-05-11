@@ -16,21 +16,43 @@ export function validatePassword(password, passwordConfirmation) {
 
 export function clearToken() {
   window.localStorage.removeItem("sessionToken");
+  return window.localStorage.removeItem("sessionExpiration");
 }
 
 export function getToken() {
   try {
-    return window.localStorage.getItem("sessionToken");
+    const token = window.localStorage.getItem("sessionToken");
+    const expiration = window.localStorage.getItem("sessionExpiration");
+    return {token, expiration};
   } catch (err) {
     clearToken();
     return null;
   }
 }
 
-export function setToken(token) {
-  return window.localStorage.setItem("sessionToken", token);
+export function setToken(token, expiration) {
+  window.localStorage.setItem("sessionToken", token);
+  return window.localStorage.setItem("sessionExpiration", expiration);
 }
 
 export function getEventVal(event) {
   return event.target.value;
+}
+
+export function currentEpoch() {
+  let d = new Date();
+  let seconds = Math.round(d.getTime() / 1000);
+  return seconds;
+}
+
+export function validateToken() {
+  const expiration = getToken()["expiration"];
+  if (currentEpoch() < expiration) return true;
+  return false;
+}
+
+export function formatErrorMessage(error, defaultMessage) {
+  const graphQLStr = "GraphQL error: ";
+  if (!error.message.includes(graphQLStr)) return defaultMessage;
+  return error.message.replace(graphQLStr, "");
 }

@@ -5,14 +5,14 @@ import routes from "routes.js";
 
 const switchRoutes = (
   <Switch>
-    {routes.map((prop, key) => {
+    {routes.auth.map((prop, key) => {
       return <Route path={prop.path} component={prop.component} key={key} />;
     })}
   </Switch>
 );
 
-function Landing() {
+function Auth() {
   return <>{switchRoutes}</>;
 }
 
-export default Landing;
+export default Auth;

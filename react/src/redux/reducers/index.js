@@ -13,36 +13,16 @@ const type =
     ? "influencer"
     : "brand";
 
-// const initialState = {
-//   registrationForm: {
-//     email: "",
-//     fullName: "",
-//     password: "",
-//     passwordConfirmation: "",
-//     errorMessage: "",
-//     errorField: "",
-//     isValidEmail: false,
-//     isValidPassword: false
-//   },
-//   accountForm: {
-//     type: type
-//   },
-//   loginForm: {
-//     email: "",
-//     password: ""
-//   }
-// };
-
 const initialState = {
   registrationForm: {
-    email: "veyorokon@gmail.com",
-    fullName: "Vahid Eyorokon",
-    password: "Ve12345",
-    passwordConfirmation: "Ve12345",
+    email: "",
+    fullName: "",
+    password: "",
+    passwordConfirmation: "",
     errorMessage: "",
     errorField: "",
-    isValidEmail: true,
-    isValidPassword: true
+    isValidEmail: false,
+    isValidPassword: false
   },
   accountForm: {
     type: type
@@ -53,6 +33,27 @@ const initialState = {
     errorMessage: ""
   }
 };
+
+// const initialState = {
+//   registrationForm: {
+//     email: "veyorokon@gmail.com",
+//     fullName: "Vahid Eyorokon",
+//     password: "Ve12345",
+//     passwordConfirmation: "Ve12345",
+//     errorMessage: "",
+//     errorField: "",
+//     isValidEmail: true,
+//     isValidPassword: true
+//   },
+//   accountForm: {
+//     type: type
+//   },
+//   loginForm: {
+//     email: "",
+//     password: "",
+//     errorMessage: ""
+//   }
+// };
 
 function checkEmail(newState) {
   const emailValidation = validateEmail(newState.registrationForm.email);

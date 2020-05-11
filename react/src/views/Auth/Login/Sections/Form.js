@@ -62,7 +62,7 @@ const AUTH_USER = gql`
 class LoginForm extends React.Component {
   componentDidMount() {
     const isTokenValid = validateToken();
-    if (isTokenValid) return this.props.history.push("/");
+    if (isTokenValid) return this.props.history.push("/dashboard");
     return clearToken();
   }
 
@@ -74,7 +74,7 @@ class LoginForm extends React.Component {
       });
       const {token, expiration} = response.data.authUser;
       setToken(token, expiration);
-      return this.props.history.push("/");
+      return this.props.history.push("/dashboard");
     } catch (error) {
       const {updateLoginForm} = this.props;
       let errorMessage = formatErrorMessage(

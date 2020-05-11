@@ -1,5 +1,3 @@
-import Auth from "./Auth";
+import Layout from "./Layout";
 
-import Dashboard from "./Dashboard";
-
-export {Auth, Dashboard};
+export {Layout};

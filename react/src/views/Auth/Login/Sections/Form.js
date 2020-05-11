@@ -19,7 +19,7 @@ import {gql} from "apollo-boost";
 const FlexSection = styled(Section)`
   height: 100vh;
   min-height: 80rem;
-  overflow: unset;
+  overflow: hidden;
 `;
 
 const FormBox = styled(Flex)`

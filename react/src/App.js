@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import {Router, Route} from "react-router-dom";
-import {Auth, Dashboard} from "layouts";
+import {Layout} from "layouts";
 import {createBrowserHistory} from "history";
 import {ThemeProvider} from "styled-components";
 import {Provider} from "react-redux";
@@ -18,8 +18,7 @@ const App = () =>
       <Provider store={store}>
         <ThemeProvider theme={theme}>
           <Router history={hist}>
-            <Route path="/dashboard" component={Dashboard} />
-            <Route path="/" component={Auth} />
+            <Route path="/" component={Layout} />
           </Router>
         </ThemeProvider>
       </Provider>

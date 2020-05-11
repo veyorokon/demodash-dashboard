@@ -5,7 +5,7 @@ import routes from "routes.js";
 
 const switchRoutes = (
   <Switch>
-    {routes.auth.map((prop, key) => {
+    {routes.map((prop, key) => {
       return <Route path={prop.path} component={prop.component} key={key} />;
     })}
   </Switch>

@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 
 import {validateToken, clearToken} from "lib";
-import Hero from "./Sections/Hero";
+import {Overview} from "./Views";
 
 export default props => {
   useEffect(() => {
@@ -14,7 +14,7 @@ export default props => {
 
   return (
     <>
-      <Hero />
+      <Overview />
     </>
   );
 };

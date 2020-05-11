@@ -64,7 +64,7 @@ class LoginForm extends React.Component {
     });
     const token = response.data.tokenAuth.token;
     setToken(token);
-    this.props.history.push("/");
+    return this.props.history.push("/");
   }
 
   render() {

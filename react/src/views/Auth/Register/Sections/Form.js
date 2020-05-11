@@ -133,7 +133,7 @@ class RegistrationForm extends React.Component {
     await createAccount({
       variables: {token: token, ...accountForm}
     });
-    this.props.history.push("/");
+    return this.props.history.push("/");
   }
 
   render() {

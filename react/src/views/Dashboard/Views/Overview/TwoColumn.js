@@ -6,28 +6,17 @@ import {Flex} from "components";
 import styled from "styled-components";
 
 //Change leftColumn to hidden component;
-const ScrollContainer = styled(Flex)`
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: #ddd;
-    border-radius: 10px;
-  }
-`;
-const LeftColumn = styled(ScrollContainer)`
+const LeftColumn = styled(Flex)`
   flex-grow: 20;
   height: 100vh;
   justify-content: space-around;
+  border-right: 1px solid #ddd;
   flex-basis: 27rem;
   overflow: auto;
+
   flex-grow: 0;
 `;
-
-const RightColumn = styled(ScrollContainer)`
+const RightColumn = styled(Flex)`
   flex-grow: 80;
   height: 100vh;
   flex-basis: 44rem;
@@ -48,7 +37,7 @@ export default props => {
             justifyContent="space-around"
             w={"27rem"}
           >
-            {[...Array(30)].map(index => {
+            {[...Array(10)].map(index => {
               return (
                 <Flex textAlign="center" key={index} w="100%" h="5rem">
                   <Text h="fit-content">TOP</Text>

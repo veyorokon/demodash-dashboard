@@ -35,6 +35,8 @@ const NavigationTabItem = styled(Flex)`
   display: flex;
   align-items: center;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  border-left: 3px solid transparent;
+  transition: border-left 0.2s linear;
   &:hover {
     color: ${props => props.hoverColor || "white"};
   }
@@ -42,6 +44,7 @@ const NavigationTabItem = styled(Flex)`
     props.active &&
     css`
       background: #232e60;
+      border-color: white;
     `}
 `;
 
@@ -100,6 +103,12 @@ const DropOption = styled(Option)`
   height: 3.5rem;
 `;
 
+const DashNav = styled(Flex)`
+  position: fixed;
+  width: 100%;
+  align-items: center;
+`;
+
 export default class NavigationTabs extends React.Component {
   constructor(props) {
     super(props);
@@ -131,7 +140,7 @@ export default class NavigationTabs extends React.Component {
               w={"27rem"}
             >
               <DropDown
-                mt={5}
+                mt={3}
                 mb={5}
                 color={"whites.0"}
                 ml={"auto"}
@@ -171,10 +180,13 @@ export default class NavigationTabs extends React.Component {
             h="fit-content"
             justifyContent="flex-start"
           >
-            <Content p={4} w={r("100%")} h="fit-content">
+            <DashNav bg={"greys.3"} h={5}>
+              Navbar
+            </DashNav>
+            <Content mt={5} p={4} w={r("100%")} h="fit-content">
               {this.props.children.map((elem, index) => (
                 <Hide key={index} showing={selected === index}>
-                  {elem}
+                  {React.cloneElement(elem, {active: selected === index})}
                 </Hide>
               ))}
             </Content>

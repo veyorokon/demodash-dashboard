@@ -15,9 +15,14 @@ export default props => {
 
   return (
     <>
-      <TwoColumn tabHeaders={["first", "second"]}>
+      <TwoColumn
+        tabHeaders={["Overview", "Demos", "Purchases", "Payout", "Settings"]}
+      >
         <Overview />
         <Demos />
+        <Overview />
+        <Demos />
+        <Overview />
       </TwoColumn>
     </>
   );

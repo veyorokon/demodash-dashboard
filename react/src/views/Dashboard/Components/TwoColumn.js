@@ -8,8 +8,9 @@
 
 import React from "react";
 import {Box, Flex, Text, Section, Select, Option} from "components";
+import {withRouter} from "react-router";
 import styled, {css} from "styled-components";
-import {responsive as r} from "lib";
+import {responsive as r, clearToken} from "lib";
 
 const Hide = styled(Box)`
   transition: opacity 0.4s ease-in-out;
@@ -109,7 +110,7 @@ const DashNav = styled(Flex)`
   align-items: center;
 `;
 
-export default class NavigationTabs extends React.Component {
+class TwoColumn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -125,6 +126,11 @@ export default class NavigationTabs extends React.Component {
 
   handleChange = index => {
     this.setState({selected: index});
+  };
+
+  handleLogout = () => {
+    clearToken();
+    return this.props.history.push("/login");
   };
 
   render() {
@@ -173,6 +179,18 @@ export default class NavigationTabs extends React.Component {
                   </NavigationTabItem>
                 );
               })}
+              <NavigationTabItem
+                onClick={this.handleLogout}
+                mb={1}
+                p={3}
+                color={"greys.5"}
+                hoverColor={"white"}
+                w={"100%"}
+              >
+                <Header ml={3} w={"100%"} fw={500}>
+                  Logout
+                </Header>
+              </NavigationTabItem>
             </Content>
           </LeftColumn>
           <RightColumn
@@ -196,3 +214,4 @@ export default class NavigationTabs extends React.Component {
     );
   }
 }
+export default withRouter(TwoColumn);

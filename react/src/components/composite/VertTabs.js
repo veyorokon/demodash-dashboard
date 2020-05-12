@@ -17,6 +17,7 @@ const Hide = styled(Box)`
   height: 0;
   width: 0;
   opacity: 0;
+  display: none;
   ${props =>
     props.showing &&
     css`
@@ -24,6 +25,7 @@ const Hide = styled(Box)`
       width: 100%;
       opacity: 1;
       visibility: visible;
+      display: block;
     `}
 `;
 

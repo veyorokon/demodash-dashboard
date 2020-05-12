@@ -39,6 +39,7 @@ const Hide = styled(Box)`
   width: 0;
   opacity: 0;
   max-height: fit-content;
+  display: none;
   ${props =>
     props.showing &&
     css`
@@ -46,11 +47,7 @@ const Hide = styled(Box)`
       width: 100%;
       opacity: 1;
       visibility: visible;
-    `}
-  ${props =>
-    !props.showing &&
-    css`
-      display: none;
+      display: block;
     `}
 `;
 const NavigationBullet = styled(Button)`

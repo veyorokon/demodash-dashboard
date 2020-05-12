@@ -7,7 +7,7 @@ export default props => {
     <>
       {[...Array(30)].map(index => {
         return (
-          <Box key={index} w="100%" h="5rem">
+          <Box bg={"greys.4"} key={index} w="100%" h="5rem">
             <Text>OVERVIEW</Text>
           </Box>
         );

@@ -110,7 +110,6 @@ const DropOption = styled(Option)`
 
 const DashNav = styled(Flex)`
   position: fixed;
-  width: 100%;
   align-items: center;
 `;
 
@@ -208,11 +207,11 @@ class TwoColumn extends React.Component {
             </Content>
           </LeftColumn>
           <RightColumn
-            bg={"whites.0"}
+            bg={"greys.4"}
             h="fit-content"
             justifyContent="flex-start"
           >
-            <DashNav p={3} bg={"greys.3"} h={5}>
+            <DashNav w={"calc(100vw - 28rem)"} p={3} bg={"greys.4"} h={5}>
               Navbar
             </DashNav>
             <Content mt={5} p={4} w={r("100%")} h="fit-content">

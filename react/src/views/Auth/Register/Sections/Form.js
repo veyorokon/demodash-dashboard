@@ -125,7 +125,7 @@ class RegistrationForm extends React.Component {
       variables: registrationForm
     });
     const {token, expiration} = response.data.createUser;
-    setToken(token, expiration);
+    return setToken(token, expiration);
   }
 
   async createAccountMutation(createAccount) {

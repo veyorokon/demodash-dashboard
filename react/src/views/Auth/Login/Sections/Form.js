@@ -155,6 +155,7 @@ class LoginForm extends React.Component {
                   mb={3}
                   br={2}
                   type="email"
+                  value={loginForm.email}
                   onChange={evt =>
                     updateLoginForm({
                       ...loginForm,
@@ -173,6 +174,7 @@ class LoginForm extends React.Component {
                   mb={2}
                   br={2}
                   type="password"
+                  value={loginForm.password}
                   onChange={evt =>
                     updateLoginForm({
                       ...loginForm,

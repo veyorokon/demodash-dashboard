@@ -7,7 +7,7 @@
 */
 
 import React from "react";
-import {Box, Flex, Text, Section} from "components";
+import {Box, Flex, Text, Section, Select, Option} from "components";
 import styled, {css} from "styled-components";
 import {responsive as r} from "lib";
 
@@ -17,6 +17,7 @@ const Hide = styled(Box)`
   height: 0;
   width: 0;
   opacity: 0;
+  display: none;
   ${props =>
     props.showing &&
     css`
@@ -24,43 +25,32 @@ const Hide = styled(Box)`
       width: 100%;
       opacity: 1;
       visibility: visible;
+      display: block;
     `}
 `;
 
 const NavigationTabItem = styled(Flex)`
-  padding: 1.75rem 0;
   cursor: pointer;
-  justify-content: center;
+  justify-content: flex-start;
   display: flex;
   align-items: center;
-  transition: border-color 0.275s ease;
-  border-width: 2px;
-  border-style: solid;
-  border-color: unset;
-  border-radius: 8px;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  &:hover {
+    color: ${props => props.hoverColor || "white"};
+  }
   ${props =>
-    props.borderColor &&
+    props.active &&
     css`
-      border-color: ${props.borderColor};
+      background: #232e60;
     `}
 `;
 
 const Header = styled(Text)`
-  transition: all 0.3s ease-in-out;
+  transition: color 0.275s ease-in-out;
   outline: none;
-  &:hover {
-    color: #112237;
-  }
+  color: inherit;
 `;
 
-export const TabPanel = props => {
-  return (
-    <Flex width="100%" margin={"0 auto"} {...props}>
-      {props.children}
-    </Flex>
-  );
-};
 const ScrollContainer = styled(Flex)`
   &::-webkit-scrollbar {
     width: 6px;
@@ -93,6 +83,23 @@ const Content = styled(Flex)`
   flex-grow: 0;
 `;
 
+const DropDown = styled(Select)`
+  height: 3.5rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  &:focus {
+    outline: none;
+  }
+  &::select {
+    appearance: none;
+  }
+`;
+
+const DropOption = styled(Option)`
+  height: 3.5rem;
+`;
+
 export default class NavigationTabs extends React.Component {
   constructor(props) {
     super(props);
@@ -114,29 +121,44 @@ export default class NavigationTabs extends React.Component {
   render() {
     const {selected} = this.state;
     return (
-      <Section bg={"navys.4"} height={"fit-content"} overflow="hidden">
+      <Section height={"fit-content"} overflow="hidden">
         <Flex h={"100vh"}>
-          <LeftColumn>
+          <LeftColumn bg={"darkBlues.0"}>
             <Content
-              p={4}
               h="fit-content"
               justifyContent="space-around"
+              alignItems="flex-start"
               w={"27rem"}
             >
+              <DropDown
+                mt={5}
+                mb={5}
+                color={"whites.0"}
+                ml={"auto"}
+                mr={"auto"}
+                fs={"1.6rem"}
+                onChange={e => console.log(e.target.value)}
+              >
+                <DropOption value="0">Storefront</DropOption>
+                <DropOption value="1">Brand</DropOption>
+                <DropOption value="1">Cherry's Barbershop</DropOption>
+                <DropOption value="2">Add Account</DropOption>
+              </DropDown>
               {this.props.tabHeaders.map((elem, index) => {
                 const isActive = selected === index;
-                const color = isActive ? "navys.0" : "greys.0";
-                const borderColor = isActive ? "#ED8A70" : "none";
+                const color = isActive ? "whites.0" : "greys.5";
                 return (
                   <NavigationTabItem
-                    borderColor={borderColor}
                     onClick={() => this.handleChange(index)}
-                    color={"whites.0"}
                     key={index}
                     active={isActive}
-                    mr={1}
+                    mb={1}
+                    p={3}
+                    color={color}
+                    hoverColor={"white"}
+                    w={"100%"}
                   >
-                    <Header fw={500} color={color}>
+                    <Header ml={3} w={"100%"} fw={500}>
                       {elem}
                     </Header>
                   </NavigationTabItem>
@@ -144,8 +166,12 @@ export default class NavigationTabs extends React.Component {
               })}
             </Content>
           </LeftColumn>
-          <RightColumn h="fit-content" justifyContent="flex-start">
-            <Content p={4} w={r("50rem --> 45rem")} h="fit-content">
+          <RightColumn
+            bg={"whites.0"}
+            h="fit-content"
+            justifyContent="flex-start"
+          >
+            <Content p={4} w={r("100%")} h="fit-content">
               {this.props.children.map((elem, index) => (
                 <Hide key={index} showing={selected === index}>
                   {elem}

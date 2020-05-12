@@ -7,7 +7,7 @@
 */
 
 import React from "react";
-import {Box, Flex, Text, Section, Select, Option} from "components";
+import {Box, Flex, Text, Section, Select, Option, Button} from "components";
 import {withRouter} from "react-router";
 import styled, {css} from "styled-components";
 import {responsive as r, clearToken} from "lib";
@@ -30,14 +30,18 @@ const Hide = styled(Box)`
     `}
 `;
 
-const NavigationTabItem = styled(Flex)`
+const NavigationTabItem = styled(Button)`
+  background: transparent;
+  display: flex;
   height: 6rem;
-  cursor: pointer;
+  cursor: ${props => (props.disabled ? "not-allowed" : "pointer")};
   justify-content: flex-start;
   align-items: center;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  border: unset;
   border-left: 3px solid transparent;
   transition: border-left 0.2s linear;
+  outline: none;
   &:hover {
     color: ${props => props.hoverColor || "white"};
   }
@@ -167,8 +171,10 @@ class TwoColumn extends React.Component {
                 {this.props.tabHeaders.map((elem, index) => {
                   const isActive = selected === index;
                   const color = isActive ? "whites.0" : "greys.5";
+                  const disabled = false;
                   return (
                     <NavigationTabItem
+                      disabled={disabled}
                       onClick={() => this.handleChange(index)}
                       key={index}
                       active={isActive}

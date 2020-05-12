@@ -1,3 +1,4 @@
 import Overview from "./Overview";
+import Demos from "./Demos";
 
-export {Overview};
+export {Overview, Demos};

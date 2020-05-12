@@ -1,7 +1,8 @@
 import React, {useEffect} from "react";
 
 import {validateToken, clearToken} from "lib";
-import {Overview} from "./Views";
+import {Overview, Demos} from "./Views";
+import {TwoColumn} from "./Components";
 
 export default props => {
   useEffect(() => {
@@ -14,7 +15,10 @@ export default props => {
 
   return (
     <>
-      <Overview />
+      <TwoColumn tabHeaders={["first", "second"]}>
+        <Overview />
+        <Demos />
+      </TwoColumn>
     </>
   );
 };

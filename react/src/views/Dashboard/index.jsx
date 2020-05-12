@@ -14,16 +14,14 @@ export default props => {
   });
 
   return (
-    <>
-      <TwoColumn
-        tabHeaders={["Overview", "Demos", "Purchases", "Payout", "Settings"]}
-      >
-        <Overview />
-        <Demos />
-        <Overview />
-        <Demos />
-        <Overview />
-      </TwoColumn>
-    </>
+    <TwoColumn
+      tabHeaders={["Overview", "Demos", "Purchases", "Payout", "Settings"]}
+    >
+      <Overview />
+      <Demos />
+      <Overview />
+      <Demos />
+      <Overview />
+    </TwoColumn>
   );
 };

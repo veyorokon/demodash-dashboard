@@ -31,9 +31,9 @@ const Hide = styled(Box)`
 `;
 
 const NavigationTabItem = styled(Flex)`
+  height: 6rem;
   cursor: pointer;
   justify-content: flex-start;
-  display: flex;
   align-items: center;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   border-left: 3px solid transparent;
@@ -110,6 +110,10 @@ const DashNav = styled(Flex)`
   align-items: center;
 `;
 
+const FlexBox = styled(Box)`
+  flex-grow: 1;
+`;
+
 class TwoColumn extends React.Component {
   constructor(props) {
     super(props);
@@ -140,57 +144,61 @@ class TwoColumn extends React.Component {
         <Flex h={"100vh"}>
           <LeftColumn bg={"darkBlues.0"}>
             <Content
-              h="fit-content"
-              justifyContent="space-around"
+              h="100%"
+              justifyContent="space-between"
               alignItems="flex-start"
               w={"27rem"}
             >
-              <DropDown
-                mt={3}
-                mb={5}
-                color={"whites.0"}
-                ml={"auto"}
-                mr={"auto"}
-                fs={"1.6rem"}
-                onChange={e => console.log(e.target.value)}
-              >
-                <DropOption value="0">Storefront</DropOption>
-                <DropOption value="1">Brand</DropOption>
-                <DropOption value="1">Cherry's Barbershop</DropOption>
-                <DropOption value="2">Add Account</DropOption>
-              </DropDown>
-              {this.props.tabHeaders.map((elem, index) => {
-                const isActive = selected === index;
-                const color = isActive ? "whites.0" : "greys.5";
-                return (
-                  <NavigationTabItem
-                    onClick={() => this.handleChange(index)}
-                    key={index}
-                    active={isActive}
-                    mb={1}
-                    p={3}
-                    color={color}
-                    hoverColor={"white"}
-                    w={"100%"}
-                  >
-                    <Header ml={3} w={"100%"} fw={500}>
-                      {elem}
-                    </Header>
-                  </NavigationTabItem>
-                );
-              })}
-              <NavigationTabItem
-                onClick={this.handleLogout}
-                mb={1}
-                p={3}
-                color={"greys.5"}
-                hoverColor={"white"}
-                w={"100%"}
-              >
-                <Header ml={3} w={"100%"} fw={500}>
-                  Logout
-                </Header>
-              </NavigationTabItem>
+              <Box textAlign="center" mt={3} mb={4} w={"100%"}>
+                <DropDown
+                  color={"whites.0"}
+                  ml={"auto"}
+                  mr={"auto"}
+                  fs={"1.6rem"}
+                  onChange={e => console.log(e.target.value)}
+                >
+                  <DropOption value="0">Storefront</DropOption>
+                  <DropOption value="1">Brand</DropOption>
+                  <DropOption value="1">Cherry's Barbershop</DropOption>
+                  <DropOption value="2">Add Account</DropOption>
+                </DropDown>
+              </Box>
+              <FlexBox w={"100%"}>
+                {this.props.tabHeaders.map((elem, index) => {
+                  const isActive = selected === index;
+                  const color = isActive ? "whites.0" : "greys.5";
+                  return (
+                    <NavigationTabItem
+                      onClick={() => this.handleChange(index)}
+                      key={index}
+                      active={isActive}
+                      mb={1}
+                      p={3}
+                      color={color}
+                      hoverColor={"white"}
+                      w={"100%"}
+                    >
+                      <Header ml={3} w={"100%"} fw={500}>
+                        {elem}
+                      </Header>
+                    </NavigationTabItem>
+                  );
+                })}
+              </FlexBox>
+              <Box w={"100%"}>
+                <NavigationTabItem
+                  onClick={this.handleLogout}
+                  mb={1}
+                  p={3}
+                  color={"greys.5"}
+                  hoverColor={"white"}
+                  w={"100%"}
+                >
+                  <Header ml={3} w={"100%"} fw={500}>
+                    Logout
+                  </Header>
+                </NavigationTabItem>
+              </Box>
             </Content>
           </LeftColumn>
           <RightColumn

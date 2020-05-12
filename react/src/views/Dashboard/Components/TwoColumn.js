@@ -212,7 +212,7 @@ class TwoColumn extends React.Component {
             h="fit-content"
             justifyContent="flex-start"
           >
-            <DashNav bg={"greys.3"} h={5}>
+            <DashNav p={3} bg={"greys.3"} h={5}>
               Navbar
             </DashNav>
             <Content mt={5} p={4} w={r("100%")} h="fit-content">

@@ -30,7 +30,6 @@ const Hide = styled(Box)`
 `;
 
 const NavigationTabItem = styled(Flex)`
-  padding: 1.75rem 0;
   cursor: pointer;
   justify-content: flex-start;
   display: flex;
@@ -39,6 +38,11 @@ const NavigationTabItem = styled(Flex)`
   &:hover {
     color: ${props => props.hoverColor || "white"};
   }
+  ${props =>
+    props.active &&
+    css`
+      background: #232e60;
+    `}
 `;
 
 const Header = styled(Text)`
@@ -87,6 +91,9 @@ const DropDown = styled(Select)`
   &:focus {
     outline: none;
   }
+  &::select {
+    appearance: none;
+  }
 `;
 
 const DropOption = styled(Option)`
@@ -118,20 +125,19 @@ export default class NavigationTabs extends React.Component {
         <Flex h={"100vh"}>
           <LeftColumn bg={"darkBlues.0"}>
             <Content
-              p={4}
               h="fit-content"
               justifyContent="space-around"
               alignItems="flex-start"
               w={"27rem"}
             >
               <DropDown
+                mt={5}
+                mb={5}
                 color={"whites.0"}
-                mb={3}
                 ml={"auto"}
                 mr={"auto"}
                 fs={"1.6rem"}
                 onChange={e => console.log(e.target.value)}
-                textAlign="center"
               >
                 <DropOption value="0">Storefront</DropOption>
                 <DropOption value="1">Brand</DropOption>
@@ -147,11 +153,12 @@ export default class NavigationTabs extends React.Component {
                     key={index}
                     active={isActive}
                     mb={1}
+                    p={3}
                     color={color}
                     hoverColor={"white"}
                     w={"100%"}
                   >
-                    <Header w={"100%"} fw={500}>
+                    <Header ml={3} w={"100%"} fw={500}>
                       {elem}
                     </Header>
                   </NavigationTabItem>

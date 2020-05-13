@@ -1,4 +1,4 @@
-import Overview from "./Overview";
+import Home from "./Home";
 import Demos from "./Demos";
 
-export {Overview, Demos};
+export {Home, Demos};

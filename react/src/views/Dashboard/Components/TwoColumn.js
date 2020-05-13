@@ -7,7 +7,7 @@
 */
 
 import React from "react";
-import {Box, Flex, Text, Section, Button, DropDown} from "components";
+import {Box, Flex, Text, Section, Button, DropDown, Image} from "components";
 import {withRouter} from "react-router";
 import styled, {css} from "styled-components";
 import {responsive as r, clearToken, getToken} from "lib";
@@ -16,6 +16,7 @@ import {updateAccountUserSet} from "redux/actions";
 
 import {Query} from "@apollo/react-components";
 import {gql} from "apollo-boost";
+import signout from "assets/svg/dashboard/signout.svg";
 
 const Hide = styled(Box)`
   transition: opacity 0.4s ease-in-out;
@@ -201,8 +202,11 @@ class TwoColumn extends React.Component {
                               hoverColor={disabled ? "greys.5" : "white"}
                               w={"100%"}
                             >
-                              <Header ml={3} w={"100%"} fw={500}>
-                                {elem}
+                              {elem.icon && (
+                                <Image ml={3} mr={3} src={elem.icon} h={3} />
+                              )}
+                              <Header ml={!elem.icon && 3} w={"100%"} fw={500}>
+                                {elem.text}
                               </Header>
                             </NavigationTabItem>
                           );
@@ -217,7 +221,8 @@ class TwoColumn extends React.Component {
                           hoverColor={"white"}
                           w={"100%"}
                         >
-                          <Header ml={3} w={"100%"} fw={500}>
+                          <Image ml={3} mr={3} src={signout} h={3} />
+                          <Header mb={1} w={"100%"} fw={500}>
                             Logout
                           </Header>
                         </NavigationTabItem>
@@ -238,13 +243,17 @@ class TwoColumn extends React.Component {
                       Navbar
                     </DashNav>
                     <Content mt={5} p={4} w={r("100%")} h="fit-content">
-                      {this.props.children.map((elem, index) => (
-                        <Hide key={index} showing={selected === index}>
-                          {React.cloneElement(elem, {
-                            active: selected === index
-                          })}
-                        </Hide>
-                      ))}
+                      {this.props.children.length ? (
+                        this.props.children.map((component, index) => (
+                          <Hide key={index} showing={selected === index}>
+                            {React.cloneElement(component, {
+                              active: selected === index
+                            })}
+                          </Hide>
+                        ))
+                      ) : (
+                        <Hide showing={true}>{this.props.children}</Hide>
+                      )}
                     </Content>
                   </RightColumn>
                 </>

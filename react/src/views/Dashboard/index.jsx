@@ -1,8 +1,18 @@
 import React, {useEffect} from "react";
 
 import {validateToken, clearToken} from "lib";
-import {Overview, Demos} from "./Views";
+// import {Home, Demos} from "./Views";
+import {Home} from "./Views";
 import {TwoColumn} from "./Components";
+
+import home from "assets/svg/dashboard/home.svg";
+
+//["Overview", "Demos", "Purchases", "Payout", "Settings"]
+const headers = [
+  {text: "Home", icon: home}
+  // {text: "Demos"},
+  // {text: "Purchases"}
+];
 
 export default props => {
   useEffect(() => {
@@ -14,14 +24,12 @@ export default props => {
   });
 
   return (
-    <TwoColumn
-      tabHeaders={["Overview", "Demos", "Purchases", "Payout", "Settings"]}
-    >
-      <Overview />
+    <TwoColumn tabHeaders={headers}>
+      <Home />
+      {/*<Demos />
+      <Home />
       <Demos />
-      <Overview />
-      <Demos />
-      <Overview />
+      <Home />*/}
     </TwoColumn>
   );
 };

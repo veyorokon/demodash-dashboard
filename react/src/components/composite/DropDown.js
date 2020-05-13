@@ -54,9 +54,7 @@ export default props => {
         </DropOption>
       ))}
       {props.defaultOption && (
-        <DropOption value={props.options.length}>
-          {props.defaultOption}
-        </DropOption>
+        <DropOption value={-1}>{props.defaultOption}</DropOption>
       )}
     </DropSelect>
   );

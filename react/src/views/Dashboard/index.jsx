@@ -73,19 +73,18 @@ class Dashboard extends React.Component {
         {({loading, error, data}) => {
           if (error) return <div>Error</div>;
           if (loading || !data) return <div>Loading</div>;
-          let profileNames = this.getDropdownNames(data.accountUserSet);
-          let disabled = !profileNames.length;
+          let options = this.getDropdownNames(data.accountUserSet);
+          let disabled = !options.length;
           updateAccountUserSet(data);
           return (
             <TwoColumn
               tabHeaders={headers}
               disabled={disabled}
-              profileNames={profileNames}
               dropdownComponent={
                 <DropDown
                   useDefaultButton
                   onChange={e => console.log(e.target.value)}
-                  options={profileNames}
+                  options={options}
                   defaultOption={"New account"}
                   onDefaultClick={() => console.log("test")}
                 />

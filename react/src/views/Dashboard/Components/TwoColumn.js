@@ -7,15 +7,11 @@
 */
 
 import React from "react";
-import {Box, Flex, Text, Section, Button, DropDown, Image} from "components";
+import {Box, Flex, Text, Section, Button, Image} from "components";
 import {withRouter} from "react-router";
 import styled, {css} from "styled-components";
-import {responsive as r, clearToken, getToken} from "lib";
-import {connect} from "react-redux";
-import {updateAccountUserSet} from "redux/actions";
+import {responsive as r, clearToken} from "lib";
 
-import {Query} from "@apollo/react-components";
-import {gql} from "apollo-boost";
 import signout from "assets/svg/dashboard/signout.svg";
 
 const Hide = styled(Box)`
@@ -101,28 +97,6 @@ const FlexBox = styled(Box)`
   flex-grow: 1;
 `;
 
-const ACCOUNT_USER_SET = gql`
-  query accountUserSet($token: String!) {
-    accountUserSet(token: $token) {
-      id
-      dateCreated
-      role
-      account {
-        id
-        type
-        profile {
-          id
-          name
-          industries {
-            id
-            choice
-          }
-        }
-      }
-    }
-  }
-`;
-
 class TwoColumn extends React.Component {
   constructor(props) {
     super(props);
@@ -140,140 +114,91 @@ class TwoColumn extends React.Component {
     return this.props.history.push("/login");
   };
 
-  getDropdownNames = accountUserSet => {
-    let profileList = [];
-    accountUserSet.forEach(accountUser => {
-      let name = accountUser.account.profile.name;
-      let text = accountUser.account.type;
-      if (name) text = name;
-      profileList.push({text, id: accountUser.account.profile.id});
-    });
-    return profileList;
-  };
-
   render() {
     const {selected} = this.state;
-    const {updateAccountUserSet} = this.props;
+    const {disabled, dropdownComponent} = this.props;
     return (
       <Section height={"fit-content"} overflow="hidden">
         <Flex h={"100vh"}>
-          <Query
-            query={ACCOUNT_USER_SET}
-            variables={{token: getToken()["token"]}}
-            fetchPolicy="network-only"
-          >
-            {({loading, error, data}) => {
-              if (error) return <div>Error</div>;
-              if (loading || !data) return <div>Loading</div>;
-              let profileNames = this.getDropdownNames(data.accountUserSet);
-              let disabled = !profileNames.length;
-              updateAccountUserSet(data);
-              return (
-                <>
-                  <LeftColumn bg={"darkBlues.0"}>
-                    <Content
-                      h="100%"
-                      justifyContent="space-between"
-                      alignItems="flex-start"
-                      w={"27rem"}
-                    >
-                      <Box textAlign="center" mt={3} mb={4} w={"100%"}>
-                        <DropDown
-                          useDefaultButton
-                          onChange={e => console.log(e.target.value)}
-                          options={profileNames}
-                          defaultOption={"New account"}
-                          onDefaultClick={() => console.log("test")}
-                        />
-                      </Box>
-                      <FlexBox w={"100%"}>
-                        {this.props.tabHeaders.map((elem, index) => {
-                          const isActive = selected === index;
-                          const color = isActive ? "whites.0" : "greys.5";
-                          return (
-                            <NavigationTabItem
-                              disabled={disabled}
-                              onClick={() => this.handleChange(index)}
-                              key={index}
-                              active={isActive}
-                              mb={1}
-                              p={3}
-                              color={color}
-                              hoverColor={disabled ? "greys.5" : "white"}
-                              w={"100%"}
-                            >
-                              {elem.icon && (
-                                <Image ml={3} mr={3} src={elem.icon} h={3} />
-                              )}
-                              <Header ml={!elem.icon && 3} w={"100%"} fw={500}>
-                                {elem.text}
-                              </Header>
-                            </NavigationTabItem>
-                          );
-                        })}
-                      </FlexBox>
-                      <Box w={"100%"}>
-                        <NavigationTabItem
-                          onClick={this.handleLogout}
-                          mb={1}
-                          p={3}
-                          color={"greys.5"}
-                          hoverColor={"white"}
-                          w={"100%"}
-                        >
-                          <Image ml={3} mr={3} src={signout} h={3} />
-                          <Header mb={1} w={"100%"} fw={500}>
-                            Logout
-                          </Header>
-                        </NavigationTabItem>
-                      </Box>
-                    </Content>
-                  </LeftColumn>
-                  <RightColumn
-                    bg={"greys.4"}
-                    h="fit-content"
-                    justifyContent="flex-start"
-                  >
-                    <DashNav
-                      w={"calc(100vw - 28rem)"}
+          <LeftColumn bg={"darkBlues.0"}>
+            <Content
+              h="100%"
+              justifyContent="space-between"
+              alignItems="flex-start"
+              w={"27rem"}
+            >
+              <Box textAlign="center" mt={3} mb={4} w={"100%"}>
+                {dropdownComponent}
+              </Box>
+              <FlexBox w={"100%"}>
+                {this.props.tabHeaders.map((elem, index) => {
+                  const isActive = selected === index;
+                  const color = isActive ? "whites.0" : "greys.5";
+                  return (
+                    <NavigationTabItem
+                      disabled={disabled}
+                      onClick={() => this.handleChange(index)}
+                      key={index}
+                      active={isActive}
+                      mb={1}
                       p={3}
-                      bg={"greys.4"}
-                      h={5}
+                      color={color}
+                      hoverColor={disabled ? "greys.5" : "white"}
+                      w={"100%"}
                     >
-                      Navbar
-                    </DashNav>
-                    <Content mt={5} p={4} w={r("100%")} h="fit-content">
-                      {this.props.children.length ? (
-                        this.props.children.map((component, index) => (
-                          <Hide key={index} showing={selected === index}>
-                            {React.cloneElement(component, {
-                              active: selected === index
-                            })}
-                          </Hide>
-                        ))
-                      ) : (
-                        <Hide showing={true}>{this.props.children}</Hide>
+                      {elem.icon && (
+                        <Image ml={3} mr={3} src={elem.icon} h={3} />
                       )}
-                    </Content>
-                  </RightColumn>
-                </>
-              );
-            }}
-          </Query>
+                      <Header ml={!elem.icon && 3} w={"100%"} fw={500}>
+                        {elem.text}
+                      </Header>
+                    </NavigationTabItem>
+                  );
+                })}
+              </FlexBox>
+              <Box w={"100%"}>
+                <NavigationTabItem
+                  onClick={this.handleLogout}
+                  mb={1}
+                  p={3}
+                  color={"greys.5"}
+                  hoverColor={"white"}
+                  w={"100%"}
+                >
+                  <Image ml={3} mr={3} src={signout} h={3} />
+                  <Header mb={1} w={"100%"} fw={500}>
+                    Logout
+                  </Header>
+                </NavigationTabItem>
+              </Box>
+            </Content>
+          </LeftColumn>
+          <RightColumn
+            bg={"greys.4"}
+            h="fit-content"
+            justifyContent="flex-start"
+          >
+            <DashNav w={"calc(100vw - 28rem)"} p={3} bg={"greys.4"} h={5}>
+              Navbar
+            </DashNav>
+            <Content mt={5} p={4} w={r("100%")} h="fit-content">
+              {this.props.children.length ? (
+                this.props.children.map((component, index) => (
+                  <Hide key={index} showing={selected === index}>
+                    {React.cloneElement(component, {
+                      active: selected === index
+                    })}
+                  </Hide>
+                ))
+              ) : (
+                <Hide showing={true}>{this.props.children}</Hide>
+              )}
+            </Content>
+          </RightColumn>
         </Flex>
       </Section>
     );
   }
 }
-function mapDispatchToProps(dispatch) {
-  return {
-    updateAccountUserSet: payload => dispatch(updateAccountUserSet(payload))
-  };
-}
 
-const ConnectedTwoColumn = connect(
-  null,
-  mapDispatchToProps
-)(TwoColumn);
-
-export default withRouter(ConnectedTwoColumn);
+export default withRouter(TwoColumn);

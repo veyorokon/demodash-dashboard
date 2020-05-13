@@ -181,7 +181,7 @@ class TwoColumn extends React.Component {
                           useDefaultButton
                           onChange={e => console.log(e.target.value)}
                           options={profileNames}
-                          defaultOption={"Add demodash account"}
+                          defaultOption={"New account"}
                           onDefaultClick={() => console.log("test")}
                         />
                       </Box>

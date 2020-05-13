@@ -1,8 +1,8 @@
 import React from "react";
-import {Select, Option, Button} from "components";
+import {Select, Option, Button, Image} from "components";
 
 import styled from "styled-components";
-
+import plus from "assets/svg/plus.svg";
 const DropSelect = styled(Select)`
   height: 3.5rem;
   border: none;
@@ -20,18 +20,23 @@ const DropOption = styled(Option)`
 `;
 
 const DefaultButton = styled(Button)`
+  display: flex;
+  align-items: center;
+  margin: auto;
   border-radius: 3px;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   cursor: pointer;
   border: unset;
   outline: none;
+  background: transparent;
+  color: white;
 `;
 
 export default props => {
   if (!props.options.length && props.useDefaultButton) {
     return (
       <DefaultButton p={3} onClick={props.onDefaultClick}>
-        {props.defaultOption}
+        <Image mr={2} src={plus} h={3} /> {props.defaultOption}
       </DefaultButton>
     );
   }

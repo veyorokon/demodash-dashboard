@@ -1,13 +1,13 @@
 import React from "react";
-
-import {validateToken, clearToken, getToken} from "lib";
 // import {Home, Demos} from "./Views";
 import {Home, Demos} from "./Views";
 import {TwoColumn} from "./Components";
-import {connect} from "react-redux";
-import {updateAccountUserSet} from "redux/actions";
 import {DropDown} from "components";
 import {Query} from "@apollo/react-components";
+import {withRouter} from "react-router";
+import {validateToken, clearToken, getToken} from "lib";
+import {connect} from "react-redux";
+import {updateAccountUserSet} from "redux/actions";
 import {gql} from "apollo-boost";
 
 import home from "assets/svg/dashboard/home.svg";
@@ -111,4 +111,4 @@ const ConnectedDashboard = connect(
   mapDispatchToProps
 )(Dashboard);
 
-export default ConnectedDashboard;
+export default withRouter(ConnectedDashboard);

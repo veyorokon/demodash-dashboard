@@ -11,6 +11,10 @@ import {Box, Flex, Text, Section, Select, Option, Button} from "components";
 import {withRouter} from "react-router";
 import styled, {css} from "styled-components";
 import {responsive as r, clearToken, getToken} from "lib";
+
+import {connect} from "react-redux";
+import {updateAccountUserSet} from "redux/actions";
+
 import {Query} from "@apollo/react-components";
 import {gql} from "apollo-boost";
 
@@ -163,6 +167,7 @@ class TwoColumn extends React.Component {
 
   render() {
     const {selected} = this.state;
+    const {updateAccountUserSet} = this.props;
     return (
       <Section height={"fit-content"} overflow="hidden">
         <Flex h={"100vh"}>
@@ -175,7 +180,7 @@ class TwoColumn extends React.Component {
               if (error) return <div>Error</div>;
               if (loading || !data) return <div>Loading</div>;
               let profileNames = this.getDropdownNames(data.accountUserSet);
-              console.log(profileNames);
+              updateAccountUserSet(data);
               return (
                 <>
                   <LeftColumn bg={"darkBlues.0"}>
@@ -198,8 +203,9 @@ class TwoColumn extends React.Component {
                               {elem.displayName}
                             </DropOption>
                           ))}
+
                           <DropOption value={profileNames.length}>
-                            Add Account
+                            Create Account
                           </DropOption>
                         </DropDown>
                       </Box>
@@ -275,4 +281,15 @@ class TwoColumn extends React.Component {
     );
   }
 }
-export default withRouter(TwoColumn);
+function mapDispatchToProps(dispatch) {
+  return {
+    updateAccountUserSet: payload => dispatch(updateAccountUserSet(payload))
+  };
+}
+
+const ConnectedTwoColumn = connect(
+  null,
+  mapDispatchToProps
+)(TwoColumn);
+
+export default withRouter(ConnectedTwoColumn);

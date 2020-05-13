@@ -1,7 +1,8 @@
 import {
   UPDATE_REGISTRATION_FORM,
   UPDATE_ACCOUNT_FORM,
-  UPDATE_LOGIN_FORM
+  UPDATE_LOGIN_FORM,
+  UPDATE_ACCOUNT_USER_SET
 } from "redux/constants";
 import {updateState, validateEmail, validatePassword} from "lib";
 
@@ -31,7 +32,8 @@ const type =
 //     email: "",
 //     password: "",
 //     errorMessage: ""
-//   }
+//   },
+// dashboard:{}
 // };
 
 const initialState = {
@@ -52,7 +54,8 @@ const initialState = {
     email: "cherrys@barber.com",
     password: "123456",
     errorMessage: ""
-  }
+  },
+  dashboard: {}
 };
 
 function checkEmail(newState) {
@@ -100,6 +103,8 @@ export default function rootReducer(state = initialState, action) {
       return updateState(state, ["accountForm"], payload);
     case UPDATE_LOGIN_FORM:
       return updateState(state, ["loginForm"], payload);
+    case UPDATE_ACCOUNT_USER_SET:
+      return updateState(state, ["dashboard"], payload);
     default:
       return state;
   }

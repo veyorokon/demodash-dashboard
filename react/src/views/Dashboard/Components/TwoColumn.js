@@ -7,11 +7,10 @@
 */
 
 import React from "react";
-import {Box, Flex, Text, Section, Select, Option, Button} from "components";
+import {Box, Flex, Text, Section, Button, DropDown} from "components";
 import {withRouter} from "react-router";
 import styled, {css} from "styled-components";
 import {responsive as r, clearToken, getToken} from "lib";
-
 import {connect} from "react-redux";
 import {updateAccountUserSet} from "redux/actions";
 
@@ -92,21 +91,7 @@ const Content = styled(Flex)`
   flex-direction: column;
   flex-grow: 0;
 `;
-const DropDown = styled(Select)`
-  height: 3.5rem;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  &:focus {
-    outline: none;
-  }
-  &::select {
-    appearance: none;
-  }
-`;
-const DropOption = styled(Option)`
-  height: 3.5rem;
-`;
+
 const DashNav = styled(Flex)`
   position: fixed;
   align-items: center;
@@ -158,9 +143,9 @@ class TwoColumn extends React.Component {
     let profileList = [];
     accountUserSet.forEach(accountUser => {
       let name = accountUser.account.profile.name;
-      let displayName = accountUser.account.type;
-      if (name) displayName = name;
-      profileList.push({displayName, id: accountUser.account.profile.id});
+      let text = accountUser.account.type;
+      if (name) text = name;
+      profileList.push({text, id: accountUser.account.profile.id});
     });
     return profileList;
   };
@@ -180,6 +165,7 @@ class TwoColumn extends React.Component {
               if (error) return <div>Error</div>;
               if (loading || !data) return <div>Loading</div>;
               let profileNames = this.getDropdownNames(data.accountUserSet);
+              let disabled = !profileNames.length;
               updateAccountUserSet(data);
               return (
                 <>
@@ -192,28 +178,17 @@ class TwoColumn extends React.Component {
                     >
                       <Box textAlign="center" mt={3} mb={4} w={"100%"}>
                         <DropDown
-                          color={"whites.0"}
-                          ml={"auto"}
-                          mr={"auto"}
-                          fs={"1.6rem"}
+                          useDefaultButton
                           onChange={e => console.log(e.target.value)}
-                        >
-                          {profileNames.map((elem, index) => (
-                            <DropOption key={index} value={index}>
-                              {elem.displayName}
-                            </DropOption>
-                          ))}
-
-                          <DropOption value={profileNames.length}>
-                            Create Account
-                          </DropOption>
-                        </DropDown>
+                          options={profileNames}
+                          defaultOption={"Add demodash account"}
+                          onDefaultClick={() => console.log("test")}
+                        />
                       </Box>
                       <FlexBox w={"100%"}>
                         {this.props.tabHeaders.map((elem, index) => {
                           const isActive = selected === index;
                           const color = isActive ? "whites.0" : "greys.5";
-                          const disabled = false;
                           return (
                             <NavigationTabItem
                               disabled={disabled}
@@ -223,7 +198,7 @@ class TwoColumn extends React.Component {
                               mb={1}
                               p={3}
                               color={color}
-                              hoverColor={"white"}
+                              hoverColor={disabled ? "greys.5" : "white"}
                               w={"100%"}
                             >
                               <Header ml={3} w={"100%"} fw={500}>

@@ -13,6 +13,7 @@ import {
 } from "./core";
 import FeatureLink from "./composite/FeatureLink";
 import VertTabs, {TabPanel} from "./composite/VertTabs";
+import DropDown from "./composite/DropDown";
 import Animate, {appear} from "./core/animation";
 import Hidden from "./core/hidden";
 import {ImageBox, Section} from "./styled";
@@ -35,5 +36,6 @@ export {
   TabPanel,
   Select,
   Option,
+  DropDown,
   appear
 };

@@ -10,7 +10,8 @@ import home from "assets/svg/dashboard/home.svg";
 //["Overview", "Demos", "Purchases", "Payout", "Settings"]
 const headers = [
   {text: "Home", icon: home},
-  {text: "Demos"}
+  {text: "Demos", isCategory: true},
+  {text: "Products", icon: home, isSub: true}
   // {text: "Demos"},
   // {text: "Purchases"}
 ];
@@ -25,10 +26,11 @@ export default props => {
   });
 
   return (
-    <TwoColumn tabHeaders={headers}>
+    <TwoColumn tabHeaders={headers} selected="Home">
+      <Home key={"Home"} />
+      <Demos key={"Products"} />
+      {/*<Demos />
       <Home />
-      <Demos />
-      {/*<Home />
       <Demos />
       <Home />*/}
     </TwoColumn>

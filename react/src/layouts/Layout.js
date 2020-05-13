@@ -11,8 +11,8 @@ const switchRoutes = (
   </Switch>
 );
 
-function Auth() {
+function Layout() {
   return <>{switchRoutes}</>;
 }
 
-export default Auth;
+export default Layout;

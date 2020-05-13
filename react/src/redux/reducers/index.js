@@ -1,7 +1,8 @@
 import {
   UPDATE_REGISTRATION_FORM,
   UPDATE_ACCOUNT_FORM,
-  UPDATE_LOGIN_FORM
+  UPDATE_LOGIN_FORM,
+  UPDATE_ACCOUNT_USER_SET
 } from "redux/constants";
 import {updateState, validateEmail, validatePassword} from "lib";
 
@@ -13,37 +14,16 @@ const type =
     ? "influencer"
     : "brand";
 
-const initialState = {
-  registrationForm: {
-    email: "",
-    fullName: "",
-    password: "",
-    passwordConfirmation: "",
-    errorMessage: "",
-    errorField: "",
-    isValidEmail: false,
-    isValidPassword: false
-  },
-  accountForm: {
-    type: type
-  },
-  loginForm: {
-    email: "",
-    password: "",
-    errorMessage: ""
-  }
-};
-
 // const initialState = {
 //   registrationForm: {
-//     email: "veyorokon@gmail.com",
-//     fullName: "Vahid Eyorokon",
-//     password: "Ve12345",
-//     passwordConfirmation: "Ve12345",
+//     email: "",
+//     fullName: "",
+//     password: "",
+//     passwordConfirmation: "",
 //     errorMessage: "",
 //     errorField: "",
-//     isValidEmail: true,
-//     isValidPassword: true
+//     isValidEmail: false,
+//     isValidPassword: false
 //   },
 //   accountForm: {
 //     type: type
@@ -52,8 +32,31 @@ const initialState = {
 //     email: "",
 //     password: "",
 //     errorMessage: ""
-//   }
+//   },
+// dashboard:{}
 // };
+
+const initialState = {
+  registrationForm: {
+    email: "veyorokon@gmail.com",
+    fullName: "Vahid Eyorokon",
+    password: "Ve12345",
+    passwordConfirmation: "Ve12345",
+    errorMessage: "",
+    errorField: "",
+    isValidEmail: true,
+    isValidPassword: true
+  },
+  accountForm: {
+    type: type
+  },
+  loginForm: {
+    email: "cherrys@barber.com",
+    password: "123456",
+    errorMessage: ""
+  },
+  dashboard: {}
+};
 
 function checkEmail(newState) {
   const emailValidation = validateEmail(newState.registrationForm.email);
@@ -100,6 +103,8 @@ export default function rootReducer(state = initialState, action) {
       return updateState(state, ["accountForm"], payload);
     case UPDATE_LOGIN_FORM:
       return updateState(state, ["loginForm"], payload);
+    case UPDATE_ACCOUNT_USER_SET:
+      return updateState(state, ["dashboard"], payload);
     default:
       return state;
   }

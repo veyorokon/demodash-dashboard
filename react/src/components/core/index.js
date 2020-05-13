@@ -104,4 +104,25 @@ const Link = themedComponent(styled.a`
   }
 `);
 
-export {Text, Grid, Box, Button, Flex, Input, Video, Image, Link};
+const Select = themedComponent(styled.select`
+  ${borderRadius}
+  ${boxShadow}
+`);
+const Option = themedComponent(styled.option`
+  ${borderRadius}
+  ${boxShadow}
+`);
+
+export {
+  Text,
+  Grid,
+  Box,
+  Button,
+  Flex,
+  Input,
+  Video,
+  Image,
+  Link,
+  Select,
+  Option
+};

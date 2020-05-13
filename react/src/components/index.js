@@ -1,6 +1,19 @@
-import {Flex, Image, Box, Button, Input, Text, Video, Grid, Link} from "./core";
+import {
+  Flex,
+  Image,
+  Box,
+  Button,
+  Input,
+  Text,
+  Video,
+  Grid,
+  Link,
+  Select,
+  Option
+} from "./core";
 import FeatureLink from "./composite/FeatureLink";
 import VertTabs, {TabPanel} from "./composite/VertTabs";
+import DropDown from "./composite/DropDown";
 import Animate, {appear} from "./core/animation";
 import Hidden from "./core/hidden";
 import {ImageBox, Section} from "./styled";
@@ -21,5 +34,8 @@ export {
   FeatureLink,
   VertTabs,
   TabPanel,
+  Select,
+  Option,
+  DropDown,
   appear
 };

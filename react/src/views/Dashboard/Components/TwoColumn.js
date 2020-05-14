@@ -190,7 +190,7 @@ class TwoColumn extends React.Component {
                       </Box>
                       <FlexBox w={"100%"}>
                         {this.props.tabHeaders.map((elem, index) => {
-                          const isActive = selected === elem.text;
+                          const isActive = selected === index;
                           const color = isActive ? "whites.0" : "greys.5";
                           return (
                             <NavigationTabItem

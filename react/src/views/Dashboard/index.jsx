@@ -10,9 +10,9 @@ import home from "assets/svg/dashboard/home.svg";
 //["Overview", "Demos", "Purchases", "Payout", "Settings"]
 const headers = [
   {text: "Home", icon: home},
-  {text: "Discover Demos", icon: home},
-  {text: "My Demos", icon: home},
-  {text: "Virtual Store", icon: home},
+  {text: "Find Product Demos", icon: home},
+  {text: "My Product Demos", icon: home},
+  {text: "My demodash Store", icon: home},
   {text: "Payout", icon: home},
   {text: "Profile", icon: home}
 ];

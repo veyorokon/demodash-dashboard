@@ -249,9 +249,7 @@ class TwoColumn extends React.Component {
                         this.props.children.map((component, index) => {
                           return (
                             <Hide key={index} showing={selected === index}>
-                              {React.cloneElement(component, {
-                                active: selected === index
-                              })}
+                              {component}
                             </Hide>
                           );
                         })

@@ -28,8 +28,8 @@ export default props => {
 
   return (
     <TwoColumn tabHeaders={headers} selected={1}>
-      <Home key={"Home"} />
-      <FindProductDemos key={"Products"} />
+      <Home key="Home" />
+      <FindProductDemos key="FindProductDemos" />
       {/*<Demos />
       <Home />
       <Demos />

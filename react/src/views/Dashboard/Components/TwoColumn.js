@@ -12,7 +12,7 @@ import {withRouter} from "react-router";
 import styled, {css} from "styled-components";
 import {responsive as r, clearToken, getToken} from "lib";
 import {connect} from "react-redux";
-import {updateAccountUserSet} from "redux/actions";
+import {updateAccountUserSet, updateCurrentAccountUser} from "redux/actions";
 
 import {Query} from "@apollo/react-components";
 import {gql} from "apollo-boost";
@@ -146,14 +146,14 @@ class TwoColumn extends React.Component {
       let name = accountUser.account.profile.name;
       let text = accountUser.account.type;
       if (name) text = name;
-      profileList.push({text, id: accountUser.account.profile.id});
+      profileList.push({text, value: accountUser.id});
     });
     return profileList;
   };
 
   render() {
     const {selected} = this.state;
-    const {updateAccountUserSet} = this.props;
+    const {updateAccountUserSet, updateCurrentAccountUser} = this.props;
     return (
       <Section height={"fit-content"} overflow="hidden">
         <Flex h={"100vh"}>
@@ -165,8 +165,8 @@ class TwoColumn extends React.Component {
             {({loading, error, data}) => {
               if (error) return <div>Error</div>;
               if (loading || !data) return <div>Loading</div>;
-              let profileNames = this.getDropdownNames(data.accountUserSet);
-              let disabled = !profileNames.length;
+              let options = this.getDropdownNames(data.accountUserSet);
+              let disabled = !options.length;
               updateAccountUserSet(data);
               return (
                 <>
@@ -180,8 +180,10 @@ class TwoColumn extends React.Component {
                       <Box textAlign="center" mt={3} mb={4} w={"100%"}>
                         <DropDown
                           useDefaultButton
-                          onChange={e => console.log(e.target.value)}
-                          options={profileNames}
+                          onChange={e =>
+                            updateCurrentAccountUser(e.target.value)
+                          }
+                          options={options}
                           defaultOption={"New account"}
                           onDefaultClick={() => console.log("test")}
                         />
@@ -269,7 +271,9 @@ class TwoColumn extends React.Component {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    updateAccountUserSet: payload => dispatch(updateAccountUserSet(payload))
+    updateAccountUserSet: payload => dispatch(updateAccountUserSet(payload)),
+    updateCurrentAccountUser: payload =>
+      dispatch(updateCurrentAccountUser(payload))
   };
 }
 

@@ -49,7 +49,7 @@ export default props => {
       onChange={props.onChange}
     >
       {props.options.map((elem, index) => (
-        <DropOption key={index} value={elem.id ? elem.id : index}>
+        <DropOption key={index} value={elem.value ? elem.value : index}>
           {elem.text}
         </DropOption>
       ))}

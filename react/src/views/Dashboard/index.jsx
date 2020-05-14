@@ -27,7 +27,7 @@ export default props => {
   });
 
   return (
-    <TwoColumn tabHeaders={headers}>
+    <TwoColumn tabHeaders={headers} selected={1}>
       <Home key={"Home"} />
       <Demos key={"Products"} />
       {/*<Demos />

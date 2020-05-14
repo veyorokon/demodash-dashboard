@@ -1,4 +1,4 @@
 import Home from "./Home";
-import Demos from "./Demos";
+import FindProductDemos from "./FindProductDemos";
 
-export {Home, Demos};
+export {Home, FindProductDemos};

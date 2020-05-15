@@ -69,7 +69,7 @@ export default props => {
         <Text mb={3} fs={"1.2rem"} lineHeight="1.5">
           <b>Commission:</b> $8.00 per sale.
         </Text>
-        <Text mb={3} cursor="pointer" fs={"1.4rem"} color="oranges.0">
+        <Text mb={2} cursor="pointer" fs={"1.6rem"} color="oranges.0">
           Become a demoer
         </Text>
       </CardInterlude>

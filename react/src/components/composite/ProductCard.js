@@ -5,9 +5,10 @@ import testImage from "assets/images/bromane-brand.jpg";
 import bromane from "assets/svg/dashboard/bromane.svg";
 
 const CardComponent = styled(Box)`
-  width: 25rem;
+  width: 28rem;
   display: inline-block;
   margin-right: 1.8rem;
+  margin-left: 1.8rem;
   position: relative;
   ::before {
     content: "";
@@ -23,7 +24,7 @@ const CardComponent = styled(Box)`
 `;
 
 const CardImage = styled(Image)`
-  width: 25rem;
+  width: 28rem;
   display: block;
   border-radius: 8px;
   box-shadow: 0 0 2rem rgba(10, 8, 16, 0.22);
@@ -56,23 +57,25 @@ const InterludeImage = styled(Image)`
 export default props => {
   console.log(props);
   return (
-    <CardComponent>
-      <CardImage src={testImage} />
-      <CardInterlude>
-        <Text mb={3} fs={"1.6rem"} fw={500}>
-          Bromane
-        </Text>
-        <InterludeImage h={"1.6rem"} src={bromane} />
-        <Text mb={3} fs={"1.2rem"} lineHeight="1.5">
-          Bromane's cosmetic hair powder fills in thinning hair in seconds.
-        </Text>
-        <Text mb={3} fs={"1.2rem"} lineHeight="1.5">
-          <b>Commission:</b> $8.00 per sale.
-        </Text>
-        <Text mb={3} cursor="pointer" fs={"1.4rem"} color="oranges.0">
-          Become a demoer
-        </Text>
-      </CardInterlude>
-    </CardComponent>
+    <Box display="inline-block" {...props}>
+      <CardComponent>
+        <CardImage src={testImage} />
+        <CardInterlude>
+          <Text mb={3} fs={"1.6rem"} fw={500}>
+            Bromane
+          </Text>
+          <InterludeImage h={"1.6rem"} src={bromane} />
+          <Text mb={3} fs={"1.2rem"} lineHeight="1.5">
+            Bromane's cosmetic hair powder fills in thinning hair in seconds.
+          </Text>
+          <Text mb={3} fs={"1.2rem"} lineHeight="1.5">
+            <b>Commission:</b> $8.00 per sale.
+          </Text>
+          <Text mb={3} cursor="pointer" fs={"1.4rem"} color="oranges.0">
+            Become a demoer
+          </Text>
+        </CardInterlude>
+      </CardComponent>
+    </Box>
   );
 };

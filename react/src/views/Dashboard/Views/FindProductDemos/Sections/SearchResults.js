@@ -1,11 +1,13 @@
 import React from "react";
 import {Box, ProductCard} from "components";
+import bromaneImage from "assets/images/bromane-brand.jpg";
 
 function SearchResults(props) {
   return (
     <Box p={4}>
       <ProductCard
         mr={4}
+        cardImage={bromaneImage}
         brandName={"Bromane"}
         productName={"Hair filling fibers"}
         productDescription={`Bromane's cosmetic hair powder fills in thinning hair in seconds.`}
@@ -14,12 +16,13 @@ function SearchResults(props) {
         callBack={() => console.log("test")}
       />
       <ProductCard
+        cardImage={bromaneImage}
         brandName={"Bromane"}
         productName={"Hair filling fibers starter kit"}
         productDescription={`Bromane's cosmetic hair powder fills in thinning hair in seconds. `}
         salePrice={"$27.00"}
         commission={"$8.00 per sale."}
-        callBack={() => console.log("test")}
+        callBack={() => console.log("test2")}
       />
     </Box>
   );

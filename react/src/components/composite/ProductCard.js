@@ -1,7 +1,6 @@
 import React from "react";
 import {Box, Image, Text, Flex} from "components";
 import styled from "styled-components";
-import testImage from "assets/images/bromane-brand.jpg";
 import bromane from "assets/svg/dashboard/bromane.svg";
 
 const CardComponent = styled(Box)`
@@ -58,7 +57,7 @@ export default props => {
   return (
     <Box display="inline-block" {...props}>
       <CardComponent>
-        <CardImage src={testImage} />
+        {props.cardImage && <CardImage src={props.cardImage} />}
         <CardInterlude>
           <Text mb={1} fs={"2.2rem"} fw={600}>
             {props.brandName}

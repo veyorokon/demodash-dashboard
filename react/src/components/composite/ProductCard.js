@@ -1,5 +1,5 @@
 import React from "react";
-import {Box, Image, Text} from "components";
+import {Box, Image, Text, Flex} from "components";
 import styled from "styled-components";
 import testImage from "assets/images/bromane-brand.jpg";
 import bromane from "assets/svg/dashboard/bromane.svg";
@@ -60,25 +60,39 @@ export default props => {
       <CardComponent>
         <CardImage src={testImage} />
         <CardInterlude>
-          <Text mb={1} fs={"2.2rem"} fw={500}>
+          <Text mb={1} fs={"2.2rem"} fw={600}>
             {props.brandName}
           </Text>
-          <Text mb={3} fs={"1.4rem"} fw={400}>
+          <Text mb={3} fs={"1.4rem"} fw={500}>
             {props.productName}
           </Text>
           <InterludeImage h={"1.6rem"} src={bromane} />
           <Text mb={3} fs={"1.2rem"} lineHeight="1.5">
             {props.productDescription}
           </Text>
-          <Text mb={3} fs={"1.2rem"} lineHeight="1.5">
-            <b>Commission:</b> {props.commission}
-          </Text>
+          <Flex mb={3}>
+            <Text mr={2} fs={"1.2rem"} fw={500} lineHeight="1.5">
+              Sale Price:
+            </Text>
+            <Text fs={"1.2rem"} lineHeight="1.5">
+              {props.salePrice}
+            </Text>
+          </Flex>
+          <Flex mb={3}>
+            <Text mr={2} fs={"1.2rem"} fw={500} lineHeight="1.5">
+              Commission:
+            </Text>
+            <Text fs={"1.2rem"} lineHeight="1.5">
+              {props.commission}
+            </Text>
+          </Flex>
           <Text
             onClick={props.callBack}
             mb={3}
             cursor="pointer"
             fs={"1.4rem"}
             color="oranges.0"
+            fw={600}
           >
             Become a demoer
           </Text>

@@ -244,7 +244,7 @@ class TwoColumn extends React.Component {
                     >
                       Navbar
                     </DashNav>
-                    <Content mt={5} p={4} w={r("100%")} h="fit-content">
+                    <Content mt={5} p={4} pt={0} w={r("100%")} h="fit-content">
                       {this.props.children.length ? (
                         this.props.children.map((component, index) => {
                           return (

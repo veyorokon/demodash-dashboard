@@ -10,6 +10,7 @@ class Hero extends React.Component {
         mr={r("2 ---> 3 -> 4 5 6 -> 7")}
         pt={r("3")}
         pb={r("3")}
+        mb={4}
       >
         <Flex
           justifyContent="flex-start"

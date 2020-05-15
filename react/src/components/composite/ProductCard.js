@@ -1,7 +1,6 @@
 import React from "react";
 import {Box, Image, Text, Flex} from "components";
 import styled from "styled-components";
-import bromane from "assets/svg/dashboard/bromane.svg";
 
 const CardComponent = styled(Box)`
   width: 30rem;
@@ -65,7 +64,9 @@ export default props => {
           <Text mb={3} fs={"1.4rem"} fw={500}>
             {props.productName}
           </Text>
-          <InterludeImage h={"1.6rem"} src={bromane} />
+          {props.cardIcon && (
+            <InterludeImage h={"1.6rem"} src={props.cardIcon} />
+          )}
           <Text mb={3} fs={"1.2rem"} lineHeight="1.5">
             {props.productDescription}
           </Text>

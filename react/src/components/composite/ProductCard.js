@@ -5,7 +5,7 @@ import testImage from "assets/images/bromane-brand.jpg";
 import bromane from "assets/svg/dashboard/bromane.svg";
 
 const CardComponent = styled(Box)`
-  width: 28rem;
+  width: 30rem;
   display: inline-block;
   margin-right: 1.8rem;
   margin-left: 1.8rem;
@@ -24,7 +24,7 @@ const CardComponent = styled(Box)`
 `;
 
 const CardImage = styled(Image)`
-  width: 28rem;
+  width: 30rem;
   display: block;
   border-radius: 8px;
   box-shadow: 0 0 2rem rgba(10, 8, 16, 0.22);
@@ -55,23 +55,31 @@ const InterludeImage = styled(Image)`
 `;
 
 export default props => {
-  console.log(props);
   return (
     <Box display="inline-block" {...props}>
       <CardComponent>
         <CardImage src={testImage} />
         <CardInterlude>
-          <Text mb={3} fs={"1.6rem"} fw={500}>
-            Bromane
+          <Text mb={1} fs={"2.2rem"} fw={500}>
+            {props.brandName}
+          </Text>
+          <Text mb={3} fs={"1.4rem"} fw={400}>
+            {props.productName}
           </Text>
           <InterludeImage h={"1.6rem"} src={bromane} />
           <Text mb={3} fs={"1.2rem"} lineHeight="1.5">
-            Bromane's cosmetic hair powder fills in thinning hair in seconds.
+            {props.productDescription}
           </Text>
           <Text mb={3} fs={"1.2rem"} lineHeight="1.5">
-            <b>Commission:</b> $8.00 per sale.
+            <b>Commission:</b> {props.commission}
           </Text>
-          <Text mb={3} cursor="pointer" fs={"1.4rem"} color="oranges.0">
+          <Text
+            onClick={props.callBack}
+            mb={3}
+            cursor="pointer"
+            fs={"1.4rem"}
+            color="oranges.0"
+          >
             Become a demoer
           </Text>
         </CardInterlude>

@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 
 import {validateToken, clearToken} from "lib";
 // import {Home, Demos} from "./Views";
-import {Home, Demos} from "./Views";
+import {Home, FindProductDemos} from "./Views";
 import {TwoColumn} from "./Components";
 
 import home from "assets/svg/dashboard/home.svg";
@@ -27,9 +27,9 @@ export default props => {
   });
 
   return (
-    <TwoColumn tabHeaders={headers}>
-      <Home key={"Home"} />
-      <Demos key={"Products"} />
+    <TwoColumn tabHeaders={headers} selected={1}>
+      <Home key="Home" />
+      <FindProductDemos key="FindProductDemos" />
       {/*<Demos />
       <Home />
       <Demos />

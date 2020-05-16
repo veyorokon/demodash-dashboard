@@ -163,7 +163,7 @@ class TwoColumn extends React.Component {
             fetchPolicy="network-only"
           >
             {({loading, error, data}) => {
-              if (error) return <div>Error</div>;
+              if (error) return this.handleLogout();
               if (loading || !data) return <div>Loading</div>;
               let options = this.getDropdownNames(data.accountUserSet);
               let disabled = !options.length;
@@ -232,14 +232,14 @@ class TwoColumn extends React.Component {
                     </Content>
                   </LeftColumn>
                   <RightColumn
-                    bg={"greys.4"}
+                    bg={"whites.0"}
                     h="fit-content"
                     justifyContent="flex-start"
                   >
                     <DashNav
                       w={"calc(100vw - 28rem)"}
                       p={3}
-                      bg={"greys.4"}
+                      bg={"whites.0"}
                       h={5}
                     >
                       Navbar

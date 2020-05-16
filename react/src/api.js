@@ -11,3 +11,5 @@ export const client = new ApolloClient({
   cache,
   link
 });
+
+export const API_SERVER = "http://localhost:8000/";

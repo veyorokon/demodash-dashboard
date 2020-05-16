@@ -11,6 +11,8 @@ const CardComponent = styled(Box)`
   ::before {
     content: "";
     position: absolute;
+    top: -1.8rem;
+    right: -1.8rem;
     width: 100%;
     height: 100%;
     border-radius: 1.6rem;
@@ -31,16 +33,23 @@ const CardInterlude = styled(Box)`
   position: relative;
   font-size: 0.55rem;
   font-weight: 400;
+  padding: 1rem 1rem 3rem 4.8rem;
+  margin-left: 0.8rem;
   white-space: normal;
   text-align: left;
 `;
 
 const InterludeImage = styled(Image)`
+  position: absolute;
+  left: -1.2rem;
+  top: 50%;
+  transform: translateY(-66%);
   filter: grayscale(100%);
   border-radius: 50%;
-  width: 4.8rem;
-  height: 4.8rem;
-  border: 7px solid transparent;
+  width: 5.7rem;
+  height: 5.7rem;
+  border: 7px solid #f4f5f9;
+  background: #f4f5f9;
 `;
 
 export default props => {
@@ -48,19 +57,16 @@ export default props => {
     <Box display="inline-block" {...props}>
       <CardComponent>
         {props.cardImage && <CardImage src={props.cardImage} />}
-        <CardInterlude p={3} pl={4} pr={4}>
-          <Flex mb={1} alignItems="center">
-            {props.cardIcon && (
-              <InterludeImage mr={2} h={"1.6rem"} src={props.cardIcon} />
-            )}
-            <Text fs={"2.2rem"} fw={600}>
-              {props.brandName}
-            </Text>
-          </Flex>
+        <CardInterlude>
+          <Text mb={1} fs={"2.2rem"} fw={600}>
+            {props.brandName}
+          </Text>
           <Text mb={3} fs={"1.4rem"} fw={500}>
             {props.productName}
           </Text>
-
+          {props.cardIcon && (
+            <InterludeImage h={"1.6rem"} src={props.cardIcon} />
+          )}
           <Text mb={3} fs={"1.2rem"} lineHeight="1.5">
             {props.productDescription}
           </Text>

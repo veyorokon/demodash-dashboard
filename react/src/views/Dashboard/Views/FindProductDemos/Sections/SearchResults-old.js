@@ -1,5 +1,7 @@
 import React from "react";
 import {Box, ProductCard} from "components";
+import bromaneImage from "assets/images/bromane-brand.jpg";
+import bromaneIcon from "assets/svg/dashboard/bromane.svg";
 import {Query} from "@apollo/react-components";
 import {gql} from "apollo-boost";
 import {API_SERVER} from "api";
@@ -20,7 +22,6 @@ const OPEN_DEMO_CAMPAIGNS = gql`
             profile {
               id
               icon
-              name
             }
           }
           name
@@ -35,10 +36,6 @@ const OPEN_DEMO_CAMPAIGNS = gql`
   }
 `;
 
-function formatCurrency(intVal) {
-  return parseFloat(intVal / 100).toFixed(2);
-}
-
 function SearchResults(props) {
   return (
     <Box p={4}>
@@ -46,6 +43,7 @@ function SearchResults(props) {
         {({loading, error, data}) => {
           if (error) return <div>error</div>;
           if (loading || !data) return <div>Loading</div>;
+          console.log(data);
           return data.openDemoCampaigns.map((campaign, index) => {
             console.log(campaign);
             return (
@@ -53,30 +51,32 @@ function SearchResults(props) {
                 key={index}
                 mr={4}
                 cardImage={
-                  API_SERVER +
-                  "media/" +
-                  campaign.commission.product.images[0].image
+                  API_SERVER + campaign.commission.product.images[0].image
                 }
                 cardIcon={
-                  API_SERVER +
-                  "media/" +
-                  campaign.commission.product.account.profile.icon
+                  API_SERVER + campaign.commission.product.account.profile.icon
                 }
-                brandName={campaign.commission.product.account.profile.name}
-                productName={campaign.commission.product.name}
-                productDescription={
-                  campaign.commission.product.shortDescription
-                }
-                salePrice={`$${formatCurrency(campaign.commission.salePrice)}`}
-                commission={`$${formatCurrency(
-                  campaign.commission.commissionPrice
-                )} per sale`}
+                brandName={"Bromane"}
+                productName={"Hair filling fibers"}
+                productDescription={`Bromane's cosmetic hair powder fills in thinning hair in seconds`}
+                salePrice={"$20.00"}
+                commission={"$6.00 per sale"}
                 callBack={() => console.log("test")}
               />
             );
           });
         }}
       </Query>
+      <ProductCard
+        cardImage={bromaneImage}
+        cardIcon={bromaneIcon}
+        brandName={"Bromane"}
+        productName={"Hair filling fibers starter kit"}
+        productDescription={`Bromane's cosmetic hair powder fills in thinning hair in seconds`}
+        salePrice={"$27.00"}
+        commission={"$8.00 per sale"}
+        callBack={() => console.log("test2")}
+      />
     </Box>
   );
 }

@@ -93,10 +93,10 @@ const Content = styled(Flex)`
   flex-grow: 0;
 `;
 
-const DashNav = styled(Flex)`
-  position: fixed;
-  align-items: center;
-`;
+// const DashNav = styled(Flex)`
+//   position: fixed;
+//   align-items: center;
+// `;
 const FlexBox = styled(Box)`
   flex-grow: 1;
 `;
@@ -236,14 +236,14 @@ class TwoColumn extends React.Component {
                     h="fit-content"
                     justifyContent="flex-start"
                   >
-                    <DashNav
+                    {/*<DashNav
                       w={"calc(100vw - 28rem)"}
                       p={3}
                       bg={"whites.0"}
                       h={5}
                     >
                       Navbar
-                    </DashNav>
+                    </DashNav>*/}
                     <Content mt={5} p={4} pt={0} w={r("100%")} h="fit-content">
                       {this.props.children.length ? (
                         this.props.children.map((component, index) => {

@@ -1,37 +1,17 @@
-import React, {useEffect} from "react";
-
-import {validateToken, clearToken} from "lib";
-// import {Home, Demos} from "./Views";
-import {Home, FindProductDemos} from "./Views";
-import {TwoColumn} from "./Components";
-
-import home from "assets/svg/dashboard/home.svg";
-
-//["Overview", "Demos", "Purchases", "Payout", "Settings"]
-const headers = [
-  {text: "Home", icon: home},
-  {text: "Find Product Demos", icon: home},
-  {text: "Manage Your Demos", icon: home},
-  {text: "Profile", icon: home}
-];
-
-export default props => {
-  useEffect(() => {
-    const isTokenValid = validateToken();
-    if (!isTokenValid) {
-      clearToken();
-      return props.history.push("/login");
-    }
-  });
-
+import React from "react";
+import Hero from "./Sections/Hero";
+import {LeftColumn, RightColumn} from "./layout";
+import {Flex, Section} from "components";
+export default () => {
   return (
-    <TwoColumn tabHeaders={headers} selected={1}>
-      <Home key="Home" />
-      <FindProductDemos key="FindProductDemos" />
-      {/*<Demos />
-      <Home />
-      <Demos />
-      <Home />*/}
-    </TwoColumn>
+    <Section height={"fit-content"} overflow="hidden">
+      <Flex h={"100vh"}>
+        <LeftColumn>test</LeftColumn>
+        <RightColumn>
+          <Hero />
+          <Hero />
+        </RightColumn>
+      </Flex>
+    </Section>
   );
 };

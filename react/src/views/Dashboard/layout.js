@@ -54,7 +54,7 @@ const Content = styled(Flex)`
 
 export function LeftColumn(props) {
   return (
-    <Left display={r("none ------> flex")} bg={"navys.4"}>
+    <Left display={r("none ------> flex")} bg={"navys.4"} {...props}>
       <Content
         h="100%"
         justifyContent="space-between"
@@ -71,7 +71,12 @@ export function LeftColumn(props) {
 export function RightColumn(props) {
   const {selected} = props || 0;
   return (
-    <Right bg={"whites.0"} h="fit-content" justifyContent="flex-start">
+    <Right
+      bg={"whites.0"}
+      h="fit-content"
+      justifyContent="flex-start"
+      {...props}
+    >
       <Content mt={5} p={4} pt={0} w={r("100%")} h="fit-content">
         {props.children.length ? (
           props.children.map((component, index) => {

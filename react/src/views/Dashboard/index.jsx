@@ -2,7 +2,8 @@ import React from "react";
 import Hero from "./Sections/Hero";
 import {LeftColumn, RightColumn} from "./layout";
 import {Flex, Section, Button, Text, Icon, DropDown} from "components";
-import {Home} from "@styled-icons/material";
+import {Home} from "@styled-icons/boxicons-solid/Home";
+import {LogOut} from "@styled-icons/boxicons-regular/LogOut";
 import {responsive as r} from "lib";
 import styled, {css} from "styled-components";
 
@@ -38,7 +39,7 @@ const NavItem = props => (
     onClick={props.onClick}
   >
     <Flex alignItems="center">
-      <Icon mr={3} h={3}>
+      <Icon mr={3} h={r("2rem -------> 2.2rem")}>
         {props.icon}
       </Icon>
       <Text color="currentColor" fs={"1.6rem"}>
@@ -52,14 +53,16 @@ export default () => {
   return (
     <Section height={"fit-content"} overflow="hidden">
       <Flex h={"100vh"}>
-        <LeftColumn pt={4} pb={4}>
+        <LeftColumn pt={5} pb={4}>
           <DropDown
+            mb={4}
             color={"navys.1"}
             useDefaultButton
             onChange={e => console.log(e.target.value)}
-            options={[]}
+            options={[{text: "Test", value: "TestVal"}]}
             defaultOption={"New account"}
             onDefaultClick={() => console.log("test")}
+            iconProps={{h: "2.4rem"}}
           />
           <Flex w={"100%"} flexDirection="column">
             <NavItem
@@ -68,8 +71,8 @@ export default () => {
               icon={<Home />}
             />
           </Flex>
-          <Flex flexGrow={0} w={"100%"} flexDirection="column">
-            {/*NavItem text="Logout" icon={home} />*/}
+          <Flex mt={4} flexGrow={0} w={"100%"} flexDirection="column">
+            <NavItem text="Logout" icon={<LogOut />} />
           </Flex>
         </LeftColumn>
         <RightColumn>

@@ -1,8 +1,9 @@
 import React from "react";
-import {Select, Option, Button, Image} from "components";
+import {Select, Option, Button, Icon} from "components";
 
 import styled from "styled-components";
-import plus from "assets/svg/plus.svg";
+import {AddCircle} from "@styled-icons/material-rounded/AddCircle";
+
 const DropSelect = styled(Select)`
   height: 3.5rem;
   border: none;
@@ -17,36 +18,33 @@ const DropSelect = styled(Select)`
 `;
 const DropOption = styled(Option)`
   height: 3.5rem;
+  color: currentColor;
 `;
 
 const DefaultButton = styled(Button)`
   display: flex;
   align-items: center;
-  margin: auto;
   border-radius: 3px;
   font-size: 1.6rem;
   cursor: pointer;
   border: unset;
   outline: none;
   background: transparent;
-  color: white;
 `;
 
 export default props => {
   if (!props.options.length && props.useDefaultButton) {
     return (
-      <DefaultButton p={3} onClick={props.onDefaultClick}>
-        <Image mr={2} src={plus} h={3} /> {props.defaultOption}
+      <DefaultButton onClick={props.onDefaultClick} {...props}>
+        <Icon mr={3} h={3}>
+          <AddCircle />
+        </Icon>
+        {props.defaultOption}
       </DefaultButton>
     );
   }
   return (
-    <DropSelect
-      color={"whites.0"}
-      fs={"1.6rem"}
-      onChange={props.onChange}
-      {...props}
-    >
+    <DropSelect fs={"1.6rem"} onChange={props.onChange} {...props}>
       {props.options.map((elem, index) => (
         <DropOption key={index} value={elem.value ? elem.value : index}>
           {elem.text}

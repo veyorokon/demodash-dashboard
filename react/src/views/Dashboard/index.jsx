@@ -1,7 +1,7 @@
 import React from "react";
 import Hero from "./Sections/Hero";
 import {LeftColumn, RightColumn} from "./layout";
-import {Flex, Section, Button, Text, Box, DropDown} from "components";
+import {Flex, Section, Button, Text, Icon, DropDown} from "components";
 import {Home} from "@styled-icons/material";
 import {responsive as r} from "lib";
 import styled, {css} from "styled-components";
@@ -29,18 +29,6 @@ const NavButton = styled(Button)`
       /* border-color: white; */
     `}
 `;
-const IconBox = styled(Box)`
-  transition: 0.2s ease-in-out;
-`;
-
-const Icon = props => (
-  <IconBox h={r("2rem")} mr={3}>
-    {React.cloneElement(props.children, {
-      height: "100%",
-      fill: "currentColor"
-    })}
-  </IconBox>
-);
 
 const NavItem = props => (
   <NavButton
@@ -49,7 +37,7 @@ const NavItem = props => (
     color={"navys.1"}
     onClick={props.onClick}
   >
-    <Flex>
+    <Flex alignItems="center">
       <Icon mr={3} h={3}>
         {props.icon}
       </Icon>
@@ -64,12 +52,12 @@ export default () => {
   return (
     <Section height={"fit-content"} overflow="hidden">
       <Flex h={"100vh"}>
-        <LeftColumn pt={3}>
+        <LeftColumn pt={4} pb={4}>
           <DropDown
             color={"navys.1"}
             useDefaultButton
             onChange={e => console.log(e.target.value)}
-            options={[{text: "test", value: "value"}]}
+            options={[]}
             defaultOption={"New account"}
             onDefaultClick={() => console.log("test")}
           />

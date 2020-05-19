@@ -5,6 +5,7 @@
 /*
     Imports
 */
+import React from "react";
 import {
   borderRadius,
   gridFields,
@@ -113,6 +114,20 @@ const Option = themedComponent(styled.option`
   ${boxShadow}
 `);
 
+const IconBox = styled(Flex)`
+  transition: 0.2s ease-in-out;
+  flex-grow: 0;
+`;
+
+const Icon = props => (
+  <IconBox {...props}>
+    {React.cloneElement(props.children, {
+      height: "100%",
+      fill: "currentColor"
+    })}
+  </IconBox>
+);
+
 export {
   Text,
   Grid,
@@ -124,5 +139,6 @@ export {
   Image,
   Link,
   Select,
-  Option
+  Option,
+  Icon
 };

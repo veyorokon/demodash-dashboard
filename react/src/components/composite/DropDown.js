@@ -43,10 +43,9 @@ export default props => {
   return (
     <DropSelect
       color={"whites.0"}
-      ml={"auto"}
-      mr={"auto"}
       fs={"1.6rem"}
       onChange={props.onChange}
+      {...props}
     >
       {props.options.map((elem, index) => (
         <DropOption key={index} value={elem.value ? elem.value : index}>

@@ -23,6 +23,7 @@ const Hide = styled(Box)`
 const ScrollContainer = styled(Flex)`
   &::-webkit-scrollbar {
     width: 6px;
+    height: 6px;
   }
   &::-webkit-scrollbar-track {
     background: transparent;

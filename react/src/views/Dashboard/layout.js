@@ -60,7 +60,7 @@ export function LeftColumn(props) {
         justifyContent="space-between"
         alignItems="flex-start"
         w={"27rem"}
-        ml={r("unset --------> 6")}
+        // ml={r("unset --------> 6")}
       >
         {props.children}
       </Content>

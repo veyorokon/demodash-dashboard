@@ -6,9 +6,12 @@ import {AddCircle} from "@styled-icons/material-rounded/AddCircle";
 
 const DropSelect = styled(Select)`
   height: 3.5rem;
-  border: none;
   background: transparent;
+  border: 1px solid currentColor;
   cursor: pointer;
+  text-align-last: right;
+  padding-right: 30px;
+  direction: rtl;
   &:focus {
     outline: none;
   }
@@ -27,9 +30,10 @@ const DefaultButton = styled(Button)`
   border-radius: 3px;
   font-size: 1.6rem;
   cursor: pointer;
-  border: unset;
+  border: 1px solid currentColor;
   outline: none;
   background: transparent;
+  padding: 0.5rem;
 `;
 
 export default props => {

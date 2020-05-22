@@ -5,6 +5,7 @@ import {Flex, Section, DropDown} from "components";
 import {NavItem, NavCategory} from "./Components";
 import {Home} from "@styled-icons/boxicons-solid/Home";
 import {LogOut} from "@styled-icons/boxicons-regular/LogOut";
+import {responsive as r} from "lib";
 
 const DemoerNav = props => (
   <>
@@ -31,13 +32,13 @@ const DemoerNav = props => (
     <NavCategory mt={3} text={"Account"} />
     <NavItem
       onClick={() => console.log("her")}
-      text="Billing & payout"
+      text="Payout & billing"
       icon={<Home />}
       ml={3}
     />
     <NavItem
       onClick={() => console.log("her")}
-      text="Account users"
+      text="Users"
       icon={<Home />}
       ml={3}
     />
@@ -54,7 +55,7 @@ export default () => {
   return (
     <Section height={"fit-content"} overflow="hidden">
       <Flex h={"100vh"}>
-        <LeftColumn>
+        <LeftColumn display={r("none -------> flex")}>
           <Flex w={"100%"} pt={5} pb={4} flexDirection="column">
             <DropDown
               mb={4}

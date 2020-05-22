@@ -4,7 +4,7 @@ import {responsive as r} from "lib";
 
 const NavCategory = props => (
   <Flex w={r("16rem")} h={"4rem"} flexGrow={0} alignItems={"center"} {...props}>
-    <Text fs={"1.6rem"} fw={500} cursor="default" color={"navys.1"}>
+    <Text fs={"1.6rem"} fw={600} cursor="default" color={"navys.1"}>
       {props.text}
     </Text>
   </Flex>

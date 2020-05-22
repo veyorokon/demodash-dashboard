@@ -1,5 +1,6 @@
 import React from "react";
 import {Box, Flex} from "components";
+import {connect} from "react-redux";
 import {responsive as r} from "lib";
 import styled, {css} from "styled-components";
 
@@ -69,7 +70,7 @@ export function LeftColumn(props) {
 }
 
 export function RightColumn(props) {
-  const {selected} = props || 0;
+  const {selected} = props || props.children[0].key;
   return (
     <Right
       bg={"whites.0"}
@@ -77,11 +78,11 @@ export function RightColumn(props) {
       justifyContent="flex-start"
       {...props}
     >
-      <Content mt={5} p={4} pt={0} w={r("100%")} h="fit-content">
+      <Content w={r("100%")} h="fit-content">
         {props.children.length ? (
           props.children.map((component, index) => {
             return (
-              <Hide key={index} showing={selected === index}>
+              <Hide key={index} showing={selected === component.key}>
                 {component}
               </Hide>
             );
@@ -93,3 +94,21 @@ export function RightColumn(props) {
     </Right>
   );
 }
+
+export function _RightColumn(props) {
+  const {selected} = props || props.children[0].key;
+  return (
+    <RightColumn selected={selected} {...props}>
+      {props.children}
+    </RightColumn>
+  );
+}
+
+const mapStateToProps = state => {
+  return {selected: state.panel};
+};
+
+export const ConnectedRightColumn = connect(
+  mapStateToProps,
+  null
+)(_RightColumn);

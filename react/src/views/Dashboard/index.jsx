@@ -67,6 +67,50 @@ const NavCategory = props => (
   </Flex>
 );
 
+const DemoerNav = props => (
+  <>
+    <NavItem onClick={() => console.log("her")} text="Home" icon={<Home />} />
+    <NavCategory mt={3} text={"Demos"} />
+    <NavItem
+      onClick={() => console.log("her")}
+      text="Find demos"
+      icon={<Home />}
+      ml={3}
+    />
+    <NavItem
+      onClick={() => console.log("her")}
+      text="My demos"
+      icon={<Home />}
+      ml={3}
+    />
+    <NavItem
+      onClick={() => console.log("her")}
+      text="demodash store"
+      icon={<Home />}
+      ml={3}
+    />
+    <NavCategory mt={3} text={"Account"} />
+    <NavItem
+      onClick={() => console.log("her")}
+      text="Billing & payout"
+      icon={<Home />}
+      ml={3}
+    />
+    <NavItem
+      onClick={() => console.log("her")}
+      text="Account users"
+      icon={<Home />}
+      ml={3}
+    />
+    <NavItem
+      onClick={() => console.log("her")}
+      text="Settings"
+      icon={<Home />}
+      ml={3}
+    />
+  </>
+);
+
 export default () => {
   return (
     <Section height={"fit-content"} overflow="hidden">
@@ -83,51 +127,8 @@ export default () => {
               onDefaultClick={() => console.log("test")}
               iconProps={{h: "2.4rem"}}
             />
-            <Flex flexGrow={1} flexDirection="column">
-              <NavItem
-                onClick={() => console.log("her")}
-                text="Home"
-                icon={<Home />}
-                ml={3}
-              />
-              <NavCategory mt={3} text={"Demos"} />
-              <NavItem
-                onClick={() => console.log("her")}
-                text="Find demos"
-                icon={<Home />}
-                ml={3}
-              />
-              <NavItem
-                onClick={() => console.log("her")}
-                text="My demos"
-                icon={<Home />}
-                ml={3}
-              />
-              <NavItem
-                onClick={() => console.log("her")}
-                text="demodash store"
-                icon={<Home />}
-                ml={3}
-              />
-              <NavCategory mt={3} text={"Account"} />
-              <NavItem
-                onClick={() => console.log("her")}
-                text="Billing & payout"
-                icon={<Home />}
-                ml={3}
-              />
-              <NavItem
-                onClick={() => console.log("her")}
-                text="Settings"
-                icon={<Home />}
-                ml={3}
-              />
-              <NavItem
-                onClick={() => console.log("her")}
-                text="Account users"
-                icon={<Home />}
-                ml={3}
-              />
+            <Flex w={"100%"} flexDirection="column">
+              <DemoerNav />
             </Flex>
             <Flex mt={4} flexGrow={0} w={"100%"} flexDirection="column">
               <NavItem text="Logout" icon={<LogOut />} />

@@ -10,18 +10,23 @@ const NavButton = styled(Button)`
   align-items: center;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   border: unset;
-  /* border-left: 3px solid transparent;
-  transition: border-left 0.2s linear; */
+  border-left: 1px solid transparent;
+  transition: border-left 0.2s linear;
   outline: none;
   transition: unset;
+  padding-left: 1rem;
   &:hover {
     color: ${props => props.hoverColor || "white"};
   }
   ${props =>
     props.active &&
     css`
-      background: #232e60;
-      /* border-color: white; */
+      color: ${props => props.activeColor || "white"};
+      border-left-color: ${props => props.activeColor || "white"};
+
+      &:hover {
+        color: ${props => props.activeColor || "white"};
+      }
     `}
 `;
 

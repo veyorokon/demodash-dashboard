@@ -6,7 +6,8 @@ import {responsive as r} from "lib";
 const NavItem = props => (
   <NavButton
     w={r("90%")}
-    hoverColor={"#6B64F6"}
+    hoverColor={"#928ee6"}
+    activeColor={"#574eff"}
     color={"navys.1"}
     onClick={props.onClick}
     {...props}

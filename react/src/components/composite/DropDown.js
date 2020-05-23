@@ -40,7 +40,7 @@ export default props => {
   if (!props.options.length && props.useDefaultButton) {
     console.log(props.iconProps);
     return (
-      <DefaultButton onClick={props.onDefaultClick} {...props}>
+      <DefaultButton onClick={props.defaultClick} {...props}>
         <Icon mr={3} h={3} {...props.iconProps}>
           <AddCircle />
         </Icon>

@@ -9,49 +9,69 @@ import {connect} from "react-redux";
 import {updatePanel} from "redux/actions";
 import {responsive as r} from "lib";
 
+const _NavItem = props => {
+  const {id, selected} = props;
+  return <NavItem active={selected === id} {...props} />;
+};
+const mapStateToProps = state => {
+  return {selected: state.panel};
+};
+
+const ConnectedNavItem = connect(
+  mapStateToProps,
+  null
+)(_NavItem);
+
 const DemoerNav = props => {
   const {updatePanel} = props;
   return (
     <>
-      <NavItem
+      <ConnectedNavItem
+        id={"home"}
         onClick={() => updatePanel("home")}
         text="Home"
         icon={<HomeIcon />}
       />
       <NavCategory mt={3} text={"Demos"} />
-      <NavItem
+      <ConnectedNavItem
+        id={"findDemos"}
         onClick={() => updatePanel("findDemos")}
         text="Find demos"
         icon={<HomeIcon />}
         ml={3}
       />
-      <NavItem
+      <ConnectedNavItem
+        id={"myDemos"}
         onClick={() => updatePanel("myDemos")}
         text="My demos"
         icon={<HomeIcon />}
         ml={3}
       />
-      <NavItem
+      <ConnectedNavItem
+        id={"demodashStore"}
         onClick={() => updatePanel("demodashStore")}
         text="demodash store"
         icon={<HomeIcon />}
         ml={3}
       />
       <NavCategory mt={3} text={"Account"} />
-      <NavItem
-        onClick={() => console.log("her")}
+      <ConnectedNavItem
+        id={"payoutBilling"}
+        onClick={() => updatePanel("payoutBilling")}
         text="Payout & billing"
         icon={<HomeIcon />}
         ml={3}
       />
-      <NavItem
-        onClick={() => console.log("her")}
+      <ConnectedNavItem
+        id={"users"}
+        onClick={() => updatePanel("users")}
         text="Users"
         icon={<HomeIcon />}
         ml={3}
       />
-      <NavItem
-        onClick={() => console.log("her")}
+      <ConnectedNavItem
+        id={"settings"}
+        onClick={() => updatePanel("settings")}
         text="Settings"
         icon={<HomeIcon />}
         ml={3}
@@ -76,7 +96,7 @@ export default () => {
     <Section height={"fit-content"} overflow="hidden">
       <Flex h={"100vh"}>
         <LeftColumn display={r("none -------> flex")}>
-          <Flex w={"100%"} pt={5} pb={4} flexDirection="column">
+          <Flex w={"100%"} pt={5} pb={5} flexDirection="column">
             <DropDown
               mb={4}
               color={"navys.1"}
@@ -84,7 +104,7 @@ export default () => {
               onChange={e => console.log(e.target.value)}
               options={[{text: "Cherry's Barbershop", value: "TestVal"}]}
               defaultOption={"New account"}
-              onDefaultClick={() => console.log("test")}
+              defaultClick={() => console.log("test")}
               iconProps={{h: "2.4rem"}}
             />
             <Flex w={"100%"} flexDirection="column">

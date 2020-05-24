@@ -23,7 +23,7 @@ const NavButton = styled(Button)`
     css`
       color: ${props => props.activeColor || "white"};
       border-left-color: ${props => props.activeColor || "white"};
-
+      font-weight: 600;
       &:hover {
         color: ${props => props.activeColor || "white"};
       }

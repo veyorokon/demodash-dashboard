@@ -63,7 +63,8 @@ const Text = themedComponent(styled.p`
   &:hover {
     color: ${props => props.hoverColor || "none"};
   }
-  transition: color 0.2s ease-in-out, font-size 0.2s ease-in-out;
+  transition: color 0.2s ease-in-out, font-size 0.2s ease-in-out,
+    font-weight 0.1s ease-in-out;
   ${letterSpacing}
 `);
 
@@ -115,7 +116,7 @@ const Option = themedComponent(styled.option`
 `);
 
 const IconBox = styled(Flex)`
-  transition: 0.2s ease-in-out;
+  transition: color 0.2s ease-in-out;
   flex-grow: 0;
 `;
 

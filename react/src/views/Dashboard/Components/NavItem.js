@@ -23,7 +23,7 @@ const NavItem = props => (
           &ndash; {props.text}
         </Text>
       ) : (
-        <Text color="currentColor" fs={"1.6rem"}>
+        <Text fw="inherit" color="currentColor" fs={"1.6rem"}>
           {props.text}
         </Text>
       )}

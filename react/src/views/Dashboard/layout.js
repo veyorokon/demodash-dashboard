@@ -55,7 +55,7 @@ const Content = styled(Flex)`
 
 export function LeftColumn(props) {
   return (
-    <Left bg={"navys.4"} {...props}>
+    <Left {...props}>
       <Content
         h="100%"
         justifyContent="space-between"

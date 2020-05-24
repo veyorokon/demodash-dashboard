@@ -48,16 +48,11 @@ const DemoerNav = props => {
   );
 };
 
-// const ConnectedDemoerNav = connect(
-//   null,
-//   mapDemoerNavDispatchToProps
-// )(DemoerNav);
-
 export default () => {
   return (
     <Section height={"fit-content"} overflow="hidden">
       <Flex h={"100vh"}>
-        <LeftColumn display={r("none -------> flex")}>
+        <LeftColumn bg={"navys.4"} display={r("none -------> flex")}>
           <Flex w={"100%"} pt={5} pb={5} flexDirection="column">
             <DropDown
               mb={4}
@@ -77,7 +72,7 @@ export default () => {
             </Flex>
           </Flex>
         </LeftColumn>
-        <ConnectedRightColumn>
+        <ConnectedRightColumn bg={"navys.4"}>
           <Home key={"home"} />
           <FindDemos key={"findDemos"} />
         </ConnectedRightColumn>

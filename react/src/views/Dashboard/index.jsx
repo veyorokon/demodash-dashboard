@@ -52,7 +52,7 @@ export default () => {
   return (
     <Section height={"fit-content"} overflow="hidden">
       <Flex h={"100vh"}>
-        <LeftColumn bg={"navys.4"} display={r("none -------> flex")}>
+        <LeftColumn bg={"whites.0"} display={r("none -------> flex")}>
           <Flex w={"100%"} pt={5} pb={5} flexDirection="column">
             <DropDown
               mb={4}

@@ -7,7 +7,7 @@ const NavItem = props => (
   <NavButton
     w={r("90%")}
     hoverColor={"#928ee6"}
-    activeColor={"#574eff"}
+    activeColor={"#1C47F5"} //#574eff
     color={"navys.1"}
     onClick={props.onClick}
     {...props}

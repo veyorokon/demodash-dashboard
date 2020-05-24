@@ -64,7 +64,7 @@ const Text = themedComponent(styled.p`
     color: ${props => props.hoverColor || "none"};
   }
   transition: color 0.2s ease-in-out, font-size 0.2s ease-in-out,
-    font-weight 0.1s ease-in-out;
+    font-weight 0.2s ease-in-out;
   ${letterSpacing}
 `);
 

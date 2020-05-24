@@ -4,7 +4,11 @@ import {Flex, Section, DropDown} from "components";
 import {NavItem, ConnectedNavItem, NavCategory} from "./Components";
 import {Home, FindDemos} from "./Panels";
 import {Home as HomeIcon} from "@styled-icons/boxicons-solid/Home";
+import {Search} from "@styled-icons/boxicons-regular/Search";
 import {LogOut} from "@styled-icons/boxicons-regular/LogOut";
+import DemodashIcon from "assets/icons/demodash";
+import ProductDemoIcon from "assets/icons/productDemos";
+
 import {responsive as r} from "lib";
 
 const DemoerNav = props => {
@@ -15,19 +19,19 @@ const DemoerNav = props => {
       <ConnectedNavItem
         id={"findDemos"}
         text="Find demos"
-        icon={<HomeIcon />}
+        icon={<Search />}
         ml={3}
       />
       <ConnectedNavItem
         id={"myDemos"}
         text="My demos"
-        icon={<HomeIcon />}
+        icon={<ProductDemoIcon />}
         ml={3}
       />
       <ConnectedNavItem
         id={"demodashStore"}
         text="demodash store"
-        icon={<HomeIcon />}
+        icon={<DemodashIcon />}
         ml={3}
       />
       <NavCategory mt={3} text={"Account"} />

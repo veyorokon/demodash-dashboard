@@ -22,10 +22,10 @@ const Icon = props => {
   return (
     <IconCircle
       bg={"navys.3"}
+      color={"blues.0"}
       w={r("4rem")}
       h={r("4rem")}
       mb={3}
-      color={"blues.0"}
       {...props}
     >
       <IconFlex w="fit-content" h={r("2rem -------> 2.2rem")}>
@@ -46,7 +46,7 @@ const Card = props => {
       br={"3px"}
       {...props}
     >
-      <Icon icon={props.icon} />
+      <Icon icon={props.icon} {...props.iconProps} />
       <Text ml="auto" mr="auto" w={"100%"} fs={"3.2rem"} fw={800}>
         {props.value}
       </Text>
@@ -57,33 +57,51 @@ const Card = props => {
   );
 };
 
+const FlexCol = props => {
+  return (
+    <Flex
+      w="fit-content"
+      maxWidth="100%"
+      m="auto"
+      flexDirection="column"
+      {...props}
+    >
+      {props.children}
+    </Flex>
+  );
+};
+
 export default function Home(props) {
   return (
     <Box
-      ml={r("2 ---> 3 --> 4 5 6 -> 7")}
-      mr={r("2 ---> 3 --> 4 5 6 -> 7")}
+      ml={r("2 ---> 3 --> 4 auto")}
+      mr={r("2 ---> 3 --> 4 auto")}
       pt={r("5")}
       pb={r("5")}
     >
-      <Flex>
-        <Flex mb={4}>
-          <Text>Analytics Overview</Text>
+      <FlexCol>
+        <Flex>
+          <Flex mb={4}>
+            <Text fs={"2rem"}>Analytics Overview</Text>
+          </Flex>
         </Flex>
-      </Flex>
-      <Flex justifyContent="center">
-        <Card mr={2} icon={<Pricetags />} value={0} label={"Total sales"} />
-        <Card
-          mr={2}
-          icon={<CoinDollar />}
-          value={"$ 0"}
-          label={"Sales volume"}
-        />
-        <Card
-          icon={<HandHoldingUsd />}
-          value={"$ 0"}
-          label={"Commission earned"}
-        />
-      </Flex>
+        <Flex justifyContent="center">
+          <Card mr={2} icon={<Pricetags />} value={0} label={"Total sales"} />
+          <Card
+            mr={2}
+            icon={<CoinDollar />}
+            iconProps={{color: "greens.2", bg: "greens.3"}}
+            value={"$ 0"}
+            label={"Sales volume"}
+          />
+          <Card
+            icon={<HandHoldingUsd />}
+            iconProps={{color: "yellows.0", bg: "yellows.2"}}
+            value={"$ 0"}
+            label={"Commission earned"}
+          />
+        </Flex>
+      </FlexCol>
     </Box>
   );
 }

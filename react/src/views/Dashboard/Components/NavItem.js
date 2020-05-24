@@ -14,7 +14,12 @@ const NavItem = props => (
   >
     <Flex alignItems="center">
       {props.icon && (
-        <Icon mr={3} h={r("2rem -------> 2.2rem")}>
+        <Icon
+          justifyContent="center"
+          mr={3}
+          h={r("2rem -------> 2.2rem")}
+          w={r("2rem -------> 2.2rem")}
+        >
           {props.icon}
         </Icon>
       )}

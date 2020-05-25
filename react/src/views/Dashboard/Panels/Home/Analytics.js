@@ -6,9 +6,7 @@ import {HandHoldingUsd} from "@styled-icons/fa-solid/HandHoldingUsd";
 import {responsive as r} from "lib";
 import styled from "styled-components";
 
-const CardBox = styled(Box)`
-  width: 20rem;
-`;
+const CardBox = styled(Box)``;
 
 const IconCircle = styled(Flex)`
   margin-left: auto;
@@ -23,8 +21,8 @@ const Icon = props => {
     <IconCircle
       bg={"navys.3"}
       color={"blues.0"}
-      w={r("4rem")}
-      h={r("4rem")}
+      w={r("4rem --------> 4.5rem")}
+      h={r("4rem --------> 4.5rem")}
       mb={3}
       {...props}
     >
@@ -41,6 +39,7 @@ const Card = props => {
       p={3}
       pb={4}
       pt={4}
+      w={r("20rem --------> 23rem")}
       boxShadow="0 1px 6px rgba(57,73,76,0.35)"
       bg={"whites.0"}
       br={"3px"}
@@ -85,7 +84,7 @@ export default function Home(props) {
             <Text fs={"2rem"}>Analytics Overview</Text>
           </Flex>
         </Flex>
-        <Flex justifyContent="center">
+        <Flex mb={4} justifyContent="center">
           <Card mr={2} icon={<Pricetags />} value={0} label={"Total sales"} />
           <Card
             mr={2}
@@ -100,6 +99,11 @@ export default function Home(props) {
             value={"$ 0"}
             label={"Commission earned"}
           />
+        </Flex>
+        <Flex>
+          <Flex mb={4}>
+            <Text fs={"2rem"}>Profile</Text>
+          </Flex>
         </Flex>
       </FlexCol>
     </Box>

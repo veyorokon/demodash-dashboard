@@ -41,6 +41,7 @@ const Left = styled(ScrollContainer)`
   flex-basis: 27rem;
   overflow: auto;
   flex-grow: 25;
+  border-right: 2px solid #ecedf1;
 `;
 const Right = styled(ScrollContainer)`
   flex-grow: 80;

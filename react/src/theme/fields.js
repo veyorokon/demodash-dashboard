@@ -163,6 +163,7 @@ const animationFields = compose(
 
 const order = configure("order");
 const flexGrow = configure("flexGrow");
+const flexBasis = configure("flexBasis");
 const flexDirection = configure("flexDirection");
 const flexWrap = configure("flexWrap");
 const justifyContent = configure("justifyContent");
@@ -175,6 +176,7 @@ const flexFields = compose(
   flexDirection,
   flexWrap,
   justifyContent,
+  flexBasis,
   alignItems
 );
 

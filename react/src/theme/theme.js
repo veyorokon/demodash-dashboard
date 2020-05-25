@@ -32,7 +32,7 @@ const theme = {
     navys: ["#112237", "#212C39", "#525F81", "#e6edff", "#f4f7ff"],
     darkBlues: ["#0B1750"],
     yellows: ["#FFC651", "#F7D590", "#FEF8E7"],
-    blues: ["#1C47F5", "#6B64F6", "#f5f5ff"]
+    blues: ["#1C47F5", "#6B64F6", "#f5f5ff", "#F7FAFD"]
   },
   radii: [0, 2, 4],
   defaultProps: {

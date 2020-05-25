@@ -1,3 +1,4 @@
 import IconCard from "./IconCard";
+import {FlexInput, FlexField, FormSection, FormGroup} from "./Form";
 
-export {IconCard};
+export {IconCard, FlexInput, FlexField, FormSection, FormGroup};

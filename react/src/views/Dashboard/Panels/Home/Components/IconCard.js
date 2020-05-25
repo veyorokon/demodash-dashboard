@@ -51,7 +51,7 @@ export default props => {
         mr="auto"
         w={"100%"}
       >
-        {props.label}
+        {props.title}
       </Text>
     </Box>
   );

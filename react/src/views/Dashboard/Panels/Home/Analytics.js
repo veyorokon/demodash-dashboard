@@ -1,6 +1,6 @@
 import React from "react";
 import {Flex, Text} from "components";
-import {Card} from "./Components";
+import {IconCard} from "./Components";
 import {Pricetags} from "@styled-icons/evaicons-solid/Pricetags";
 import {CoinDollar} from "@styled-icons/icomoon/CoinDollar";
 import {HandHoldingUsd} from "@styled-icons/fa-solid/HandHoldingUsd";
@@ -14,25 +14,25 @@ export default function Analytics(props) {
         </Text>
       </Flex>
       <Flex mb={4} justifyContent="space-between">
-        <Card
+        <IconCard
           iconProps={{color: "blues.0", bg: "navys.3"}}
           mr={2}
           icon={<Pricetags />}
           value={0}
-          label={"Total sales"}
+          title={"Total sales"}
         />
-        <Card
+        <IconCard
           mr={2}
           icon={<CoinDollar />}
           iconProps={{color: "greens.2", bg: "greens.3"}}
           value={"$ 0"}
-          label={"Sales volume"}
+          title={"Sales volume"}
         />
-        <Card
+        <IconCard
           icon={<HandHoldingUsd />}
           iconProps={{color: "yellows.0", bg: "yellows.2"}}
           value={"$ 0"}
-          label={"Commission earned"}
+          title={"Commission earned"}
         />
       </Flex>
     </>

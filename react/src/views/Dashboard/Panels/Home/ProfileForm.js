@@ -1,5 +1,6 @@
 import React from "react";
 import {Box, Flex, Text, Input} from "components";
+import {responsive as r} from "lib";
 
 const FlexInput = props => {
   return (
@@ -27,13 +28,29 @@ const FlexField = props => {
 
 const FormSection = props => {
   return (
-    <Flex boxShadow={"inset 0 -1px #e3e3ee"} p={3} {...props}>
+    <Flex
+      boxShadow={"inset 0 -1px #e3e3ee"}
+      p={r("3")}
+      pt={3}
+      pb={3}
+      {...props}
+    >
       {props.children}
     </Flex>
   );
 };
 
-const FormGroup = props => <Flex {...props}>{props.children}</Flex>;
+const FormGroup = props => (
+  <Flex
+    ml={r("auto ----> initial")}
+    mr={r("auto ----> initial")}
+    flexDirection={r("column ----> row")}
+    maxWidth="100%"
+    {...props}
+  >
+    {props.children}
+  </Flex>
+);
 
 const AccountFormCard = props => {
   return (
@@ -56,12 +73,12 @@ const AccountFormCard = props => {
           <FlexField name={"Account name:"} />
           <FlexInput />
         </FormGroup>
-        <FormGroup mt={3} mb={2}>
+        <FormGroup mt={3} mb={r("3 ----> 2")}>
           <FlexField name={"Address:"} />
           <Flex flexBasis="60%" flexDirection="column" mt={2}>
-            <Input mb={2} w={"25rem"} fs={"1.4rem"} p={2} />
-            <Input mb={2} w={"25rem"} fs={"1.4rem"} p={2} />
-            <Input w={"25rem"} fs={"1.4rem"} p={2} />
+            <FlexInput mb={2} />
+            <FlexInput mb={2} />
+            <FlexInput />
           </Flex>
         </FormGroup>
       </FormSection>

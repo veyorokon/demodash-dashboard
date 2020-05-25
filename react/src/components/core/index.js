@@ -52,7 +52,6 @@ const Input = themedComponent(
 );
 Input.defaultProps = {
   border: "1px solid lightslategrey",
-  padding: "1rem",
   fontSize: "1.6rem",
   lineHeight: "1",
   borderRadius: "4px"

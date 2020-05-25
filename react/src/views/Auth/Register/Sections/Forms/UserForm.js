@@ -25,6 +25,9 @@ export function UserForm(props) {
         Email
       </Text>
       <Input
+        p={2}
+        pl={3}
+        pr={3}
         autocapitalize="none"
         height={"4.4rem"}
         mb={props.errorMessage && props.errorField === "email" ? 1 : 3}
@@ -42,6 +45,9 @@ export function UserForm(props) {
         Full name
       </Text>
       <Input
+        p={2}
+        pl={3}
+        pr={3}
         height={"4.4rem"}
         mb={3}
         br={2}
@@ -53,6 +59,9 @@ export function UserForm(props) {
         Password
       </Text>
       <Input
+        p={2}
+        pl={3}
+        pr={3}
         height={"4.4rem"}
         mb={3}
         br={2}
@@ -64,6 +73,9 @@ export function UserForm(props) {
         Password confirmation
       </Text>
       <Input
+        p={2}
+        pl={3}
+        pr={3}
         height={"4.4rem"}
         mb={props.errorMessage && props.errorField === "password" ? 1 : 3}
         br={2}

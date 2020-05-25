@@ -151,6 +151,9 @@ class LoginForm extends React.Component {
                 </Text>
                 <Input
                   autocapitalize="none"
+                  p={2}
+                  pl={3}
+                  pr={3}
                   height={"4.4rem"}
                   mb={3}
                   br={2}
@@ -173,6 +176,9 @@ class LoginForm extends React.Component {
                   height={"4.4rem"}
                   mb={2}
                   br={2}
+                  p={2}
+                  pl={3}
+                  pr={3}
                   type="password"
                   value={loginForm.password}
                   onChange={evt =>

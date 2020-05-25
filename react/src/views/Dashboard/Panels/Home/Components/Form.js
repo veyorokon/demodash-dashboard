@@ -4,8 +4,8 @@ import {responsive as r} from "lib";
 
 const FlexInput = props => {
   return (
-    <Flex flexBasis="60%" mt={2} {...props}>
-      <Input w={"25rem"} fs={"1.4rem"} p={2} />
+    <Flex flexBasis="60%" {...props}>
+      <Input w={"25rem"} fs={"1.4rem"} p={2} {...props} />
     </Flex>
   );
 };

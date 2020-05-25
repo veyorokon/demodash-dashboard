@@ -1,24 +1,26 @@
 import React from "react";
 import {Select, Option, Button, Icon} from "components";
-
+import {themedComponent} from "theme";
 import styled from "styled-components";
 import {AddCircle} from "@styled-icons/material-rounded/AddCircle";
 
-const DropSelect = styled(Select)`
+const DropSelect = themedComponent(styled(Select)`
   height: 3.5rem;
   background: transparent;
-  border: 1px solid currentColor;
   cursor: pointer;
   text-align-last: right;
   padding-right: 30px;
   direction: rtl;
+  border: {
+    props=>props.border: "1px solid currentColor";
+  }
   &:focus {
     outline: none;
   }
   &::select {
     appearance: none;
   }
-`;
+`);
 const DropOption = styled(Option)`
   height: 3.5rem;
   color: currentColor;
@@ -30,7 +32,9 @@ const DefaultButton = styled(Button)`
   border-radius: 3px;
   font-size: 1.6rem;
   cursor: pointer;
-  border: 1px solid currentColor;
+  border: {
+    props=>props.border: "1px solid currentColor";
+  }
   outline: none;
   background: transparent;
   padding: 0.5rem;

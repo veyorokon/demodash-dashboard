@@ -1,5 +1,5 @@
 import React from "react";
-import {Box, Flex, Text} from "components";
+import {Box, Flex, Text, DropDown} from "components";
 import {FlexInput, FlexField, FormSection, FormGroup} from "./Components";
 import {responsive as r} from "lib";
 
@@ -27,9 +27,22 @@ const AccountFormCard = props => {
         <FormGroup mt={3} mb={r("3 ----> 2")}>
           <FlexField name={"Address:"} />
           <Flex flexBasis="60%" flexDirection="column" mt={2}>
-            <FlexInput mb={2} />
-            <FlexInput mb={2} />
-            <FlexInput />
+            <FlexInput placeholder="Address line 1" mb={1} />
+            <FlexInput placeholder="Address line 2" mb={1} />
+            <FlexInput placeholder="City" mb={1} />
+            <Flex mb={2}>
+              <DropDown
+                w="25rem"
+                color={"navys.1"}
+                border={"1px solid lightslategrey"}
+                bg="whites.0"
+                useDefaultButton
+                onChange={e => console.log(e.target.value)}
+                options={[{text: "Cherry's Barbershop", value: "TestVal"}]}
+                defaultClick={() => console.log("test")}
+              />
+            </Flex>
+            <FlexInput placeholder="ZIP" />
           </Flex>
         </FormGroup>
       </FormSection>

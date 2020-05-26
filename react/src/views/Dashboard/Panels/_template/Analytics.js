@@ -1,23 +1,60 @@
 import React from "react";
-import {Box} from "components";
+import {Flex, Text} from "components";
+import {IconCard} from "./Components";
+import {Pricetags} from "@styled-icons/evaicons-solid/Pricetags";
+import {CoinDollar} from "@styled-icons/icomoon/CoinDollar";
+import {HandHoldingUsd} from "@styled-icons/fa-solid/HandHoldingUsd";
 import {responsive as r} from "lib";
 
-export default function Home(props) {
+import styled from "styled-components";
+const FlexGroup = styled(Flex)``;
+
+export default function Analytics(props) {
   return (
-    <Box
-      ml={r("2 ---> 3 -> 4 5 6 -> 7")}
-      mr={r("2 ---> 3 -> 4 5 6 -> 7")}
-      pt={r("5 ---------> 6")}
-      pb={r("5")}
-    >
-      <Box
-        p={3}
-        boxShadow="0 1px 6px rgba(57,73,76,0.35)"
-        bg={"whites.0"}
-        br={"5px"}
+    <>
+      <Flex mb={4}>
+        <Text fw={500} fs={"2rem"}>
+          Analytics Overview
+        </Text>
+      </Flex>
+      <FlexGroup
+        flexWrap={r("wrap  ----> unset")}
+        mb={4}
+        justifyContent={[
+          "center",
+          "center",
+          "center",
+          "center",
+          "center",
+          "space-between"
+        ]}
+        alignItems="center"
       >
-        Analytics
-      </Box>
-    </Box>
+        <IconCard
+          iconProps={{color: "blues.0", bg: "navys.3"}}
+          mr={r("2")}
+          mb={r("2")}
+          icon={<Pricetags />}
+          value={0}
+          title={"Total sales"}
+        />
+        <IconCard
+          mr={r("2")}
+          mb={r("2")}
+          icon={<CoinDollar />}
+          iconProps={{color: "greens.2", bg: "greens.3"}}
+          value={"$ 0"}
+          title={"Sales volume"}
+        />
+        <IconCard
+          mr={r("2")}
+          mb={r("2")}
+          icon={<HandHoldingUsd />}
+          iconProps={{color: "yellows.0", bg: "yellows.2"}}
+          value={"$ 0"}
+          title={"Commission earned"}
+        />
+      </FlexGroup>
+    </>
   );
 }

@@ -40,7 +40,7 @@ const DefaultButton = styled(Button)`
 `;
 
 export default props => {
-  const {selected} = props;
+  const {defaultValue} = props;
   if (!props.options.length && props.useDefaultButton) {
     return (
       <DefaultButton onClick={props.defaultClick} {...props}>
@@ -52,15 +52,14 @@ export default props => {
     );
   }
   return (
-    <DropSelect fs={"1.6rem"} onChange={props.onChange} {...props}>
+    <DropSelect
+      defaultValue={defaultValue}
+      fs={"1.6rem"}
+      onChange={props.onChange}
+      {...props}
+    >
       {props.options.map((elem, index) => (
-        <DropOption
-          selected={
-            (selected && selected === elem.value) || selected === elem.text
-          }
-          key={index}
-          value={elem.value ? elem.value : index}
-        >
+        <DropOption key={index} value={elem.value ? elem.value : index}>
           {elem.text}
         </DropOption>
       ))}

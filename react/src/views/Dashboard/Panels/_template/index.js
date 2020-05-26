@@ -1,6 +1,5 @@
 import React from "react";
 import Analytics from "./Analytics";
-import ProfileForm from "./ProfileForm";
 import {Flex, Box} from "components";
 
 import {responsive as r} from "lib";
@@ -30,7 +29,6 @@ export default function Home(props) {
     >
       <FlexCol>
         <Analytics />
-        <ProfileForm />
       </FlexCol>
     </Box>
   );

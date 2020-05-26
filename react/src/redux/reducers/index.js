@@ -61,7 +61,7 @@ const initialState = {
     accountUserSet: {},
     currentAccountUser: {}
   },
-  panel: "home"
+  panel: "findDemos"
 };
 
 function checkEmail(newState) {

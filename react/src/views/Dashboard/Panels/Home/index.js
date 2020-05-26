@@ -18,7 +18,7 @@ const FlexCol = props => {
   );
 };
 
-export default function Home(props) {
+const Layout = props => {
   return (
     <Box
       ml={r("2 ----> 3 ---->  auto")}
@@ -28,10 +28,15 @@ export default function Home(props) {
       pt={r("5")}
       pb={r("5")}
     >
-      <FlexCol>
-        <Analytics />
-        <ProfileForm />
-      </FlexCol>
+      <FlexCol>{props.children}</FlexCol>
     </Box>
+  );
+};
+export default function Home(props) {
+  return (
+    <Layout>
+      <Analytics />
+      <ProfileForm />
+    </Layout>
   );
 }

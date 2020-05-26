@@ -1,5 +1,5 @@
 import React from "react";
-import Analytics from "./Analytics";
+import Search from "./Search";
 import {Flex, Box} from "components";
 
 import {responsive as r} from "lib";
@@ -17,7 +17,7 @@ const FlexCol = props => {
   );
 };
 
-export default function Home(props) {
+const Layout = props => {
   return (
     <Box
       ml={r("2 ----> 3 ---->  auto")}
@@ -27,9 +27,15 @@ export default function Home(props) {
       pt={r("5")}
       pb={r("5")}
     >
-      <FlexCol>
-        <Analytics />
-      </FlexCol>
+      <FlexCol>{props.children}</FlexCol>
     </Box>
+  );
+};
+
+export default function FindDemos(props) {
+  return (
+    <Layout>
+      <Search />
+    </Layout>
   );
 }

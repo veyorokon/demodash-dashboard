@@ -38,6 +38,7 @@ const AccountFormCard = props => {
                 bg="whites.0"
                 onChange={e => console.log(e.target.value)}
                 options={STATES}
+                // selected={"OK"}
               />
             </Flex>
             <FlexInput placeholder="ZIP" />

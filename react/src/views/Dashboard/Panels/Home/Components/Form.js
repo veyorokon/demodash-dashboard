@@ -46,6 +46,7 @@ const FormGroup = props => (
     mr={r("auto ----> initial")}
     flexDirection={r("column ----> row")}
     maxWidth="100%"
+    color={"navys.1"}
     {...props}
   >
     {props.children}

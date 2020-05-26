@@ -1,6 +1,7 @@
 import React from "react";
 import {Box, Flex, Text, DropDown} from "components";
 import {FlexInput, FlexField, FormSection, FormGroup} from "./Components";
+import {STATES} from "./_constants";
 import {responsive as r} from "lib";
 
 const AccountFormCard = props => {
@@ -22,7 +23,7 @@ const AccountFormCard = props => {
       <FormSection bg={"blues.3"} flexDirection="column" pt={4} pb={4}>
         <FormGroup>
           <FlexField name={"Account name:"} />
-          <FlexInput />
+          <FlexInput mt={1} />
         </FormGroup>
         <FormGroup mt={3} mb={r("3 ----> 2")}>
           <FlexField name={"Address:"} />
@@ -33,13 +34,10 @@ const AccountFormCard = props => {
             <Flex mb={2}>
               <DropDown
                 w="25rem"
-                color={"navys.1"}
                 border={"1px solid lightslategrey"}
                 bg="whites.0"
-                useDefaultButton
                 onChange={e => console.log(e.target.value)}
-                options={[{text: "Cherry's Barbershop", value: "TestVal"}]}
-                defaultClick={() => console.log("test")}
+                options={STATES}
               />
             </Flex>
             <FlexInput placeholder="ZIP" />

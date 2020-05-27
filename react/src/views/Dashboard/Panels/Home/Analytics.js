@@ -14,7 +14,7 @@ export default function Analytics(props) {
     <>
       <Flex mb={4}>
         <Text fw={500} fs={"2rem"}>
-          Analytics Overview
+          Analytics
         </Text>
       </Flex>
       <FlexGroup

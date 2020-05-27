@@ -23,20 +23,25 @@ export default function Search(props) {
     <Box w={"80rem"} maxWidth="100%">
       <Flex mb={4}>
         <Text fw={500} fs={"2rem"}>
-          Find product demos
+          Find products to demo
         </Text>
       </Flex>
-      <Flex alignItems="center">
+      <Flex alignItems="center" mb={5}>
         <SearchInput
           placeholder="search"
           width={"100%"}
-          h={"3.6rem"}
+          h={"4.8rem"}
           maxWidth="100%"
           fs={"1.4rem"}
           p={2}
           {...props}
         />
-        <SearchButton bg="yellows.1" h={"3.6rem"} w={"3.6rem"}>
+        <SearchButton
+          hoverBackground="#FFC651"
+          bg="yellows.1"
+          h={"4.8rem"}
+          w={"4.8rem"}
+        >
           <Icon
             justifyContent="center"
             h={r("2rem -------> 2.2rem")}

@@ -1,5 +1,6 @@
 import React from "react";
 import Search from "./Search";
+import Results from "./Results";
 import {Flex, Box} from "components";
 
 import {responsive as r} from "lib";
@@ -36,6 +37,7 @@ export default function FindDemos(props) {
   return (
     <Layout>
       <Search />
+      <Results />
     </Layout>
   );
 }

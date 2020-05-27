@@ -1,6 +1,6 @@
 import React from "react";
 import {LeftColumn, ConnectedRightColumn} from "./layout";
-import {Flex, Section, DropDown} from "components";
+import {Flex, Section, DropDown, Text, Image} from "components";
 import {NavItem, ConnectedNavItem, NavCategory} from "./Components";
 import {Home, FindDemos} from "./Panels";
 import {Home as HomeIcon} from "@styled-icons/boxicons-solid/Home";
@@ -8,8 +8,31 @@ import {Search} from "@styled-icons/boxicons-regular/Search";
 import {LogOut} from "@styled-icons/boxicons-regular/LogOut";
 import DemodashIcon from "assets/icons/demodash";
 import ProductDemoIcon from "assets/icons/productDemos";
+import logo from "assets/svg/logo.svg";
 
 import {responsive as r} from "lib";
+
+import styled from "styled-components";
+const Logo = styled(Text)`
+  text-align: center;
+  font-weight: 600;
+  letter-spacing: -0.8px;
+`;
+
+const LogoTitle = props => (
+  <Flex flexGrow={0} mb={4} alignItems="center">
+    <Image src={logo} h={"3rem"} />
+    <Logo
+      ml={4}
+      mr={"auto"}
+      as="h1"
+      fs={r("3rem ------> 3.1rem")}
+      color="navys.0"
+    >
+      demodash
+    </Logo>
+  </Flex>
+);
 
 const DemoerNav = props => {
   return (
@@ -58,8 +81,11 @@ export default () => {
       <Flex h={"100vh"}>
         <LeftColumn bg={"whites.0"} display={r("none -------> flex")}>
           <Flex w={"100%"} pt={5} pb={5} flexDirection="column">
+            <LogoTitle />
+            <Text mb={1}>Account:</Text>
             <DropDown
               mb={4}
+              br={2}
               color={"navys.1"}
               useDefaultButton
               onChange={e => console.log(e.target.value)}

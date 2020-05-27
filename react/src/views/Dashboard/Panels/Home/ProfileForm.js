@@ -7,7 +7,7 @@ import {responsive as r} from "lib";
 const AccountFormCard = props => {
   return (
     <Box
-      w={"80rem"}
+      w={r("80rem ---------> 100rem")}
       maxWidth="100%"
       boxShadow="0 1px 6px rgba(57,73,76,0.35)"
       bg={"whites.0"}

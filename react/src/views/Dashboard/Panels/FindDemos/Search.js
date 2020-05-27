@@ -20,7 +20,7 @@ const SearchButton = styled(Button)`
 
 export default function Search(props) {
   return (
-    <Box w={"80rem"} maxWidth="100%">
+    <Box w={r("80rem ---------> 100rem")} maxWidth="100%">
       <Flex mb={4}>
         <Text fw={500} fs={"2rem"}>
           Find products to demo

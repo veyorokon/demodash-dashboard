@@ -15,11 +15,6 @@ export const CallToActionButton = styled(Button)`
   letter-spacing: 0.2px;
   transition: all 0.3s ease-in-out;
   text-transform: uppercase;
-
-  &:hover {
-    color: ${props => props.hoverColor || "black"};
-    background: ${props => props.hoverBg || "#f7d590"};
-  }
 `;
 
 const Card = styled(Flex)`
@@ -51,7 +46,9 @@ const ImageCard = props => {
   return (
     <Card
       p={3}
-      maxWidth={r("26rem --> 33rem  22rem 23rem 31rem 34rem 24rem 30rem 27rem")}
+      maxWidth={r(
+        "26rem 28rem 30rem 33rem  22rem 24rem 30rem 34rem 24rem 30rem 27rem"
+      )}
       mr={1}
       ml={1}
       mt={3}
@@ -77,7 +74,13 @@ const ImageCard = props => {
       <Price title={"Box price:"} value={props.boxPrice} />
       <Price title={"Box refill:"} value={props.refillPrice} />
       <Price title={"Shipping:"} value={props.shippingPrice} />
-      <CallToActionButton br={2} mt={3} bg={"yellows.1"} w="100%">
+      <CallToActionButton
+        hoverBackground="#FFC651"
+        br={2}
+        mt={3}
+        bg={"yellows.1"}
+        w="100%"
+      >
         Become a demoer
       </CallToActionButton>
     </Card>
@@ -98,7 +101,7 @@ export default function Results(props) {
         bg="whites.0"
         w={r("80rem ---------> 100rem")}
         maxWidth="100%"
-        flexWrap={r("wrap")}
+        flexWrap={"wrap"}
         mb={4}
         p={r("0 --> 3 -----> 4")}
         justifyContent={"center"}

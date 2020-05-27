@@ -10,6 +10,7 @@ const SearchInput = styled(Input)`
   border-color: #dae0e6;
 `;
 const SearchButton = styled(Button)`
+  cursor: pointer;
   display: flex;
   border-radius: 0px 4px 4px 0px;
   justify-content: center;

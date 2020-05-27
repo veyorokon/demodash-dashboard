@@ -14,7 +14,7 @@ const ImageCard = props => {
   return (
     <Card
       p={3}
-      maxWidth={r("26rem --> 33rem  22rem 23rem -> 30rem 24rem 30rem 36rem")}
+      maxWidth={r("26rem --> 33rem  22rem 23rem -> 30rem 24rem 30rem")}
       mr={2}
       mt={3}
       mb={3}
@@ -33,12 +33,57 @@ const ImageCard = props => {
       >
         {props.title}
       </Text>
-      <Text letterSpacing="0.5px" color={"navys.1"} mb={2} fw={300} w={"100%"}>
+      <Text
+        mt="auto"
+        letterSpacing="0.5px"
+        color={"navys.0"}
+        mb={2}
+        fw={300}
+        w={"100%"}
+      >
         {props.description}
       </Text>
-      <Text letterSpacing="0.5px" color={"navys.1"} fw={400} w={"100%"}>
-        {props.price}
-      </Text>
+      <Flex flexGrow={0} h="fit-content" mt="auto" w={"100%"}>
+        <Text
+          mr={2}
+          letterSpacing="0.5px"
+          color={"navys.2"}
+          fw={500}
+          w={"100%"}
+        >
+          Box price:
+        </Text>
+        {props.boxPrice ? (
+          <Text letterSpacing="0.5px" color={"navys.1"} fw={600} w={"100%"}>
+            ${props.boxPrice.toFixed(2)}
+          </Text>
+        ) : (
+          <Text letterSpacing="0.5px" color={"greens.4"} fw={600} w={"100%"}>
+            Free
+          </Text>
+        )}
+      </Flex>
+
+      <Flex flexGrow={0} h="fit-content" w={"100%"}>
+        <Text
+          mr={2}
+          letterSpacing="0.5px"
+          color={"navys.2"}
+          fw={500}
+          w={"100%"}
+        >
+          Box refill:
+        </Text>
+        {props.refillPrice ? (
+          <Text letterSpacing="0.5px" color={"navys.1"} fw={600} w={"100%"}>
+            ${props.refillPrice.toFixed(2)}
+          </Text>
+        ) : (
+          <Text letterSpacing="0.5px" color={"greens.4"} fw={600} w={"100%"}>
+            Free
+          </Text>
+        )}
+      </Flex>
     </Card>
   );
 };
@@ -53,31 +98,20 @@ export default function Results(props) {
       maxWidth="100%"
       flexWrap={r("wrap")}
       mb={4}
-      pl={3}
-      pr={3}
-      pb={4}
-      pt={4}
-      justifyContent={["center"]}
+      p={r("0 --> 3 -----> 4")}
+      justifyContent={"center"}
     >
       <ImageCard
-        title="Bromane - Hair filling fibers - starter kit"
-        description="Hair filling fibers, an applicator pump and cleaning cloth"
-        price={0}
+        title="Bromane - Hair filling fibers"
+        description="Hair filling fibers that add density to thinning hair"
+        boxPrice={1}
+        refillPrice={1}
       />
       <ImageCard
         title="Bromane - Hair filling fibers - starter kit"
         description="Hair filling fibers, an applicator pump and cleaning cloth"
-        price={0}
-      />
-      <ImageCard
-        title="Bromane - Hair filling fibers - starter kit"
-        description="Hair filling fibers, an applicator pump and cleaning cloth"
-        price={0}
-      />
-      <ImageCard
-        title="Bromane - Hair filling fibers - starter kit"
-        description="Hair filling fibers, an applicator pump and cleaning cloth"
-        price={0}
+        boxPrice={0}
+        refillPrice={0}
       />
     </Flex>
   );

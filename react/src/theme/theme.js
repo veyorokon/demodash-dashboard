@@ -35,6 +35,7 @@ const theme = {
     blues: ["#1C47F5", "#6B64F6", "#f5f5ff", "#F7FAFD"]
   },
   radii: [0, 2, 4],
+  shadows: ["0 1px 6px rgba(57,73,76,0.35)"],
   defaultProps: {
     transition: "all",
     transitionDuration: "0.3s"

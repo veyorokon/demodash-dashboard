@@ -30,7 +30,7 @@ const backgroundPosition = configure("backgroundPosition");
 const backgroundPositionX = configure("backgroundPositionX", "bpx");
 const backgroundPositionY = configure("backgroundPositionY", "bpy");
 const backgroundSize = configure("backgroundSize");
-const boxShadow = configure("boxShadow");
+const boxShadow = configure("boxShadow", [], "shadows");
 
 const color = configure("color", "color", "colors");
 const fill = configure("fill");

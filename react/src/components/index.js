@@ -9,7 +9,9 @@ import {
   Grid,
   Link,
   Select,
-  Option
+  Option,
+  Icon,
+  TextArea
 } from "./core";
 import FeatureLink from "./composite/FeatureLink";
 import VertTabs, {TabPanel} from "./composite/VertTabs";
@@ -39,5 +41,7 @@ export {
   Option,
   DropDown,
   ProductCard,
+  Icon,
+  TextArea,
   appear
 };

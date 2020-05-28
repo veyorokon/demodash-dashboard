@@ -5,6 +5,7 @@
 /*
     Imports
 */
+import React from "react";
 import {
   borderRadius,
   gridFields,
@@ -27,6 +28,10 @@ Box.defaultProps = {};
 const Button = themedComponent(
   styled.button`
     ${borderRadius}
+    &:hover {
+      color: ${props => props.hoverColor || "currentColor"};
+      background: ${props => props.hoverBackground && props.hoverBackground};
+    }
   `
 );
 
@@ -51,7 +56,20 @@ const Input = themedComponent(
 );
 Input.defaultProps = {
   border: "1px solid lightslategrey",
-  padding: "1rem",
+  fontSize: "1.6rem",
+  lineHeight: "1",
+  borderRadius: "4px"
+};
+
+const TextArea = themedComponent(
+  styled.textarea`
+    outline: none;
+    font-family: inherit;
+    ${borderRadius}
+  `
+);
+TextArea.defaultProps = {
+  border: "1px solid lightslategrey",
   fontSize: "1.6rem",
   lineHeight: "1",
   borderRadius: "4px"
@@ -62,7 +80,8 @@ const Text = themedComponent(styled.p`
   &:hover {
     color: ${props => props.hoverColor || "none"};
   }
-  transition: color 0.2s ease-in-out, font-size 0.2s ease-in-out;
+  transition: color 0.2s ease-in-out, font-size 0.2s ease-in-out,
+    font-weight 0.2s ease-in-out;
   ${letterSpacing}
 `);
 
@@ -113,6 +132,20 @@ const Option = themedComponent(styled.option`
   ${boxShadow}
 `);
 
+const IconBox = styled(Flex)`
+  transition: color 0.2s ease-in-out;
+  flex-grow: 0;
+`;
+
+const Icon = props => (
+  <IconBox {...props}>
+    {React.cloneElement(props.children, {
+      height: "100%",
+      fill: "currentColor"
+    })}
+  </IconBox>
+);
+
 export {
   Text,
   Grid,
@@ -124,5 +157,7 @@ export {
   Image,
   Link,
   Select,
-  Option
+  Option,
+  Icon,
+  TextArea
 };

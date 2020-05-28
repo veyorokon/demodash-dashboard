@@ -2,10 +2,14 @@ import React from "react";
 import {LeftColumn, ConnectedRightColumn} from "./layout";
 import {Flex, Section, DropDown, Text, Image} from "components";
 import {NavItem, ConnectedNavItem, NavCategory} from "./Components";
-import {Home, FindDemos} from "./Panels";
+import {Home, FindDemos, Settings} from "./Panels";
 import {Home as HomeIcon} from "@styled-icons/boxicons-solid/Home";
 import {Search} from "@styled-icons/boxicons-regular/Search";
 import {LogOut} from "@styled-icons/boxicons-regular/LogOut";
+import {Settings as SettingsIcon} from "@styled-icons/material/Settings";
+import {Users as UsersIcon} from "@styled-icons/heroicons-solid/Users";
+import {DollarSign} from "@styled-icons/fa-solid/DollarSign";
+
 import DemodashIcon from "assets/icons/demodash";
 import ProductDemoIcon from "assets/icons/productDemos";
 import logo from "assets/svg/logo.svg";
@@ -61,14 +65,14 @@ const DemoerNav = props => {
       <ConnectedNavItem
         id={"payoutBilling"}
         text="Payout & billing"
-        icon={<HomeIcon />}
+        icon={<DollarSign />}
         ml={3}
       />
-      <ConnectedNavItem id={"users"} text="Users" icon={<HomeIcon />} ml={3} />
+      <ConnectedNavItem id={"users"} text="Users" icon={<UsersIcon />} ml={3} />
       <ConnectedNavItem
         id={"settings"}
         text="Settings"
-        icon={<HomeIcon />}
+        icon={<SettingsIcon />}
         ml={3}
       />
     </>
@@ -105,6 +109,7 @@ export default () => {
         <ConnectedRightColumn bg={"navys.4"}>
           <Home key={"home"} />
           <FindDemos key={"findDemos"} />
+          <Settings key="settings" />
         </ConnectedRightColumn>
       </Flex>
     </Section>

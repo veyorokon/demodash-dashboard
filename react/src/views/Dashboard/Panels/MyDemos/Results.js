@@ -25,19 +25,32 @@ const Card = styled(Flex)`
 
 const Price = props => {
   return (
-    <Flex flexGrow={0} h="fit-content" w={"100%"}>
-      <Text mr={2} letterSpacing="0.5px" color={"navys.1"} fw={500} w={"100%"}>
-        {props.title}
+    <Flex flexGrow={0} h="fit-content" w={"100%"} {...props}>
+      <Text mr={2} letterSpacing="0.4px" color={"navys.1"} fw={500} w={"100%"}>
+        {props.label}
       </Text>
-      {props.price ? (
-        <Text letterSpacing="0.5px" color={"navys.1"} fw={600} w={"100%"}>
-          ${props.price.toFixed(2)}
+      {props.value ? (
+        <Text letterSpacing="0.4px" color={"navys.1"} fw={600} w={"100%"}>
+          ${props.value.toFixed(2)}
         </Text>
       ) : (
-        <Text letterSpacing="0.5px" color={"greens.4"} fw={600} w={"100%"}>
+        <Text letterSpacing="0.4px" color={"greens.4"} fw={600} w={"100%"}>
           Free
         </Text>
       )}
+    </Flex>
+  );
+};
+
+const Commission = props => {
+  return (
+    <Flex flexGrow={0} h="fit-content" w={"100%"} {...props}>
+      <Text mr={2} letterSpacing="0.4px" color={"navys.1"} fw={500} w={"100%"}>
+        {props.label}
+      </Text>
+      <Text letterSpacing="0.4px" color={"oranges.1"} fw={600} w={"100%"}>
+        ${props.value.toFixed(2)}
+      </Text>
     </Flex>
   );
 };
@@ -71,9 +84,16 @@ const ImageCard = props => {
       <Text letterSpacing="0.5px" color={"navys.0"} mb={2} fw={300} w={"100%"}>
         {props.description}
       </Text>
-      <Price title={"Box price:"} value={props.boxPrice} />
-      <Price title={"Box refill:"} value={props.refillPrice} />
-      <Price title={"Shipping:"} value={props.shippingPrice} />
+      <Price label={"Demo box price:"} value={props.boxPrice} />
+      <Price label={"Demo box refill:"} value={props.refillPrice} />
+      <Price label={"Shipping price:"} value={props.shippingPrice} />
+      <Commission
+        mt={2}
+        pt={1}
+        borderTop={"1px solid #dae0e6"}
+        label={"Commission / sale:"}
+        value={props.commission}
+      />
       <CallToActionButton
         hoverBackground="#FFC651"
         br={2}
@@ -112,6 +132,7 @@ export default function Results(props) {
           boxPrice={1}
           refillPrice={1}
           shippingPrice={0}
+          commission={1}
         />
         <ImageCard
           title="Bromane - Hair filling fibers - starter kit"
@@ -119,6 +140,7 @@ export default function Results(props) {
           boxPrice={0}
           refillPrice={0}
           shippingPrice={0}
+          commission={1}
         />
         <ImageCard
           title="Bromane - Hair filling fibers - starter kit"
@@ -126,6 +148,7 @@ export default function Results(props) {
           boxPrice={0}
           refillPrice={0}
           shippingPrice={0}
+          commission={1}
         />
       </Flex>
     </>

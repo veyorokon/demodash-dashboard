@@ -1,5 +1,4 @@
 import React from "react";
-import Search from "./Search";
 import Results from "./Results";
 import {Flex, Box} from "components";
 
@@ -36,7 +35,6 @@ const Layout = props => {
 export default function FindDemos(props) {
   return (
     <Layout>
-      <Search />
       <Results />
     </Layout>
   );

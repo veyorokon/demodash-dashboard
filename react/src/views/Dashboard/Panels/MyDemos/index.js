@@ -1,5 +1,5 @@
 import React from "react";
-import Results from "./Results";
+import DemoBoxes from "./DemoBoxes";
 import {Flex, Box} from "components";
 
 import {responsive as r} from "lib";
@@ -32,10 +32,10 @@ const Layout = props => {
   );
 };
 
-export default function FindDemos(props) {
+export default props => {
   return (
     <Layout>
-      <Results />
+      <DemoBoxes />
     </Layout>
   );
-}
+};

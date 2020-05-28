@@ -1,5 +1,5 @@
 import React from "react";
-import {Flex, Image, Text} from "components";
+import {Flex, Image, Text, DropDown} from "components";
 import {responsive as r} from "lib";
 import styled from "styled-components";
 import bromane from "assets/images/bromane-brand.jpg";
@@ -7,14 +7,14 @@ import {Button} from "components";
 
 export const CallToActionButton = styled(Button)`
   height: ${props =>
-    props.height ? props.height : props.h ? props.h : "5rem"};
+    props.height ? props.height : props.h ? props.h : "3.5rem"};
   cursor: pointer;
   min-width: fit-content;
   border: none;
   outline: none;
   letter-spacing: 0.2px;
   transition: all 0.3s ease-in-out;
-  text-transform: uppercase;
+  text-transform: capitalize;
 `;
 
 const Card = styled(Flex)`
@@ -42,13 +42,13 @@ const Price = props => {
   );
 };
 
-const Commission = props => {
+const SaleInfo = props => {
   return (
     <Flex flexGrow={0} h="fit-content" w={"100%"} {...props}>
       <Text mr={2} letterSpacing="0.4px" color={"navys.1"} fw={500} w={"100%"}>
         {props.label}
       </Text>
-      <Text letterSpacing="0.4px" color={"oranges.1"} fw={600} w={"100%"}>
+      <Text letterSpacing="0.4px" color={"blues.1"} fw={600} w={"100%"}>
         ${props.value.toFixed(2)}
       </Text>
     </Flex>
@@ -86,23 +86,35 @@ const ImageCard = props => {
       </Text>
       <Price label={"Demo box price:"} value={props.boxPrice} />
       <Price label={"Demo box refill:"} value={props.refillPrice} />
-      <Price label={"Shipping price:"} value={props.shippingPrice} />
-      <Commission
-        mt={2}
-        pt={1}
-        borderTop={"1px solid #dae0e6"}
-        label={"Commission / sale:"}
-        value={props.commission}
-      />
+      <Price label={"Demo box shipping:"} value={props.shippingPrice} />
       <CallToActionButton
         hoverBackground="#FFC651"
         br={2}
-        mt={3}
+        mt={2}
         bg={"yellows.1"}
         w="100%"
       >
-        Become a demoer
+        Order a refill
       </CallToActionButton>
+      <SaleInfo
+        mt={2}
+        pt={1}
+        borderTop={"1px solid #dae0e6"}
+        label={"Sale price:"}
+        value={props.storePrice}
+      />
+      <SaleInfo label={"Commission / sale:"} value={props.commission} />
+      <Text fw={500}>My demodash store:</Text>
+      <DropDown
+        br={2}
+        mt={2}
+        w="100%"
+        border={"1px solid lightslategrey"}
+        bg="whites.0"
+        onChange={e => console.log(e.target.value)}
+        options={[{text: "Listed", value: 0}, {text: "Not listed", value: 0}]}
+        //defaultValue={0}
+      />
     </Card>
   );
 };
@@ -112,7 +124,7 @@ export default function Results(props) {
     <>
       <Flex mb={4}>
         <Text fw={500} fs={"2rem"}>
-          Demo boxes
+          My demos
         </Text>
       </Flex>
       <Flex
@@ -132,6 +144,7 @@ export default function Results(props) {
           boxPrice={1}
           refillPrice={1}
           shippingPrice={0}
+          storePrice={25}
           commission={1}
         />
         <ImageCard
@@ -140,6 +153,7 @@ export default function Results(props) {
           boxPrice={0}
           refillPrice={0}
           shippingPrice={0}
+          storePrice={25}
           commission={1}
         />
         <ImageCard
@@ -148,6 +162,7 @@ export default function Results(props) {
           boxPrice={0}
           refillPrice={0}
           shippingPrice={0}
+          storePrice={25}
           commission={1}
         />
       </Flex>

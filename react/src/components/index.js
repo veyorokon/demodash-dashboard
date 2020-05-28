@@ -10,7 +10,8 @@ import {
   Link,
   Select,
   Option,
-  Icon
+  Icon,
+  TextArea
 } from "./core";
 import FeatureLink from "./composite/FeatureLink";
 import VertTabs, {TabPanel} from "./composite/VertTabs";
@@ -41,5 +42,6 @@ export {
   DropDown,
   ProductCard,
   Icon,
+  TextArea,
   appear
 };

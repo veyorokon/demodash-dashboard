@@ -61,7 +61,7 @@ const initialState = {
     accountUserSet: {},
     currentAccountUser: {}
   },
-  panel: "myDemos"
+  panel: "demodashStore"
 };
 
 function checkEmail(newState) {

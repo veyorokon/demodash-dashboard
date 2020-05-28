@@ -2,7 +2,7 @@ import React from "react";
 import {LeftColumn, ConnectedRightColumn} from "./layout";
 import {Flex, Section, DropDown, Text, Image} from "components";
 import {NavItem, ConnectedNavItem, NavCategory} from "./Components";
-import {Home, FindDemos, Settings, MyDemos} from "./Panels";
+import {Home, FindDemos, Settings, MyDemos, DemodashStore} from "./Panels";
 import {Home as HomeIcon} from "@styled-icons/boxicons-solid/Home";
 import {Search} from "@styled-icons/boxicons-regular/Search";
 import {LogoutBox} from "@styled-icons/remix-line/LogoutBox";
@@ -110,6 +110,7 @@ export default () => {
           <Home key={"home"} />
           <FindDemos key={"findDemos"} />
           <MyDemos key={"myDemos"} />
+          <DemodashStore key={"demodashStore"} />
           <Settings key={"settings"} />
         </ConnectedRightColumn>
       </Flex>

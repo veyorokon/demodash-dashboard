@@ -2,12 +2,19 @@ import React from "react";
 import {LeftColumn, ConnectedRightColumn} from "./layout";
 import {Flex, Section, DropDown, Text, Image} from "components";
 import {NavItem, ConnectedNavItem, NavCategory} from "./Components";
-import {Home, FindDemos, Settings, MyDemos, DemodashStore} from "./Panels";
+import {
+  Home,
+  FindDemos,
+  Settings,
+  MyDemos,
+  DemodashStore,
+  PayoutBilling
+} from "./Panels";
 import {Home as HomeIcon} from "@styled-icons/boxicons-solid/Home";
 import {Search} from "@styled-icons/boxicons-regular/Search";
 import {LogoutBox} from "@styled-icons/remix-line/LogoutBox";
 import {Settings as SettingsIcon} from "@styled-icons/material/Settings";
-import {Users as UsersIcon} from "@styled-icons/heroicons-solid/Users";
+// import {Users as UsersIcon} from "@styled-icons/heroicons-solid/Users";
 import {DollarSign} from "@styled-icons/fa-solid/DollarSign";
 
 import DemodashIcon from "assets/icons/demodash";
@@ -68,7 +75,7 @@ const DemoerNav = props => {
         icon={<DollarSign />}
         ml={3}
       />
-      <ConnectedNavItem id={"users"} text="Users" icon={<UsersIcon />} ml={3} />
+      {/*<ConnectedNavItem id={"users"} text="Users" icon={<UsersIcon />} ml={3} />*/}
       <ConnectedNavItem
         id={"settings"}
         text="Settings"
@@ -111,6 +118,7 @@ export default () => {
           <FindDemos key={"findDemos"} />
           <MyDemos key={"myDemos"} />
           <DemodashStore key={"demodashStore"} />
+          <PayoutBilling key={"payoutBilling"} />
           <Settings key={"settings"} />
         </ConnectedRightColumn>
       </Flex>

@@ -1,12 +1,6 @@
 import React from "react";
 import {Box, Flex, Text} from "components";
-import {
-  FlexInput,
-  FlexField,
-  FlexTextArea,
-  FormSection,
-  FormGroup
-} from "./Components";
+import {FlexInput, FlexField, FormSection, FormGroup} from "./Components";
 import {responsive as r} from "lib";
 
 const FormCard = props => {
@@ -27,24 +21,19 @@ const FormCard = props => {
 
       <FormSection bg={"blues.3"} flexDirection="column" pt={4} pb={4}>
         <FormGroup>
-          <FlexField name={"Store handle:"} />
-          <Flex mt={1} flexBasis="60%" flexDirection="column">
-            <FlexInput placeholder="demodash.com/s/..." />
-            <Text ml={2} color="navys.2">
-              demodash.com/s/...
-            </Text>
-          </Flex>
+          <FlexField name={"Routing number:"} />
+          <FlexInput mt={1} />
         </FormGroup>
-        <FormGroup mt={3} mb={r("3 ----> 2")}>
-          <FlexField name={"Store name:"} />
+        <FormGroup mt={2}>
+          <FlexField name={"Account number:"} />
           <Flex flexBasis="60%" flexDirection="column" mt={2}>
             <FlexInput />
           </Flex>
         </FormGroup>
-        <FormGroup mt={3} mb={r("3 ----> 2")}>
-          <FlexField name={"Store description:"} />
+        <FormGroup mt={2} mb={r("3 ----> 2")}>
+          <FlexField name={"Verify account number:"} />
           <Flex flexBasis="60%" flexDirection="column" mt={2}>
-            <FlexTextArea />
+            <FlexInput />
           </Flex>
         </FormGroup>
       </FormSection>
@@ -58,16 +47,16 @@ const FormCard = props => {
   );
 };
 
-export default function ProfileForm(props) {
+export default function PayoutForm(props) {
   return (
     <>
       <Flex mb={4}>
         <Text fw={500} fs={"2rem"}>
-          demodash store
+          Payout
         </Text>
       </Flex>
       <Flex mb={4} justifyContent="center">
-        <FormCard title={"My store settings"} />
+        <FormCard title={"Direct deposit"} />
       </Flex>
     </>
   );

@@ -33,6 +33,7 @@ const AccountFormCard = props => {
             <FlexInput placeholder="City" mb={1} />
             <Flex mb={2}>
               <DropDown
+                br={2}
                 maxWidth="100%"
                 w="25rem"
                 border={"1px solid lightslategrey"}
@@ -43,6 +44,24 @@ const AccountFormCard = props => {
               />
             </Flex>
             <FlexInput placeholder="ZIP" />
+          </Flex>
+        </FormGroup>
+
+        <FormGroup mt={2} mb={r("3 ----> 2")}>
+          <FlexField name={"Category 1"} />
+          <Flex flexBasis="60%" flexDirection="column" mt={2}>
+            <Flex mb={2}>
+              <DropDown
+                br={2}
+                maxWidth="100%"
+                w="25rem"
+                border={"1px solid lightslategrey"}
+                bg="whites.0"
+                onChange={e => console.log(e.target.value)}
+                options={STATES}
+                defaultValue={"OH"}
+              />
+            </Flex>
           </Flex>
         </FormGroup>
       </FormSection>

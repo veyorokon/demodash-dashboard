@@ -2,10 +2,10 @@ import React from "react";
 import {LeftColumn, ConnectedRightColumn} from "./layout";
 import {Flex, Section, DropDown, Text, Image} from "components";
 import {NavItem, ConnectedNavItem, NavCategory} from "./Components";
-import {Home, FindDemos, Settings} from "./Panels";
+import {Home, FindDemos, Settings, MyDemos} from "./Panels";
 import {Home as HomeIcon} from "@styled-icons/boxicons-solid/Home";
 import {Search} from "@styled-icons/boxicons-regular/Search";
-import {LogOut} from "@styled-icons/boxicons-regular/LogOut";
+import {LogoutBox} from "@styled-icons/remix-line/LogoutBox";
 import {Settings as SettingsIcon} from "@styled-icons/material/Settings";
 import {Users as UsersIcon} from "@styled-icons/heroicons-solid/Users";
 import {DollarSign} from "@styled-icons/fa-solid/DollarSign";
@@ -102,14 +102,15 @@ export default () => {
               <DemoerNav />
             </Flex>
             <Flex mt={4} flexGrow={0} w={"100%"} flexDirection="column">
-              <NavItem text="Logout" icon={<LogOut />} />
+              <NavItem text="Logout" icon={<LogoutBox />} />
             </Flex>
           </Flex>
         </LeftColumn>
         <ConnectedRightColumn bg={"navys.4"}>
           <Home key={"home"} />
           <FindDemos key={"findDemos"} />
-          <Settings key="settings" />
+          <MyDemos key={"myDemos"} />
+          <Settings key={"settings"} />
         </ConnectedRightColumn>
       </Flex>
     </Section>

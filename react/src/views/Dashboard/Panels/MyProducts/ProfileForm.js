@@ -44,28 +44,36 @@ const ProductForm = props => {
               <Th>Name</Th>
               <Th>Description</Th>
               <Th>Image</Th>
-              <Th>Variation</Th>
+              <Th>Variations</Th>
               <Th />
             </Tr>
             <Tr>
-              <Td pt={2} pb={2} minWidth={"10rem"}>
-                Bromane
+              <Td pt={2} pb={2}>
+                <Text>Hair filling fibers</Text>
               </Td>
-              <Td pt={2} pb={2} minWidth={"10rem"}>
-                Hair filling fibers that add density to thinning hair
+              <Td pt={2} pb={2}>
+                <Text>
+                  Hair filling fibers that add density to thinning hair
+                </Text>
               </Td>
-              <Td pt={2} pb={2} minWidth={"10rem"}>
-                bromane.jpg
+              <Td pt={2} pb={2}>
+                <Text>bromane.jpg</Text>
+              </Td>
+              <Td pt={2} pb={2}>
+                <Text>Dark Brown</Text>
+                <Text>Med Brown</Text>
+                <Text>Light Brown</Text>
+                <Text>Black</Text>
               </Td>
               <Td pt={2} pb={2} minWidth={"5rem"}>
-                brown
-              </Td>
-              <Td textAlign="center" pt={2} pb={2} minWidth={"5rem"}>
-                edit
+                <Text m={"auto"} textAlign="center">
+                  Edit
+                </Text>
               </Td>
             </Tr>
           </Table>
         </TableWrapper>
+        <Text>Add</Text>
       </FormSection>
 
       <FormSection justifyContent="flex-end">

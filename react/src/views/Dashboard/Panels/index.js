@@ -6,6 +6,7 @@ import MyDemos from "./MyDemos";
 import DemodashStore from "./DemodashStore";
 import PayoutBilling from "./PayoutBilling";
 import MyProducts from "./MyProducts";
+import MyDemoBoxes from "./MyDemoBoxes";
 
 export {
   BrandHome,
@@ -15,5 +16,6 @@ export {
   Settings,
   DemodashStore,
   PayoutBilling,
-  MyProducts
+  MyProducts,
+  MyDemoBoxes
 };

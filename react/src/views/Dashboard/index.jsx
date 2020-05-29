@@ -10,7 +10,8 @@ import {
   MyDemos,
   DemodashStore,
   PayoutBilling,
-  MyProducts
+  MyProducts,
+  MyDemoBoxes
 } from "./Panels";
 import {LogoutBox} from "@styled-icons/remix-line/LogoutBox";
 import {DemoerNav, BrandNav} from "./nav";
@@ -80,6 +81,7 @@ export default props => {
 
           <BrandHome key={"brandHome"} />
           <MyProducts key={"myProducts"} />
+          <MyDemoBoxes key={"myDemoBoxes"} />
 
           <PayoutBilling key={"payoutBilling"} />
           <Settings key={"settings"} />

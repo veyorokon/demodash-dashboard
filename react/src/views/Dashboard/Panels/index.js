@@ -5,6 +5,7 @@ import Settings from "./Settings";
 import MyDemos from "./MyDemos";
 import DemodashStore from "./DemodashStore";
 import PayoutBilling from "./PayoutBilling";
+import MyProducts from "./MyProducts";
 
 export {
   BrandHome,
@@ -13,5 +14,6 @@ export {
   MyDemos,
   Settings,
   DemodashStore,
-  PayoutBilling
+  PayoutBilling,
+  MyProducts
 };

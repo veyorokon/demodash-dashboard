@@ -11,7 +11,11 @@ import {
   Select,
   Option,
   Icon,
-  TextArea
+  TextArea,
+  Table,
+  Tr,
+  Th,
+  Td
 } from "./core";
 import FeatureLink from "./composite/FeatureLink";
 import VertTabs, {TabPanel} from "./composite/VertTabs";
@@ -43,5 +47,9 @@ export {
   ProductCard,
   Icon,
   TextArea,
+  Table,
+  Tr,
+  Th,
+  Td,
   appear
 };

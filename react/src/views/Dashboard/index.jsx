@@ -9,7 +9,8 @@ import {
   Settings,
   MyDemos,
   DemodashStore,
-  PayoutBilling
+  PayoutBilling,
+  MyProducts
 } from "./Panels";
 import {LogoutBox} from "@styled-icons/remix-line/LogoutBox";
 import {DemoerNav, BrandNav} from "./nav";
@@ -73,10 +74,13 @@ export default props => {
         </LeftColumn>
         <ConnectedRightColumn bg={"navys.4"}>
           <DemoerHome key={"demoerHome"} />
-          <BrandHome key={"brandHome"} />
           <FindDemos key={"findDemos"} />
           <MyDemos key={"myDemos"} />
           <DemodashStore key={"demodashStore"} />
+
+          <BrandHome key={"brandHome"} />
+          <MyProducts key={"myProducts"} />
+
           <PayoutBilling key={"payoutBilling"} />
           <Settings key={"settings"} />
         </ConnectedRightColumn>

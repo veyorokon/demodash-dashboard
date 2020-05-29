@@ -1,8 +1,19 @@
 import React from "react";
-import {Box, Flex, Text, Table, Tr, Th, Td} from "components";
+import {Box, Flex, Text, Table, Tr, Th, Td, Button} from "components";
 import {FormSection} from "./Components";
 import {responsive as r} from "lib";
 import styled from "styled-components";
+
+export const CallToActionButton = styled(Button)`
+  height: ${props =>
+    props.height ? props.height : props.h ? props.h : "3.5rem"};
+  cursor: pointer;
+  min-width: fit-content;
+  border: none;
+  outline: none;
+  letter-spacing: 0.2px;
+  transition: all 0.3s ease-in-out;
+`;
 
 const TableWrapper = styled(Box)`
   overflow-x: scroll;
@@ -37,33 +48,33 @@ const ProductForm = props => {
         </Text>
       </FormSection>
 
-      <FormSection bg={"blues.3"} flexDirection="column" pt={4}>
-        <TableWrapper pb={2} mb={2}>
+      <FormSection bg={"blues.3"} flexDirection="column" pt={4} pb={4}>
+        <TableWrapper mb={3} pb={3}>
           <Table w="100%" minWidth="75rem">
             <Tr textAlign="left">
-              <Th>Name</Th>
-              <Th>Description</Th>
-              <Th>Image</Th>
-              <Th>Variations</Th>
+              <Th pb={2}>Name</Th>
+              <Th pb={2}>Description</Th>
+              <Th pb={2}>Image</Th>
+              <Th pb={2}>Variations</Th>
               <Th />
             </Tr>
-            <Tr>
+            <Tr bg={"whites.0"}>
               <Td pt={2} pb={2}>
-                <Text>Hair filling fibers</Text>
+                <Text ml={2}>Hair filling fibers</Text>
               </Td>
               <Td pt={2} pb={2}>
-                <Text>
+                <Text ml={2}>
                   Hair filling fibers that add density to thinning hair
                 </Text>
               </Td>
               <Td pt={2} pb={2}>
-                <Text>bromane.jpg</Text>
+                <Text ml={2}>bromane.jpg</Text>
               </Td>
               <Td pt={2} pb={2}>
-                <Text>Dark Brown</Text>
-                <Text>Med Brown</Text>
-                <Text>Light Brown</Text>
-                <Text>Black</Text>
+                <Text ml={2}>Dark Brown</Text>
+                <Text ml={2}>Med Brown</Text>
+                <Text ml={2}>Light Brown</Text>
+                <Text ml={2}>Black</Text>
               </Td>
               <Td pt={2} pb={2} minWidth={"5rem"}>
                 <Text m={"auto"} textAlign="center">
@@ -73,7 +84,19 @@ const ProductForm = props => {
             </Tr>
           </Table>
         </TableWrapper>
-        <Text>Add</Text>
+        <CallToActionButton
+          hoverBackground="#FFC651"
+          br={2}
+          mt={1}
+          mb={2}
+          ml="auto"
+          mr="auto"
+          bg={"yellows.1"}
+          w="30rem"
+          maxWidth={"100%"}
+        >
+          Add a product
+        </CallToActionButton>
       </FormSection>
 
       <FormSection justifyContent="flex-end">

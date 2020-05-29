@@ -1,24 +1,19 @@
 import React from "react";
 import {LeftColumn, ConnectedRightColumn} from "./layout";
 import {Flex, Section, DropDown, Text, Image} from "components";
-import {NavItem, ConnectedNavItem, NavCategory} from "./Components";
+import {NavItem} from "./Components";
 import {
-  Home,
+  DemoerHome,
+  BrandHome,
   FindDemos,
   Settings,
   MyDemos,
   DemodashStore,
   PayoutBilling
 } from "./Panels";
-import {Home as HomeIcon} from "@styled-icons/boxicons-solid/Home";
-import {Search} from "@styled-icons/boxicons-regular/Search";
 import {LogoutBox} from "@styled-icons/remix-line/LogoutBox";
-import {Settings as SettingsIcon} from "@styled-icons/material/Settings";
-// import {Users as UsersIcon} from "@styled-icons/heroicons-solid/Users";
-import {DollarSign} from "@styled-icons/fa-solid/DollarSign";
+import {DemoerNav, BrandNav} from "./nav";
 
-import DemodashIcon from "assets/icons/demodash";
-import ProductDemoIcon from "assets/icons/productDemos";
 import logo from "assets/svg/logo.svg";
 
 import {responsive as r} from "lib";
@@ -45,48 +40,8 @@ const LogoTitle = props => (
   </Flex>
 );
 
-const DemoerNav = props => {
-  return (
-    <>
-      <ConnectedNavItem id={"home"} text="Home" icon={<HomeIcon />} />
-      <NavCategory mt={3} text={"Demos"} />
-      <ConnectedNavItem
-        id={"findDemos"}
-        text="Find demos"
-        icon={<Search />}
-        ml={3}
-      />
-      <ConnectedNavItem
-        id={"myDemos"}
-        text="My demos"
-        icon={<ProductDemoIcon />}
-        ml={3}
-      />
-      <ConnectedNavItem
-        id={"demodashStore"}
-        text="demodash store"
-        icon={<DemodashIcon />}
-        ml={3}
-      />
-      <NavCategory mt={3} text={"Account"} />
-      <ConnectedNavItem
-        id={"payoutBilling"}
-        text="Payout & billing"
-        icon={<DollarSign />}
-        ml={3}
-      />
-      {/*<ConnectedNavItem id={"users"} text="Users" icon={<UsersIcon />} ml={3} />*/}
-      <ConnectedNavItem
-        id={"settings"}
-        text="Settings"
-        icon={<SettingsIcon />}
-        ml={3}
-      />
-    </>
-  );
-};
-
-export default () => {
+export default props => {
+  const accountType = "brand";
   return (
     <Section height={"fit-content"} overflow="hidden">
       <Flex h={"100vh"}>
@@ -100,13 +55,16 @@ export default () => {
               color={"navys.1"}
               useDefaultButton
               onChange={e => console.log(e.target.value)}
-              options={[{text: "Cherry's Barbershop", value: "TestVal"}]}
+              options={[
+                {text: "Bromane", value: "test2"},
+                {text: "Cherry's Barbershop", value: "TestVal"}
+              ]}
               defaultOption={"Create an account"}
               defaultClick={() => console.log("test")}
               iconProps={{h: "2.4rem"}}
             />
             <Flex w={"100%"} flexDirection="column">
-              <DemoerNav />
+              {accountType === "brand" ? <BrandNav /> : <DemoerNav />}
             </Flex>
             <Flex mt={4} flexGrow={0} w={"100%"} flexDirection="column">
               <NavItem text="Logout" icon={<LogoutBox />} />
@@ -114,7 +72,8 @@ export default () => {
           </Flex>
         </LeftColumn>
         <ConnectedRightColumn bg={"navys.4"}>
-          <Home key={"home"} />
+          <DemoerHome key={"demoerHome"} />
+          <BrandHome key={"brandHome"} />
           <FindDemos key={"findDemos"} />
           <MyDemos key={"myDemos"} />
           <DemodashStore key={"demodashStore"} />

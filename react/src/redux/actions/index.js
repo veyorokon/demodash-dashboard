@@ -4,7 +4,8 @@ import {
   UPDATE_LOGIN_FORM,
   UPDATE_ACCOUNT_USER_SET,
   UDPATE_CURRENT_ACCOUNT_USER,
-  UDPATE_PANEL
+  UDPATE_PANEL,
+  TOGGLE_NAV
 } from "redux/constants";
 
 export function updateRegistrationForm(payload) {
@@ -38,5 +39,11 @@ export function updateCurrentAccountUser(payload) {
 export function updatePanel(payload) {
   return function(dispatch) {
     return dispatch({type: UDPATE_PANEL, payload: payload});
+  };
+}
+
+export function toggleNav() {
+  return function(dispatch) {
+    return dispatch({type: TOGGLE_NAV, payload: {}});
   };
 }

@@ -125,12 +125,6 @@ const AllNav = props => {
         icon={<DemodashIcon />}
       />
       <ConnectedNavItem
-        id={"payoutBilling"}
-        text="Payout"
-        icon={<DollarSign />}
-      />
-
-      <ConnectedNavItem
         id={"myProducts"}
         text="My products"
         icon={<ProductDemoIcon />}

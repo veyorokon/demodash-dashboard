@@ -5,13 +5,13 @@ import {withRouter} from "react-router";
 import styled from "styled-components";
 import {responsive as r} from "lib";
 import {MultiForm, ConnectedUserForm, AccountForm} from "./Forms";
-import {Section, Box, Text, Flex, Image, Link, Hidden} from "components";
+import {Section, Box, Text, Flex, Image, Link, Hidden, Icon} from "components";
 import {Mutation} from "@apollo/react-components";
 import {setToken, clearToken, getToken} from "lib";
 import {gql} from "apollo-boost";
 
 import checkmark from "assets/svg/checkmark.svg";
-import logo from "assets/svg/logo.svg";
+import LogoIcon from "assets/svg/logo.js";
 
 const CREATE_USER = gql`
   mutation createUser($email: String!, $fullName: String, $password: String!) {
@@ -98,7 +98,9 @@ const Footer = props => (
 const LogoTitle = props => (
   <Flex alignItems="center">
     <Link h="fit-content" href="https://demodash.com">
-      <Image src={logo} h={"3rem"} />
+      <Icon justifyContent="center" mr={3} h={"3rem"}>
+        <LogoIcon />
+      </Icon>
     </Link>
     <Link h="fit-content" href="https://demodash.com">
       <Logo

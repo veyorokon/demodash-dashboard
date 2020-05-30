@@ -1,6 +1,6 @@
 import React from "react";
 import {LeftColumn, ConnectedRightColumn} from "./layout";
-import {Flex, Section, DropDown, Text, Image} from "components";
+import {Flex, Section, DropDown, Text, Icon} from "components";
 import {NavItem} from "./Components";
 import {
   DemoerHome,
@@ -22,9 +22,9 @@ import {
   AllNav
 } from "./nav";
 
-import logo from "assets/svg/logo.svg";
+import LogoIcon from "assets/svg/logo.js";
 
-import {responsive as r} from "lib";
+import {responsive as r, clearToken} from "lib";
 
 import styled from "styled-components";
 const Logo = styled(Text)`
@@ -35,7 +35,9 @@ const Logo = styled(Text)`
 
 const LogoTitle = props => (
   <Flex flexGrow={0} mb={4} alignItems="center">
-    <Image src={logo} h={"3rem"} />
+    <Icon justifyContent="center" mr={3} h={"3rem"}>
+      <LogoIcon />
+    </Icon>
     <Logo
       ml={4}
       mr={"auto"}
@@ -50,6 +52,7 @@ const LogoTitle = props => (
 
 export default props => {
   // const accountType = "brand";
+
   return (
     <Section height={"fit-content"} overflow="hidden">
       <Flex h={"100vh"}>
@@ -76,7 +79,14 @@ export default props => {
               <AllNav />
             </Flex>
             <Flex mt={4} flexGrow={0} w={"100%"} flexDirection="column">
-              <NavItem text="Logout" icon={<LogoutBox />} />
+              <NavItem
+                onClick={() => {
+                  clearToken();
+                  return props.history.push("/login");
+                }}
+                text="Logout"
+                icon={<LogoutBox />}
+              />
             </Flex>
           </Flex>
         </LeftColumn>

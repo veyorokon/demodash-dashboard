@@ -7,7 +7,7 @@ import styled, {css} from "styled-components";
 import LogoIcon from "assets/svg/logo.js";
 import {MenuOutline} from "@styled-icons/evaicons-outline/MenuOutline";
 
-import Drawer from "views/_components/Drawer";
+import {Drawer} from "views/_components";
 import {toggleNav} from "redux/actions";
 
 function mapDispatchToProps(dispatch) {

@@ -102,6 +102,8 @@ const _NavBar = props => {
   const {toggleNav} = props;
   return (
     <Flex
+      position="fixed"
+      w="100%"
       justifyContent="space-between"
       alignItems="center"
       bg={"whites.0"}
@@ -145,6 +147,7 @@ const Layout = props => {
       pr={r("1 ----> 4")}
       pt={r("5")}
       pb={r("5")}
+      {...props}
     >
       <FlexCol>{props.children}</FlexCol>
     </Box>
@@ -152,7 +155,7 @@ const Layout = props => {
 };
 
 export function RightColumn(props) {
-  const {selected} = props || props.children[0].key;
+  const {selected, navOpen} = props;
   return (
     <Right
       bg={"whites.0"}
@@ -162,12 +165,17 @@ export function RightColumn(props) {
     >
       <Content w={r("100%")} h="fit-content">
         <Drawer display={r("grid -------> none")} />
-        <NavBar display={r("flex -------> none")} />
+        <NavBar display={navOpen ? "none" : r("flex -------> none")} />
         {props.children.length ? (
           props.children.map((component, index) => {
             return (
               <Hide key={index} showing={selected === component.key}>
-                <Layout>{component}</Layout>
+                <Layout
+                  display={navOpen ? r("none -------> block") : "block"}
+                  mt={r("5  -------> 0")}
+                >
+                  {component}
+                </Layout>
               </Hide>
             );
           })
@@ -179,20 +187,11 @@ export function RightColumn(props) {
   );
 }
 
-export function _RightColumn(props) {
-  const {selected} = props || props.children[0].key;
-  return (
-    <RightColumn selected={selected} {...props}>
-      {props.children}
-    </RightColumn>
-  );
-}
-
 const mapStateToProps = state => {
-  return {selected: state.panel};
+  return {selected: state.panel, navOpen: state.navOpen};
 };
 
 export const ConnectedRightColumn = connect(
   mapStateToProps,
   null
-)(_RightColumn);
+)(RightColumn);

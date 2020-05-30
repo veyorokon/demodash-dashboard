@@ -1,15 +1,14 @@
 import React from "react";
-import {Box, Flex, Text} from "components";
+import {Box, Flex, Text, DropDown} from "components";
 import {
   FlexInput,
   FlexField,
-  FlexTextArea,
   FormSection,
   FormGroup
 } from "views/Dashboard/Components";
 import {responsive as r} from "lib";
 
-const FormCard = props => {
+const DemoBoxFormCard = props => {
   return (
     <Box
       w={r("80rem ---------> 100rem")}
@@ -27,24 +26,28 @@ const FormCard = props => {
 
       <FormSection bg={"blues.3"} flexDirection="column" pt={4} pb={4}>
         <FormGroup>
-          <FlexField name={"Store handle:"} />
-          <Flex mt={1} flexBasis="60%" flexDirection="column">
-            <FlexInput placeholder="demodash.com/s/..." />
-            <Text ml={2} color="navys.2">
-              demodash.com/s/...
-            </Text>
-          </Flex>
+          <FlexField name={"Account name:"} />
+          <FlexInput mt={1} />
         </FormGroup>
         <FormGroup mt={3} mb={r("3 ----> 2")}>
-          <FlexField name={"Store name:"} />
+          <FlexField name={"Address:"} />
           <Flex flexBasis="60%" flexDirection="column" mt={2}>
-            <FlexInput />
-          </Flex>
-        </FormGroup>
-        <FormGroup mt={3} mb={r("3 ----> 2")}>
-          <FlexField name={"Store description:"} />
-          <Flex flexBasis="60%" flexDirection="column" mt={2}>
-            <FlexTextArea />
+            <FlexInput placeholder="Address line 1" mb={1} />
+            <FlexInput placeholder="Address line 2" mb={1} />
+            <FlexInput placeholder="City" mb={1} />
+            <Flex mb={2}>
+              <DropDown
+                br={2}
+                maxWidth="100%"
+                w="25rem"
+                border={"1px solid lightslategrey"}
+                bg="whites.0"
+                onChange={e => console.log(e.target.value)}
+                options={[{text: "test", value: "testval"}]}
+                defaultValue={"OH"}
+              />
+            </Flex>
+            <FlexInput placeholder="ZIP" />
           </Flex>
         </FormGroup>
       </FormSection>
@@ -60,15 +63,8 @@ const FormCard = props => {
 
 export default function ProfileForm(props) {
   return (
-    <>
-      <Flex mb={4}>
-        <Text fw={500} fs={"2rem"}>
-          demodash store
-        </Text>
-      </Flex>
-      <Flex mb={4} justifyContent="center">
-        <FormCard title={"My store settings"} />
-      </Flex>
-    </>
+    <Flex mb={4} justifyContent="center">
+      <DemoBoxFormCard title={"Create a box"} />
+    </Flex>
   );
 }

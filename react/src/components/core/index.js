@@ -146,6 +146,27 @@ const Icon = props => (
   </IconBox>
 );
 
+const Table = themedComponent(
+  styled.table`
+    ${borderRadius}
+  `
+);
+const Tr = themedComponent(
+  styled.tr`
+    ${borderRadius}
+  `
+);
+const Th = themedComponent(
+  styled.th`
+    ${borderRadius}
+  `
+);
+const Td = themedComponent(
+  styled.td`
+    ${borderRadius}
+  `
+);
+
 export {
   Text,
   Grid,
@@ -159,5 +180,9 @@ export {
   Select,
   Option,
   Icon,
-  TextArea
+  TextArea,
+  Table,
+  Tr,
+  Th,
+  Td
 };

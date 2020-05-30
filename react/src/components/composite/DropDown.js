@@ -16,7 +16,7 @@ const DropSelect = themedComponent(styled(Select)`
   &:focus {
     outline: none;
   }
-  &::select {
+  &:select {
     appearance: none;
   }
 `);

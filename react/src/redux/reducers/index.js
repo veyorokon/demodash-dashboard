@@ -4,7 +4,8 @@ import {
   UPDATE_LOGIN_FORM,
   UPDATE_ACCOUNT_USER_SET,
   UDPATE_CURRENT_ACCOUNT_USER,
-  UDPATE_PANEL
+  UDPATE_PANEL,
+  TOGGLE_NAV
 } from "redux/constants";
 import {updateState, validateEmail, validatePassword} from "lib";
 
@@ -61,7 +62,8 @@ const initialState = {
     accountUserSet: {},
     currentAccountUser: {}
   },
-  panel: "payoutBilling"
+  panel: "brandHome",
+  navOpen: false
 };
 
 function checkEmail(newState) {
@@ -88,6 +90,8 @@ export default function rootReducer(state = initialState, action) {
   let newState;
 
   switch (action.type) {
+    case TOGGLE_NAV:
+      return updateState(state, ["navOpen"], !state.navOpen);
     case UPDATE_REGISTRATION_FORM:
       newState = updateState(
         state,
@@ -118,7 +122,9 @@ export default function rootReducer(state = initialState, action) {
         state.dashboard.accountUserSet.filter(item => item.id === payload)
       );
     case UDPATE_PANEL:
-      return updateState(state, ["panel"], payload);
+      newState = updateState(state, ["panel"], payload, false);
+      newState.navOpen = false;
+      return Object.assign({}, state, newState);
     default:
       return state;
   }

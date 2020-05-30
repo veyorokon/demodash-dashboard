@@ -1,5 +1,5 @@
 import React from "react";
-import {Flex, Image, Text, DropDown, Button} from "components";
+import {Flex, Image, Text, Button} from "components";
 import {responsive as r} from "lib";
 import styled from "styled-components";
 import bromane from "assets/images/bromane-brand.jpg";
@@ -86,15 +86,6 @@ const ImageCard = props => {
       <Price label={"Demo box price:"} value={props.boxPrice} />
       <Price label={"Demo box refill:"} value={props.refillPrice} />
       <Price label={"Demo box shipping:"} value={props.shippingPrice} />
-      <CallToActionButton
-        hoverBackground="#FFC651"
-        br={2}
-        mt={2}
-        bg={"yellows.1"}
-        w="100%"
-      >
-        Order a refill
-      </CallToActionButton>
       <SaleInfo
         mt={2}
         pt={1}
@@ -103,17 +94,15 @@ const ImageCard = props => {
         value={props.storePrice}
       />
       <SaleInfo label={"Commission / sale:"} value={props.commission} />
-      <Text fw={500}>My demodash store:</Text>
-      <DropDown
+      <CallToActionButton
+        hoverBackground="#FFC651"
         br={2}
         mt={2}
+        bg={"yellows.1"}
         w="100%"
-        border={"1px solid lightslategrey"}
-        bg="whites.0"
-        onChange={e => console.log(e.target.value)}
-        options={[{text: "Listed", value: 0}, {text: "Not listed", value: 0}]}
-        //defaultValue={0}
-      />
+      >
+        Become a demoer
+      </CallToActionButton>
     </Card>
   );
 };
@@ -123,7 +112,7 @@ export default function Results(props) {
     <>
       <Flex mb={4}>
         <Text fw={500} fs={"2rem"}>
-          My demos
+          My campaigns
         </Text>
       </Flex>
       <Flex

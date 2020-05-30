@@ -1,10 +1,10 @@
 import React from "react";
-import ProfileForm from "./ProfileForm";
+import PurchaseTable from "./PurchaseTable";
 
 export default function Home(props) {
   return (
     <>
-      <ProfileForm />
+      <PurchaseTable />
     </>
   );
 }

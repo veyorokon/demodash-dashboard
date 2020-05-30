@@ -1,8 +1,9 @@
 import React from "react";
-import {Flex, Image, Text, DropDown, Button} from "components";
+import {Flex, Image, Text} from "components";
 import {responsive as r} from "lib";
 import styled from "styled-components";
 import bromane from "assets/images/bromane-brand.jpg";
+import {Button} from "components";
 
 export const CallToActionButton = styled(Button)`
   height: ${props =>
@@ -37,19 +38,6 @@ const Price = props => {
           Free
         </Text>
       )}
-    </Flex>
-  );
-};
-
-const SaleInfo = props => {
-  return (
-    <Flex flexGrow={0} h="fit-content" w={"100%"} {...props}>
-      <Text mr={2} letterSpacing="0.4px" color={"navys.1"} fw={500} w={"100%"}>
-        {props.label}
-      </Text>
-      <Text letterSpacing="0.4px" color={"blues.1"} fw={600} w={"100%"}>
-        ${props.value.toFixed(2)}
-      </Text>
     </Flex>
   );
 };
@@ -93,37 +81,18 @@ const ImageCard = props => {
         bg={"yellows.1"}
         w="100%"
       >
-        Order a refill
+        Create a campaign
       </CallToActionButton>
-      <SaleInfo
-        mt={2}
-        pt={1}
-        borderTop={"1px solid #dae0e6"}
-        label={"Sale price:"}
-        value={props.storePrice}
-      />
-      <SaleInfo label={"Commission / sale:"} value={props.commission} />
-      <Text fw={500}>My demodash store:</Text>
-      <DropDown
-        br={2}
-        mt={2}
-        w="100%"
-        border={"1px solid lightslategrey"}
-        bg="whites.0"
-        onChange={e => console.log(e.target.value)}
-        options={[{text: "Listed", value: 0}, {text: "Not listed", value: 0}]}
-        //defaultValue={0}
-      />
     </Card>
   );
 };
 
-export default function Results(props) {
+export default function DemoBoxes(props) {
   return (
     <>
       <Flex mb={4}>
         <Text fw={500} fs={"2rem"}>
-          My demos
+          My demo boxes
         </Text>
       </Flex>
       <Flex

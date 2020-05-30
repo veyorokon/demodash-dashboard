@@ -1,5 +1,5 @@
 import React from "react";
-import {Input, Flex, Text} from "components";
+import {Input, Flex, Text, TextArea} from "components";
 import {responsive as r} from "lib";
 
 const FlexInput = props => {
@@ -22,6 +22,19 @@ const FlexField = props => {
       <Text fw={400} fs={"1.6rem"} h="fit-content" mr={3} mt="auto" mb="auto">
         {props.name}
       </Text>
+    </Flex>
+  );
+};
+const FlexTextArea = props => {
+  return (
+    <Flex flexBasis="60%" {...props}>
+      <TextArea
+        minHeight={"13rem"}
+        w={"25rem"}
+        fs={"1.4rem"}
+        p={2}
+        {...props}
+      />
     </Flex>
   );
 };
@@ -53,4 +66,4 @@ const FormGroup = props => (
   </Flex>
 );
 
-export {FlexInput, FlexField, FormSection, FormGroup};
+export {FlexTextArea, FlexInput, FlexField, FormSection, FormGroup};

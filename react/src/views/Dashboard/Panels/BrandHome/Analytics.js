@@ -1,6 +1,6 @@
 import React from "react";
 import {Flex, Text} from "components";
-import {IconCard} from "./Components";
+import {IconCard} from "views/Dashboard/Components";
 import {Pricetags} from "@styled-icons/evaicons-solid/Pricetags";
 import {CoinDollar} from "@styled-icons/icomoon/CoinDollar";
 import {HandHoldingUsd} from "@styled-icons/fa-solid/HandHoldingUsd";
@@ -14,7 +14,7 @@ export default function Analytics(props) {
     <>
       <Flex mb={4}>
         <Text fw={500} fs={"2rem"}>
-          Analytics Overview
+          Analytics
         </Text>
       </Flex>
       <FlexGroup
@@ -52,7 +52,7 @@ export default function Analytics(props) {
           icon={<HandHoldingUsd />}
           iconProps={{color: "yellows.0", bg: "yellows.2"}}
           value={"$ 0"}
-          title={"Commission earned"}
+          title={"Commission paid"}
         />
       </FlexGroup>
     </>

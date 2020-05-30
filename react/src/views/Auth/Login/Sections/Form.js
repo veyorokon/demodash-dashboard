@@ -1,5 +1,5 @@
 import React from "react";
-import {Section, Box, Text, Flex, Link, Input, Button, Image} from "components";
+import {Section, Box, Text, Flex, Link, Input, Button, Icon} from "components";
 import styled from "styled-components";
 import {
   responsive as r,
@@ -15,7 +15,7 @@ import {withRouter} from "react-router";
 
 import {Mutation} from "@apollo/react-components";
 import {gql} from "apollo-boost";
-import logo from "assets/svg/logo.svg";
+import LogoIcon from "assets/svg/logo.js";
 
 const FlexSection = styled(Section)`
   height: 100vh;
@@ -101,8 +101,10 @@ class LoginForm extends React.Component {
               pb={r("0 ---> 3")}
             >
               <Flex justifyContent="center" alignItems="center">
-                <Link mr={4} h="fit-content" href="https://demodash.com">
-                  <Image src={logo} h={"3rem"} />
+                <Link mr={3} h="fit-content" href="https://demodash.com">
+                  <Icon justifyContent="center" mr={3} h={"3rem"}>
+                    <LogoIcon />
+                  </Icon>
                 </Link>
                 <Link h="fit-content" href="https://demodash.com">
                   <Text

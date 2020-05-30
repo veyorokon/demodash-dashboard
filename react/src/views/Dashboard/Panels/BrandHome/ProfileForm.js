@@ -6,8 +6,7 @@ import {
   FormSection,
   FormGroup
 } from "views/Dashboard/Components";
-import {STATES} from "./_constants";
-import {responsive as r} from "lib";
+import {STATES, responsive as r} from "lib";
 
 const AccountFormCard = props => {
   return (

@@ -20,6 +20,8 @@ import {
   validateToken,
   formatErrorMessage
 } from "./utility";
+import {STATES} from "./constants";
+
 export {
   updateState,
   responsive,
@@ -30,5 +32,6 @@ export {
   setToken,
   getEventVal,
   validateToken,
-  formatErrorMessage
+  formatErrorMessage,
+  STATES
 };

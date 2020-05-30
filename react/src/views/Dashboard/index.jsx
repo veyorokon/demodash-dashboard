@@ -11,10 +11,16 @@ import {
   DemodashStore,
   PayoutBilling,
   MyProducts,
-  MyDemoBoxes
+  MyDemoBoxes,
+  MyDemoCampaigns,
+  FindDemoers,
+  Purchases
 } from "./Panels";
 import {LogoutBox} from "@styled-icons/remix-line/LogoutBox";
-import {DemoerNav, BrandNav} from "./nav";
+import {
+  //DemoerNav, //BrandNav,
+  AllNav
+} from "./nav";
 
 import logo from "assets/svg/logo.svg";
 
@@ -43,7 +49,7 @@ const LogoTitle = props => (
 );
 
 export default props => {
-  const accountType = "brand";
+  // const accountType = "brand";
   return (
     <Section height={"fit-content"} overflow="hidden">
       <Flex h={"100vh"}>
@@ -66,7 +72,8 @@ export default props => {
               iconProps={{h: "2.4rem"}}
             />
             <Flex w={"100%"} flexDirection="column">
-              {accountType === "brand" ? <BrandNav /> : <DemoerNav />}
+              {/*{accountType === "brand" ? <BrandNav /> : <DemoerNav />} */}
+              <AllNav />
             </Flex>
             <Flex mt={4} flexGrow={0} w={"100%"} flexDirection="column">
               <NavItem text="Logout" icon={<LogoutBox />} />
@@ -82,6 +89,9 @@ export default props => {
           <BrandHome key={"brandHome"} />
           <MyProducts key={"myProducts"} />
           <MyDemoBoxes key={"myDemoBoxes"} />
+          <MyDemoCampaigns key={"myDemoCampaigns"} />
+          <FindDemoers key={"findDemoers"} />
+          <Purchases key={"purchases"} />
 
           <PayoutBilling key={"payoutBilling"} />
           <Settings key={"settings"} />

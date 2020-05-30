@@ -7,6 +7,9 @@ import DemodashStore from "./DemodashStore";
 import PayoutBilling from "./PayoutBilling";
 import MyProducts from "./MyProducts";
 import MyDemoBoxes from "./MyDemoBoxes";
+import MyDemoCampaigns from "./MyDemoCampaigns";
+import FindDemoers from "./FindDemoers";
+import Purchases from "./Purchases";
 
 export {
   BrandHome,
@@ -17,5 +20,8 @@ export {
   DemodashStore,
   PayoutBilling,
   MyProducts,
-  MyDemoBoxes
+  MyDemoBoxes,
+  MyDemoCampaigns,
+  FindDemoers,
+  Purchases
 };

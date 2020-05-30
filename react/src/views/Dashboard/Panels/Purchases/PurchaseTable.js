@@ -40,7 +40,7 @@ const Td = props => {
   );
 };
 
-const ProductForm = props => {
+const PurchaseTable = props => {
   return (
     <Box
       w={r("80rem --------> 100rem")}
@@ -61,57 +61,47 @@ const ProductForm = props => {
           <Table w="100%" minWidth="75rem">
             <Tr textAlign="left">
               <Th pb={2}>Name</Th>
-              <Th pb={2}>Description</Th>
-              <Th pb={2}>Image</Th>
-              <Th pb={2}>Variations</Th>
+              <Th pb={2}>Address</Th>
+              <Th pb={2}>Product</Th>
+              <Th pb={2}>Referrer</Th>
+              <Th pb={2}>Tracking No.</Th>
               <Th />
             </Tr>
             <Tr bg={"whites.0"}>
               <Td>
-                <Text ml={2}>Hair filling fibers</Text>
+                <Text ml={2}>John Doe</Text>
               </Td>
               <Td>
-                <Text ml={2}>
-                  Hair filling fibers that add density to thinning hair
-                </Text>
+                <Text ml={2}>8412 Paul Drive</Text>
+                <Text ml={2}>West Chester, OH</Text>
+                <Text ml={2}>45069</Text>
               </Td>
               <Td>
-                <Text ml={2}>bromane.jpg</Text>
-              </Td>
-              <Td>
+                <Text ml={2}>Bromane - Starter kit</Text>
                 <Text ml={2}>Dark Brown</Text>
-                <Text ml={2}>Med Brown</Text>
-                <Text ml={2}>Light Brown</Text>
-                <Text ml={2}>Black</Text>
+              </Td>
+              <Td>
+                <Text ml={2}>Cherry's Barbershop</Text>
+              </Td>
+              <Td>
+                <Text ml={2}>1Z 999 AA1 01 2345 6784</Text>
               </Td>
               <Td minWidth={"5rem"}>
                 <Text m={"auto"} textAlign="center">
-                  Edit
+                  Refund
+                </Text>
+              </Td>
+              <Td minWidth={"5rem"}>
+                <Text m={"auto"} textAlign="center">
+                  Save
                 </Text>
               </Td>
             </Tr>
           </Table>
         </TableWrapper>
-        <CallToActionButton
-          hoverBackground="#FFC651"
-          br={2}
-          mt={1}
-          mb={2}
-          ml="auto"
-          mr="auto"
-          bg={"yellows.1"}
-          w="30rem"
-          maxWidth={"100%"}
-        >
-          Add a product
-        </CallToActionButton>
       </FormSection>
 
-      <FormSection justifyContent="flex-end">
-        <Text fs="1.6rem" fw={500}>
-          Save
-        </Text>
-      </FormSection>
+      <FormSection justifyContent="flex-end"></FormSection>
     </Box>
   );
 };
@@ -119,7 +109,7 @@ const ProductForm = props => {
 export default props => {
   return (
     <Flex mb={4} justifyContent="center">
-      <ProductForm title={"Products"} />
+      <PurchaseTable title={"Products"} />
     </Flex>
   );
 };

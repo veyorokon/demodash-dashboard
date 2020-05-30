@@ -104,4 +104,70 @@ const BrandNav = props => {
   );
 };
 
-export {DemoerNav, BrandNav};
+const AllNav = props => {
+  return (
+    <>
+      <ConnectedNavItem
+        id={"demoerHome"}
+        text="Demoer Home"
+        icon={<HomeIcon />}
+      />
+      <ConnectedNavItem id={"brandHome"} text="Home" icon={<HomeIcon />} />
+
+      <ConnectedNavItem
+        id={"myDemos"}
+        text="My demos"
+        icon={<ProductDemoIcon />}
+      />
+      <ConnectedNavItem
+        id={"demodashStore"}
+        text="demodash store"
+        icon={<DemodashIcon />}
+      />
+      <ConnectedNavItem
+        id={"payoutBilling"}
+        text="Payout"
+        icon={<DollarSign />}
+      />
+
+      <ConnectedNavItem
+        id={"myProducts"}
+        text="My products"
+        icon={<ProductDemoIcon />}
+      />
+      <ConnectedNavItem
+        id={"myDemoBoxes"}
+        text="My demo boxes"
+        icon={<Dropbox />}
+      />
+      <ConnectedNavItem
+        id={"myDemoCampaigns"}
+        text="Demo campaigns"
+        icon={<DemodashIcon />}
+      />
+      <ConnectedNavItem
+        id={"findDemoers"}
+        text="Find demoers"
+        icon={<Search />}
+      />
+      <ConnectedNavItem id={"findDemos"} text="Find demos" icon={<Search />} />
+      <ConnectedNavItem
+        id={"purchases"}
+        text="Purchases"
+        icon={<MoneyBill />}
+      />
+      <ConnectedNavItem
+        id={"payoutBilling"}
+        text="Payout"
+        icon={<DollarSign />}
+      />
+      <ConnectedNavItem
+        id={"settings"}
+        text="Settings"
+        icon={<SettingsIcon />}
+      />
+    </>
+  );
+};
+
+export {DemoerNav, BrandNav, AllNav};

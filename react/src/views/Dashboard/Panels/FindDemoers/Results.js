@@ -1,19 +1,8 @@
 import React from "react";
-import {Box, Flex, Text, Table, Tr, Th, Td as TdCore, Button} from "components";
+import {Box, Flex, Text, Table, Tr, Th, Td as TdCore} from "components";
 import {FormSection} from "./Components";
 import {responsive as r} from "lib";
 import styled from "styled-components";
-
-export const CallToActionButton = styled(Button)`
-  height: ${props =>
-    props.height ? props.height : props.h ? props.h : "3.5rem"};
-  cursor: pointer;
-  min-width: fit-content;
-  border: none;
-  outline: none;
-  letter-spacing: 0.2px;
-  transition: all 0.3s ease-in-out;
-`;
 
 const TableWrapper = styled(Box)`
   overflow-x: scroll;
@@ -61,57 +50,36 @@ const ProductForm = props => {
           <Table w="100%" minWidth="75rem">
             <Tr textAlign="left">
               <Th pb={2}>Name</Th>
-              <Th pb={2}>Description</Th>
-              <Th pb={2}>Image</Th>
-              <Th pb={2}>Variations</Th>
+              <Th pb={2}>Location</Th>
+              <Th pb={2}>Sales vol</Th>
+              <Th pb={2}>Campaigns</Th>
+              <Th pb={2}>Invite</Th>
               <Th />
             </Tr>
             <Tr bg={"whites.0"}>
               <Td>
-                <Text ml={2}>Hair filling fibers</Text>
+                <Text ml={2}>Cherry's barbershop</Text>
               </Td>
               <Td>
-                <Text ml={2}>
-                  Hair filling fibers that add density to thinning hair
-                </Text>
+                <Text ml={2}>Ohio</Text>
               </Td>
               <Td>
-                <Text ml={2}>bromane.jpg</Text>
+                <Text ml={2}>$1,200</Text>
               </Td>
               <Td>
-                <Text ml={2}>Dark Brown</Text>
-                <Text ml={2}>Med Brown</Text>
-                <Text ml={2}>Light Brown</Text>
-                <Text ml={2}>Black</Text>
+                <Text ml={2}>bromane campaign</Text>
               </Td>
               <Td minWidth={"5rem"}>
                 <Text m={"auto"} textAlign="center">
-                  Edit
+                  Send invite
                 </Text>
               </Td>
             </Tr>
           </Table>
         </TableWrapper>
-        <CallToActionButton
-          hoverBackground="#FFC651"
-          br={2}
-          mt={1}
-          mb={2}
-          ml="auto"
-          mr="auto"
-          bg={"yellows.1"}
-          w="30rem"
-          maxWidth={"100%"}
-        >
-          Add a product
-        </CallToActionButton>
       </FormSection>
 
-      <FormSection justifyContent="flex-end">
-        <Text fs="1.6rem" fw={500}>
-          Save
-        </Text>
-      </FormSection>
+      <FormSection justifyContent="flex-end"></FormSection>
     </Box>
   );
 };
@@ -119,7 +87,7 @@ const ProductForm = props => {
 export default props => {
   return (
     <Flex mb={4} justifyContent="center">
-      <ProductForm title={"Products"} />
+      <ProductForm title={"Demoers"} />
     </Flex>
   );
 };

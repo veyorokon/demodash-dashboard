@@ -6,7 +6,7 @@ import {
   FlexTextArea,
   FormSection,
   FormGroup
-} from "./Components";
+} from "views/Dashboard/Components";
 import {responsive as r} from "lib";
 
 const FormCard = props => {

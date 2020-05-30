@@ -1,9 +1,8 @@
 import React from "react";
-import {Flex, Image, Text, DropDown} from "components";
+import {Flex, Image, Text, DropDown, Button} from "components";
 import {responsive as r} from "lib";
 import styled from "styled-components";
 import bromane from "assets/images/bromane-brand.jpg";
-import {Button} from "components";
 
 export const CallToActionButton = styled(Button)`
   height: ${props =>

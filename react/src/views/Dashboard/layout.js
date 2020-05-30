@@ -106,6 +106,7 @@ const _NavBar = props => {
       alignItems="center"
       bg={"whites.0"}
       h={5}
+      borderBottom="2px solid #ecedf1"
       {...props}
     >
       <Icon cursor="pointer" justifyContent="center" ml={3} mr={3} h={"3rem"}>

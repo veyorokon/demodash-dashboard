@@ -1,6 +1,6 @@
 import React from "react";
 import {Box, Flex, Text, Table, Tr, Th, Td as TdCore} from "components";
-import {FormSection} from "./Components";
+import {FormSection} from "views/Dashboard/Components";
 import {responsive as r} from "lib";
 import styled from "styled-components";
 

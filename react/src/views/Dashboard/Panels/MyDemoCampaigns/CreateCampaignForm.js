@@ -1,6 +1,11 @@
 import React from "react";
 import {Box, Flex, Text, DropDown} from "components";
-import {FlexInput, FlexField, FormSection, FormGroup} from "./Components";
+import {
+  FlexInput,
+  FlexField,
+  FormSection,
+  FormGroup
+} from "views/Dashboard/Components";
 import {responsive as r} from "lib";
 
 const DemoBoxFormCard = props => {

@@ -23,7 +23,14 @@ import DropDown from "./composite/DropDown";
 import ProductCard from "./composite/ProductCard";
 import Animate, {appear} from "./core/animation";
 import Hidden from "./core/hidden";
-import {ImageBox, Section} from "./styled";
+import {
+  ImageBox,
+  Section,
+  CallToActionButton,
+  SearchInput,
+  SearchButton,
+  TableWrapper
+} from "./styled";
 export {
   Text,
   Box,
@@ -51,5 +58,9 @@ export {
   Tr,
   Th,
   Td,
+  CallToActionButton,
+  SearchInput,
+  SearchButton,
+  TableWrapper,
   appear
 };

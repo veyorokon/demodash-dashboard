@@ -1,23 +1,7 @@
 import React from "react";
-import {Box, Flex, Text, Input, Icon, Button} from "components";
+import {Box, Flex, Text, Icon, SearchInput, SearchButton} from "components";
 import {responsive as r} from "lib";
 import {Search as SearchIcon} from "@styled-icons/boxicons-regular/Search";
-import styled from "styled-components";
-
-const SearchInput = styled(Input)`
-  border-radius: 4px 0px 0px 4px;
-  border-right: unset;
-  border-color: #dae0e6;
-`;
-const SearchButton = styled(Button)`
-  cursor: pointer;
-  display: flex;
-  border-radius: 0px 4px 4px 0px;
-  justify-content: center;
-  align-items: center;
-  outline: none;
-  border: unset;
-`;
 
 export default function Search(props) {
   return (

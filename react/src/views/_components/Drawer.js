@@ -1,7 +1,7 @@
 import React from "react";
 import styled, {css} from "styled-components";
 import {system} from "styled-system";
-import {Grid, Image, Box, Link, Text, Flex, DropDown} from "components";
+import {Grid, Image, Box, Text, Flex, DropDown} from "components";
 
 // import {CallToAction} from "views/_components";
 import {AllNav} from "views/Dashboard/nav";
@@ -40,7 +40,7 @@ const DrawerTitle = styled(Box)`
   justify-content: space-between;
 `;
 const DrawerContainer = styled(Grid)`
-  position: fixed;
+  position: absolute;
   top: 0;
   z-index: 50;
   grid-template-rows: 8rem 1fr;
@@ -89,13 +89,13 @@ const NavContainer = styled(ScrollContainer)`
 `;
 
 const _Drawer = props => {
-  const {toggleNav} = props;
+  const {navOpen, toggleNav} = props;
   return (
     <DrawerContainer
       bg={"whites.0"}
       w={"100%"}
       h={"100%"}
-      open={props.navOpen}
+      open={navOpen}
       {...props}
     >
       <DrawerTitle w={"100%"} h={"100%"} pl={4} pr={4}>
@@ -113,7 +113,7 @@ const _Drawer = props => {
             fs={"2.4rem"}
             color="navys.0"
           >
-            <Link href={"/"}>demodash</Link>
+            demodash
           </Text>
         </Flex>
         <Icon

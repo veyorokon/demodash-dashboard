@@ -10,7 +10,7 @@ import {
   FlexTextArea
 } from "./Form";
 import IconCard from "./IconCard";
-
+import Card from "./Card";
 export {
   NavButton,
   NavItem,
@@ -21,5 +21,6 @@ export {
   FormSection,
   FormGroup,
   FlexTextArea,
-  IconCard
+  IconCard,
+  Card
 };

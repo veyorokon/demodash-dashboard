@@ -1,36 +1,17 @@
 import React from "react";
-import {Box, Flex, Text, Table, Tr, Th, Td as TdCore, Button} from "components";
+import {
+  Box,
+  Flex,
+  Text,
+  Table,
+  Tr,
+  Th,
+  Td as TdCore,
+  CallToActionButton,
+  TableWrapper
+} from "components";
 import {FormSection} from "views/Dashboard/Components";
 import {responsive as r} from "lib";
-import styled from "styled-components";
-
-export const CallToActionButton = styled(Button)`
-  height: ${props =>
-    props.height ? props.height : props.h ? props.h : "3.5rem"};
-  cursor: pointer;
-  min-width: fit-content;
-  border: none;
-  outline: none;
-  letter-spacing: 0.2px;
-  transition: all 0.3s ease-in-out;
-`;
-
-const TableWrapper = styled(Box)`
-  overflow-x: scroll;
-  width: 100%;
-
-  ::-webkit-scrollbar {
-    -webkit-appearance: none;
-    width: 3px;
-    height: 3px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-    background-color: rgba(0, 0, 0, 0.5);
-    box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
-  }
-`;
 
 const Td = props => {
   return (

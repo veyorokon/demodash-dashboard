@@ -1,26 +1,8 @@
 import React from "react";
-import {Flex, Image, Text, Button} from "components";
+import {Flex, Image, Text, CallToActionButton} from "components";
 import {responsive as r} from "lib";
-import styled from "styled-components";
 import bromane from "assets/images/bromane-brand.jpg";
-
-export const CallToActionButton = styled(Button)`
-  height: ${props =>
-    props.height ? props.height : props.h ? props.h : "3.5rem"};
-  cursor: pointer;
-  min-width: fit-content;
-  border: none;
-  outline: none;
-  letter-spacing: 0.2px;
-  transition: all 0.3s ease-in-out;
-  text-transform: capitalize;
-`;
-
-const Card = styled(Flex)`
-  border-bottom: 1px solid #dae0e6;
-  flex-direction: column;
-  transition: all 0.1s;
-`;
+import {Card} from "views/Dashboard/Components";
 
 const Price = props => {
   return (

@@ -122,7 +122,9 @@ export default function rootReducer(state = initialState, action) {
         state.dashboard.accountUserSet.filter(item => item.id === payload)
       );
     case UDPATE_PANEL:
-      return updateState(state, ["panel"], payload);
+      newState = updateState(state, ["panel"], payload, false);
+      newState.navOpen = false;
+      return Object.assign({}, state, newState);
     default:
       return state;
   }

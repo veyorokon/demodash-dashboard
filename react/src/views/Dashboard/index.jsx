@@ -1,7 +1,11 @@
 import React from "react";
 import {LeftColumn, ConnectedRightColumn} from "./layout";
 import {Flex, Section, Text, LogoTitle} from "components";
-import {NavItem, AccountUserDropDown} from "views/Dashboard/Components";
+import {
+  NavItem,
+  AccountUserDropDown,
+  QueryAccountUsers
+} from "views/Dashboard/Components";
 import {
   DemoerHome,
   BrandHome,
@@ -23,17 +27,21 @@ import {responsive as r, clearToken} from "lib";
 import {connect} from "react-redux";
 
 const mapStateToProps = state => {
-  const {currentAccountUser} = state.dashboard;
+  const {currentAccountUser, accountUserSet} = state.dashboard;
   return {
-    currentAccountUser
+    currentAccountUser,
+    accountUserSet
   };
 };
 
 const _Dashboard = props => {
-  const {currentAccountUser} = props;
+  const {accountUserSet, currentAccountUser} = props;
   let type;
   if (currentAccountUser) {
-    type = currentAccountUser.account.type;
+    const accountUser = accountUserSet.filter(
+      option => option.id === currentAccountUser
+    )[0];
+    type = accountUser.account.type;
   }
   return (
     <Section height={"fit-content"} overflow="hidden">
@@ -42,6 +50,7 @@ const _Dashboard = props => {
           <Flex w={"100%"} pt={5} pb={5} flexDirection="column">
             <LogoTitle />
             <Text mb={1}>Account:</Text>
+            <QueryAccountUsers />
             <AccountUserDropDown />
             <Flex w={"100%"} flexDirection="column">
               {type && type === "Brand" ? <BrandNav /> : <DemoerNav />}

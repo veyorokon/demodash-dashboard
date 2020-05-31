@@ -27,10 +27,11 @@ function mapDispatchToProps(dispatch) {
 }
 const mapStateToProps = state => {
   const {navOpen} = state;
-  const {currentAccountUser} = state.dashboard;
+  const {currentAccountUser, accountUserSet} = state.dashboard;
   return {
     navOpen,
-    currentAccountUser
+    currentAccountUser,
+    accountUserSet
   };
 };
 
@@ -95,11 +96,14 @@ const NavContainer = styled(ScrollContainer)`
 `;
 
 const _Drawer = props => {
-  const {navOpen, toggleNav, currentAccountUser} = props;
+  const {navOpen, toggleNav, currentAccountUser, accountUserSet} = props;
   let type;
 
   if (currentAccountUser) {
-    type = currentAccountUser.account.type;
+    const accountUser = accountUserSet.filter(
+      option => option.id === currentAccountUser
+    )[0];
+    type = accountUser.account.type;
   }
 
   return (

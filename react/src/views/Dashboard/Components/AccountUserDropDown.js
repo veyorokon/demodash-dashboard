@@ -1,88 +1,54 @@
 import React from "react";
-import {DropDown, Text, Box} from "components";
-import {Query} from "@apollo/react-components";
-import {getToken} from "lib";
-import {gql} from "apollo-boost";
+import {DropDown} from "components";
 
 import {connect} from "react-redux";
 import {updateCurrentAccountUser} from "redux/actions";
 
-const USER__ACCOUNT_USER_SET = gql`
-  query user($token: String!) {
-    user(token: $token) {
-      id
-      accountUsers {
-        role
-        account {
-          id
-          type
-          profile {
-            id
-            name
-          }
-        }
-      }
-    }
-  }
-`;
-
 class _AccountUserDropDown extends React.Component {
-  getAccounts(accountUsers) {
+  getAccounts(accountUserSet) {
     let accountsByUser = [];
-    for (let index in accountUsers) {
-      let accountUser = accountUsers[index];
+    for (let index in accountUserSet) {
+      let accountUser = accountUserSet[index];
       let account = accountUser.account;
       let accountName = account.profile.name || account.type + " Account";
       accountsByUser.push({
         text: accountName,
-        value: JSON.stringify(accountUser)
+        value: accountUser.id
       });
     }
     return accountsByUser;
   }
 
   render() {
-    const {token} = getToken();
-    const {currentAccountUser, updateCurrentAccountUser} = this.props;
+    const {
+      accountUserSet,
+      currentAccountUser,
+      updateCurrentAccountUser
+    } = this.props;
+    const options = this.getAccounts(accountUserSet);
     return (
-      <Query query={USER__ACCOUNT_USER_SET} variables={{token}}>
-        {({loading, error, data}) => {
-          if (loading)
-            return (
-              <Box h="3.5rem" mb={4}>
-                <Text>Loading...</Text>
-              </Box>
-            );
-          if (error)
-            return (
-              <Box h="3.5rem" mb={4}>
-                <Text>`Error! ${error.message}`;</Text>
-              </Box>
-            );
-          const {accountUsers} = data.user;
-          if (!currentAccountUser) updateCurrentAccountUser(accountUsers[0]);
-          return (
-            <DropDown
-              mb={4}
-              br={2}
-              color={"navys.1"}
-              useDefaultButton
-              onChange={e => updateCurrentAccountUser(e.target.value)}
-              options={this.getAccounts(accountUsers)}
-              defaultOption={"Create an account"}
-              defaultClick={() => console.log("test")}
-              iconProps={{h: "2.4rem"}}
-              {...this.props}
-            />
-          );
-        }}
-      </Query>
+      <DropDown
+        mb={4}
+        br={2}
+        color={"navys.1"}
+        useDefaultButton
+        onChange={e => updateCurrentAccountUser(e.target.value)}
+        options={options}
+        defaultOption={"Create an account"}
+        defaultClick={() => console.log("test")}
+        iconProps={{h: "2.4rem"}}
+        value={currentAccountUser}
+        {...this.props}
+      />
     );
   }
 }
 
 const mapNavItemStateToProps = state => {
-  return {currentAccountUser: state.dashboard.currentAccountUser};
+  return {
+    currentAccountUser: state.dashboard.currentAccountUser,
+    accountUserSet: state.dashboard.accountUserSet
+  };
 };
 
 function mapNavItemDispatchToProps(dispatch) {

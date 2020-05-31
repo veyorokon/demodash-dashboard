@@ -4,7 +4,8 @@ import {
   UPDATE_LOGIN_FORM,
   UDPATE_CURRENT_ACCOUNT_USER,
   UDPATE_PANEL,
-  TOGGLE_NAV
+  TOGGLE_NAV,
+  UDPATE_ACCOUNT_USER_SET
 } from "redux/constants";
 import {updateState, validateEmail, validatePassword} from "lib";
 
@@ -58,7 +59,8 @@ const initialState = {
     errorMessage: ""
   },
   dashboard: {
-    currentAccountUser: null
+    currentAccountUser: null,
+    accountUserSet: []
   },
   panel: "brandHome",
   navOpen: false
@@ -111,18 +113,26 @@ export default function rootReducer(state = initialState, action) {
       return updateState(state, ["accountForm"], payload);
     case UPDATE_LOGIN_FORM:
       return updateState(state, ["loginForm"], payload);
+    case UDPATE_ACCOUNT_USER_SET:
+      newState = updateState(
+        state,
+        ["dashboard", "accountUserSet"],
+        payload,
+        false
+      );
+      newState.dashboard.currentAccountUser = payload[0].id || null;
+      return Object.assign({}, state, newState);
     case UDPATE_CURRENT_ACCOUNT_USER:
-      let newVal = payload;
-      if (typeof payload === "string") {
-        newVal = JSON.parse(payload);
-      }
       newState = updateState(
         state,
         ["dashboard", "currentAccountUser"],
-        newVal,
+        payload,
         false
       );
-      if (newVal.account.type === "Brand") newState.panel = "brandHome";
+      const accountUser = state.dashboard.accountUserSet.filter(
+        option => option.id === payload
+      )[0];
+      if (accountUser.account.type === "Brand") newState.panel = "brandHome";
       else newState.panel = "demoerHome";
       return Object.assign({}, state, newState);
     case UDPATE_PANEL:

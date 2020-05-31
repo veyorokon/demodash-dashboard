@@ -28,9 +28,9 @@ const DropOption = styled(Option)`
 const DefaultButton = styled(Button)`
   display: flex;
   align-items: center;
-  border-radius: 3px;
   font-size: 1.6rem;
   cursor: pointer;
+  justify-content: center;
   border: {
     props=>props.border: "1px solid currentColor";
   }
@@ -40,10 +40,9 @@ const DefaultButton = styled(Button)`
 `;
 
 export default props => {
-  const {defaultValue} = props;
   if (!props.options.length && props.useDefaultButton) {
     return (
-      <DefaultButton onClick={props.defaultClick} {...props}>
+      <DefaultButton br={2} onClick={props.defaultClick} {...props}>
         <Icon mr={3} h={3} {...props.iconProps}>
           <AddCircle />
         </Icon>
@@ -52,12 +51,7 @@ export default props => {
     );
   }
   return (
-    <DropSelect
-      defaultValue={defaultValue}
-      fs={"1.6rem"}
-      onChange={props.onChange}
-      {...props}
-    >
+    <DropSelect fs={"1.6rem"} onChange={props.onChange} {...props}>
       {props.options.map((elem, index) => (
         <DropOption key={index} value={elem.value ? elem.value : index}>
           {elem.text}

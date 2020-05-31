@@ -12,6 +12,7 @@ import {
 import IconCard from "./IconCard";
 import Card from "./Card";
 import AccountUserDropDown from "./AccountUserDropDown";
+import QueryAccountUsers from "./QueryAccountUsers";
 export {
   NavButton,
   NavItem,
@@ -24,5 +25,6 @@ export {
   FlexTextArea,
   IconCard,
   Card,
-  AccountUserDropDown
+  AccountUserDropDown,
+  QueryAccountUsers
 };

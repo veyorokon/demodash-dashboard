@@ -50,11 +50,11 @@ const DrawerTitle = styled(Box)`
 const DrawerContainer = styled(Grid)`
   position: absolute;
   top: 0;
-  z-index: 50;
   grid-template-rows: 8rem 1fr;
   ${props =>
     props.open
       ? css`
+          z-index: 50;
           ${system({
             transform: true
           })}
@@ -62,7 +62,8 @@ const DrawerContainer = styled(Grid)`
           transition-timing-function: cubic-bezier(0.3, 0, 0, 1);
         `
       : css`
-          transition-property: transform, -webkit-transform;
+          z-index: -1;
+          transition-property: transform, z-index;
           transition-duration: 0.3s;
           transition-timing-function: cubic-bezier(0.3, 0, 0, 1);
           transform: translate3d(100vw, 0, 0);

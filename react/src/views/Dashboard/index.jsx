@@ -1,6 +1,6 @@
 import React from "react";
 import {LeftColumn, ConnectedRightColumn} from "./layout";
-import {Flex, Section, DropDown, Text, Icon} from "components";
+import {Flex, Section, DropDown, Text, LogoTitle} from "components";
 import {NavItem} from "./Components";
 import {
   DemoerHome,
@@ -18,37 +18,12 @@ import {
 } from "./Panels";
 import {LogoutBox} from "@styled-icons/remix-line/LogoutBox";
 import {
-  //DemoerNav, //BrandNav,
+  //DemoerNav,
+  //BrandNav,
   AllNav
 } from "./nav";
 
-import LogoIcon from "assets/svg/logo.js";
-
 import {responsive as r, clearToken} from "lib";
-
-import styled from "styled-components";
-const Logo = styled(Text)`
-  text-align: center;
-  font-weight: 600;
-  letter-spacing: -0.8px;
-`;
-
-const LogoTitle = props => (
-  <Flex flexGrow={0} mb={4} alignItems="center">
-    <Icon justifyContent="center" mr={3} h={"3rem"}>
-      <LogoIcon />
-    </Icon>
-    <Logo
-      ml={4}
-      mr={"auto"}
-      as="h1"
-      fs={r("3rem ------> 3.1rem")}
-      color="navys.0"
-    >
-      demodash
-    </Logo>
-  </Flex>
-);
 
 export default props => {
   // const accountType = "brand";

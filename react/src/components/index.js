@@ -21,6 +21,8 @@ import FeatureLink from "./composite/FeatureLink";
 import VertTabs, {TabPanel} from "./composite/VertTabs";
 import DropDown from "./composite/DropDown";
 import ProductCard from "./composite/ProductCard";
+import LogoTitle from "./composite/LogoTitle";
+
 import Animate, {appear} from "./core/animation";
 import Hidden from "./core/hidden";
 import {
@@ -62,5 +64,6 @@ export {
   SearchInput,
   SearchButton,
   TableWrapper,
+  LogoTitle,
   appear
 };

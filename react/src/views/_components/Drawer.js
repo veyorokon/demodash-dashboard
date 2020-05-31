@@ -112,7 +112,7 @@ const _Drawer = props => {
   return (
     <DrawerContainer
       bg={"whites.0"}
-      w={r("100% ----> 50%")}
+      w={r("100% ---> 60% -> 50%")}
       h={"100%"}
       open={navOpen}
       {...props}

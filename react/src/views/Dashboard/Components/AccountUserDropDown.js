@@ -1,5 +1,5 @@
 import React from "react";
-import {DropDown} from "components";
+import {DropDown, Text, Box} from "components";
 import {Query} from "@apollo/react-components";
 import {getToken} from "lib";
 import {gql} from "apollo-boost";
@@ -47,8 +47,18 @@ class _AccountUserDropDown extends React.Component {
     return (
       <Query query={USER__ACCOUNT_USER_SET} variables={{token}}>
         {({loading, error, data}) => {
-          if (loading) return "Loading...";
-          if (error) return `Error! ${error.message}`;
+          if (loading)
+            return (
+              <Box h="3.5rem" mb={4}>
+                <Text>Loading...</Text>
+              </Box>
+            );
+          if (error)
+            return (
+              <Box h="3.5rem" mb={4}>
+                <Text>`Error! ${error.message}`;</Text>
+              </Box>
+            );
           const {accountUsers} = data.user;
           if (!currentAccountUser) updateCurrentAccountUser(accountUsers[0]);
           return (

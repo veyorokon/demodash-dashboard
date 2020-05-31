@@ -59,7 +59,6 @@ const initialState = {
     errorMessage: ""
   },
   dashboard: {
-    accountUserSet: {},
     currentAccountUser: {}
   },
   panel: "brandHome",

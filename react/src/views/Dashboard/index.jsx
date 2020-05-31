@@ -1,7 +1,7 @@
 import React from "react";
 import {LeftColumn, ConnectedRightColumn} from "./layout";
-import {Flex, Section, DropDown, Text, LogoTitle} from "components";
-import {NavItem} from "./Components";
+import {Flex, Section, Text, LogoTitle} from "components";
+import {NavItem, AccountUserDropDown} from "views/Dashboard/Components";
 import {
   DemoerHome,
   BrandHome,
@@ -35,20 +35,7 @@ export default props => {
           <Flex w={"100%"} pt={5} pb={5} flexDirection="column">
             <LogoTitle />
             <Text mb={1}>Account:</Text>
-            <DropDown
-              mb={4}
-              br={2}
-              color={"navys.1"}
-              useDefaultButton
-              onChange={e => console.log(e.target.value)}
-              options={[
-                {text: "Bromane", value: "test2"},
-                {text: "Cherry's Barbershop", value: "TestVal"}
-              ]}
-              defaultOption={"Create an account"}
-              defaultClick={() => console.log("test")}
-              iconProps={{h: "2.4rem"}}
-            />
+            <AccountUserDropDown />
             <Flex w={"100%"} flexDirection="column">
               {/*{accountType === "brand" ? <BrandNav /> : <DemoerNav />} */}
               <AllNav />

@@ -2,6 +2,7 @@ import React from "react";
 import styled, {css} from "styled-components";
 import {system} from "styled-system";
 import {Grid, Image, Box, Text, Flex} from "components";
+import {withRouter} from "react-router";
 
 // import {CallToAction} from "views/_components";
 import {
@@ -147,9 +148,20 @@ const _Drawer = props => {
           alignItems="flex-start"
           w={"100%"}
         >
-          <Flex w={"100%"} pt={5} pb={5} mb={5} flexDirection="column">
-            <Flex pl={1} pr={1} alignItems="center" flexDirection="column">
-              <Flex maxWidth="100%" w="fit-content" flexDirection="column">
+          <Flex flexGrow={0} w={"100%"} pb={5} mb={5} flexDirection="column">
+            <Flex
+              flexGrow={0}
+              pl={1}
+              pr={1}
+              alignItems={r("center ----> initial")}
+              flexDirection="column"
+            >
+              <Flex
+                flexGrow={0}
+                maxWidth="100%"
+                w="fit-content"
+                flexDirection="column"
+              >
                 <Text mb={1}>Account:</Text>
                 <AccountUserDropDown w="27rem" maxWidth="100%" />
               </Flex>
@@ -180,4 +192,4 @@ const Drawer = connect(
   mapDispatchToProps
 )(_Drawer);
 
-export default Drawer;
+export default withRouter(Drawer);

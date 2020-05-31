@@ -1,5 +1,5 @@
 import React from "react";
-import {Box, Flex, Text, DropDown} from "components";
+import {Box, Flex, Text, DropDown, CallToActionButton} from "components";
 import {
   FlexInput,
   FlexField,
@@ -70,10 +70,26 @@ const AccountFormCard = props => {
         </FormGroup>
       </FormSection>
 
-      <FormSection justifyContent="flex-end">
-        <Text fs="1.6rem" fw={500}>
+      <FormSection
+        justifyContent={[
+          "center",
+          "center",
+          "center",
+          "center",
+          "center",
+          "flex-end"
+        ]}
+      >
+        <CallToActionButton
+          hoverBackground="#FFC651"
+          br={2}
+          bg={"yellows.1"}
+          w={r("100% --> 25rem -> 10rem")}
+          maxWidth="100%"
+          fs={"1.6rem"}
+        >
           Save
-        </Text>
+        </CallToActionButton>
       </FormSection>
     </Box>
   );

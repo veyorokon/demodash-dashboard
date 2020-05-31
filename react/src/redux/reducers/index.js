@@ -136,7 +136,7 @@ export default function rootReducer(state = initialState, action) {
         false
       );
       newState.dashboard.currentAccountUser = payload[1].id || null;
-      accountUser = filterAccountUser(newState, payload[1].id);
+      accountUser = filterAccountUser(newState, payload[1].id); //Sets user
       newState.panel = getDefaultPanel(accountUser);
       return Object.assign({}, state, newState);
     case UDPATE_CURRENT_ACCOUNT_USER:

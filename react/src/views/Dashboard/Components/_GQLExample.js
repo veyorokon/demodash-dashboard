@@ -30,15 +30,17 @@ class AccountUserDropDown extends React.Component {
       let accountUser = accountUsers[index];
       let account = accountUser.account;
       let accountName = account.profile.name || account.type + " Account";
-      accountsByUser.push({text: accountName, value: accountUser.id});
+      accountsByUser.push({text: accountName, value: accountUser});
     }
     return accountsByUser;
   }
 
   render() {
-    const {token} = getToken();
     return (
-      <Query query={USER__ACCOUNT_USER_SET} variables={{token}}>
+      <Query
+        query={USER__ACCOUNT_USER_SET}
+        variables={{token: getToken().token}}
+      >
         {({loading, error, data}) => {
           if (loading) return "Loading...";
           if (error) return `Error! ${error.message}`;

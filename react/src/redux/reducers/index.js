@@ -2,7 +2,6 @@ import {
   UPDATE_REGISTRATION_FORM,
   UPDATE_ACCOUNT_FORM,
   UPDATE_LOGIN_FORM,
-  UPDATE_ACCOUNT_USER_SET,
   UDPATE_CURRENT_ACCOUNT_USER,
   UDPATE_PANEL,
   TOGGLE_NAV
@@ -59,7 +58,7 @@ const initialState = {
     errorMessage: ""
   },
   dashboard: {
-    currentAccountUser: {}
+    currentAccountUser: null
   },
   panel: "brandHome",
   navOpen: false
@@ -112,14 +111,8 @@ export default function rootReducer(state = initialState, action) {
       return updateState(state, ["accountForm"], payload);
     case UPDATE_LOGIN_FORM:
       return updateState(state, ["loginForm"], payload);
-    case UPDATE_ACCOUNT_USER_SET:
-      return updateState(state, ["dashboard"], payload);
     case UDPATE_CURRENT_ACCOUNT_USER:
-      return updateState(
-        state,
-        ["dashboard", "accountUser"],
-        state.dashboard.accountUserSet.filter(item => item.id === payload)
-      );
+      return updateState(state, ["dashboard", "accountUser"], payload);
     case UDPATE_PANEL:
       newState = updateState(state, ["panel"], payload, false);
       newState.navOpen = false;

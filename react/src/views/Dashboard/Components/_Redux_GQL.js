@@ -44,6 +44,8 @@ class _AccountUserDropDown extends React.Component {
   render() {
     const {token} = getToken();
     const {currentAccountUser, updateCurrentAccountUser} = this.props;
+    console.log(currentAccountUser);
+    console.log(this.props);
     return (
       <Query query={USER__ACCOUNT_USER_SET} variables={{token}}>
         {({loading, error, data}) => {

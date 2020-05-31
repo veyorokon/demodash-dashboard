@@ -50,6 +50,7 @@ const DrawerTitle = styled(Box)`
 const DrawerContainer = styled(Grid)`
   position: absolute;
   top: 0;
+  right: 0;
   grid-template-rows: 8rem 1fr;
   ${props =>
     props.open
@@ -111,7 +112,7 @@ const _Drawer = props => {
   return (
     <DrawerContainer
       bg={"whites.0"}
-      w={"100%"}
+      w={r("100% ----> 50%")}
       h={"100%"}
       open={navOpen}
       {...props}

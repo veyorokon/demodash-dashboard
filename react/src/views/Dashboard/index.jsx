@@ -53,7 +53,7 @@ const _Dashboard = props => {
             <QueryAccountUsers />
             <AccountUserDropDown />
             <Flex w={"100%"} flexDirection="column">
-              {type && type === "Brand" ? <BrandNav /> : <DemoerNav />}
+              {type ? type === "Brand" ? <BrandNav /> : <DemoerNav /> : null}
             </Flex>
             <Flex mt={4} flexGrow={0} w={"100%"} flexDirection="column">
               <NavItem

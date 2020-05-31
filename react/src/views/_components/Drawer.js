@@ -155,7 +155,7 @@ const _Drawer = props => {
               flexGrow={0}
               pl={1}
               pr={1}
-              alignItems={r("center ----> initial")}
+              alignItems={r("center")}
               flexDirection="column"
             >
               <Flex
@@ -169,7 +169,7 @@ const _Drawer = props => {
               </Flex>
             </Flex>
             <Flex w={"100%"} flexDirection="column">
-              {type && type === "Brand" ? <BrandNav /> : <DemoerNav />}
+              {type ? type === "Brand" ? <BrandNav /> : <DemoerNav /> : null}
               {/*<AllNav />*/}
             </Flex>
             <Flex mt={4} flexGrow={0} w={"100%"} flexDirection="column">

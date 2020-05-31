@@ -112,7 +112,19 @@ export default function rootReducer(state = initialState, action) {
     case UPDATE_LOGIN_FORM:
       return updateState(state, ["loginForm"], payload);
     case UDPATE_CURRENT_ACCOUNT_USER:
-      return updateState(state, ["dashboard", "accountUser"], payload);
+      let newVal = payload;
+      if (typeof payload === "string") {
+        newVal = JSON.parse(payload);
+      }
+      newState = updateState(
+        state,
+        ["dashboard", "currentAccountUser"],
+        newVal,
+        false
+      );
+      if (newVal.account.type === "Brand") newState.panel = "brandHome";
+      else newState.panel = "demoerHome";
+      return Object.assign({}, state, newState);
     case UDPATE_PANEL:
       newState = updateState(state, ["panel"], payload, false);
       newState.navOpen = false;

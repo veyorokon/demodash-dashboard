@@ -35,7 +35,7 @@ class _AccountUserDropDown extends React.Component {
       let accountName = account.profile.name || account.type + " Account";
       accountsByUser.push({
         text: accountName,
-        value: accountUser
+        value: JSON.stringify(accountUser)
       });
     }
     return accountsByUser;
@@ -72,6 +72,7 @@ class _AccountUserDropDown extends React.Component {
               defaultOption={"Create an account"}
               defaultClick={() => console.log("test")}
               iconProps={{h: "2.4rem"}}
+              {...this.props}
             />
           );
         }}

@@ -17,17 +17,24 @@ import {
   Purchases
 } from "./Panels";
 import {LogoutBox} from "@styled-icons/remix-line/LogoutBox";
-import {
-  //DemoerNav,
-  //BrandNav,
-  AllNav
-} from "./nav";
+import {DemoerNav, BrandNav} from "./nav";
 
 import {responsive as r, clearToken} from "lib";
+import {connect} from "react-redux";
 
-export default props => {
-  // const accountType = "brand";
+const mapStateToProps = state => {
+  const {currentAccountUser} = state.dashboard;
+  return {
+    currentAccountUser
+  };
+};
 
+const _Dashboard = props => {
+  const {currentAccountUser} = props;
+  let type;
+  if (currentAccountUser) {
+    type = currentAccountUser.account.type;
+  }
   return (
     <Section height={"fit-content"} overflow="hidden">
       <Flex h={"100vh"}>
@@ -37,8 +44,7 @@ export default props => {
             <Text mb={1}>Account:</Text>
             <AccountUserDropDown />
             <Flex w={"100%"} flexDirection="column">
-              {/*{accountType === "brand" ? <BrandNav /> : <DemoerNav />} */}
-              <AllNav />
+              {type && type === "Brand" ? <BrandNav /> : <DemoerNav />}
             </Flex>
             <Flex mt={4} flexGrow={0} w={"100%"} flexDirection="column">
               <NavItem
@@ -72,3 +78,8 @@ export default props => {
     </Section>
   );
 };
+
+export default connect(
+  mapStateToProps,
+  null
+)(_Dashboard);

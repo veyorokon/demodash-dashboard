@@ -85,9 +85,24 @@ function checkPasswords(newState) {
   return newState;
 }
 
+function filterAccountUser(state, id) {
+  return state.dashboard.accountUserSet.filter(option => option.id === id)[0];
+}
+
+function getDefaultPanel(accountUser) {
+  let panel = "demoerHome";
+  if (accountUser.account.type === "Brand") panel = "brandHome";
+  else if (
+    accountUser.account.type === "Influencer" ||
+    accountUser.account.type === "Storefront"
+  )
+    panel = "demoerHome";
+  return panel;
+}
+
 export default function rootReducer(state = initialState, action) {
   const {payload} = action;
-  let newState;
+  let newState, accountUser;
 
   switch (action.type) {
     case TOGGLE_NAV:
@@ -121,6 +136,8 @@ export default function rootReducer(state = initialState, action) {
         false
       );
       newState.dashboard.currentAccountUser = payload[0].id || null;
+      accountUser = filterAccountUser(newState, payload[0].id);
+      newState.panel = getDefaultPanel(accountUser);
       return Object.assign({}, state, newState);
     case UDPATE_CURRENT_ACCOUNT_USER:
       newState = updateState(
@@ -129,11 +146,8 @@ export default function rootReducer(state = initialState, action) {
         payload,
         false
       );
-      const accountUser = state.dashboard.accountUserSet.filter(
-        option => option.id === payload
-      )[0];
-      if (accountUser.account.type === "Brand") newState.panel = "brandHome";
-      else newState.panel = "demoerHome";
+      accountUser = filterAccountUser(state, payload);
+      newState.panel = getDefaultPanel(accountUser);
       return Object.assign({}, state, newState);
     case UDPATE_PANEL:
       newState = updateState(state, ["panel"], payload, false);

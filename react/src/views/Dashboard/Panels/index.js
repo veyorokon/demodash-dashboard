@@ -1,5 +1,4 @@
-import DemoerHome from "./DemoerHome";
-import BrandHome from "./BrandHome";
+import Home from "./Home";
 import FindDemos from "./FindDemos";
 import Settings from "./Settings";
 import MyDemos from "./MyDemos";
@@ -12,8 +11,7 @@ import FindDemoers from "./FindDemoers";
 import Purchases from "./Purchases";
 
 export {
-  BrandHome,
-  DemoerHome,
+  Home,
   FindDemos,
   MyDemos,
   Settings,

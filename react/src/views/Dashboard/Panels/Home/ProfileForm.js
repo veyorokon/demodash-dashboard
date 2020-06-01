@@ -11,7 +11,7 @@ import {STATES, responsive as r, getEventVal} from "lib";
 import {getToken} from "lib";
 import {connect} from "react-redux";
 import {updateProfileForm} from "redux/actions";
-import {ACCOUNT_USER, ACCOUNT_CATEGORIES, UPDATE_ACCOUNT} from "./gql";
+import {ACCOUNT_CATEGORIES, UPDATE_ACCOUNT} from "./gql";
 import {USER__ACCOUNT_USER_SET} from "views/Dashboard/gql";
 
 const CategoryDropDown = props => {
@@ -52,7 +52,6 @@ const CategoryDropDown = props => {
 class _AccountFormCard extends React.Component {
   async updateAccountMutation(updateAccount) {
     const {profileForm, currentAccountUser, updateProfileForm} = this.props;
-    // console.log(profileForm, currentAccountUser);
     updateProfileForm({
       ...profileForm,
       isSubmitting: true
@@ -62,13 +61,11 @@ class _AccountFormCard extends React.Component {
     return await updateAccount({
       variables: profileForm
     });
-    // const {token, expiration} = response.data.authUser;
   }
 
   render() {
     const {props} = this;
-    const {account, profileForm, updateProfileForm} = props;
-    const {address, industry} = account.profile;
+    const {profileForm, updateProfileForm} = props;
     const {disabled} = profileForm;
     return (
       <Box
@@ -95,7 +92,7 @@ class _AccountFormCard extends React.Component {
                   accountName: getEventVal(evt)
                 })
               }
-              defaultValue={account.profile.name}
+              value={profileForm.accountName}
               mt={1}
             />
           </FormGroup>
@@ -109,7 +106,7 @@ class _AccountFormCard extends React.Component {
                     line1: getEventVal(evt)
                   })
                 }
-                defaultValue={address && address.line1}
+                value={profileForm.line1}
                 placeholder="Address line 1"
                 mb={1}
               />
@@ -120,7 +117,7 @@ class _AccountFormCard extends React.Component {
                     line2: getEventVal(evt)
                   })
                 }
-                defaultValue={address && address.line2}
+                value={profileForm.line2}
                 placeholder="Address line 2"
                 mb={1}
               />
@@ -131,7 +128,7 @@ class _AccountFormCard extends React.Component {
                     city: getEventVal(evt)
                   })
                 }
-                defaultValue={address && address.city}
+                value={profileForm.city}
                 placeholder="City"
                 mb={1}
               />
@@ -148,7 +145,7 @@ class _AccountFormCard extends React.Component {
                       state: getEventVal(evt)
                     })
                   }
-                  defaultValue={address && address.state}
+                  value={profileForm.state}
                 />
               </Flex>
               <FlexInput
@@ -158,7 +155,7 @@ class _AccountFormCard extends React.Component {
                     zip: getEventVal(evt)
                   })
                 }
-                defaultValue={address && address.zip}
+                value={profileForm.zip}
                 placeholder="ZIP"
               />
             </Flex>
@@ -174,7 +171,7 @@ class _AccountFormCard extends React.Component {
                     choice1: getEventVal(evt)
                   })
                 }
-                defaultValue={industry && industry.choice1}
+                value={profileForm.choice1}
               />
               <CategoryDropDown
                 onChange={evt =>
@@ -183,7 +180,7 @@ class _AccountFormCard extends React.Component {
                     choice2: getEventVal(evt)
                   })
                 }
-                defaultValue={industry && industry.choice2}
+                value={profileForm.choice2}
                 mt={2}
               />
               <CategoryDropDown
@@ -193,7 +190,7 @@ class _AccountFormCard extends React.Component {
                     choice3: getEventVal(evt)
                   })
                 }
-                defaultValue={industry && industry.choice3}
+                value={profileForm.choice3}
                 mt={2}
               />
             </Flex>
@@ -243,7 +240,10 @@ class _AccountFormCard extends React.Component {
   }
 }
 const mapStateToProps = state => {
-  return {profileForm: state.profileForm};
+  return {
+    profileForm: state.profileForm,
+    currentAccountUser: state.dashboard.currentAccountUser
+  };
 };
 function mapDispatchToProps(dispatch) {
   return {
@@ -256,9 +256,7 @@ const AccountFormCard = connect(
   mapDispatchToProps
 )(_AccountFormCard);
 
-function ProfileForm(props) {
-  const {token} = getToken();
-  const {currentAccountUser} = props;
+export default props => {
   return (
     <>
       <Flex mb={4}>
@@ -272,47 +270,8 @@ function ProfileForm(props) {
         mb={4}
         justifyContent="center"
       >
-        {currentAccountUser && (
-          <Query
-            query={ACCOUNT_USER}
-            variables={{id: currentAccountUser, token}}
-          >
-            {({loading, error, data}) => {
-              if (loading)
-                return (
-                  <Box h="3.5rem" mb={4}>
-                    <Text>Loading...</Text>
-                  </Box>
-                );
-              if (error)
-                return (
-                  <Box h="3.5rem" mb={4}>
-                    <Text>Error! {error.message}</Text>
-                  </Box>
-                );
-              const {account} = data.accountUser;
-              return (
-                <AccountFormCard
-                  currentAccountUser={currentAccountUser}
-                  account={account}
-                  title={"Account settings"}
-                />
-              );
-            }}
-          </Query>
-        )}
+        <AccountFormCard title={"Account settings"} />
       </Flex>
     </>
   );
-}
-
-const mapNavItemStateToProps = state => {
-  return {
-    currentAccountUser: state.dashboard.currentAccountUser
-  };
 };
-
-export default connect(
-  mapNavItemStateToProps,
-  null
-)(ProfileForm);

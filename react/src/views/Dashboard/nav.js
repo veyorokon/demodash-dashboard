@@ -13,7 +13,7 @@ import ProductDemoIcon from "assets/icons/productDemos";
 const DemoerNav = props => {
   return (
     <>
-      <ConnectedNavItem id={"demoerHome"} text="Home" icon={<HomeIcon />} />
+      <ConnectedNavItem id={"home"} text="Home" icon={<HomeIcon />} />
       <NavCategory mt={3} text={"Demos"} />
       <ConnectedNavItem
         id={"findDemos"}
@@ -54,7 +54,7 @@ const DemoerNav = props => {
 const BrandNav = props => {
   return (
     <>
-      <ConnectedNavItem id={"brandHome"} text="Home" icon={<HomeIcon />} />
+      <ConnectedNavItem id={"home"} text="Home" icon={<HomeIcon />} />
       <NavCategory mt={3} text={"Demos"} />
       <ConnectedNavItem
         id={"myProducts"}

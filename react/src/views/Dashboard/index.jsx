@@ -7,8 +7,7 @@ import {
   QueryAccountUsers
 } from "views/Dashboard/Components";
 import {
-  DemoerHome,
-  BrandHome,
+  Home,
   FindDemos,
   Settings,
   MyDemos,
@@ -68,12 +67,11 @@ const _Dashboard = props => {
           </Flex>
         </LeftColumn>
         <ConnectedRightColumn bg={"navys.4"}>
-          <DemoerHome key={"demoerHome"} />
+          <Home key={"home"} />
           <FindDemos key={"findDemos"} />
           <MyDemos key={"myDemos"} />
           <DemodashStore key={"demodashStore"} />
 
-          <BrandHome key={"brandHome"} />
           <MyProducts key={"myProducts"} />
           <MyDemoBoxes key={"myDemoBoxes"} />
           <MyDemoCampaigns key={"myDemoCampaigns"} />

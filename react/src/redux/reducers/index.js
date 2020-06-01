@@ -65,7 +65,7 @@ const initialState = {
     accountUserSet: []
   },
   profileForm: {},
-  panel: "brandHome",
+  panel: "home",
   navOpen: false
 };
 
@@ -90,17 +90,6 @@ function checkPasswords(newState) {
 
 function filterAccountUser(state, id) {
   return state.dashboard.accountUserSet.filter(option => option.id === id)[0];
-}
-
-function getDefaultPanel(accountUser) {
-  let panel = "demoerHome";
-  if (accountUser.account.type === "Brand") panel = "brandHome";
-  else if (
-    accountUser.account.type === "Influencer" ||
-    accountUser.account.type === "Storefront"
-  )
-    panel = "demoerHome";
-  return panel;
 }
 
 function populateProfileForm(state, accountUser) {
@@ -162,7 +151,7 @@ export default function rootReducer(state = initialState, action) {
       }
       //Sets default values for profile form
       newState = populateProfileForm(newState, accountUser);
-      newState.panel = getDefaultPanel(accountUser);
+      newState.panel = "home";
       return Object.assign({}, state, newState);
     case UDPATE_CURRENT_ACCOUNT_USER:
       newState = updateState(
@@ -176,7 +165,8 @@ export default function rootReducer(state = initialState, action) {
       accountUser = filterAccountUser(state, payload);
       //Sets default values for profile form
       newState = populateProfileForm(newState, accountUser);
-      newState.panel = getDefaultPanel(accountUser);
+      console.log(newState);
+      newState.panel = "home";
       return Object.assign({}, state, newState);
     case UDPATE_PANEL:
       newState = updateState(state, ["panel"], payload, false);

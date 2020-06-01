@@ -52,6 +52,11 @@ export default props => {
   }
   return (
     <DropSelect fs={"1.6rem"} onChange={props.onChange} {...props}>
+      {props.hiddenOption && (
+        <DropOption selected disabled hidden>
+          {props.hiddenOption}
+        </DropOption>
+      )}
       {props.options.map((elem, index) => (
         <DropOption key={index} value={elem.value ? elem.value : index}>
           {elem.text}

@@ -5,7 +5,8 @@ import {
   UDPATE_CURRENT_ACCOUNT_USER,
   UDPATE_PANEL,
   TOGGLE_NAV,
-  UDPATE_ACCOUNT_USER_SET
+  UDPATE_ACCOUNT_USER_SET,
+  UPDATE_PROFILE_FORM
 } from "redux/constants";
 
 export function updateRegistrationForm(payload) {
@@ -35,6 +36,12 @@ export function updateCurrentAccountUser(payload) {
     return dispatch({type: UDPATE_CURRENT_ACCOUNT_USER, payload: payload});
   };
 }
+export function updateProfileForm(payload) {
+  return function(dispatch) {
+    return dispatch({type: UPDATE_PROFILE_FORM, payload: payload});
+  };
+}
+
 export function updatePanel(payload) {
   return function(dispatch) {
     return dispatch({type: UDPATE_PANEL, payload: payload});

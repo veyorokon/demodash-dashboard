@@ -2,30 +2,10 @@ import React from "react";
 import {Query} from "@apollo/react-components";
 import {Box, Text} from "components";
 import {getToken} from "lib";
-import {gql} from "apollo-boost";
 
 import {connect} from "react-redux";
 import {updateAccountUserSet} from "redux/actions";
-
-const USER__ACCOUNT_USER_SET = gql`
-  query user($token: String!) {
-    user(token: $token) {
-      id
-      accountUsers {
-        id
-        role
-        account {
-          id
-          type
-          profile {
-            id
-            name
-          }
-        }
-      }
-    }
-  }
-`;
+import {USER__ACCOUNT_USER_SET} from "views/Dashboard/gql";
 
 class _QueryAccountUsers extends React.Component {
   render() {

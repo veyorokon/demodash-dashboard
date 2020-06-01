@@ -146,8 +146,18 @@ export default function rootReducer(state = initialState, action) {
         payload,
         false
       );
-      newState.dashboard.currentAccountUser = payload[0].id || null;
-      accountUser = filterAccountUser(newState, payload[0].id); //Sets user
+      if (!newState.dashboard.previousAccountUser) {
+        newState.dashboard.currentAccountUser = payload[0].id || null;
+        accountUser = filterAccountUser(newState, payload[0].id);
+      } else {
+        newState.dashboard.currentAccountUser = newState.previousAccountUser;
+        console.log(newState.dashboard.previousAccountUser);
+        accountUser = filterAccountUser(
+          newState,
+          newState.dashboard.previousAccountUser
+        );
+      }
+      console.log(accountUser);
       newState.panel = getDefaultPanel(accountUser);
       return Object.assign({}, state, newState);
     case UDPATE_CURRENT_ACCOUNT_USER:
@@ -161,7 +171,6 @@ export default function rootReducer(state = initialState, action) {
         state.dashboard.currentAccountUser;
       accountUser = filterAccountUser(state, payload);
       newState.panel = getDefaultPanel(accountUser);
-      console.log(newState);
       return Object.assign({}, state, newState);
     case UDPATE_PANEL:
       newState = updateState(state, ["panel"], payload, false);

@@ -67,6 +67,15 @@ export const UPDATE_ACCOUNT = gql`
         id
         profile {
           id
+          address {
+            id
+            line1
+            line2
+            city
+            state
+            zip
+            country
+          }
         }
       }
     }

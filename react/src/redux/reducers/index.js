@@ -71,7 +71,10 @@ const initialState = {
     line2: null,
     zip: null,
     city: null,
-    accountName: null
+    accountName: null,
+    category1: null,
+    category2: null,
+    category3: null
   },
   panel: "brandHome",
   navOpen: false

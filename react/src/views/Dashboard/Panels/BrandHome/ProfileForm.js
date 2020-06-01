@@ -39,9 +39,7 @@ const CategoryDropDown = props => {
               maxWidth="100%"
               w="25rem"
               border={"1px solid lightslategrey"}
-              onChange={e => console.log(e.target.value)}
               hiddenOption={"Select your industry"}
-              // defaultValue={"HC"}
               {...props}
             />
           </Flex>
@@ -68,7 +66,7 @@ class _AccountFormCard extends React.Component {
   render() {
     const {props} = this;
     const {account, profileForm, updateProfileForm} = props;
-    const {address} = account.profile;
+    const {address, industry} = account.profile;
     return (
       <Box
         w={r("80rem ---------> 100rem")}
@@ -166,9 +164,35 @@ class _AccountFormCard extends React.Component {
           <FormGroup mt={2} mb={r("3 ----> 2")}>
             <FlexField name={"Industries"} />
             <Flex flexBasis="60%" flexDirection="column" mt={2}>
-              <CategoryDropDown />
-              <CategoryDropDown mt={2} />
-              <CategoryDropDown mt={2} />
+              <CategoryDropDown
+                onChange={evt =>
+                  updateProfileForm({
+                    ...profileForm,
+                    category1: getEventVal(evt)
+                  })
+                }
+                defaultValue={industry && industry.choice1}
+              />
+              <CategoryDropDown
+                onChange={evt =>
+                  updateProfileForm({
+                    ...profileForm,
+                    category2: getEventVal(evt)
+                  })
+                }
+                defaultValue={industry && industry.choice2}
+                mt={2}
+              />
+              <CategoryDropDown
+                onChange={evt =>
+                  updateProfileForm({
+                    ...profileForm,
+                    category3: getEventVal(evt)
+                  })
+                }
+                defaultValue={industry && industry.choice3}
+                mt={2}
+              />
             </Flex>
           </FormGroup>
         </FormSection>

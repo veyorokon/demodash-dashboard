@@ -21,9 +21,11 @@ export const ACCOUNT_USER = gql`
             zip
             state
           }
-          industries {
+          industry {
             id
-            choice
+            choice1
+            choice2
+            choice3
           }
         }
       }
@@ -51,6 +53,9 @@ export const UPDATE_ACCOUNT = gql`
     $zip: String
     $accountName: String
     $token: String!
+    $category1: String
+    $category2: String
+    $category3: String
   ) {
     updateAccount(
       token: $token
@@ -62,21 +67,12 @@ export const UPDATE_ACCOUNT = gql`
       zip: $zip
       city: $city
       accountName: $accountName
+      category1: $category1
+      category2: $category2
+      category3: $category3
     ) {
       account {
         id
-        profile {
-          id
-          address {
-            id
-            line1
-            line2
-            city
-            state
-            zip
-            country
-          }
-        }
       }
     }
   }

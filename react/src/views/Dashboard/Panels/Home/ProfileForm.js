@@ -92,7 +92,7 @@ class _AccountFormCard extends React.Component {
                   accountName: getEventVal(evt)
                 })
               }
-              value={profileForm.accountName}
+              value={profileForm.accountName || ""}
               mt={1}
             />
           </FormGroup>
@@ -106,7 +106,7 @@ class _AccountFormCard extends React.Component {
                     line1: getEventVal(evt)
                   })
                 }
-                value={profileForm.line1}
+                value={profileForm.line1 || ""}
                 placeholder="Address line 1"
                 mb={1}
               />
@@ -117,7 +117,7 @@ class _AccountFormCard extends React.Component {
                     line2: getEventVal(evt)
                   })
                 }
-                value={profileForm.line2}
+                value={profileForm.line2 || ""}
                 placeholder="Address line 2"
                 mb={1}
               />
@@ -128,7 +128,7 @@ class _AccountFormCard extends React.Component {
                     city: getEventVal(evt)
                   })
                 }
-                value={profileForm.city}
+                value={profileForm.city || ""}
                 placeholder="City"
                 mb={1}
               />
@@ -145,7 +145,7 @@ class _AccountFormCard extends React.Component {
                       state: getEventVal(evt)
                     })
                   }
-                  value={profileForm.state}
+                  value={profileForm.state || ""}
                 />
               </Flex>
               <FlexInput
@@ -155,7 +155,7 @@ class _AccountFormCard extends React.Component {
                     zip: getEventVal(evt)
                   })
                 }
-                value={profileForm.zip}
+                value={profileForm.zip || ""}
                 placeholder="ZIP"
               />
             </Flex>

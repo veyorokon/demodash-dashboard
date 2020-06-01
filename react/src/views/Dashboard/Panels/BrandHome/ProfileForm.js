@@ -39,7 +39,6 @@ const CategoryDropDown = props => {
               maxWidth="100%"
               w="25rem"
               border={"1px solid lightslategrey"}
-              bg="whites.0"
               onChange={e => console.log(e.target.value)}
               hiddenOption={"Select your industry"}
               // defaultValue={"HC"}
@@ -141,7 +140,6 @@ class _AccountFormCard extends React.Component {
                   maxWidth="100%"
                   w="25rem"
                   border={"1px solid lightslategrey"}
-                  bg="whites.0"
                   options={STATES}
                   onChange={evt =>
                     updateProfileForm({
@@ -199,7 +197,7 @@ class _AccountFormCard extends React.Component {
                 hoverBackground="#FFC651"
                 br={2}
                 bg={"yellows.1"}
-                w={r("100% --> 25rem -> 10rem")}
+                w={r("100% 25rem ---> 10rem")}
                 maxWidth="100%"
                 fs={"1.6rem"}
                 onClick={() => this.updateAccountMutation(updateAccount)}

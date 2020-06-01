@@ -6,18 +6,25 @@ import {AddCircle} from "@styled-icons/material-rounded/AddCircle";
 
 const DropSelect = themedComponent(styled(Select)`
   height: 3.5rem;
-  background: transparent;
+  background: white;
   cursor: pointer;
-  text-align-last: right;
-  direction: rtl;
+  appearance: none;
+  /*text-align-last: right;*/
+  /*direction: rtl;*/
+
+  background-image: linear-gradient(45deg, transparent 50%, gray 50%),
+    linear-gradient(135deg, gray 50%, transparent 50%),
+    linear-gradient(to right, #ccc, #ccc);
+  background-position: calc(100% - 20px) calc(0.8em + 2px),
+    calc(100% - 15px) calc(0.8em + 2px), calc(100% - 2.5em) 0.3em;
+  background-size: 5px 5px, 5px 5px, 1px 1.5em;
+  background-repeat: no-repeat;
+
   border: {
     props=>props.border: "1px solid currentColor";
   }
   &:focus {
     outline: none;
-  }
-  &:select {
-    appearance: none;
   }
 `);
 const DropOption = styled(Option)`
@@ -51,7 +58,13 @@ export default props => {
     );
   }
   return (
-    <DropSelect fs={"1.6rem"} onChange={props.onChange} {...props}>
+    <DropSelect
+      pl={2}
+      pr={"4.2rem"}
+      fs={"1.6rem"}
+      onChange={props.onChange}
+      {...props}
+    >
       {props.hiddenOption && (
         <DropOption selected disabled hidden>
           {props.hiddenOption}

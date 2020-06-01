@@ -150,8 +150,8 @@ export default function rootReducer(state = initialState, action) {
         false
       );
       if (!newState.dashboard.previousAccountUser) {
-        newState.dashboard.currentAccountUser = payload[0].id || null;
-        accountUser = filterAccountUser(newState, payload[0].id);
+        newState.dashboard.currentAccountUser = payload[1].id || null;
+        accountUser = filterAccountUser(newState, payload[1].id);
       } else {
         newState.dashboard.currentAccountUser =
           state.dashboard.currentAccountUser;
@@ -160,6 +160,12 @@ export default function rootReducer(state = initialState, action) {
           newState.dashboard.currentAccountUser
         );
       }
+      //Sets default values for profile form
+      newState.profileForm = {
+        accountName: accountUser.account.profile.name,
+        ...accountUser.account.profile.address,
+        ...accountUser.account.profile.industry
+      };
       newState.panel = getDefaultPanel(accountUser);
       return Object.assign({}, state, newState);
     case UDPATE_CURRENT_ACCOUNT_USER:

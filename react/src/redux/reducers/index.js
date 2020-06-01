@@ -64,18 +64,7 @@ const initialState = {
     previousAccountUser: null,
     accountUserSet: []
   },
-  profileForm: {
-    state: null,
-    country: null,
-    line1: null,
-    line2: null,
-    zip: null,
-    city: null,
-    accountName: null,
-    choice1: null,
-    choice2: null,
-    choice3: null
-  },
+  profileForm: {},
   panel: "brandHome",
   navOpen: false
 };
@@ -114,6 +103,17 @@ function getDefaultPanel(accountUser) {
   return panel;
 }
 
+function populateProfileForm(state, accountUser) {
+  state.profileForm = {
+    accountName: accountUser.account.profile.name,
+    disabled: true,
+    isSubmitting: false,
+    ...accountUser.account.profile.address,
+    ...accountUser.account.profile.industry
+  };
+  return state;
+}
+
 export default function rootReducer(state = initialState, action) {
   const {payload} = action;
   let newState, accountUser;
@@ -150,8 +150,8 @@ export default function rootReducer(state = initialState, action) {
         false
       );
       if (!newState.dashboard.previousAccountUser) {
-        newState.dashboard.currentAccountUser = payload[1].id || null;
-        accountUser = filterAccountUser(newState, payload[1].id);
+        newState.dashboard.currentAccountUser = payload[0].id || null;
+        accountUser = filterAccountUser(newState, payload[0].id);
       } else {
         newState.dashboard.currentAccountUser =
           state.dashboard.currentAccountUser;
@@ -161,11 +161,7 @@ export default function rootReducer(state = initialState, action) {
         );
       }
       //Sets default values for profile form
-      newState.profileForm = {
-        accountName: accountUser.account.profile.name,
-        ...accountUser.account.profile.address,
-        ...accountUser.account.profile.industry
-      };
+      newState = populateProfileForm(newState, accountUser);
       newState.panel = getDefaultPanel(accountUser);
       return Object.assign({}, state, newState);
     case UDPATE_CURRENT_ACCOUNT_USER:
@@ -179,11 +175,7 @@ export default function rootReducer(state = initialState, action) {
         state.dashboard.currentAccountUser;
       accountUser = filterAccountUser(state, payload);
       //Sets default values for profile form
-      newState.profileForm = {
-        accountName: accountUser.account.profile.name,
-        ...accountUser.account.profile.address,
-        ...accountUser.account.profile.industry
-      };
+      newState = populateProfileForm(newState, accountUser);
       newState.panel = getDefaultPanel(accountUser);
       return Object.assign({}, state, newState);
     case UDPATE_PANEL:
@@ -191,7 +183,11 @@ export default function rootReducer(state = initialState, action) {
       newState.navOpen = false;
       return Object.assign({}, state, newState);
     case UPDATE_PROFILE_FORM:
-      return updateState(state, ["profileForm"], payload);
+      newState = updateState(state, ["profileForm"], payload, false);
+      newState.profileForm.disabled = false;
+      if (newState.profileForm.isSubmitting)
+        newState.profileForm.disabled = true;
+      return Object.assign({}, state, newState);
     default:
       return state;
   }

@@ -4,7 +4,6 @@ import styled from "styled-components";
 export const CallToActionButton = styled(Button)`
   height: ${props =>
     props.height ? props.height : props.h ? props.h : "3.5rem"};
-  cursor: pointer;
   min-width: fit-content;
   border: none;
   outline: none;

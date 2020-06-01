@@ -51,15 +51,17 @@ const CategoryDropDown = props => {
 
 class _AccountFormCard extends React.Component {
   async updateAccountMutation(updateAccount) {
-    const {profileForm, currentAccountUser} = this.props;
+    const {profileForm, currentAccountUser, updateProfileForm} = this.props;
     // console.log(profileForm, currentAccountUser);
-
+    updateProfileForm({
+      ...profileForm,
+      isSubmitting: true
+    });
     profileForm.accountUserId = parseInt(currentAccountUser);
     profileForm.token = getToken().token;
-    await updateAccount({
+    return await updateAccount({
       variables: profileForm
     });
-    // console.log(response);
     // const {token, expiration} = response.data.authUser;
   }
 
@@ -67,6 +69,7 @@ class _AccountFormCard extends React.Component {
     const {props} = this;
     const {account, profileForm, updateProfileForm} = props;
     const {address, industry} = account.profile;
+    const {disabled} = profileForm;
     return (
       <Box
         w={r("80rem ---------> 100rem")}
@@ -218,15 +221,19 @@ class _AccountFormCard extends React.Component {
           >
             {updateAccount => (
               <CallToActionButton
-                hoverBackground="#FFC651"
+                disabled={disabled}
+                cursor={disabled ? "no-drop" : "pointer"}
+                hoverBackground={disabled ? "#b2afe2" : "#173bd0"}
+                bg={disabled ? "#b2afe2" : "blues.0"}
+                color={disabled ? "whites.2" : "whites.0"}
+                hoverColor={disabled ? "whites.2" : "whites.0"}
                 br={2}
-                bg={"yellows.1"}
                 w={r("100% 25rem ---> 10rem")}
                 maxWidth="100%"
                 fs={"1.6rem"}
                 onClick={() => this.updateAccountMutation(updateAccount)}
               >
-                Save
+                {profileForm.isSubmitting ? "Saving..." : "Save"}
               </CallToActionButton>
             )}
           </Mutation>

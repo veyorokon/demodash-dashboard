@@ -95,7 +95,7 @@ const NavContainer = styled(ScrollContainer)`
   flex-basis: 27rem;
   overflow: auto;
   flex-grow: 25;
-  border-right: 2px solid #ecedf1;
+  border-right: 2px solid transparent;
 `;
 
 const _Drawer = props => {

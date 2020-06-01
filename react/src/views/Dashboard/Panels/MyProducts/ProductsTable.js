@@ -40,37 +40,39 @@ const ProductForm = props => {
       <FormSection bg={"blues.3"} flexDirection="column" pt={4} pb={4}>
         <TableWrapper mb={3} pb={3}>
           <Table w="100%" minWidth="75rem">
-            <Tr textAlign="left">
-              <Th pb={2}>Name</Th>
-              <Th pb={2}>Description</Th>
-              <Th pb={2}>Image</Th>
-              <Th pb={2}>Variations</Th>
-              <Th />
-            </Tr>
-            <Tr bg={"whites.0"}>
-              <Td>
-                <Text ml={2}>Hair filling fibers</Text>
-              </Td>
-              <Td>
-                <Text ml={2}>
-                  Hair filling fibers that add density to thinning hair
-                </Text>
-              </Td>
-              <Td>
-                <Text ml={2}>bromane.jpg</Text>
-              </Td>
-              <Td>
-                <Text ml={2}>Dark Brown</Text>
-                <Text ml={2}>Med Brown</Text>
-                <Text ml={2}>Light Brown</Text>
-                <Text ml={2}>Black</Text>
-              </Td>
-              <Td minWidth={"5rem"}>
-                <Text m={"auto"} textAlign="center">
-                  Edit
-                </Text>
-              </Td>
-            </Tr>
+            <tbody>
+              <Tr textAlign="left">
+                <Th pb={2}>Name</Th>
+                <Th pb={2}>Description</Th>
+                <Th pb={2}>Image</Th>
+                <Th pb={2}>Variations</Th>
+                <Th />
+              </Tr>
+              <Tr bg={"whites.0"}>
+                <Td>
+                  <Text ml={2}>Hair filling fibers</Text>
+                </Td>
+                <Td>
+                  <Text ml={2}>
+                    Hair filling fibers that add density to thinning hair
+                  </Text>
+                </Td>
+                <Td>
+                  <Text ml={2}>bromane.jpg</Text>
+                </Td>
+                <Td>
+                  <Text ml={2}>Dark Brown</Text>
+                  <Text ml={2}>Med Brown</Text>
+                  <Text ml={2}>Light Brown</Text>
+                  <Text ml={2}>Black</Text>
+                </Td>
+                <Td minWidth={"5rem"}>
+                  <Text m={"auto"} textAlign="center">
+                    Edit
+                  </Text>
+                </Td>
+              </Tr>
+            </tbody>
           </Table>
         </TableWrapper>
         <CallToActionButton

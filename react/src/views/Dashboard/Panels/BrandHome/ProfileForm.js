@@ -168,7 +168,7 @@ class _AccountFormCard extends React.Component {
                 onChange={evt =>
                   updateProfileForm({
                     ...profileForm,
-                    category1: getEventVal(evt)
+                    choice1: getEventVal(evt)
                   })
                 }
                 defaultValue={industry && industry.choice1}
@@ -177,7 +177,7 @@ class _AccountFormCard extends React.Component {
                 onChange={evt =>
                   updateProfileForm({
                     ...profileForm,
-                    category2: getEventVal(evt)
+                    choice2: getEventVal(evt)
                   })
                 }
                 defaultValue={industry && industry.choice2}
@@ -187,7 +187,7 @@ class _AccountFormCard extends React.Component {
                 onChange={evt =>
                   updateProfileForm({
                     ...profileForm,
-                    category3: getEventVal(evt)
+                    choice3: getEventVal(evt)
                   })
                 }
                 defaultValue={industry && industry.choice3}

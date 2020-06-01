@@ -72,9 +72,9 @@ const initialState = {
     zip: null,
     city: null,
     accountName: null,
-    category1: null,
-    category2: null,
-    category3: null
+    choice1: null,
+    choice2: null,
+    choice3: null
   },
   panel: "brandHome",
   navOpen: false
@@ -172,6 +172,12 @@ export default function rootReducer(state = initialState, action) {
       newState.dashboard.previousAccountUser =
         state.dashboard.currentAccountUser;
       accountUser = filterAccountUser(state, payload);
+      //Sets default values for profile form
+      newState.profileForm = {
+        accountName: accountUser.account.profile.name,
+        ...accountUser.account.profile.address,
+        ...accountUser.account.profile.industry
+      };
       newState.panel = getDefaultPanel(accountUser);
       return Object.assign({}, state, newState);
     case UDPATE_PANEL:

@@ -13,6 +13,21 @@ export const USER__ACCOUNT_USER_SET = gql`
           profile {
             id
             name
+            address {
+              id
+              line1
+              line2
+              city
+              state
+              zip
+              country
+            }
+            industry {
+              id
+              choice1
+              choice2
+              choice3
+            }
           }
         }
       }

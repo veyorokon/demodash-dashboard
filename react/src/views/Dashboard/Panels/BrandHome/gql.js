@@ -53,9 +53,9 @@ export const UPDATE_ACCOUNT = gql`
     $zip: String
     $accountName: String
     $token: String!
-    $category1: String
-    $category2: String
-    $category3: String
+    $choice1: String
+    $choice2: String
+    $choice3: String
   ) {
     updateAccount(
       token: $token
@@ -67,9 +67,9 @@ export const UPDATE_ACCOUNT = gql`
       zip: $zip
       city: $city
       accountName: $accountName
-      category1: $category1
-      category2: $category2
-      category3: $category3
+      choice1: $choice1
+      choice2: $choice2
+      choice3: $choice3
     ) {
       account {
         id

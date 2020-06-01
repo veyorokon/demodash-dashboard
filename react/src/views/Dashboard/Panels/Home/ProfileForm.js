@@ -58,7 +58,7 @@ class _AccountFormCard extends React.Component {
     });
     profileForm.accountUserId = parseInt(currentAccountUser);
     profileForm.token = getToken().token;
-    return await updateAccount({
+    return updateAccount({
       variables: profileForm
     });
   }
@@ -89,7 +89,8 @@ class _AccountFormCard extends React.Component {
               onChange={evt =>
                 updateProfileForm({
                   ...profileForm,
-                  accountName: getEventVal(evt)
+                  accountName: getEventVal(evt),
+                  submitComplete: false
                 })
               }
               value={profileForm.accountName || ""}
@@ -103,7 +104,8 @@ class _AccountFormCard extends React.Component {
                 onChange={evt =>
                   updateProfileForm({
                     ...profileForm,
-                    line1: getEventVal(evt)
+                    line1: getEventVal(evt),
+                    submitComplete: false
                   })
                 }
                 value={profileForm.line1 || ""}
@@ -114,7 +116,8 @@ class _AccountFormCard extends React.Component {
                 onChange={evt =>
                   updateProfileForm({
                     ...profileForm,
-                    line2: getEventVal(evt)
+                    line2: getEventVal(evt),
+                    submitComplete: false
                   })
                 }
                 value={profileForm.line2 || ""}
@@ -125,7 +128,8 @@ class _AccountFormCard extends React.Component {
                 onChange={evt =>
                   updateProfileForm({
                     ...profileForm,
-                    city: getEventVal(evt)
+                    city: getEventVal(evt),
+                    submitComplete: false
                   })
                 }
                 value={profileForm.city || ""}
@@ -142,7 +146,8 @@ class _AccountFormCard extends React.Component {
                   onChange={evt =>
                     updateProfileForm({
                       ...profileForm,
-                      state: getEventVal(evt)
+                      state: getEventVal(evt),
+                      submitComplete: false
                     })
                   }
                   value={profileForm.state || ""}
@@ -152,7 +157,8 @@ class _AccountFormCard extends React.Component {
                 onChange={evt =>
                   updateProfileForm({
                     ...profileForm,
-                    zip: getEventVal(evt)
+                    zip: getEventVal(evt),
+                    submitComplete: false
                   })
                 }
                 value={profileForm.zip || ""}
@@ -168,7 +174,8 @@ class _AccountFormCard extends React.Component {
                 onChange={evt =>
                   updateProfileForm({
                     ...profileForm,
-                    choice1: getEventVal(evt)
+                    choice1: getEventVal(evt),
+                    submitComplete: false
                   })
                 }
                 value={profileForm.choice1}
@@ -177,7 +184,8 @@ class _AccountFormCard extends React.Component {
                 onChange={evt =>
                   updateProfileForm({
                     ...profileForm,
-                    choice2: getEventVal(evt)
+                    choice2: getEventVal(evt),
+                    submitComplete: false
                   })
                 }
                 value={profileForm.choice2}
@@ -187,7 +195,8 @@ class _AccountFormCard extends React.Component {
                 onChange={evt =>
                   updateProfileForm({
                     ...profileForm,
-                    choice3: getEventVal(evt)
+                    choice3: getEventVal(evt),
+                    submitComplete: false
                   })
                 }
                 value={profileForm.choice3}
@@ -206,7 +215,14 @@ class _AccountFormCard extends React.Component {
             "center",
             "flex-end"
           ]}
+          flexDirection={r("column ----> row")}
+          alignItems="center"
         >
+          {profileForm.submitComplete && (
+            <Flex>
+              <Text mb={r("3 ----> 0")}>Settings are up to date.</Text>
+            </Flex>
+          )}
           <Mutation
             mutation={UPDATE_ACCOUNT}
             refetchQueries={[

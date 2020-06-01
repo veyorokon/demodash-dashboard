@@ -92,13 +92,15 @@ function filterAccountUser(state, id) {
   return state.dashboard.accountUserSet.filter(option => option.id === id)[0];
 }
 
-function populateProfileForm(state, accountUser) {
+function populateProfileForm(state, accountUser, props = {}) {
   state.profileForm = {
     accountName: accountUser.account.profile.name,
     disabled: true,
     isSubmitting: false,
+    submitComplete: true,
     ...accountUser.account.profile.address,
-    ...accountUser.account.profile.industry
+    ...accountUser.account.profile.industry,
+    ...props
   };
   return state;
 }
@@ -164,8 +166,7 @@ export default function rootReducer(state = initialState, action) {
         state.dashboard.currentAccountUser;
       accountUser = filterAccountUser(state, payload);
       //Sets default values for profile form
-      newState = populateProfileForm(newState, accountUser);
-      console.log(newState);
+      populateProfileForm(newState, accountUser);
       newState.panel = "home";
       return Object.assign({}, state, newState);
     case UDPATE_PANEL:

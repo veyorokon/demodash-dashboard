@@ -66,7 +66,6 @@ const initialState = {
   },
   profileForm: {},
   panel: "home",
-  previousPanel: "home",
   navOpen: false
 };
 
@@ -106,15 +105,9 @@ function populateProfileForm(state, accountUser, props = {}) {
   return state;
 }
 
-function checkPanel(panel) {
-  const mutualPanels = ["home", "settings", "payoutBilling"];
-  if (mutualPanels.includes(panel)) return true;
-  else return false;
-}
-
 export default function rootReducer(state = initialState, action) {
   const {payload} = action;
-  let newState, accountUser, isMutualPanel;
+  let newState, accountUser;
 
   switch (action.type) {
     case TOGGLE_NAV:
@@ -158,12 +151,9 @@ export default function rootReducer(state = initialState, action) {
           newState.dashboard.currentAccountUser
         );
       }
-
       //Sets default values for profile form
       newState = populateProfileForm(newState, accountUser);
-      isMutualPanel = checkPanel(state.panel);
       newState.panel = "home";
-      if (isMutualPanel) newState.panel = state.panel;
       return Object.assign({}, state, newState);
     case UDPATE_CURRENT_ACCOUNT_USER:
       newState = updateState(
@@ -175,15 +165,12 @@ export default function rootReducer(state = initialState, action) {
       newState.dashboard.previousAccountUser =
         state.dashboard.currentAccountUser;
       accountUser = filterAccountUser(state, payload);
-      isMutualPanel = checkPanel(state.panel);
-      newState.panel = "home";
-      if (isMutualPanel) newState.panel = state.panel;
       //Sets default values for profile form
       populateProfileForm(newState, accountUser);
+      newState.panel = "home";
       return Object.assign({}, state, newState);
     case UDPATE_PANEL:
       newState = updateState(state, ["panel"], payload, false);
-      newState.previousPanel = state.panel;
       newState.navOpen = false;
       return Object.assign({}, state, newState);
     case UPDATE_PROFILE_FORM:

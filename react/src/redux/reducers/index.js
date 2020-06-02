@@ -147,6 +147,7 @@ export default function rootReducer(state = initialState, action) {
         payload,
         false
       );
+      //Checks if a previous account user was selected to return user
       if (!newState.dashboard.previousAccountUser) {
         newState.dashboard.currentAccountUser = payload[0].id || null;
         accountUser = filterAccountUser(newState, payload[0].id);
@@ -158,11 +159,11 @@ export default function rootReducer(state = initialState, action) {
           newState.dashboard.currentAccountUser
         );
       }
-
       //Sets default values for profile form
       newState = populateProfileForm(newState, accountUser);
       isMutualPanel = checkPanel(state.panel);
       newState.panel = "home";
+      //Restores previous panel if it is a mutual panel
       if (isMutualPanel) newState.panel = state.panel;
       return Object.assign({}, state, newState);
     case UDPATE_CURRENT_ACCOUNT_USER:
@@ -172,9 +173,11 @@ export default function rootReducer(state = initialState, action) {
         payload,
         false
       );
+      //Updates previous account user
       newState.dashboard.previousAccountUser =
         state.dashboard.currentAccountUser;
       accountUser = filterAccountUser(state, payload);
+      //Restores previous panel if it is a mutual panel
       isMutualPanel = checkPanel(state.panel);
       newState.panel = "home";
       if (isMutualPanel) newState.panel = state.panel;

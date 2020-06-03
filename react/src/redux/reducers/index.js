@@ -69,8 +69,8 @@ const initialState = {
   },
   profileForm: {},
   productForm: {
-    name: "fda",
-    description: "fda",
+    name: "",
+    description: "",
     variations: {
       data: []
     }
@@ -220,7 +220,7 @@ export default function rootReducer(state = initialState, action) {
         [...state.productForm.variations.data],
         false
       );
-      newState.productForm.variations.data.push({name: "", choices: ""});
+      newState.productForm.variations.data.push({name: "", choices: []});
       return Object.assign({}, state, newState);
     case DELETE_VARIATION_PRODUCT_FORM:
       let data = [...state.productForm.variations.data];

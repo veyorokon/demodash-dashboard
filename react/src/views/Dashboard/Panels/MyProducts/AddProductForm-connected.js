@@ -1,5 +1,5 @@
 import React from "react";
-import {Box, Flex, Text, CallToActionButton, Icon, DropDown} from "components";
+import {Box, Flex, Text, CallToActionButton, Icon} from "components";
 import {
   FlexInput,
   FlexField,
@@ -16,7 +16,6 @@ import {
 
 import {Delete} from "@styled-icons/material/Delete";
 import {AddCircle} from "@styled-icons/material/AddCircle";
-import {Image} from "@styled-icons/boxicons-solid/Image";
 import {responsive as r, getEventVal} from "lib";
 
 const FormButton = props => (
@@ -37,7 +36,6 @@ const _FormCard = props => {
   const {productForm, addVariation, deleteVariation, updateProductForm} = props;
   const variationData = productForm.variations.data;
   let hasVariations = variationData.length ? true : false;
-  console.log(productForm);
   return (
     <Box
       w={r("80rem ---------> 100rem")}
@@ -88,7 +86,7 @@ const _FormCard = props => {
               variationData.map((variation, index) => {
                 return (
                   <Flex key={index} flexDirection="column" h="fit-content">
-                    <Text mb={1} mt={3}>
+                    <Text mb={1} mt={2}>
                       Variation name
                     </Text>
                     <FlexInput
@@ -108,9 +106,9 @@ const _FormCard = props => {
                       Variation choices (one per line)
                     </Text>
                     <FlexTextArea
-                      value={variation.choices.join("\n") || ""}
+                      value={variation.choices || ""}
                       onChange={evt => {
-                        variation.choices = getEventVal(evt).split("\n");
+                        variation.choices = getEventVal(evt);
                         let newVariationData = [...variationData];
                         newVariationData[index] = variation;
                         updateProductForm({
@@ -143,10 +141,9 @@ const _FormCard = props => {
               })}
             <Flex flexDirection="column" h="fit-content">
               <FormButton
-                title="Add a variation"
+                title="Add this variation"
                 onClick={addVariation}
-                mt={hasVariations ? 3 : r("0 ----> 2")}
-                mb={hasVariations ? 3 : r("0 ----> 2")}
+                mt={hasVariations ? 4 : r("0 ----> 2")}
               >
                 <Flex alignItems="center">
                   <Icon ml={3} mr={2} h={"2.2rem"}>
@@ -156,57 +153,6 @@ const _FormCard = props => {
                 </Flex>
               </FormButton>
             </Flex>
-          </Flex>
-        </FormGroup>
-
-        <FormGroup mb={r("3 ----> 2")}>
-          <FlexField name={"Images:"} />
-          <Flex flexBasis="60%" flexDirection="column" h="fit-content">
-            <Flex flexDirection="column" h="fit-content">
-              <Text mb={1} mt={3}>
-                Name
-              </Text>
-              <Flex mt={1} mb={1} color="oranges.0" alignItems="center">
-                <Icon ml={3} mr={2} h={"2.2rem"}>
-                  <Image />
-                </Icon>
-                <Text>bromane-brown.jpg</Text>
-              </Flex>
-
-              <Text mb={1} mt={2}>
-                Optional
-              </Text>
-              <Flex>
-                <DropDown
-                  options={[{text: "Color: brown", value: "choice1"}]}
-                  br={2}
-                  maxWidth="100%"
-                  w="25rem"
-                  border={"1px solid lightslategrey"}
-                  hiddenOption={"Link image to variation"}
-                  {...props}
-                />
-              </Flex>
-              <Text mb={1} mt={1}>
-                Max: one per variation
-              </Text>
-              <FormButton mt={2} mb={2}>
-                <Flex alignItems="center">
-                  <Icon ml={3} mr={2} h={"2.2rem"}>
-                    <Delete />
-                  </Icon>
-                  <Text ml={4}>Delete this image</Text>
-                </Flex>
-              </FormButton>
-            </Flex>
-            <FormButton mt={4}>
-              <Flex alignItems="center">
-                <Icon ml={3} mr={2} h={"2.2rem"}>
-                  <AddCircle />
-                </Icon>
-                <Text ml={4}>Add Image</Text>
-              </Flex>
-            </FormButton>
           </Flex>
         </FormGroup>
       </FormSection>

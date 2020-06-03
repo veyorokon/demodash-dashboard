@@ -6,7 +6,10 @@ import {
   UDPATE_PANEL,
   TOGGLE_NAV,
   UDPATE_ACCOUNT_USER_SET,
-  UPDATE_PROFILE_FORM
+  UPDATE_PROFILE_FORM,
+  ADD_VARIATION_PRODUCT_FORM,
+  DELETE_VARIATION_PRODUCT_FORM,
+  UPDATE_PRODUCT_FORM
 } from "redux/constants";
 
 export function updateRegistrationForm(payload) {
@@ -51,5 +54,21 @@ export function updatePanel(payload) {
 export function toggleNav() {
   return function(dispatch) {
     return dispatch({type: TOGGLE_NAV, payload: {}});
+  };
+}
+
+export function addVariationProductForm(payload) {
+  return function(dispatch) {
+    return dispatch({type: ADD_VARIATION_PRODUCT_FORM, payload: {}});
+  };
+}
+export function deleteVariationProductForm(payload) {
+  return function(dispatch) {
+    return dispatch({type: DELETE_VARIATION_PRODUCT_FORM, payload: payload});
+  };
+}
+export function updateProductForm(payload) {
+  return function(dispatch) {
+    return dispatch({type: UPDATE_PRODUCT_FORM, payload: payload});
   };
 }

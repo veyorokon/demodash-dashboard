@@ -6,7 +6,10 @@ import {
   UDPATE_PANEL,
   TOGGLE_NAV,
   UDPATE_ACCOUNT_USER_SET,
-  UPDATE_PROFILE_FORM
+  UPDATE_PROFILE_FORM,
+  ADD_VARIATION_PRODUCT_FORM,
+  DELETE_VARIATION_PRODUCT_FORM,
+  UPDATE_PRODUCT_FORM
 } from "redux/constants";
 import {updateState, validateEmail, validatePassword} from "lib";
 
@@ -66,9 +69,11 @@ const initialState = {
   },
   profileForm: {},
   productForm: {
-    name: "",
-    description: "",
-    variations: [{id: 0, name: "", choices: ""}]
+    name: "fda",
+    description: "fda",
+    variations: {
+      data: []
+    }
   },
   panel: "myProducts",
   previousPanel: "home",
@@ -115,6 +120,10 @@ function checkPanel(panel) {
   const mutualPanels = ["home", "settings", "payoutBilling"];
   if (mutualPanels.includes(panel)) return true;
   else return false;
+}
+
+function remove(array, index) {
+  array.splice(index, 1);
 }
 
 export default function rootReducer(state = initialState, action) {
@@ -204,6 +213,21 @@ export default function rootReducer(state = initialState, action) {
       if (newState.profileForm.isSubmitting)
         newState.profileForm.disabled = true;
       return Object.assign({}, state, newState);
+    case ADD_VARIATION_PRODUCT_FORM:
+      newState = updateState(
+        state,
+        ["productForm", "variations", "data"],
+        [...state.productForm.variations.data],
+        false
+      );
+      newState.productForm.variations.data.push({name: "", choices: ""});
+      return Object.assign({}, state, newState);
+    case DELETE_VARIATION_PRODUCT_FORM:
+      let data = [...state.productForm.variations.data];
+      remove(data, payload);
+      return updateState(state, ["productForm", "variations", "data"], data);
+    case UPDATE_PRODUCT_FORM:
+      return updateState(state, ["productForm"], payload);
     default:
       return state;
   }

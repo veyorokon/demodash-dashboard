@@ -16,8 +16,6 @@ const FormButton = props => (
   <CallToActionButton
     hoverBackground="#FFC651"
     br={2}
-    mt={2}
-    mb={2}
     bg={"yellows.1"}
     w="25rem"
     maxWidth={"100%"}
@@ -65,7 +63,13 @@ const FormCard = props => {
                 Variation choices (one per line)
               </Text>
               <FlexTextArea placeholder="Variation choices..." />
-              <FormButton>
+              <FormButton
+                onClick={() => {
+                  let conf = window.confirm("Are you sure");
+                  console.log(conf);
+                }}
+                mt={2}
+              >
                 <Flex alignItems="center">
                   <Icon ml={3} mr={2} h={"2.2rem"}>
                     <Delete />

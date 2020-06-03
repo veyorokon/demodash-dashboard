@@ -119,6 +119,7 @@ const _FormCard = props => {
                       placeholder="Variation choices..."
                     />
                     <FormButton
+                      title="Delete this variation"
                       onClick={() => {
                         let conf = window.confirm(
                           "Are you sure you want to delete this variation?"
@@ -140,7 +141,8 @@ const _FormCard = props => {
               })}
             <Flex flexDirection="column" h="fit-content">
               <FormButton
-                onClick={() => addVariation()}
+                title="Delete this variation"
+                onClick={addVariation}
                 mt={hasVariations ? 4 : r("0 ----> 2")}
               >
                 <Flex alignItems="center">

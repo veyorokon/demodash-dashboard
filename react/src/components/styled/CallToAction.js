@@ -9,7 +9,6 @@ export const CallToActionButton = styled(Button)`
   outline: none;
   letter-spacing: 0.2px;
   transition: all 0.3s ease-in-out;
-  text-transform: capitalize;
 `;
 
 export default CallToActionButton;

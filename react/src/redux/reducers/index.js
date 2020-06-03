@@ -65,7 +65,12 @@ const initialState = {
     accountUserSet: []
   },
   profileForm: {},
-  panel: "home",
+  productForm: {
+    name: "",
+    description: "",
+    variations: [{id: 0, name: "", choices: ""}]
+  },
+  panel: "myProducts",
   previousPanel: "home",
   navOpen: false
 };
@@ -149,8 +154,8 @@ export default function rootReducer(state = initialState, action) {
       );
       //Checks if a previous account user was selected to return user
       if (!newState.dashboard.previousAccountUser) {
-        newState.dashboard.currentAccountUser = payload[0].id || null;
-        accountUser = filterAccountUser(newState, payload[0].id);
+        newState.dashboard.currentAccountUser = payload[1].id || null;
+        accountUser = filterAccountUser(newState, payload[1].id);
       } else {
         newState.dashboard.currentAccountUser =
           state.dashboard.currentAccountUser;
@@ -162,7 +167,9 @@ export default function rootReducer(state = initialState, action) {
       //Sets default values for profile form
       newState = populateProfileForm(newState, accountUser);
       isMutualPanel = checkPanel(state.panel);
-      newState.panel = "home";
+      //newState.panel = "home";
+      newState.panel = "myProducts";
+
       //Restores previous panel if it is a mutual panel
       if (isMutualPanel) newState.panel = state.panel;
       return Object.assign({}, state, newState);
@@ -179,7 +186,9 @@ export default function rootReducer(state = initialState, action) {
       accountUser = filterAccountUser(state, payload);
       //Restores previous panel if it is a mutual panel
       isMutualPanel = checkPanel(state.panel);
-      newState.panel = "home";
+      //newState.panel = "home";
+      newState.panel = "myProducts";
+
       if (isMutualPanel) newState.panel = state.panel;
       //Sets default values for profile form
       populateProfileForm(newState, accountUser);

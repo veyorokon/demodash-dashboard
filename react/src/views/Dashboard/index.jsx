@@ -20,7 +20,7 @@ import {
   Purchases
 } from "./Panels";
 import {LogoutBox} from "@styled-icons/remix-line/LogoutBox";
-import {DemoerNav, BrandNav} from "./nav";
+import {DemoerNav, BrandNav, AllNav} from "./nav";
 
 import {responsive as r, clearToken} from "lib";
 import {connect} from "react-redux";
@@ -52,7 +52,8 @@ const _Dashboard = props => {
             <QueryAccountUsers />
             <AccountUserDropDown />
             <Flex w={"100%"} flexDirection="column">
-              {type ? type === "Brand" ? <BrandNav /> : <DemoerNav /> : null}
+              {/*{type ? type === "Brand" ? <BrandNav /> : <DemoerNav /> : null}*/}
+              <AllNav />
             </Flex>
             <Flex mt={4} flexGrow={0} w={"100%"} flexDirection="column">
               <NavItem

@@ -107,13 +107,7 @@ const BrandNav = props => {
 const AllNav = props => {
   return (
     <>
-      <ConnectedNavItem
-        id={"demoerHome"}
-        text="Demoer Home"
-        icon={<HomeIcon />}
-      />
-      <ConnectedNavItem id={"brandHome"} text="Home" icon={<HomeIcon />} />
-
+      <ConnectedNavItem id={"home"} text="Home" icon={<HomeIcon />} />
       <ConnectedNavItem
         id={"myDemos"}
         text="My demos"

@@ -15,7 +15,8 @@ import {
   Table,
   Tr,
   Th,
-  Td
+  Td,
+  Label
 } from "./core";
 import FeatureLink from "./composite/FeatureLink";
 import VertTabs, {TabPanel} from "./composite/VertTabs";
@@ -42,6 +43,7 @@ export {
   Hidden,
   Button,
   Input,
+  Label,
   Video,
   ImageBox,
   Section,

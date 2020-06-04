@@ -1,5 +1,14 @@
 import React from "react";
-import {Box, Flex, Text, CallToActionButton, Icon, DropDown} from "components";
+import {
+  Box,
+  Flex,
+  Text,
+  CallToActionButton,
+  Icon,
+  Input,
+  DropDown,
+  Label
+} from "components";
 import {
   FlexInput,
   FlexField,
@@ -18,6 +27,7 @@ import {Delete} from "@styled-icons/material/Delete";
 import {AddCircle} from "@styled-icons/material/AddCircle";
 import {Image} from "@styled-icons/boxicons-solid/Image";
 import {responsive as r, getEventVal} from "lib";
+import styled from "styled-components";
 
 const FormButton = props => (
   <CallToActionButton
@@ -32,6 +42,55 @@ const FormButton = props => (
     {props.children}
   </CallToActionButton>
 );
+
+const InvisibleInput = styled(Input)`
+  visibility: hidden;
+`;
+
+class ImageInput extends React.Component {
+  handleImageChange(e) {
+    e.preventDefault();
+    let file = e.target.files[0];
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      this.setState({
+        file: file,
+        base64: reader.result
+      });
+      return this.props.onChange(reader.result);
+    };
+  }
+
+  render() {
+    return (
+      <>
+        <Label
+          hoverBackground="#FFC651"
+          cursor="pointer"
+          br={2}
+          bg={"yellows.1"}
+          display="flex"
+          alignItems="center"
+          h={"3.5rem"}
+          w="25rem"
+          htmlFor="product-image-upload"
+          {...this.props}
+        >
+          <Icon ml={3} mr={2} h={"2.2rem"}>
+            <AddCircle />
+          </Icon>
+          <Text ml={4}>Add Image</Text>
+        </Label>
+        <InvisibleInput
+          onChange={evt => this.handleImageChange(evt)}
+          id="product-image-upload"
+          type="file"
+        />
+      </>
+    );
+  }
+}
 
 const _FormCard = props => {
   const {productForm, addVariation, deleteVariation, updateProductForm} = props;
@@ -199,14 +258,7 @@ const _FormCard = props => {
                 </Flex>
               </FormButton>
             </Flex>
-            <FormButton mt={4}>
-              <Flex alignItems="center">
-                <Icon ml={3} mr={2} h={"2.2rem"}>
-                  <AddCircle />
-                </Icon>
-                <Text ml={4}>Add Image</Text>
-              </Flex>
-            </FormButton>
+            <ImageInput onChange={encoding => console.log(encoding)} mt={4} />
           </Flex>
         </FormGroup>
       </FormSection>

@@ -9,7 +9,8 @@ import {
   UPDATE_PROFILE_FORM,
   ADD_VARIATION_PRODUCT_FORM,
   DELETE_VARIATION_PRODUCT_FORM,
-  UPDATE_PRODUCT_FORM
+  UPDATE_PRODUCT_FORM,
+  ADD_IMAGE_PRODUCT_FORM
 } from "redux/constants";
 import {updateState, validateEmail, validatePassword} from "lib";
 
@@ -72,6 +73,9 @@ const initialState = {
     name: "",
     description: "",
     variations: {
+      data: []
+    },
+    images: {
       data: []
     }
   },
@@ -228,6 +232,18 @@ export default function rootReducer(state = initialState, action) {
       return updateState(state, ["productForm", "variations", "data"], data);
     case UPDATE_PRODUCT_FORM:
       return updateState(state, ["productForm"], payload);
+    case ADD_IMAGE_PRODUCT_FORM:
+      newState = updateState(
+        state,
+        ["productForm", "images", "data"],
+        [...state.productForm.images.data],
+        false
+      );
+      newState.productForm.images.data.push({
+        ...payload,
+        variationLink: []
+      });
+      return Object.assign({}, state, newState);
     default:
       return state;
   }

@@ -20,7 +20,8 @@ import {connect} from "react-redux";
 import {
   addVariationProductForm,
   deleteVariationProductForm,
-  updateProductForm
+  updateProductForm,
+  addImageProductForm
 } from "redux/actions";
 
 import {Delete} from "@styled-icons/material/Delete";
@@ -53,7 +54,7 @@ class ImageInput extends React.Component {
         file: file,
         base64: reader.result
       });
-      return this.props.onChange(reader.result);
+      return this.props.onChange({name: file.name, encoding: reader.result});
     };
   }
 
@@ -90,7 +91,13 @@ class ImageInput extends React.Component {
 }
 
 const _FormCard = props => {
-  const {productForm, addVariation, deleteVariation, updateProductForm} = props;
+  const {
+    productForm,
+    addVariation,
+    deleteVariation,
+    updateProductForm,
+    addImage
+  } = props;
   const variationData = productForm.variations.data;
   let hasVariations = variationData.length ? true : false;
   console.log(productForm);
@@ -255,7 +262,7 @@ const _FormCard = props => {
                 </Flex>
               </FormButton>
             </Flex>
-            <ImageInput onChange={encoding => console.log(encoding)} mt={4} />
+            <ImageInput onChange={result => addImage(result)} mt={4} />
           </Flex>
         </FormGroup>
       </FormSection>
@@ -278,7 +285,8 @@ function mapDispatchToProps(dispatch) {
   return {
     addVariation: payload => dispatch(addVariationProductForm(payload)),
     deleteVariation: payload => dispatch(deleteVariationProductForm(payload)),
-    updateProductForm: payload => dispatch(updateProductForm(payload))
+    updateProductForm: payload => dispatch(updateProductForm(payload)),
+    addImage: payload => dispatch(addImageProductForm(payload))
   };
 }
 

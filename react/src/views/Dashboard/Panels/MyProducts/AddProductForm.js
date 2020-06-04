@@ -282,6 +282,7 @@ const _FormCard = props => {
                             w="25rem"
                             border={"1px solid lightslategrey"}
                             defaultOption={"Link image to variation"}
+                            value={image.variationLink || -1}
                             onChange={evt => {
                               image.variationLink = getEventVal(evt);
                               let newImageData = [...imageData];
@@ -299,7 +300,6 @@ const _FormCard = props => {
                         </Text>
                       </>
                     )}
-
                     <FormButton
                       mt={2}
                       mb={2}

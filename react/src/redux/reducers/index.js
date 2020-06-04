@@ -131,6 +131,19 @@ function remove(array, index) {
   array.splice(index, 1);
 }
 
+function updateImageVariationLinks(imageData, index) {
+  let newImageData = [];
+  for (var indx in imageData) {
+    const image = imageData[indx];
+    if (image.variationLink.includes(",")) {
+      const variationLink = image.variationLink.split(",").map(x => +x);
+      if (index === variationLink[0]) image.variationLink = -1;
+      else newImageData.push(image);
+    } else newImageData.push(newImageData);
+  }
+  return newImageData;
+}
+
 export default function rootReducer(state = initialState, action) {
   const {payload} = action;
   let newState, accountUser, isMutualPanel, data;
@@ -230,6 +243,9 @@ export default function rootReducer(state = initialState, action) {
     case DELETE_VARIATION_PRODUCT_FORM:
       data = [...state.productForm.variations.data];
       remove(data, payload);
+      console.log(
+        updateImageVariationLinks(state.productForm.images.data, payload)
+      );
       return updateState(state, ["productForm", "variations", "data"], data);
     case UPDATE_PRODUCT_FORM:
       return updateState(state, ["productForm"], payload);
@@ -242,7 +258,7 @@ export default function rootReducer(state = initialState, action) {
       );
       newState.productForm.images.data.push({
         ...payload,
-        variationLink: []
+        variationLink: -1
       });
       return Object.assign({}, state, newState);
     case DELETE_IMAGE_PRODUCT_FORM:

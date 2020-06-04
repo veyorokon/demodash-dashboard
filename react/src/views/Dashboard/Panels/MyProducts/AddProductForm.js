@@ -231,7 +231,12 @@ const _FormCard = props => {
             {imageData &&
               imageData.map((image, index) => {
                 return (
-                  <Flex key={index} flexDirection="column" h="fit-content">
+                  <Flex
+                    maxWidth="25rem"
+                    key={index}
+                    flexDirection="column"
+                    h="fit-content"
+                  >
                     <Text mb={1} mt={3}>
                       Name
                     </Text>

@@ -27,7 +27,6 @@ import {Delete} from "@styled-icons/material/Delete";
 import {AddCircle} from "@styled-icons/material/AddCircle";
 import {Image} from "@styled-icons/boxicons-solid/Image";
 import {responsive as r, getEventVal} from "lib";
-import styled from "styled-components";
 
 const FormButton = props => (
   <CallToActionButton
@@ -42,10 +41,6 @@ const FormButton = props => (
     {props.children}
   </CallToActionButton>
 );
-
-const InvisibleInput = styled(Input)`
-  visibility: hidden;
-`;
 
 class ImageInput extends React.Component {
   handleImageChange(e) {
@@ -74,6 +69,7 @@ class ImageInput extends React.Component {
           alignItems="center"
           h={"3.5rem"}
           w="25rem"
+          maxWidth={"100%"}
           htmlFor="product-image-upload"
           {...this.props}
         >
@@ -82,7 +78,8 @@ class ImageInput extends React.Component {
           </Icon>
           <Text ml={4}>Add Image</Text>
         </Label>
-        <InvisibleInput
+        <Input
+          display="none"
           onChange={evt => this.handleImageChange(evt)}
           id="product-image-upload"
           type="file"

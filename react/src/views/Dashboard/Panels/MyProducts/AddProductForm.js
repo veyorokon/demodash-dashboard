@@ -86,6 +86,7 @@ class ImageInput extends React.Component {
           onChange={evt => this.handleImageChange(evt)}
           id="product-image-upload"
           type="file"
+          accept=".jpg,.jpeg,.png,.svg"
         />
       </>
     );

@@ -100,9 +100,6 @@ const _FormCard = props => {
   } = props;
   const variationData = productForm.variations.data;
   let hasVariations = variationData.length ? true : false;
-
-  const imageData = productForm.images.data;
-  let hasImages = imageData.length ? true : false;
   console.log(productForm);
   return (
     <Box
@@ -226,59 +223,46 @@ const _FormCard = props => {
         </FormGroup>
 
         <FormGroup mb={r("3 ----> 2")}>
-          <FlexField name={"Images:"} mb={2} />
+          <FlexField name={"Images:"} />
           <Flex flexBasis="60%" flexDirection="column" h="fit-content">
-            {imageData &&
-              imageData.map((image, index) => {
-                return (
-                  <Flex key={index} flexDirection="column" h="fit-content">
-                    <Text mb={1} mt={3}>
-                      Name
-                    </Text>
-                    <Flex mt={1} mb={1} color="oranges.0" alignItems="center">
-                      <Icon ml={3} mr={2} h={"2.2rem"}>
-                        <Image />
-                      </Icon>
-                      <Text>{image.name}</Text>
-                    </Flex>
+            <Flex flexDirection="column" h="fit-content">
+              <Text mb={1} mt={3}>
+                Name
+              </Text>
+              <Flex mt={1} mb={1} color="oranges.0" alignItems="center">
+                <Icon ml={3} mr={2} h={"2.2rem"}>
+                  <Image />
+                </Icon>
+                <Text>bromane-brown.jpg</Text>
+              </Flex>
 
-                    {hasVariations && (
-                      <>
-                        <Text mb={1} mt={2}>
-                          Optional
-                        </Text>
-                        <Flex>
-                          <DropDown
-                            options={[{text: "Color: brown", value: "choice1"}]}
-                            br={2}
-                            maxWidth="100%"
-                            w="25rem"
-                            border={"1px solid lightslategrey"}
-                            hiddenOption={"Link image to variation"}
-                            {...props}
-                          />
-                        </Flex>
-                        <Text mb={1} mt={1}>
-                          Max: one per variation
-                        </Text>
-                      </>
-                    )}
-
-                    <FormButton mt={2} mb={2}>
-                      <Flex alignItems="center">
-                        <Icon ml={3} mr={2} h={"2.2rem"}>
-                          <Delete />
-                        </Icon>
-                        <Text ml={4}>Delete this image</Text>
-                      </Flex>
-                    </FormButton>
-                  </Flex>
-                );
-              })}
-            <ImageInput
-              onChange={result => addImage(result)}
-              mt={hasImages ? 3 : r("0 ----> 2")}
-            />
+              <Text mb={1} mt={2}>
+                Optional
+              </Text>
+              <Flex>
+                <DropDown
+                  options={[{text: "Color: brown", value: "choice1"}]}
+                  br={2}
+                  maxWidth="100%"
+                  w="25rem"
+                  border={"1px solid lightslategrey"}
+                  hiddenOption={"Link image to variation"}
+                  {...props}
+                />
+              </Flex>
+              <Text mb={1} mt={1}>
+                Max: one per variation
+              </Text>
+              <FormButton mt={2} mb={2}>
+                <Flex alignItems="center">
+                  <Icon ml={3} mr={2} h={"2.2rem"}>
+                    <Delete />
+                  </Icon>
+                  <Text ml={4}>Delete this image</Text>
+                </Flex>
+              </FormButton>
+            </Flex>
+            <ImageInput onChange={result => addImage(result)} mt={4} />
           </Flex>
         </FormGroup>
       </FormSection>

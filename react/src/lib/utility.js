@@ -57,3 +57,10 @@ export function formatErrorMessage(error, defaultMessage) {
   if (!error.message.includes(graphQLStr)) return defaultMessage;
   return error.message.replace(graphQLStr, "");
 }
+
+export function formatGQLErrorMessage(error, defaultMessage = "") {
+  const graphQLStr = "GraphQL error: ";
+  if (!error.message.includes(graphQLStr)) return defaultMessage;
+  let data = error.message.replace(graphQLStr, "").split(";");
+  return {errorField: data[0], errorMessage: data[1]};
+}

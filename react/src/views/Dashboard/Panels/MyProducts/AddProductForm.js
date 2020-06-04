@@ -33,7 +33,12 @@ import {Mutation} from "@apollo/react-components";
 import {CREATE_PRODUCT} from "./gql";
 import {USER__ACCOUNT_USER_SET} from "views/Dashboard/gql";
 
-import {responsive as r, getEventVal, getToken} from "lib";
+import {
+  responsive as r,
+  getEventVal,
+  getToken,
+  formatGQLErrorMessage
+} from "lib";
 
 const FormButton = props => (
   <CallToActionButton
@@ -127,12 +132,13 @@ class _FormCard extends React.Component {
       isSubmitting: true
     });
 
-    productForm.accountUserId = parseInt(currentAccountUser);
-    productForm.token = getToken().token;
-    productForm.variations = productForm.variations.data;
+    let flatForm = {...productForm};
+    flatForm.accountUserId = parseInt(currentAccountUser);
+    flatForm.token = getToken().token;
+    flatForm.variations = productForm.variations.data;
     let newImageData = [];
-    for (var indx in productForm.images.data) {
-      let img = {...productForm.images.data[indx]};
+    for (var indx in flatForm.images.data) {
+      let img = {...flatForm.images.data[indx]};
       if (img.variationLink === "-1")
         img.variationLink = [parseInt(img.variationLink)];
       else if (img.variationLink === -1)
@@ -140,11 +146,36 @@ class _FormCard extends React.Component {
       else img.variationLink = img.variationLink.split(",").map(x => +x);
       newImageData.push(img);
     }
-    productForm.images = newImageData;
-    console.log(productForm);
-    return createProduct({
-      variables: productForm
-    });
+    flatForm.images = newImageData;
+
+    try {
+      await createProduct({
+        variables: flatForm
+      });
+      return updateProductForm({
+        name: "",
+        description: "",
+        disabled: true,
+        isSubmitting: false,
+        errorMessage: "",
+        variations: {
+          data: []
+        },
+        images: {
+          data: [],
+          errorMessage: ""
+        },
+        successMessage: "Product was successfully created!"
+      });
+    } catch (error) {
+      let gqlError = formatGQLErrorMessage(error, "");
+      return updateProductForm({
+        ...productForm,
+        ...gqlError,
+        isSubmitting: false,
+        disabled: true
+      });
+    }
   }
 
   render() {
@@ -158,14 +189,15 @@ class _FormCard extends React.Component {
       deleteImage
     } = props;
     const variationData = productForm.variations.data;
-    let hasVariations = variationData.length ? true : false;
+    let hasVariations = variationData && variationData.length ? true : false;
 
     const imageData = productForm.images.data;
-    let hasImages = imageData.length ? true : false;
+    let hasImages = imageData && imageData.length ? true : false;
     let imgVariationOptions = getImageVariationOptions(variationData);
     let hasVariationOptions = imgVariationOptions.length ? true : false;
 
     const {disabled} = productForm;
+    console.log(productForm);
     return (
       <Box
         w={r("80rem ---------> 100rem")}
@@ -189,7 +221,9 @@ class _FormCard extends React.Component {
               onChange={evt =>
                 updateProductForm({
                   ...productForm,
-                  name: getEventVal(evt)
+                  name: getEventVal(evt),
+                  disabled: false,
+                  successMessage: ""
                 })
               }
               mt={1}
@@ -202,7 +236,9 @@ class _FormCard extends React.Component {
               onChange={evt =>
                 updateProductForm({
                   ...productForm,
-                  description: getEventVal(evt)
+                  description: getEventVal(evt),
+                  disabled: false,
+                  successMessage: ""
                 })
               }
               placeholder="About your product..."
@@ -227,7 +263,9 @@ class _FormCard extends React.Component {
                           newVariationData[index] = variation;
                           updateProductForm({
                             ...productForm,
-                            variations: {data: newVariationData}
+                            variations: {data: newVariationData},
+                            disabled: false,
+                            successMessage: ""
                           });
                         }}
                         placeholder="Color, size etc."
@@ -243,7 +281,9 @@ class _FormCard extends React.Component {
                           newVariationData[index] = variation;
                           updateProductForm({
                             ...productForm,
-                            variations: {data: newVariationData}
+                            variations: {data: newVariationData},
+                            disabled: false,
+                            successMessage: ""
                           });
                         }}
                         placeholder="Variation choices..."
@@ -328,7 +368,9 @@ class _FormCard extends React.Component {
                                 newImageData[index] = image;
                                 updateProductForm({
                                   ...productForm,
-                                  images: {data: newImageData}
+                                  images: {data: newImageData},
+                                  disabled: false,
+                                  successMessage: ""
                                 });
                               }}
                               {...props}
@@ -360,7 +402,7 @@ class _FormCard extends React.Component {
                     </Flex>
                   );
                 })}
-              {imageData.length < 8 ? (
+              {imageData && imageData.length < 8 ? (
                 <ImageInput
                   onChange={result => addImage(result)}
                   mt={hasImages ? 3 : r("0 ----> 2")}
@@ -374,7 +416,7 @@ class _FormCard extends React.Component {
                   mt={3}
                   mb={1}
                 >
-                  <Text textAlign="center" color="greens.0">
+                  <Text textAlign="center" color="greens.4">
                     Maximum images added
                   </Text>
                 </Flex>
@@ -402,6 +444,20 @@ class _FormCard extends React.Component {
           flexDirection={r("column ----> row")}
           alignItems="center"
         >
+          {productForm.errorMessage && (
+            <Flex>
+              <Text mb={r("3 ----> 0")} color="oranges.0">
+                {productForm.errorMessage}
+              </Text>
+            </Flex>
+          )}
+          {productForm.successMessage && (
+            <Flex>
+              <Text mb={r("3 ----> 0")} color="greens.4">
+                {productForm.successMessage}
+              </Text>
+            </Flex>
+          )}
           <Mutation
             mutation={CREATE_PRODUCT}
             refetchQueries={[
@@ -415,9 +471,9 @@ class _FormCard extends React.Component {
               <CallToActionButton
                 disabled={disabled}
                 cursor={disabled ? "no-drop" : "pointer"}
-                hoverBackground={disabled ? "#b2afe2" : "#173bd0"}
-                bg={disabled ? "#b2afe2" : "blues.0"}
-                color={disabled ? "whites.2" : "whites.0"}
+                hoverBackground={disabled ? "#ffb39f" : "#F87060"}
+                bg={disabled ? "#ffb39f" : "oranges.1"}
+                color={disabled ? "greys.0" : "whites.0"}
                 hoverColor={disabled ? "whites.2" : "whites.0"}
                 br={2}
                 w={r("100% 25rem ---> 10rem")}

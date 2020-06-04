@@ -73,7 +73,7 @@ const initialState = {
   productForm: {
     name: "",
     description: "",
-    disabled: false,
+    disabled: true,
     isSubmitting: false,
     variations: {
       data: []
@@ -243,6 +243,8 @@ export default function rootReducer(state = initialState, action) {
         false
       );
       newState.productForm.variations.data.push({name: "", choices: []});
+      newState.productForm.errorMessage = "";
+      newState.productForm.successMessage = "";
       return Object.assign({}, state, newState);
     case DELETE_VARIATION_PRODUCT_FORM:
       data = [...state.productForm.variations.data];
@@ -250,7 +252,15 @@ export default function rootReducer(state = initialState, action) {
       console.log(
         updateImageVariationLinks(state.productForm.images.data, payload)
       );
-      return updateState(state, ["productForm", "variations", "data"], data);
+      newState = updateState(
+        state,
+        ["productForm", "variations", "data"],
+        data,
+        false
+      );
+      newState.productForm.errorMessage = "";
+      newState.productForm.successMessage = "";
+      return Object.assign({}, state, newState);
     case UPDATE_PRODUCT_FORM:
       return updateState(state, ["productForm"], payload);
     case ADD_IMAGE_PRODUCT_FORM:
@@ -272,6 +282,9 @@ export default function rootReducer(state = initialState, action) {
           ...payload
         };
       }
+      newState.productForm.errorMessage = "";
+      newState.productForm.successMessage = "";
+      newState.productForm.disabled = false;
       return Object.assign({}, state, newState);
     case DELETE_IMAGE_PRODUCT_FORM:
       data = [...state.productForm.images.data];

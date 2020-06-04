@@ -73,6 +73,8 @@ const initialState = {
   productForm: {
     name: "",
     description: "",
+    disabled: false,
+    isSubmitting: false,
     variations: {
       data: []
     },

@@ -29,7 +29,11 @@ import {
 import {Delete} from "@styled-icons/material/Delete";
 import {AddCircle} from "@styled-icons/material/AddCircle";
 import {Image} from "@styled-icons/boxicons-solid/Image";
-import {responsive as r, getEventVal} from "lib";
+import {Mutation} from "@apollo/react-components";
+import {CREATE_PRODUCT} from "./gql";
+import {USER__ACCOUNT_USER_SET} from "views/Dashboard/gql";
+
+import {responsive as r, getEventVal, getToken} from "lib";
 
 const FormButton = props => (
   <CallToActionButton
@@ -115,257 +119,326 @@ function getImageVariationOptions(variationData) {
   return options;
 }
 
-const _FormCard = props => {
-  const {
-    productForm,
-    addVariation,
-    deleteVariation,
-    updateProductForm,
-    addImage,
-    deleteImage
-  } = props;
-  const variationData = productForm.variations.data;
-  let hasVariations = variationData.length ? true : false;
+class _FormCard extends React.Component {
+  async createProductMutation(createProduct) {
+    const {productForm, currentAccountUser, updateProductForm} = this.props;
+    updateProductForm({
+      ...productForm,
+      isSubmitting: true
+    });
 
-  const imageData = productForm.images.data;
-  let hasImages = imageData.length ? true : false;
-  let imgVariationOptions = getImageVariationOptions(variationData);
-  let hasVariationOptions = imgVariationOptions.length ? true : false;
-  console.log(productForm);
-  return (
-    <Box
-      w={r("80rem ---------> 100rem")}
-      maxWidth="100%"
-      boxShadow="0 1px 6px rgba(57,73,76,0.35)"
-      bg={"whites.0"}
-      br={"4px"}
-      {...props}
-    >
-      <FormSection>
-        <Text fs="1.8rem" fw={500}>
-          {props.title}
-        </Text>
-      </FormSection>
+    productForm.accountUserId = parseInt(currentAccountUser);
+    productForm.token = getToken().token;
+    productForm.variations = productForm.variations.data;
+    let newImageData = [];
+    for (var indx in productForm.images.data) {
+      let img = {...productForm.images.data[indx]};
+      if (img.variationLink === "-1")
+        img.variationLink = [parseInt(img.variationLink)];
+      else if (img.variationLink === -1)
+        img.variationLink = [img.variationLink];
+      else img.variationLink = img.variationLink.split(",").map(x => +x);
+      newImageData.push(img);
+    }
+    productForm.images = newImageData;
+    console.log(productForm);
+    return createProduct({
+      variables: productForm
+    });
+  }
 
-      <FormSection bg={"blues.3"} flexDirection="column" pt={4} pb={4}>
-        <FormGroup mb={r("3 ----> 2")}>
-          <FlexField name={"Product name:"} />
-          <FlexInput
-            value={productForm.name || ""}
-            onChange={evt =>
-              updateProductForm({
-                ...productForm,
-                name: getEventVal(evt)
-              })
-            }
-            mt={1}
-          />
-        </FormGroup>
-        <FormGroup mb={r("3 ----> 2")}>
-          <FlexField name={"Description:"} />
-          <FlexTextArea
-            value={productForm.description || ""}
-            onChange={evt =>
-              updateProductForm({
-                ...productForm,
-                description: getEventVal(evt)
-              })
-            }
-            placeholder="About your product..."
-            mt={1}
-          />
-        </FormGroup>
-        <FormGroup mb={r("3 ----> 2")}>
-          <FlexField name={"Variations:"} mb={2} />
-          <Flex flexBasis="60%" flexDirection="column" h="fit-content">
-            {variationData &&
-              variationData.map((variation, index) => {
-                return (
-                  <Flex key={index} flexDirection="column" h="fit-content">
-                    <FlexText h="2.2rem" mb={1} mt={3}>
-                      Variation name
-                    </FlexText>
-                    <FlexInput
-                      value={variation.name || ""}
-                      onChange={evt => {
-                        variation.name = getEventVal(evt);
-                        let newVariationData = [...variationData];
-                        newVariationData[index] = variation;
-                        updateProductForm({
-                          ...productForm,
-                          variations: {data: newVariationData}
-                        });
-                      }}
-                      placeholder="Color, size etc."
-                    />
-                    <Text mb={1} mt={2}>
-                      Variation choices (one per line)
-                    </Text>
-                    <FlexTextArea
-                      value={variation.choices.join("\n") || ""}
-                      onChange={evt => {
-                        variation.choices = getEventVal(evt).split("\n");
-                        let newVariationData = [...variationData];
-                        newVariationData[index] = variation;
-                        updateProductForm({
-                          ...productForm,
-                          variations: {data: newVariationData}
-                        });
-                      }}
-                      placeholder="Variation choices..."
-                    />
-                    <FormButton
-                      title="Delete this variation"
-                      onClick={() => {
-                        let conf = window.confirm(
-                          "Are you sure you want to delete this variation?"
-                        );
-                        if (conf) return deleteVariation(index);
-                      }}
-                      mt={2}
-                      mb={3}
-                    >
-                      <Flex alignItems="center">
-                        <Icon ml={3} mr={2} h={"2.2rem"}>
-                          <Delete />
-                        </Icon>
-                        <Text ml={4}>Delete variation</Text>
-                      </Flex>
-                    </FormButton>
-                  </Flex>
-                );
-              })}
-            <Flex flexDirection="column" h="fit-content">
-              <FormButton
-                title="Add a variation"
-                onClick={addVariation}
-                mt={hasVariations ? 3 : r("0 ----> 2")}
-                mb={hasVariations ? 3 : r("0 ----> 2")}
-              >
-                <Flex alignItems="center">
-                  <Icon ml={3} mr={2} h={"2.2rem"}>
-                    <AddCircle />
-                  </Icon>
-                  <Text ml={4}>Add variation</Text>
-                </Flex>
-              </FormButton>
-            </Flex>
-          </Flex>
-        </FormGroup>
-        <FormGroup mb={r("3 ----> 2")}>
-          <FlexField name={"Images:"} mb={2} />
-          <Flex flexBasis="60%" flexDirection="column" h="fit-content">
-            {imageData &&
-              imageData.map((image, index) => {
-                return (
-                  <Flex
-                    maxWidth="25rem"
-                    key={index}
-                    flexDirection="column"
-                    h="fit-content"
-                  >
-                    <FlexText h="2.2rem" mb={1} mt={3}>
-                      Image name
-                    </FlexText>
-                    <Flex mt={1} mb={1} color="oranges.0" alignItems="center">
-                      <Icon ml={3} mr={2} h={"2.2rem"}>
-                        <Image />
-                      </Icon>
-                      <Text>{image.name}</Text>
-                    </Flex>
+  render() {
+    const {props} = this;
+    const {
+      productForm,
+      addVariation,
+      deleteVariation,
+      updateProductForm,
+      addImage,
+      deleteImage
+    } = props;
+    const variationData = productForm.variations.data;
+    let hasVariations = variationData.length ? true : false;
 
-                    {hasVariationOptions && (
-                      <>
-                        <Text mb={1} mt={2}>
-                          Optional
-                        </Text>
-                        <Flex>
-                          <DropDown
-                            options={imgVariationOptions}
-                            br={2}
-                            maxWidth="100%"
-                            w="25rem"
-                            border={"1px solid lightslategrey"}
-                            defaultOption={"Link image to variation"}
-                            value={image.variationLink || -1}
-                            onChange={evt => {
-                              image.variationLink = getEventVal(evt);
-                              let newImageData = [...imageData];
-                              newImageData[index] = image;
-                              updateProductForm({
-                                ...productForm,
-                                images: {data: newImageData}
-                              });
-                            }}
-                            {...props}
-                          />
+    const imageData = productForm.images.data;
+    let hasImages = imageData.length ? true : false;
+    let imgVariationOptions = getImageVariationOptions(variationData);
+    let hasVariationOptions = imgVariationOptions.length ? true : false;
+
+    const {disabled} = productForm;
+    return (
+      <Box
+        w={r("80rem ---------> 100rem")}
+        maxWidth="100%"
+        boxShadow="0 1px 6px rgba(57,73,76,0.35)"
+        bg={"whites.0"}
+        br={"4px"}
+        {...props}
+      >
+        <FormSection>
+          <Text fs="1.8rem" fw={500}>
+            {props.title}
+          </Text>
+        </FormSection>
+
+        <FormSection bg={"blues.3"} flexDirection="column" pt={4} pb={4}>
+          <FormGroup mb={r("3 ----> 2")}>
+            <FlexField name={"Product name:"} />
+            <FlexInput
+              value={productForm.name || ""}
+              onChange={evt =>
+                updateProductForm({
+                  ...productForm,
+                  name: getEventVal(evt)
+                })
+              }
+              mt={1}
+            />
+          </FormGroup>
+          <FormGroup mb={r("3 ----> 2")}>
+            <FlexField name={"Description:"} />
+            <FlexTextArea
+              value={productForm.description || ""}
+              onChange={evt =>
+                updateProductForm({
+                  ...productForm,
+                  description: getEventVal(evt)
+                })
+              }
+              placeholder="About your product..."
+              mt={1}
+            />
+          </FormGroup>
+          <FormGroup mb={r("3 ----> 2")}>
+            <FlexField name={"Variations:"} mb={2} />
+            <Flex flexBasis="60%" flexDirection="column" h="fit-content">
+              {variationData &&
+                variationData.map((variation, index) => {
+                  return (
+                    <Flex key={index} flexDirection="column" h="fit-content">
+                      <FlexText h="2.2rem" mb={1} mt={3}>
+                        Variation name
+                      </FlexText>
+                      <FlexInput
+                        value={variation.name || ""}
+                        onChange={evt => {
+                          variation.name = getEventVal(evt);
+                          let newVariationData = [...variationData];
+                          newVariationData[index] = variation;
+                          updateProductForm({
+                            ...productForm,
+                            variations: {data: newVariationData}
+                          });
+                        }}
+                        placeholder="Color, size etc."
+                      />
+                      <Text mb={1} mt={2}>
+                        Variation choices (one per line)
+                      </Text>
+                      <FlexTextArea
+                        value={variation.choices.join("\n") || ""}
+                        onChange={evt => {
+                          variation.choices = getEventVal(evt).split("\n");
+                          let newVariationData = [...variationData];
+                          newVariationData[index] = variation;
+                          updateProductForm({
+                            ...productForm,
+                            variations: {data: newVariationData}
+                          });
+                        }}
+                        placeholder="Variation choices..."
+                      />
+                      <FormButton
+                        title="Delete this variation"
+                        onClick={() => {
+                          let conf = window.confirm(
+                            "Are you sure you want to delete this variation?"
+                          );
+                          if (conf) return deleteVariation(index);
+                        }}
+                        mt={2}
+                        mb={3}
+                      >
+                        <Flex alignItems="center">
+                          <Icon ml={3} mr={2} h={"2.2rem"}>
+                            <Delete />
+                          </Icon>
+                          <Text ml={4}>Delete variation</Text>
                         </Flex>
-                        <Text mb={1} mt={1}>
-                          Max: one per variation
-                        </Text>
-                      </>
-                    )}
-                    <FormButton
-                      mt={2}
-                      mb={2}
-                      title="Delete this image"
-                      onClick={() => {
-                        let conf = window.confirm(
-                          "Are you sure you want to delete this image?"
-                        );
-                        if (conf) return deleteImage(index);
-                      }}
-                    >
-                      <Flex alignItems="center">
-                        <Icon ml={3} mr={2} h={"2.2rem"}>
-                          <Delete />
-                        </Icon>
-                        <Text ml={4}>Delete this image</Text>
-                      </Flex>
-                    </FormButton>
+                      </FormButton>
+                    </Flex>
+                  );
+                })}
+              <Flex flexDirection="column" h="fit-content">
+                <FormButton
+                  title="Add a variation"
+                  onClick={addVariation}
+                  mt={hasVariations ? 3 : r("0 ----> 2")}
+                  mb={hasVariations ? 3 : r("0 ----> 2")}
+                >
+                  <Flex alignItems="center">
+                    <Icon ml={3} mr={2} h={"2.2rem"}>
+                      <AddCircle />
+                    </Icon>
+                    <Text ml={4}>Add variation</Text>
                   </Flex>
-                );
-              })}
-            {imageData.length < 8 ? (
-              <ImageInput
-                onChange={result => addImage(result)}
-                mt={hasImages ? 3 : r("0 ----> 2")}
-                mb={productForm.images.errorMessage ? 2 : 0}
-              />
-            ) : (
-              <Flex
-                justifyContent="center"
-                w="25rem"
-                maxWidth="100%"
-                mt={3}
-                mb={1}
-              >
-                <Text textAlign="center" color="greens.0">
-                  Maximum images added
-                </Text>
+                </FormButton>
               </Flex>
-            )}
-            {productForm.images.errorMessage && (
-              <Flex w="25rem" maxWidth="100%" mb={2}>
-                <Text color="oranges.0">{productForm.images.errorMessage}</Text>
-              </Flex>
-            )}
-          </Flex>
-        </FormGroup>
-      </FormSection>
+            </Flex>
+          </FormGroup>
+          <FormGroup mb={r("3 ----> 2")}>
+            <FlexField name={"Images:"} mb={2} />
+            <Flex flexBasis="60%" flexDirection="column" h="fit-content">
+              {imageData &&
+                imageData.map((image, index) => {
+                  return (
+                    <Flex
+                      maxWidth="25rem"
+                      key={index}
+                      flexDirection="column"
+                      h="fit-content"
+                    >
+                      <FlexText h="2.2rem" mb={1} mt={3}>
+                        Image name
+                      </FlexText>
+                      <Flex mt={1} mb={1} color="oranges.0" alignItems="center">
+                        <Icon ml={3} mr={2} h={"2.2rem"}>
+                          <Image />
+                        </Icon>
+                        <Text>{image.name}</Text>
+                      </Flex>
 
-      <FormSection justifyContent="flex-end">
-        <Text fs="1.6rem" fw={500}>
-          Save
-        </Text>
-      </FormSection>
-    </Box>
-  );
-};
+                      {hasVariationOptions && (
+                        <>
+                          <Text mb={1} mt={2}>
+                            Optional
+                          </Text>
+                          <Flex>
+                            <DropDown
+                              options={imgVariationOptions}
+                              br={2}
+                              maxWidth="100%"
+                              w="25rem"
+                              border={"1px solid lightslategrey"}
+                              defaultOption={"Link image to variation"}
+                              value={image.variationLink || -1}
+                              onChange={evt => {
+                                image.variationLink = getEventVal(evt);
+                                let newImageData = [...imageData];
+                                newImageData[index] = image;
+                                updateProductForm({
+                                  ...productForm,
+                                  images: {data: newImageData}
+                                });
+                              }}
+                              {...props}
+                            />
+                          </Flex>
+                          <Text mb={1} mt={1}>
+                            Max: one per variation
+                          </Text>
+                        </>
+                      )}
+                      <FormButton
+                        mt={2}
+                        mb={2}
+                        title="Delete this image"
+                        onClick={() => {
+                          let conf = window.confirm(
+                            "Are you sure you want to delete this image?"
+                          );
+                          if (conf) return deleteImage(index);
+                        }}
+                      >
+                        <Flex alignItems="center">
+                          <Icon ml={3} mr={2} h={"2.2rem"}>
+                            <Delete />
+                          </Icon>
+                          <Text ml={4}>Delete this image</Text>
+                        </Flex>
+                      </FormButton>
+                    </Flex>
+                  );
+                })}
+              {imageData.length < 8 ? (
+                <ImageInput
+                  onChange={result => addImage(result)}
+                  mt={hasImages ? 3 : r("0 ----> 2")}
+                  mb={productForm.images.errorMessage ? 2 : 0}
+                />
+              ) : (
+                <Flex
+                  justifyContent="center"
+                  w="25rem"
+                  maxWidth="100%"
+                  mt={3}
+                  mb={1}
+                >
+                  <Text textAlign="center" color="greens.0">
+                    Maximum images added
+                  </Text>
+                </Flex>
+              )}
+              {productForm.images.errorMessage && (
+                <Flex w="25rem" maxWidth="100%" mb={2}>
+                  <Text color="oranges.0">
+                    {productForm.images.errorMessage}
+                  </Text>
+                </Flex>
+              )}
+            </Flex>
+          </FormGroup>
+        </FormSection>
+
+        <FormSection
+          justifyContent={[
+            "center",
+            "center",
+            "center",
+            "center",
+            "center",
+            "flex-end"
+          ]}
+          flexDirection={r("column ----> row")}
+          alignItems="center"
+        >
+          <Mutation
+            mutation={CREATE_PRODUCT}
+            refetchQueries={[
+              {
+                query: USER__ACCOUNT_USER_SET,
+                variables: {token: getToken().token}
+              }
+            ]}
+          >
+            {createProduct => (
+              <CallToActionButton
+                disabled={disabled}
+                cursor={disabled ? "no-drop" : "pointer"}
+                hoverBackground={disabled ? "#b2afe2" : "#173bd0"}
+                bg={disabled ? "#b2afe2" : "blues.0"}
+                color={disabled ? "whites.2" : "whites.0"}
+                hoverColor={disabled ? "whites.2" : "whites.0"}
+                br={2}
+                w={r("100% 25rem ---> 10rem")}
+                maxWidth="100%"
+                fs={"1.6rem"}
+                onClick={() => this.createProductMutation(createProduct)}
+              >
+                {productForm.isSubmitting ? "Saving..." : "Save"}
+              </CallToActionButton>
+            )}
+          </Mutation>
+        </FormSection>
+      </Box>
+    );
+  }
+}
 
 const mapStateToProps = state => {
   return {
-    productForm: state.productForm
+    productForm: state.productForm,
+    currentAccountUser: state.dashboard.currentAccountUser
   };
 };
 function mapDispatchToProps(dispatch) {

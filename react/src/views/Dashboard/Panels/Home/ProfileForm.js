@@ -238,7 +238,7 @@ class _AccountFormCard extends React.Component {
                 cursor={disabled ? "no-drop" : "pointer"}
                 hoverBackground={disabled ? "#ffb39f" : "#F87060"}
                 bg={disabled ? "#ffb39f" : "oranges.1"}
-                color={disabled ? "greys.0" : "whites.0"}
+                color={"whites.0"}
                 hoverColor={disabled ? "whites.2" : "whites.0"}
                 br={2}
                 w={r("100% 25rem ---> 10rem")}

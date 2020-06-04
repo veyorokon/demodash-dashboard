@@ -136,8 +136,9 @@ function updateImageVariationLinks(imageData, index) {
   let newImageData = [];
   for (var indx in imageData) {
     const image = imageData[indx];
-    if (image.variationLink.includes(",")) {
-      const variationLink = image.variationLink.split(",").map(x => +x);
+    let linkData = image.variationLink.toString();
+    if (image.variationLink && linkData.includes(",")) {
+      const variationLink = linkData.split(",").map(x => +x);
       if (index === variationLink[0]) image.variationLink = -1;
       else newImageData.push(image);
     } else newImageData.push(newImageData);

@@ -51,6 +51,10 @@ class ImageInput extends React.Component {
     let file = e.target.files[0];
     let reader = new FileReader();
     reader.readAsDataURL(file);
+    if (file.size > (this.props.maxSize || 2097152))
+      return this.props.onChange({
+        errorMessage: "Image is too large! Max size allowed is 2MB."
+      });
     reader.onloadend = () => {
       this.setState({
         file: file,
@@ -325,7 +329,13 @@ const _FormCard = props => {
             <ImageInput
               onChange={result => addImage(result)}
               mt={hasImages ? 3 : r("0 ----> 2")}
+              mb={productForm.images.errorMessage ? 2 : 0}
             />
+            {productForm.images.errorMessage && (
+              <Flex w="25rem" maxWidth="100%" mb={2}>
+                <Text color="oranges.0">{productForm.images.errorMessage}</Text>
+              </Flex>
+            )}
           </Flex>
         </FormGroup>
       </FormSection>

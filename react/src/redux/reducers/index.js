@@ -77,7 +77,8 @@ const initialState = {
       data: []
     },
     images: {
-      data: []
+      data: [],
+      errorMessage: ""
     }
   },
   panel: "myProducts",
@@ -256,15 +257,30 @@ export default function rootReducer(state = initialState, action) {
         [...state.productForm.images.data],
         false
       );
-      newState.productForm.images.data.push({
-        ...payload,
-        variationLink: -1
-      });
+      if (!payload.errorMessage) {
+        newState.productForm.images.data.push({
+          ...payload,
+          variationLink: -1
+        });
+        newState.productForm.images.errorMessage = "";
+      } else {
+        newState.productForm.images = {
+          ...newState.productForm.images,
+          ...payload
+        };
+      }
       return Object.assign({}, state, newState);
     case DELETE_IMAGE_PRODUCT_FORM:
       data = [...state.productForm.images.data];
       remove(data, payload);
-      return updateState(state, ["productForm", "images", "data"], data);
+      newState = updateState(
+        state,
+        ["productForm", "images", "data"],
+        data,
+        false
+      );
+      newState.productForm.images.errorMessage = "";
+      return Object.assign({}, state, newState);
     default:
       return state;
   }

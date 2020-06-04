@@ -76,7 +76,9 @@ export default props => {
         </DropOption>
       ))}
       {props.defaultOption && (
-        <DropOption value={-1}>{props.defaultOption}</DropOption>
+        <DropOption selected value={-1}>
+          {props.defaultOption}
+        </DropOption>
       )}
     </DropSelect>
   );

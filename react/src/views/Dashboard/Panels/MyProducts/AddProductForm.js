@@ -92,6 +92,24 @@ class ImageInput extends React.Component {
   }
 }
 
+function getImageVariationOptions(variationData) {
+  let options = [];
+  for (var index in variationData) {
+    const variation = variationData[index];
+    if (variation.name && variation.choices) {
+      for (var choiceIndex in variation.choices) {
+        const choice = variation.choices[choiceIndex];
+        if (choice)
+          options.push({
+            text: `${variation.name}: ${choice}`,
+            value: [index, choiceIndex]
+          });
+      }
+    }
+  }
+  return options;
+}
+
 const _FormCard = props => {
   const {
     productForm,
@@ -106,6 +124,8 @@ const _FormCard = props => {
 
   const imageData = productForm.images.data;
   let hasImages = imageData.length ? true : false;
+  let imgVariationOptions = getImageVariationOptions(variationData);
+  let hasVariationOptions = imgVariationOptions.length ? true : false;
   console.log(productForm);
   return (
     <Box
@@ -227,7 +247,6 @@ const _FormCard = props => {
             </Flex>
           </Flex>
         </FormGroup>
-
         <FormGroup mb={r("3 ----> 2")}>
           <FlexField name={"Images:"} mb={2} />
           <Flex flexBasis="60%" flexDirection="column" h="fit-content">
@@ -241,7 +260,7 @@ const _FormCard = props => {
                     h="fit-content"
                   >
                     <FlexText h="2.2rem" mb={1} mt={3}>
-                      Name
+                      Image name
                     </FlexText>
                     <Flex mt={1} mb={1} color="oranges.0" alignItems="center">
                       <Icon ml={3} mr={2} h={"2.2rem"}>
@@ -250,19 +269,28 @@ const _FormCard = props => {
                       <Text>{image.name}</Text>
                     </Flex>
 
-                    {hasVariations && (
+                    {hasVariationOptions && (
                       <>
                         <Text mb={1} mt={2}>
                           Optional
                         </Text>
                         <Flex>
                           <DropDown
-                            options={[{text: "Color: brown", value: "choice1"}]}
+                            options={imgVariationOptions}
                             br={2}
                             maxWidth="100%"
                             w="25rem"
                             border={"1px solid lightslategrey"}
-                            hiddenOption={"Link image to variation"}
+                            defaultOption={"Link image to variation"}
+                            onChange={evt => {
+                              image.variationLink = getEventVal(evt);
+                              let newImageData = [...imageData];
+                              newImageData[index] = image;
+                              updateProductForm({
+                                ...productForm,
+                                images: {data: newImageData}
+                              });
+                            }}
                             {...props}
                           />
                         </Flex>

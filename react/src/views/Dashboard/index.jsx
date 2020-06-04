@@ -20,7 +20,11 @@ import {
   Purchases
 } from "./Panels";
 import {LogoutBox} from "@styled-icons/remix-line/LogoutBox";
-import {DemoerNav, BrandNav, AllNav} from "./nav";
+import {
+  //DemoerNav,
+  //BrandNav,
+  AllNav
+} from "./nav";
 
 import {responsive as r, clearToken} from "lib";
 import {connect} from "react-redux";
@@ -34,14 +38,14 @@ const mapStateToProps = state => {
 };
 
 const _Dashboard = props => {
-  const {accountUserSet, currentAccountUser} = props;
-  let type;
-  if (currentAccountUser) {
-    const accountUser = accountUserSet.filter(
-      option => option.id === currentAccountUser
-    )[0];
-    type = accountUser.account.type;
-  }
+  // const {accountUserSet, currentAccountUser} = props;
+  // let type;
+  // if (currentAccountUser) {
+  //   const accountUser = accountUserSet.filter(
+  //     option => option.id === currentAccountUser
+  //   )[0];
+  //   type = accountUser.account.type;
+  // }
   return (
     <Section height={"fit-content"} overflow="hidden">
       <Flex h={"100vh"}>

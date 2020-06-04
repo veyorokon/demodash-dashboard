@@ -10,6 +10,14 @@ const FlexInput = props => {
   );
 };
 
+const FlexText = props => {
+  return (
+    <Flex mt={3} justifyContent="flex-start" alignItems="center" {...props}>
+      <Text>{props.children}</Text>
+    </Flex>
+  );
+};
+
 const FlexField = props => {
   return (
     <Flex
@@ -25,6 +33,7 @@ const FlexField = props => {
     </Flex>
   );
 };
+
 const FlexTextArea = props => {
   return (
     <Flex flexBasis="60%" {...props}>
@@ -66,4 +75,4 @@ const FormGroup = props => (
   </Flex>
 );
 
-export {FlexTextArea, FlexInput, FlexField, FormSection, FormGroup};
+export {FlexText, FlexTextArea, FlexInput, FlexField, FormSection, FormGroup};

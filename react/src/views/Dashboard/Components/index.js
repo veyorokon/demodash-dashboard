@@ -7,7 +7,8 @@ import {
   FlexField,
   FormSection,
   FormGroup,
-  FlexTextArea
+  FlexTextArea,
+  FlexText
 } from "./Form";
 import IconCard from "./IconCard";
 import Card from "./Card";
@@ -20,6 +21,7 @@ export {
   ConnectedNavItem,
   FlexInput,
   FlexField,
+  FlexText,
   FormSection,
   FormGroup,
   FlexTextArea,

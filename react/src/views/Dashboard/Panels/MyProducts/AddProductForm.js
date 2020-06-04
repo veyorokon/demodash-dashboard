@@ -14,7 +14,8 @@ import {
   FlexField,
   FlexTextArea,
   FormSection,
-  FormGroup
+  FormGroup,
+  FlexText
 } from "views/Dashboard/Components";
 import {connect} from "react-redux";
 import {
@@ -156,9 +157,9 @@ const _FormCard = props => {
               variationData.map((variation, index) => {
                 return (
                   <Flex key={index} flexDirection="column" h="fit-content">
-                    <Text mb={1} mt={3}>
+                    <FlexText h="2.2rem" mb={1} mt={3}>
                       Variation name
-                    </Text>
+                    </FlexText>
                     <FlexInput
                       value={variation.name || ""}
                       onChange={evt => {
@@ -239,9 +240,9 @@ const _FormCard = props => {
                     flexDirection="column"
                     h="fit-content"
                   >
-                    <Text mb={1} mt={3}>
+                    <FlexText h="2.2rem" mb={1} mt={3}>
                       Name
-                    </Text>
+                    </FlexText>
                     <Flex mt={1} mb={1} color="oranges.0" alignItems="center">
                       <Icon ml={3} mr={2} h={"2.2rem"}>
                         <Image />

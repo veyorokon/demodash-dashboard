@@ -326,11 +326,25 @@ const _FormCard = props => {
                   </Flex>
                 );
               })}
-            <ImageInput
-              onChange={result => addImage(result)}
-              mt={hasImages ? 3 : r("0 ----> 2")}
-              mb={productForm.images.errorMessage ? 2 : 0}
-            />
+            {imageData.length < 8 ? (
+              <ImageInput
+                onChange={result => addImage(result)}
+                mt={hasImages ? 3 : r("0 ----> 2")}
+                mb={productForm.images.errorMessage ? 2 : 0}
+              />
+            ) : (
+              <Flex
+                justifyContent="center"
+                w="25rem"
+                maxWidth="100%"
+                mt={3}
+                mb={1}
+              >
+                <Text textAlign="center" color="greens.0">
+                  Maximum images added
+                </Text>
+              </Flex>
+            )}
             {productForm.images.errorMessage && (
               <Flex w="25rem" maxWidth="100%" mb={2}>
                 <Text color="oranges.0">{productForm.images.errorMessage}</Text>

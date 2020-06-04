@@ -10,7 +10,8 @@ import {
   ADD_VARIATION_PRODUCT_FORM,
   DELETE_VARIATION_PRODUCT_FORM,
   UPDATE_PRODUCT_FORM,
-  ADD_IMAGE_PRODUCT_FORM
+  ADD_IMAGE_PRODUCT_FORM,
+  DELETE_IMAGE_PRODUCT_FORM
 } from "redux/constants";
 import {updateState, validateEmail, validatePassword} from "lib";
 
@@ -132,7 +133,7 @@ function remove(array, index) {
 
 export default function rootReducer(state = initialState, action) {
   const {payload} = action;
-  let newState, accountUser, isMutualPanel;
+  let newState, accountUser, isMutualPanel, data;
 
   switch (action.type) {
     case TOGGLE_NAV:
@@ -227,7 +228,7 @@ export default function rootReducer(state = initialState, action) {
       newState.productForm.variations.data.push({name: "", choices: []});
       return Object.assign({}, state, newState);
     case DELETE_VARIATION_PRODUCT_FORM:
-      let data = [...state.productForm.variations.data];
+      data = [...state.productForm.variations.data];
       remove(data, payload);
       return updateState(state, ["productForm", "variations", "data"], data);
     case UPDATE_PRODUCT_FORM:
@@ -244,6 +245,10 @@ export default function rootReducer(state = initialState, action) {
         variationLink: []
       });
       return Object.assign({}, state, newState);
+    case DELETE_IMAGE_PRODUCT_FORM:
+      data = [...state.productForm.images.data];
+      remove(data, payload);
+      return updateState(state, ["productForm", "images", "data"], data);
     default:
       return state;
   }

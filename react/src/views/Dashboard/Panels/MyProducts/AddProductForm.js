@@ -21,7 +21,8 @@ import {
   addVariationProductForm,
   deleteVariationProductForm,
   updateProductForm,
-  addImageProductForm
+  addImageProductForm,
+  deleteImageProductForm
 } from "redux/actions";
 
 import {Delete} from "@styled-icons/material/Delete";
@@ -96,7 +97,8 @@ const _FormCard = props => {
     addVariation,
     deleteVariation,
     updateProductForm,
-    addImage
+    addImage,
+    deleteImage
   } = props;
   const variationData = productForm.variations.data;
   let hasVariations = variationData.length ? true : false;
@@ -269,7 +271,17 @@ const _FormCard = props => {
                       </>
                     )}
 
-                    <FormButton mt={2} mb={2}>
+                    <FormButton
+                      mt={2}
+                      mb={2}
+                      title="Delete this image"
+                      onClick={() => {
+                        let conf = window.confirm(
+                          "Are you sure you want to delete this image?"
+                        );
+                        if (conf) return deleteImage(index);
+                      }}
+                    >
                       <Flex alignItems="center">
                         <Icon ml={3} mr={2} h={"2.2rem"}>
                           <Delete />
@@ -307,7 +319,8 @@ function mapDispatchToProps(dispatch) {
     addVariation: payload => dispatch(addVariationProductForm(payload)),
     deleteVariation: payload => dispatch(deleteVariationProductForm(payload)),
     updateProductForm: payload => dispatch(updateProductForm(payload)),
-    addImage: payload => dispatch(addImageProductForm(payload))
+    addImage: payload => dispatch(addImageProductForm(payload)),
+    deleteImage: payload => dispatch(deleteImageProductForm(payload))
   };
 }
 

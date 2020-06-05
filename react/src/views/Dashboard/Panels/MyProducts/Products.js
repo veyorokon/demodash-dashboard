@@ -96,7 +96,7 @@ class ImageCard extends React.Component {
         mt={3}
         mb={3}
         bg={"whites.0"}
-        br={"3px"}
+        br={2}
         {...props}
       >
         <SwipeableViews
@@ -108,6 +108,7 @@ class ImageCard extends React.Component {
               key={indx}
               mt="auto"
               mb={1}
+              br={1}
               w={"100%"}
               src={API_MEDIA + image.image}
             />

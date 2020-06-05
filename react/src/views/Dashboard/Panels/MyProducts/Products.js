@@ -157,7 +157,7 @@ class ImageCard extends React.Component {
             />
           ))}
         </PanelNavigation>
-        <Flex alignItems="center" justifyContent="flex-end">
+        <Flex flexGrow={0} alignItems="center" justifyContent="flex-end">
           <Mutation
             mutation={DELETE_PRODUCT}
             refetchQueries={[
@@ -250,6 +250,7 @@ class ImageCard extends React.Component {
           })}
         <CallToActionButton
           hoverBackground="#FFC651"
+          cursor="pointer"
           br={2}
           mt={2}
           bg={"yellows.1"}
@@ -296,6 +297,7 @@ function _Products(props) {
                 </Box>
               );
             const {products} = data.accountUser.account;
+            const {account} = data.accountUser;
             return (
               <Box
                 w={r("80rem ---------> 100rem")}
@@ -325,7 +327,9 @@ function _Products(props) {
                       products.map((product, index) => (
                         <ImageCard
                           key={index}
-                          brand={data.accountUser.account.profile.name || null}
+                          brand={
+                            (account.profile && account.profile.name) || null
+                          }
                           productId={product.id}
                           title={product.name}
                           description={product.description}

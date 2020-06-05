@@ -1,5 +1,5 @@
 import React from "react";
-import {Box, Flex, Image, Text, DropDown, CallToActionButton} from "components";
+import {Box, Flex, Text, DropDown, CallToActionButton} from "components";
 import {FormSection} from "views/Dashboard/Components";
 import {responsive as r, getToken} from "lib";
 import {Card} from "views/Dashboard/Components";
@@ -41,6 +41,21 @@ const PanelNavigation = styled(Flex)`
     margin-right: 0;
   }
 `;
+
+const BackgroundImage = styled(Box)`
+  background: url(${props => props.image});
+  height: 0;
+  position: relative;
+  padding-bottom: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+`;
+
+function checkIfStartsVowel(word) {
+  const vowels = "aeio";
+  if (vowels.includes(word[0])) return true;
+  return false;
+}
 
 class ImageCard extends React.Component {
   constructor(props) {
@@ -104,13 +119,13 @@ class ImageCard extends React.Component {
           onChangeIndex={indx => this.handleChangeIndex(indx)}
         >
           {props.images.map((image, indx) => (
-            <Image
+            <BackgroundImage
               key={indx}
               mt="auto"
               mb={1}
               br={1}
               w={"100%"}
-              src={API_MEDIA + image.image}
+              image={API_MEDIA + image.image}
             />
           ))}
         </SwipeableViews>
@@ -161,6 +176,7 @@ class ImageCard extends React.Component {
         </Text>
         {props.variations &&
           props.variations.map((variation, indx) => {
+            let avAn = checkIfStartsVowel(variation.name);
             return (
               <Flex flexDirection="column" key={`variation-${indx}`}>
                 <Text
@@ -180,7 +196,9 @@ class ImageCard extends React.Component {
                   maxWidth="100%"
                   w="100%"
                   border={"1px solid lightslategrey"}
-                  hiddenOption={`Choose a ${variation.name.toLowerCase()}`}
+                  hiddenOption={`Choose ${
+                    avAn ? "an" : "a"
+                  } ${variation.name.toLowerCase()}`}
                   {...props}
                 />
               </Flex>

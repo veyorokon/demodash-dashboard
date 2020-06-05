@@ -197,7 +197,6 @@ class _FormCard extends React.Component {
     let hasVariationOptions = imgVariationOptions.length ? true : false;
 
     const {disabled} = productForm;
-    console.log(productForm);
     return (
       <Box
         w={r("80rem ---------> 100rem")}

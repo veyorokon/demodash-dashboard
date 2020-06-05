@@ -23,3 +23,36 @@ export const CREATE_PRODUCT = gql`
     }
   }
 `;
+
+export const ACCOUNT_USER__PRODUCTS = gql`
+  query accountUser($token: String!, $id: Int!) {
+    accountUser(token: $token, id: $id) {
+      id
+      account {
+        id
+        products {
+          id
+          variations {
+            id
+            name
+            options {
+              id
+              option
+              image {
+                id
+                image
+              }
+            }
+          }
+          images {
+            id
+            image
+            variationOption {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+`;

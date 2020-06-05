@@ -1,8 +1,12 @@
 import React from "react";
-import {Flex, Image, Text, CallToActionButton} from "components";
-import {responsive as r} from "lib";
+import {Flex, Image, Text, Box, CallToActionButton} from "components";
+import {responsive as r, getToken} from "lib";
 import bromane from "assets/images/bromane-brand.jpg";
 import {Card} from "views/Dashboard/Components";
+import {Query} from "@apollo/react-components";
+import {connect} from "react-redux";
+
+import {ACCOUNT_USER__PRODUCTS} from "./gql";
 
 const ImageCard = props => {
   return (
@@ -46,7 +50,8 @@ const ImageCard = props => {
   );
 };
 
-export default function Products(props) {
+function _Products(props) {
+  const {currentAccountUser} = props;
   return (
     <>
       <Flex mb={4}>
@@ -65,34 +70,51 @@ export default function Products(props) {
         p={r("0 --> 3 -----> 4")}
         justifyContent={"center"}
       >
-        <ImageCard
-          title="Bromane - Hair filling fibers"
-          description="Hair filling fibers that add density to thinning hair"
-          boxPrice={1}
-          refillPrice={1}
-          shippingPrice={0}
-          storePrice={25}
-          commission={1}
-        />
-        <ImageCard
-          title="Bromane - Hair filling fibers - starter kit"
-          description="Hair filling fibers, an applicator pump and cleaning cloth"
-          boxPrice={0}
-          refillPrice={0}
-          shippingPrice={0}
-          storePrice={25}
-          commission={1}
-        />
-        <ImageCard
-          title="Bromane - Hair filling fibers - starter kit"
-          description="Hair filling fibers, an applicator pump and cleaning cloth"
-          boxPrice={0}
-          refillPrice={0}
-          shippingPrice={0}
-          storePrice={25}
-          commission={1}
-        />
+        <Query
+          query={ACCOUNT_USER__PRODUCTS}
+          variables={{
+            token: getToken().token,
+            id: parseInt(currentAccountUser)
+          }}
+        >
+          {({loading, error, data}) => {
+            if (loading)
+              return (
+                <Box h="3.5rem" mb={4}>
+                  <Text>Loading...</Text>
+                </Box>
+              );
+            if (error)
+              return (
+                <Box h="3.5rem" mb={4}>
+                  <Text>Error! {error.message}</Text>
+                </Box>
+              );
+            console.log(data.accountUser.account.products);
+            return (
+              <ImageCard
+                title="Bromane - Hair filling fibers"
+                description="Hair filling fibers that add density to thinning hair"
+                boxPrice={1}
+                refillPrice={1}
+                shippingPrice={0}
+                storePrice={25}
+                commission={1}
+              />
+            );
+          }}
+        </Query>
       </Flex>
     </>
   );
 }
+const mapStateToProps = state => {
+  return {
+    currentAccountUser: state.dashboard.currentAccountUser
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  null
+)(_Products);

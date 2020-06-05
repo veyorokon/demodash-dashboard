@@ -32,6 +32,8 @@ export const ACCOUNT_USER__PRODUCTS = gql`
         id
         products {
           id
+          name
+          description
           variations {
             id
             name

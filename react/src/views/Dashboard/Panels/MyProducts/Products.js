@@ -1,11 +1,14 @@
 import React from "react";
-import {Flex, Image, Text, CallToActionButton} from "components";
-import {responsive as r} from "lib";
-import bromane from "assets/images/bromane-brand.jpg";
-import bromane2 from "assets/images/bromane.jpg";
+import {Box, Flex, Image, Text, DropDown, CallToActionButton} from "components";
+import {FormSection} from "views/Dashboard/Components";
+import {responsive as r, getToken} from "lib";
 import {Card} from "views/Dashboard/Components";
 import SwipeableViews from "react-swipeable-views";
 import styled, {css} from "styled-components";
+import {Query} from "@apollo/react-components";
+import {connect} from "react-redux";
+import {API_MEDIA} from "api";
+import {ACCOUNT_USER__PRODUCTS} from "./gql";
 
 const NavigationBullet = styled(Flex)`
   cursor: pointer;
@@ -14,6 +17,7 @@ const NavigationBullet = styled(Flex)`
   background: grey;
   border-radius: 50%;
   flex-grow: 0;
+  border: 5px solid transparent;
 
   ${props =>
     props.active &&
@@ -38,17 +42,6 @@ const PanelNavigation = styled(Flex)`
   }
 `;
 
-const IMAGES = [
-  bromane,
-  bromane2,
-  bromane2,
-  bromane2,
-  bromane2,
-  bromane2,
-  bromane2,
-  bromane2
-];
-
 class ImageCard extends React.Component {
   constructor(props) {
     super(props);
@@ -58,10 +51,35 @@ class ImageCard extends React.Component {
   }
 
   handleChangeIndex = index => {
-    console.log(index);
     this.setState({
       index
     });
+  };
+
+  getVariationOptions = variation => {
+    let options = [];
+    for (var indx in variation.options) {
+      let option = variation.options[indx];
+      options.push({text: option.option, value: option.id});
+    }
+    return options;
+  };
+
+  mapVariationToImageIndex = variationId => {
+    let images = this.props.images;
+    for (var indx in images) {
+      let image = images[indx];
+      let variationOption = image.variationOption;
+      if (variationOption !== null && variationOption.id === variationId) {
+        return indx;
+      }
+    }
+    return null;
+  };
+
+  checkVariationImage = evt => {
+    let index = this.mapVariationToImageIndex(evt.target.value);
+    if (index) return this.setState({index: parseInt(index)});
   };
 
   render() {
@@ -71,7 +89,7 @@ class ImageCard extends React.Component {
       <Card
         p={3}
         maxWidth={r(
-          "26rem 28rem 30rem 33rem  22rem 24rem 30rem 34rem 24rem 30rem 27rem"
+          "26rem 28rem 30rem 33rem  30rem 22rem 29rem 32rem 24rem 30rem 27rem"
         )}
         mr={1}
         ml={1}
@@ -85,12 +103,18 @@ class ImageCard extends React.Component {
           index={index}
           onChangeIndex={indx => this.handleChangeIndex(indx)}
         >
-          {IMAGES.map((image, indx) => (
-            <Image key={indx} mt="auto" mb={1} w={"100%"} src={image} />
+          {props.images.map((image, indx) => (
+            <Image
+              key={indx}
+              mt="auto"
+              mb={1}
+              w={"100%"}
+              src={API_MEDIA + image.image}
+            />
           ))}
         </SwipeableViews>
         <PanelNavigation mt={2} mb={2}>
-          {IMAGES.map((image, indx) => (
+          {props.images.map((image, indx) => (
             <NavigationBullet
               alignItems="center"
               justifyContent="center"
@@ -103,16 +127,18 @@ class ImageCard extends React.Component {
             />
           ))}
         </PanelNavigation>
-        <Text
-          mt="auto"
-          letterSpacing="0.5px"
-          color={"greys.0"}
-          mb={2}
-          fw={400}
-          w={"100%"}
-        >
-          Bromane
-        </Text>
+        {props.brand && (
+          <Text
+            mt="auto"
+            letterSpacing="0.5px"
+            color={"greys.0"}
+            mb={2}
+            fw={400}
+            w={"100%"}
+          >
+            {props.brand}
+          </Text>
+        )}
         <Text
           mt="auto"
           letterSpacing="0.5px"
@@ -123,7 +149,6 @@ class ImageCard extends React.Component {
         >
           {props.title}
         </Text>
-
         <Text
           letterSpacing="0.5px"
           color={"navys.0"}
@@ -133,6 +158,33 @@ class ImageCard extends React.Component {
         >
           {props.description}
         </Text>
+        {props.variations &&
+          props.variations.map((variation, indx) => {
+            return (
+              <Flex flexDirection="column" key={`variation-${indx}`}>
+                <Text
+                  letterSpacing="0.5px"
+                  color={"navys.0"}
+                  mb={2}
+                  fw={500}
+                  w={"100%"}
+                >
+                  {variation.name}:
+                </Text>
+                <DropDown
+                  mb={2}
+                  options={this.getVariationOptions(variation)}
+                  onChange={evt => this.checkVariationImage(evt)}
+                  br={2}
+                  maxWidth="100%"
+                  w="100%"
+                  border={"1px solid lightslategrey"}
+                  hiddenOption={`Choose a ${variation.name.toLowerCase()}`}
+                  {...props}
+                />
+              </Flex>
+            );
+          })}
         <CallToActionButton
           hoverBackground="#FFC651"
           br={2}
@@ -149,7 +201,8 @@ class ImageCard extends React.Component {
   }
 }
 
-export default function Products(props) {
+function _Products(props) {
+  const {currentAccountUser} = props;
   return (
     <>
       <Flex mb={4}>
@@ -157,45 +210,75 @@ export default function Products(props) {
           My products
         </Text>
       </Flex>
-      <Flex
-        boxShadow={0}
-        br={2}
-        bg="whites.0"
-        w={r("80rem ---------> 100rem")}
-        maxWidth="100%"
-        flexWrap={"wrap"}
-        mb={4}
-        p={r("0 --> 3 -----> 4")}
-        justifyContent={"center"}
+
+      <Query
+        query={ACCOUNT_USER__PRODUCTS}
+        variables={{
+          token: getToken().token,
+          id: parseInt(currentAccountUser)
+        }}
       >
-        <ImageCard
-          title="Hair filling fibers"
-          description="Hair filling fibers that add density to thinning hair"
-          boxPrice={1}
-          refillPrice={1}
-          shippingPrice={0}
-          storePrice={25}
-          commission={1}
-        />
-        <ImageCard
-          title="Hair filling fibers - starter kit"
-          description="Hair filling fibers, an applicator pump and cleaning cloth"
-          boxPrice={0}
-          refillPrice={0}
-          shippingPrice={0}
-          storePrice={25}
-          commission={1}
-        />
-        <ImageCard
-          title="Hair filling fibers - starter kit"
-          description="Hair filling fibers, an applicator pump and cleaning cloth"
-          boxPrice={0}
-          refillPrice={0}
-          shippingPrice={0}
-          storePrice={25}
-          commission={1}
-        />
-      </Flex>
+        {({loading, error, data}) => {
+          if (loading)
+            return (
+              <Box h="3.5rem" mb={4}>
+                <Text>Loading...</Text>
+              </Box>
+            );
+          if (error)
+            return (
+              <Box h="3.5rem" mb={4}>
+                <Text>Error! {error.message}</Text>
+              </Box>
+            );
+          const {products} = data.accountUser.account;
+          return (
+            <Box
+              w={r("80rem ---------> 100rem")}
+              maxWidth="100%"
+              boxShadow="0 1px 6px rgba(57,73,76,0.35)"
+              bg={"whites.0"}
+              br={2}
+              mb={4}
+            >
+              <FormSection>
+                <Text fs="1.8rem" fw={500}>
+                  Product previews
+                </Text>
+              </FormSection>
+              <FormSection bg={"blues.3"} flexDirection="column" pt={4} pb={4}>
+                <Flex
+                  flexWrap={"wrap"}
+                  p={r("0 --> 3 -----> 4")}
+                  justifyContent={"center"}
+                >
+                  {products &&
+                    products.map((product, index) => (
+                      <ImageCard
+                        key={index}
+                        brand={data.accountUser.account.profile.name || null}
+                        title={product.name}
+                        description={product.description}
+                        images={product.images}
+                        variations={product.variations}
+                      />
+                    ))}
+                </Flex>
+              </FormSection>
+            </Box>
+          );
+        }}
+      </Query>
     </>
   );
 }
+const mapStateToProps = state => {
+  return {
+    currentAccountUser: state.dashboard.currentAccountUser
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  null
+)(_Products);

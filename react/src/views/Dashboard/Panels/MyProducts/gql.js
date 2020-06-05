@@ -30,6 +30,10 @@ export const ACCOUNT_USER__PRODUCTS = gql`
       id
       account {
         id
+        profile {
+          id
+          name
+        }
         products {
           id
           name

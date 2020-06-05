@@ -30,7 +30,7 @@ import {Delete} from "@styled-icons/material/Delete";
 import {AddCircle} from "@styled-icons/material/AddCircle";
 import {Image} from "@styled-icons/boxicons-solid/Image";
 import {Mutation} from "@apollo/react-components";
-import {CREATE_PRODUCT} from "./gql";
+import {CREATE_PRODUCT, ACCOUNT_USER__PRODUCTS} from "./gql";
 import {USER__ACCOUNT_USER_SET} from "views/Dashboard/gql";
 
 import {
@@ -186,7 +186,8 @@ class _FormCard extends React.Component {
       deleteVariation,
       updateProductForm,
       addImage,
-      deleteImage
+      deleteImage,
+      currentAccountUser
     } = props;
     const variationData = productForm.variations.data;
     let hasVariations = variationData && variationData.length ? true : false;
@@ -463,6 +464,11 @@ class _FormCard extends React.Component {
               {
                 query: USER__ACCOUNT_USER_SET,
                 variables: {token: getToken().token}
+              },
+              {
+                query: ACCOUNT_USER__PRODUCTS,
+                token: getToken().token,
+                id: parseInt(currentAccountUser)
               }
             ]}
           >

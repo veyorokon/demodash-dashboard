@@ -212,64 +212,71 @@ function _Products(props) {
         </Text>
       </Flex>
 
-      <Query
-        query={ACCOUNT_USER__PRODUCTS}
-        variables={{
-          token: getToken().token,
-          id: parseInt(currentAccountUser)
-        }}
-      >
-        {({loading, error, data}) => {
-          if (loading)
+      {currentAccountUser && (
+        <Query
+          query={ACCOUNT_USER__PRODUCTS}
+          variables={{
+            token: getToken().token,
+            id: parseInt(currentAccountUser)
+          }}
+        >
+          {({loading, error, data}) => {
+            if (loading)
+              return (
+                <Box h="3.5rem" mb={4}>
+                  <Text>Loading...</Text>
+                </Box>
+              );
+            if (error)
+              return (
+                <Box h="3.5rem" mb={4}>
+                  <Text>Error! {error.message}</Text>
+                </Box>
+              );
+            const {products} = data.accountUser.account;
             return (
-              <Box h="3.5rem" mb={4}>
-                <Text>Loading...</Text>
-              </Box>
-            );
-          if (error)
-            return (
-              <Box h="3.5rem" mb={4}>
-                <Text>Error! {error.message}</Text>
-              </Box>
-            );
-          const {products} = data.accountUser.account;
-          return (
-            <Box
-              w={r("80rem ---------> 100rem")}
-              maxWidth="100%"
-              boxShadow="0 1px 6px rgba(57,73,76,0.35)"
-              bg={"whites.0"}
-              br={2}
-              mb={4}
-            >
-              <FormSection>
-                <Text fs="1.8rem" fw={500}>
-                  Product previews
-                </Text>
-              </FormSection>
-              <FormSection bg={"blues.3"} flexDirection="column" pt={4} pb={4}>
-                <Flex
-                  flexWrap={"wrap"}
-                  p={r("0 --> 3 -----> 4")}
-                  justifyContent={"center"}
+              <Box
+                w={r("80rem ---------> 100rem")}
+                maxWidth="100%"
+                boxShadow="0 1px 6px rgba(57,73,76,0.35)"
+                bg={"whites.0"}
+                br={2}
+                mb={4}
+              >
+                <FormSection>
+                  <Text fs="1.8rem" fw={500}>
+                    Product previews
+                  </Text>
+                </FormSection>
+                <FormSection
+                  bg={"blues.3"}
+                  flexDirection="column"
+                  pt={4}
+                  pb={4}
                 >
-                  {products &&
-                    products.map((product, index) => (
-                      <ImageCard
-                        key={index}
-                        brand={data.accountUser.account.profile.name || null}
-                        title={product.name}
-                        description={product.description}
-                        images={product.images}
-                        variations={product.variations}
-                      />
-                    ))}
-                </Flex>
-              </FormSection>
-            </Box>
-          );
-        }}
-      </Query>
+                  <Flex
+                    flexWrap={"wrap"}
+                    p={r("0 --> 3 -----> 4")}
+                    justifyContent={"center"}
+                  >
+                    {products &&
+                      products.map((product, index) => (
+                        <ImageCard
+                          key={index}
+                          brand={data.accountUser.account.profile.name || null}
+                          title={product.name}
+                          description={product.description}
+                          images={product.images}
+                          variations={product.variations}
+                        />
+                      ))}
+                  </Flex>
+                </FormSection>
+              </Box>
+            );
+          }}
+        </Query>
+      )}
     </>
   );
 }

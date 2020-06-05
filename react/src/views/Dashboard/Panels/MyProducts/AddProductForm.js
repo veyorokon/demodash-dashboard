@@ -467,8 +467,10 @@ class _FormCard extends React.Component {
               },
               {
                 query: ACCOUNT_USER__PRODUCTS,
-                token: getToken().token,
-                id: parseInt(currentAccountUser)
+                variables: {
+                  token: getToken().token,
+                  id: parseInt(currentAccountUser)
+                }
               }
             ]}
           >

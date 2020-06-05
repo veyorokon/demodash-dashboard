@@ -6,13 +6,7 @@ export default props => (
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <g
-      id="Page-1"
-      stroke="none"
-      stroke-width="1"
-      fill="none"
-      fill-rule="evenodd"
-    >
+    <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g id="Artboard" transform="translate(-451.000000, -453.000000)">
         <g
           id="shipping-package-colour"
@@ -25,8 +19,8 @@ export default props => (
             y2="256.5"
             id="Path"
             stroke="#FED385"
-            stroke-width="5"
-            stroke-linecap="round"
+            strokeWidth="5"
+            strokeLinecap="round"
           ></line>
           <line
             x1="202.5"
@@ -35,14 +29,14 @@ export default props => (
             y2="210.5"
             id="Path"
             stroke="#FED385"
-            stroke-width="5"
-            stroke-linecap="round"
+            strokeWidth="5"
+            strokeLinecap="round"
           ></line>
           <g
             id="Group-2"
             transform="translate(158.000000, 0.000000)"
             fill="#FD8369"
-            fill-rule="nonzero"
+            fillRule="nonzero"
           >
             <ellipse
               id="Oval"
@@ -61,7 +55,7 @@ export default props => (
           <ellipse
             id="Oval"
             fill="#74D5DE"
-            fill-rule="nonzero"
+            fillRule="nonzero"
             transform="translate(387.981859, 154.059677) rotate(-64.050000) translate(-387.981859, -154.059677) "
             cx="387.981859"
             cy="154.059677"
@@ -72,7 +66,7 @@ export default props => (
             id="Group"
             transform="translate(140.843503, 167.991796) rotate(-35.000000) translate(-140.843503, -167.991796) translate(46.843503, 57.991796)"
             fill="#FED385"
-            fill-rule="nonzero"
+            fillRule="nonzero"
           >
             <ellipse
               id="Oval"
@@ -94,19 +88,19 @@ export default props => (
             y2="191.5"
             id="Path"
             stroke="#FED385"
-            stroke-width="5"
-            stroke-linecap="round"
+            strokeWidth="5"
+            strokeLinecap="round"
           ></line>
           <path
             d="M342.913196,245.703124 L341.313196,268.603124 C341.223597,269.979918 340.402266,271.202815 339.161673,271.80657 C337.92108,272.410325 336.451947,272.302121 335.313196,271.523124 L316.313196,258.683124 C315.173742,257.915534 314.531191,256.597673 314.628196,255.22722 C314.7252,253.856768 315.54698,252.642557 316.783196,252.043124 L337.413196,241.983124 C338.645168,241.388604 340.100391,241.494348 341.233474,242.260724 C342.366557,243.0271 343.006398,244.338381 342.913196,245.703124 Z"
             id="Path"
             fill="#74D5DE"
-            fill-rule="nonzero"
+            fillRule="nonzero"
           ></path>
           <g
             id="Box"
             transform="translate(13.600000, 366.930000)"
-            fill-rule="nonzero"
+            fillRule="nonzero"
           >
             <rect
               id="Rectangle"

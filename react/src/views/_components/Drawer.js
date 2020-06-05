@@ -1,11 +1,16 @@
 import React from "react";
 import styled, {css} from "styled-components";
 import {system} from "styled-system";
-import {Grid, Image, Box, Text, Flex, DropDown} from "components";
+import {Grid, Image, Box, Text, Flex} from "components";
+import {withRouter} from "react-router";
 
 // import {CallToAction} from "views/_components";
-import {AllNav} from "views/Dashboard/nav";
-import {NavItem} from "views/Dashboard/Components";
+import {
+  BrandNav,
+  DemoerNav
+  // AllNav
+} from "views/Dashboard/nav";
+import {NavItem, AccountUserDropDown} from "views/Dashboard/Components";
 import {LogoutBox} from "@styled-icons/remix-line/LogoutBox";
 
 import {responsive as r, clearToken} from "lib";
@@ -23,8 +28,11 @@ function mapDispatchToProps(dispatch) {
 }
 const mapStateToProps = state => {
   const {navOpen} = state;
+  const {currentAccountUser, accountUserSet} = state.dashboard;
   return {
-    navOpen
+    navOpen,
+    currentAccountUser,
+    accountUserSet
   };
 };
 
@@ -42,11 +50,12 @@ const DrawerTitle = styled(Box)`
 const DrawerContainer = styled(Grid)`
   position: absolute;
   top: 0;
-  z-index: 50;
+  right: 0;
   grid-template-rows: 8rem 1fr;
   ${props =>
     props.open
       ? css`
+          z-index: 50;
           ${system({
             transform: true
           })}
@@ -54,7 +63,8 @@ const DrawerContainer = styled(Grid)`
           transition-timing-function: cubic-bezier(0.3, 0, 0, 1);
         `
       : css`
-          transition-property: transform, -webkit-transform;
+          z-index: -1;
+          transition-property: transform, z-index;
           transition-duration: 0.3s;
           transition-timing-function: cubic-bezier(0.3, 0, 0, 1);
           transform: translate3d(100vw, 0, 0);
@@ -85,15 +95,24 @@ const NavContainer = styled(ScrollContainer)`
   flex-basis: 27rem;
   overflow: auto;
   flex-grow: 25;
-  border-right: 2px solid #ecedf1;
+  border-right: 2px solid transparent;
 `;
 
 const _Drawer = props => {
-  const {navOpen, toggleNav} = props;
+  const {navOpen, toggleNav, currentAccountUser, accountUserSet} = props;
+  let type;
+
+  if (currentAccountUser) {
+    const accountUser = accountUserSet.filter(
+      option => option.id === currentAccountUser
+    )[0];
+    type = accountUser.account.type;
+  }
+
   return (
     <DrawerContainer
       bg={"whites.0"}
-      w={"100%"}
+      w={r("100% ---> 60% -> 50%")}
       h={"100%"}
       open={navOpen}
       {...props}
@@ -130,34 +149,28 @@ const _Drawer = props => {
           justifyContent="space-between"
           alignItems="flex-start"
           w={"100%"}
-          // w={"27rem"}
-          // ml={r("unset --------> 6")}
         >
-          <Flex w={"100%"} pt={5} pb={5} mb={5} flexDirection="column">
-            <Flex pl={1} pr={1} alignItems="center" flexDirection="column">
-              <Flex maxWidth="100%" w="fit-content" flexDirection="column">
+          <Flex flexGrow={0} w={"100%"} pb={5} mb={5} flexDirection="column">
+            <Flex
+              flexGrow={0}
+              pl={1}
+              pr={1}
+              alignItems={r("center")}
+              flexDirection="column"
+            >
+              <Flex
+                flexGrow={0}
+                maxWidth="100%"
+                w="fit-content"
+                flexDirection="column"
+              >
                 <Text mb={1}>Account:</Text>
-                <DropDown
-                  mb={4}
-                  br={2}
-                  w="27rem"
-                  maxWidth="100%"
-                  color={"navys.1"}
-                  useDefaultButton
-                  onChange={e => console.log(e.target.value)}
-                  options={[
-                    {text: "Bromane", value: "test2"},
-                    {text: "Cherry's Barbershop", value: "TestVal"}
-                  ]}
-                  defaultOption={"Create an account"}
-                  defaultClick={() => console.log("test")}
-                  iconProps={{h: "2.4rem"}}
-                />
+                <AccountUserDropDown w="27rem" maxWidth="100%" />
               </Flex>
             </Flex>
             <Flex w={"100%"} flexDirection="column">
-              {/*{accountType === "brand" ? <BrandNav /> : <DemoerNav />} */}
-              <AllNav />
+              {type ? type === "Brand" ? <BrandNav /> : <DemoerNav /> : null}
+              {/*<AllNav />*/}
             </Flex>
             <Flex mt={4} flexGrow={0} w={"100%"} flexDirection="column">
               <NavItem
@@ -181,4 +194,4 @@ const Drawer = connect(
   mapDispatchToProps
 )(_Drawer);
 
-export default Drawer;
+export default withRouter(Drawer);

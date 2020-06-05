@@ -1,10 +1,12 @@
 import React from "react";
-import ProductsTable from "./ProductsTable";
+import Products from "./Products";
+import AddProductForm from "./AddProductForm";
 
-export default function Home(props) {
+export default props => {
   return (
     <>
-      <ProductsTable />
+      <AddProductForm />
+      <Products />
     </>
   );
-}
+};

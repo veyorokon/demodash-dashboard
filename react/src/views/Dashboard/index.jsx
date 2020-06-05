@@ -1,10 +1,13 @@
 import React from "react";
 import {LeftColumn, ConnectedRightColumn} from "./layout";
-import {Flex, Section, DropDown, Text, Icon} from "components";
-import {NavItem} from "./Components";
+import {Flex, Section, Text, LogoTitle} from "components";
 import {
-  DemoerHome,
-  BrandHome,
+  NavItem,
+  AccountUserDropDown,
+  QueryAccountUsers
+} from "views/Dashboard/Components";
+import {
+  Home,
   FindDemos,
   Settings,
   MyDemos,
@@ -18,41 +21,31 @@ import {
 } from "./Panels";
 import {LogoutBox} from "@styled-icons/remix-line/LogoutBox";
 import {
-  //DemoerNav, //BrandNav,
+  //DemoerNav,
+  //BrandNav,
   AllNav
 } from "./nav";
 
-import LogoIcon from "assets/svg/logo.js";
-
 import {responsive as r, clearToken} from "lib";
+import {connect} from "react-redux";
 
-import styled from "styled-components";
-const Logo = styled(Text)`
-  text-align: center;
-  font-weight: 600;
-  letter-spacing: -0.8px;
-`;
+const mapStateToProps = state => {
+  const {currentAccountUser, accountUserSet} = state.dashboard;
+  return {
+    currentAccountUser,
+    accountUserSet
+  };
+};
 
-const LogoTitle = props => (
-  <Flex flexGrow={0} mb={4} alignItems="center">
-    <Icon justifyContent="center" mr={3} h={"3rem"}>
-      <LogoIcon />
-    </Icon>
-    <Logo
-      ml={4}
-      mr={"auto"}
-      as="h1"
-      fs={r("3rem ------> 3.1rem")}
-      color="navys.0"
-    >
-      demodash
-    </Logo>
-  </Flex>
-);
-
-export default props => {
-  // const accountType = "brand";
-
+const _Dashboard = props => {
+  // const {accountUserSet, currentAccountUser} = props;
+  // let type;
+  // if (currentAccountUser) {
+  //   const accountUser = accountUserSet.filter(
+  //     option => option.id === currentAccountUser
+  //   )[0];
+  //   type = accountUser.account.type;
+  // }
   return (
     <Section height={"fit-content"} overflow="hidden">
       <Flex h={"100vh"}>
@@ -60,22 +53,10 @@ export default props => {
           <Flex w={"100%"} pt={5} pb={5} flexDirection="column">
             <LogoTitle />
             <Text mb={1}>Account:</Text>
-            <DropDown
-              mb={4}
-              br={2}
-              color={"navys.1"}
-              useDefaultButton
-              onChange={e => console.log(e.target.value)}
-              options={[
-                {text: "Bromane", value: "test2"},
-                {text: "Cherry's Barbershop", value: "TestVal"}
-              ]}
-              defaultOption={"Create an account"}
-              defaultClick={() => console.log("test")}
-              iconProps={{h: "2.4rem"}}
-            />
+            <QueryAccountUsers />
+            <AccountUserDropDown />
             <Flex w={"100%"} flexDirection="column">
-              {/*{accountType === "brand" ? <BrandNav /> : <DemoerNav />} */}
+              {/*{type ? type === "Brand" ? <BrandNav /> : <DemoerNav /> : null}*/}
               <AllNav />
             </Flex>
             <Flex mt={4} flexGrow={0} w={"100%"} flexDirection="column">
@@ -91,12 +72,11 @@ export default props => {
           </Flex>
         </LeftColumn>
         <ConnectedRightColumn bg={"navys.4"}>
-          <DemoerHome key={"demoerHome"} />
+          <Home key={"home"} />
           <FindDemos key={"findDemos"} />
           <MyDemos key={"myDemos"} />
           <DemodashStore key={"demodashStore"} />
 
-          <BrandHome key={"brandHome"} />
           <MyProducts key={"myProducts"} />
           <MyDemoBoxes key={"myDemoBoxes"} />
           <MyDemoCampaigns key={"myDemoCampaigns"} />
@@ -110,3 +90,8 @@ export default props => {
     </Section>
   );
 };
+
+export default connect(
+  mapStateToProps,
+  null
+)(_Dashboard);

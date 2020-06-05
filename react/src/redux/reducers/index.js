@@ -2,10 +2,16 @@ import {
   UPDATE_REGISTRATION_FORM,
   UPDATE_ACCOUNT_FORM,
   UPDATE_LOGIN_FORM,
-  UPDATE_ACCOUNT_USER_SET,
   UDPATE_CURRENT_ACCOUNT_USER,
   UDPATE_PANEL,
-  TOGGLE_NAV
+  TOGGLE_NAV,
+  UDPATE_ACCOUNT_USER_SET,
+  UPDATE_PROFILE_FORM,
+  ADD_VARIATION_PRODUCT_FORM,
+  DELETE_VARIATION_PRODUCT_FORM,
+  UPDATE_PRODUCT_FORM,
+  ADD_IMAGE_PRODUCT_FORM,
+  DELETE_IMAGE_PRODUCT_FORM
 } from "redux/constants";
 import {updateState, validateEmail, validatePassword} from "lib";
 
@@ -59,10 +65,26 @@ const initialState = {
     errorMessage: ""
   },
   dashboard: {
-    accountUserSet: {},
-    currentAccountUser: {}
+    currentAccountUser: null,
+    previousAccountUser: null,
+    accountUserSet: []
   },
-  panel: "brandHome",
+  profileForm: {},
+  productForm: {
+    name: "",
+    description: "",
+    disabled: true,
+    isSubmitting: false,
+    variations: {
+      data: []
+    },
+    images: {
+      data: [],
+      errorMessage: ""
+    }
+  },
+  panel: "myDemoBoxes",
+  previousPanel: "home",
   navOpen: false
 };
 
@@ -85,9 +107,50 @@ function checkPasswords(newState) {
   return newState;
 }
 
+function filterAccountUser(state, id) {
+  return state.dashboard.accountUserSet.filter(option => option.id === id)[0];
+}
+
+function populateProfileForm(state, accountUser, props = {}) {
+  state.profileForm = {
+    accountName: accountUser.account.profile.name,
+    disabled: true,
+    isSubmitting: false,
+    submitComplete: true,
+    ...accountUser.account.profile.address,
+    ...accountUser.account.profile.industry,
+    ...props
+  };
+  return state;
+}
+
+function checkPanel(panel) {
+  const mutualPanels = ["home", "settings", "payoutBilling"];
+  if (mutualPanels.includes(panel)) return true;
+  else return false;
+}
+
+function remove(array, index) {
+  array.splice(index, 1);
+}
+
+function updateImageVariationLinks(imageData, index) {
+  let newImageData = [];
+  for (var indx in imageData) {
+    const image = imageData[indx];
+    let linkData = image.variationLink.toString();
+    if (image.variationLink && linkData.includes(",")) {
+      const variationLink = linkData.split(",").map(x => +x);
+      if (index === variationLink[0]) image.variationLink = -1;
+      else newImageData.push(image);
+    } else newImageData.push(newImageData);
+  }
+  return newImageData;
+}
+
 export default function rootReducer(state = initialState, action) {
   const {payload} = action;
-  let newState;
+  let newState, accountUser, isMutualPanel, data;
 
   switch (action.type) {
     case TOGGLE_NAV:
@@ -113,17 +176,126 @@ export default function rootReducer(state = initialState, action) {
       return updateState(state, ["accountForm"], payload);
     case UPDATE_LOGIN_FORM:
       return updateState(state, ["loginForm"], payload);
-    case UPDATE_ACCOUNT_USER_SET:
-      return updateState(state, ["dashboard"], payload);
-    case UDPATE_CURRENT_ACCOUNT_USER:
-      return updateState(
+    case UDPATE_ACCOUNT_USER_SET:
+      newState = updateState(
         state,
-        ["dashboard", "accountUser"],
-        state.dashboard.accountUserSet.filter(item => item.id === payload)
+        ["dashboard", "accountUserSet"],
+        payload,
+        false
       );
+      //Checks if a previous account user was selected to return user
+      if (!newState.dashboard.previousAccountUser) {
+        newState.dashboard.currentAccountUser = payload[1].id || null;
+        accountUser = filterAccountUser(newState, payload[1].id);
+      } else {
+        newState.dashboard.currentAccountUser =
+          state.dashboard.currentAccountUser;
+        accountUser = filterAccountUser(
+          newState,
+          newState.dashboard.currentAccountUser
+        );
+      }
+      //Sets default values for profile form
+      newState = populateProfileForm(newState, accountUser);
+      isMutualPanel = checkPanel(state.panel);
+      //newState.panel = "home";
+      newState.panel = "myDemoBoxes";
+
+      //Restores previous panel if it is a mutual panel
+      if (isMutualPanel) newState.panel = state.panel;
+      return Object.assign({}, state, newState);
+    case UDPATE_CURRENT_ACCOUNT_USER:
+      newState = updateState(
+        state,
+        ["dashboard", "currentAccountUser"],
+        payload,
+        false
+      );
+      //Updates previous account user
+      newState.dashboard.previousAccountUser =
+        state.dashboard.currentAccountUser;
+      accountUser = filterAccountUser(state, payload);
+      //Restores previous panel if it is a mutual panel
+      isMutualPanel = checkPanel(state.panel);
+      //newState.panel = "home";
+      newState.panel = "myDemoBoxes";
+
+      if (isMutualPanel) newState.panel = state.panel;
+      //Sets default values for profile form
+      populateProfileForm(newState, accountUser);
+      return Object.assign({}, state, newState);
     case UDPATE_PANEL:
       newState = updateState(state, ["panel"], payload, false);
+      newState.previousPanel = state.panel;
       newState.navOpen = false;
+      return Object.assign({}, state, newState);
+    case UPDATE_PROFILE_FORM:
+      newState = updateState(state, ["profileForm"], payload, false);
+      newState.profileForm.disabled = false;
+      if (newState.profileForm.isSubmitting)
+        newState.profileForm.disabled = true;
+      return Object.assign({}, state, newState);
+    case ADD_VARIATION_PRODUCT_FORM:
+      newState = updateState(
+        state,
+        ["productForm", "variations", "data"],
+        [...state.productForm.variations.data],
+        false
+      );
+      newState.productForm.variations.data.push({name: "", choices: []});
+      newState.productForm.errorMessage = "";
+      newState.productForm.successMessage = "";
+      return Object.assign({}, state, newState);
+    case DELETE_VARIATION_PRODUCT_FORM:
+      data = [...state.productForm.variations.data];
+      remove(data, payload);
+      console.log(
+        updateImageVariationLinks(state.productForm.images.data, payload)
+      );
+      newState = updateState(
+        state,
+        ["productForm", "variations", "data"],
+        data,
+        false
+      );
+      newState.productForm.errorMessage = "";
+      newState.productForm.successMessage = "";
+      return Object.assign({}, state, newState);
+    case UPDATE_PRODUCT_FORM:
+      return updateState(state, ["productForm"], payload);
+    case ADD_IMAGE_PRODUCT_FORM:
+      newState = updateState(
+        state,
+        ["productForm", "images", "data"],
+        [...state.productForm.images.data],
+        false
+      );
+      if (!payload.errorMessage) {
+        newState.productForm.images.data.push({
+          ...payload,
+          variationLink: -1
+        });
+        newState.productForm.images.errorMessage = "";
+      } else {
+        newState.productForm.images = {
+          ...newState.productForm.images,
+          ...payload
+        };
+      }
+      newState.productForm.errorMessage = "";
+      newState.productForm.successMessage = "";
+      newState.productForm.disabled = false;
+      return Object.assign({}, state, newState);
+    case DELETE_IMAGE_PRODUCT_FORM:
+      data = [...state.productForm.images.data];
+      remove(data, payload);
+      newState = updateState(
+        state,
+        ["productForm", "images", "data"],
+        data,
+        false
+      );
+      newState.productForm.images.errorMessage = "";
       return Object.assign({}, state, newState);
     default:
       return state;

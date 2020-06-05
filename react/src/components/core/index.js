@@ -61,6 +61,17 @@ Input.defaultProps = {
   borderRadius: "4px"
 };
 
+const Label = themedComponent(
+  styled.label`
+    ${borderRadius}
+    ${flexFields}
+    &:hover {
+      color: ${props => props.hoverColor || "currentColor"};
+      background: ${props => props.hoverBackground && props.hoverBackground};
+    }
+  `
+);
+
 const TextArea = themedComponent(
   styled.textarea`
     outline: none;
@@ -174,6 +185,7 @@ export {
   Button,
   Flex,
   Input,
+  Label,
   Video,
   Image,
   Link,

@@ -39,33 +39,35 @@ const ProductForm = props => {
       <FormSection bg={"blues.3"} flexDirection="column" pt={4} pb={4}>
         <TableWrapper mb={3} pb={3}>
           <Table w="100%" minWidth="75rem">
-            <Tr textAlign="left">
-              <Th pb={2}>Name</Th>
-              <Th pb={2}>Location</Th>
-              <Th pb={2}>Sales vol</Th>
-              <Th pb={2}>Campaigns</Th>
-              <Th pb={2}>Invite</Th>
-              <Th />
-            </Tr>
-            <Tr bg={"whites.0"}>
-              <Td>
-                <Text ml={2}>Cherry's barbershop</Text>
-              </Td>
-              <Td>
-                <Text ml={2}>Ohio</Text>
-              </Td>
-              <Td>
-                <Text ml={2}>$1,200</Text>
-              </Td>
-              <Td>
-                <Text ml={2}>bromane campaign</Text>
-              </Td>
-              <Td minWidth={"5rem"}>
-                <Text m={"auto"} textAlign="center">
-                  Send invite
-                </Text>
-              </Td>
-            </Tr>
+            <tbody>
+              <Tr textAlign="left">
+                <Th pb={2}>Name</Th>
+                <Th pb={2}>Location</Th>
+                <Th pb={2}>Sales vol</Th>
+                <Th pb={2}>Campaigns</Th>
+                <Th pb={2}>Invite</Th>
+                <Th />
+              </Tr>
+              <Tr bg={"whites.0"}>
+                <Td>
+                  <Text ml={2}>Cherry's barbershop</Text>
+                </Td>
+                <Td>
+                  <Text ml={2}>Ohio</Text>
+                </Td>
+                <Td>
+                  <Text ml={2}>$1,200</Text>
+                </Td>
+                <Td>
+                  <Text ml={2}>bromane campaign</Text>
+                </Td>
+                <Td minWidth={"5rem"}>
+                  <Text m={"auto"} textAlign="center">
+                    Send invite
+                  </Text>
+                </Td>
+              </Tr>
+            </tbody>
           </Table>
         </TableWrapper>
       </FormSection>

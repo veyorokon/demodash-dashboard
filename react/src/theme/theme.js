@@ -27,7 +27,7 @@ const theme = {
     blacks: ["#000", "#090909", "#111118"],
     whites: ["#fff", "#fafafa", "#F5F1F0"],
     greys: ["#7D8B98", "#e6eaef", "#EDEDED", "#edeff0", "#F4F5F9", "#A5A9BD"],
-    oranges: ["#F87060", "#ED8A70"],
+    oranges: ["#F87060", "#fd8368", "#ED8A70"],
     greens: ["#596657", "#697268", "#65C24D", "#EDF9EA", "#0f9600"],
     navys: ["#112237", "#212C39", "#525F81", "#e6edff", "#f4f7ff"],
     darkBlues: ["#0B1750"],

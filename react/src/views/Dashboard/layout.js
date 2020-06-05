@@ -98,10 +98,14 @@ const LogoTitle = props => (
   </Flex>
 );
 
+const NavWrapper = styled(Flex)`
+  z-index: 50;
+`;
+
 const _NavBar = props => {
   const {toggleNav} = props;
   return (
-    <Flex
+    <NavWrapper
       position="fixed"
       w="100%"
       justifyContent="space-between"
@@ -115,7 +119,7 @@ const _NavBar = props => {
         <MenuOutline onClick={toggleNav} />
       </Icon>
       <LogoTitle />
-    </Flex>
+    </NavWrapper>
   );
 };
 

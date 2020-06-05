@@ -39,44 +39,46 @@ const PurchaseTable = props => {
       <FormSection bg={"blues.3"} flexDirection="column" pt={4} pb={4}>
         <TableWrapper mb={3} pb={3}>
           <Table w="100%" minWidth="75rem">
-            <Tr textAlign="left">
-              <Th pb={2}>Name</Th>
-              <Th pb={2}>Address</Th>
-              <Th pb={2}>Product</Th>
-              <Th pb={2}>Referrer</Th>
-              <Th pb={2}>Tracking No.</Th>
-              <Th />
-            </Tr>
-            <Tr bg={"whites.0"}>
-              <Td>
-                <Text ml={2}>John Doe</Text>
-              </Td>
-              <Td>
-                <Text ml={2}>8412 Paul Drive</Text>
-                <Text ml={2}>West Chester, OH</Text>
-                <Text ml={2}>45069</Text>
-              </Td>
-              <Td>
-                <Text ml={2}>Bromane - Starter kit</Text>
-                <Text ml={2}>Dark Brown</Text>
-              </Td>
-              <Td>
-                <Text ml={2}>Cherry's Barbershop</Text>
-              </Td>
-              <Td>
-                <Text ml={2}>1Z 999 AA1 01 2345 6784</Text>
-              </Td>
-              <Td minWidth={"5rem"}>
-                <Text m={"auto"} textAlign="center">
-                  Refund
-                </Text>
-              </Td>
-              <Td minWidth={"5rem"}>
-                <Text m={"auto"} textAlign="center">
-                  Save
-                </Text>
-              </Td>
-            </Tr>
+            <tbody>
+              <Tr textAlign="left">
+                <Th pb={2}>Name</Th>
+                <Th pb={2}>Address</Th>
+                <Th pb={2}>Product</Th>
+                <Th pb={2}>Referrer</Th>
+                <Th pb={2}>Tracking No.</Th>
+                <Th />
+              </Tr>
+              <Tr bg={"whites.0"}>
+                <Td>
+                  <Text ml={2}>John Doe</Text>
+                </Td>
+                <Td>
+                  <Text ml={2}>8412 Paul Drive</Text>
+                  <Text ml={2}>West Chester, OH</Text>
+                  <Text ml={2}>45069</Text>
+                </Td>
+                <Td>
+                  <Text ml={2}>Bromane - Starter kit</Text>
+                  <Text ml={2}>Dark Brown</Text>
+                </Td>
+                <Td>
+                  <Text ml={2}>Cherry's Barbershop</Text>
+                </Td>
+                <Td>
+                  <Text ml={2}>1Z 999 AA1 01 2345 6784</Text>
+                </Td>
+                <Td minWidth={"5rem"}>
+                  <Text m={"auto"} textAlign="center">
+                    Refund
+                  </Text>
+                </Td>
+                <Td minWidth={"5rem"}>
+                  <Text m={"auto"} textAlign="center">
+                    Save
+                  </Text>
+                </Td>
+              </Tr>
+            </tbody>
           </Table>
         </TableWrapper>
       </FormSection>
@@ -89,7 +91,7 @@ const PurchaseTable = props => {
 export default props => {
   return (
     <Flex mb={4} justifyContent="center">
-      <PurchaseTable title={"Products"} />
+      <PurchaseTable title={"Purchases"} />
     </Flex>
   );
 };

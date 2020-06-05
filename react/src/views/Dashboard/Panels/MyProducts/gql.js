@@ -62,3 +62,21 @@ export const ACCOUNT_USER__PRODUCTS = gql`
     }
   }
 `;
+
+export const DELETE_PRODUCT = gql`
+  mutation deleteProduct(
+    $token: String!
+    $accountUserId: Int!
+    $productId: Int!
+  ) {
+    deleteProduct(
+      token: $token
+      accountUserId: $accountUserId
+      productId: $productId
+    ) {
+      product {
+        trashed
+      }
+    }
+  }
+`;

@@ -1,14 +1,16 @@
 import React from "react";
-import {Box, Flex, Text, DropDown, CallToActionButton} from "components";
+import {Box, Flex, Text, DropDown, CallToActionButton, Icon} from "components";
 import {FormSection} from "views/Dashboard/Components";
 import {responsive as r, getToken} from "lib";
 import {Card} from "views/Dashboard/Components";
 import SwipeableViews from "react-swipeable-views";
 import styled, {css} from "styled-components";
-import {Query} from "@apollo/react-components";
+import {Mutation, Query} from "@apollo/react-components";
 import {connect} from "react-redux";
 import {API_MEDIA} from "api";
-import {ACCOUNT_USER__PRODUCTS} from "./gql";
+import {ACCOUNT_USER__PRODUCTS, DELETE_PRODUCT} from "./gql";
+
+import {Delete} from "@styled-icons/material/Delete";
 
 const NavigationBullet = styled(Flex)`
   cursor: pointer;
@@ -97,9 +99,21 @@ class ImageCard extends React.Component {
     if (index) return this.setState({index: parseInt(index)});
   };
 
+  deleteProductMutation = deleteProduct => {
+    const {productId, currentAccountUser} = this.props;
+    return deleteProduct({
+      variables: {
+        token: getToken().token,
+        accountUserId: parseInt(currentAccountUser),
+        productId: parseInt(productId)
+      }
+    });
+  };
+
   render() {
     const {props} = this;
     const {index} = this.state;
+    const {currentAccountUser} = props;
     return (
       <Card
         p={3}
@@ -143,6 +157,36 @@ class ImageCard extends React.Component {
             />
           ))}
         </PanelNavigation>
+        <Flex alignItems="center" justifyContent="flex-end">
+          <Mutation
+            mutation={DELETE_PRODUCT}
+            refetchQueries={[
+              {
+                query: ACCOUNT_USER__PRODUCTS,
+                variables: {
+                  token: getToken().token,
+                  id: parseInt(currentAccountUser)
+                }
+              }
+            ]}
+          >
+            {deleteProduct => (
+              <Icon
+                onClick={() => {
+                  let conf = window.confirm(
+                    "Are you sure you want to delete this product?"
+                  );
+                  if (conf) return this.deleteProductMutation(deleteProduct);
+                }}
+                cursor="pointer"
+                color="oranges.0"
+                h="2rem"
+              >
+                <Delete />
+              </Icon>
+            )}
+          </Mutation>
+        </Flex>
         {props.brand && (
           <Text
             mt="auto"
@@ -282,10 +326,12 @@ function _Products(props) {
                         <ImageCard
                           key={index}
                           brand={data.accountUser.account.profile.name || null}
+                          productId={product.id}
                           title={product.name}
                           description={product.description}
                           images={product.images}
                           variations={product.variations}
+                          currentAccountUser={currentAccountUser}
                         />
                       ))}
                   </Flex>

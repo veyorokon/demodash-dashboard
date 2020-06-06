@@ -27,3 +27,29 @@ export const PRODUCT__DESCRIPTION = gql`
     }
   }
 `;
+
+export const CREATE_DEMO_BOX = gql`
+  mutation createDemoBox(
+    $token: String!
+    $accountUserId: Int!
+    $name: String!
+    $productIds: [Int]!
+    $price: Float!
+    $refillPrice: Float!
+    $shippingPrice: Float!
+  ) {
+    createDemoBox(
+      token: $token
+      accountUserId: $accountUserId
+      name: $name
+      productIds: $productIds
+      price: $price
+      refillPrice: $refillPrice
+      shippingPrice: $shippingPrice
+    ) {
+      demoBox {
+        id
+      }
+    }
+  }
+`;

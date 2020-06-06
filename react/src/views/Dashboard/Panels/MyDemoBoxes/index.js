@@ -1,11 +1,11 @@
 import React from "react";
 import DemoBoxes from "./DemoBoxes";
-import CreateBoxForm from "./CreateBoxForm";
+import AddDemoBoxForm from "./AddDemoBoxForm";
 
 export default props => {
   return (
     <>
-      <CreateBoxForm />
+      <AddDemoBoxForm />
       <DemoBoxes />
     </>
   );

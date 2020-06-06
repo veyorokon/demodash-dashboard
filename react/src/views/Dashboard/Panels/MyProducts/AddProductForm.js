@@ -338,7 +338,7 @@ class _FormCard extends React.Component {
             </Flex>
           </FormGroup>
           <FormGroup mb={r("3 ----> 2")}>
-            <FlexField name={"Images:"} mb={2} />
+            <FlexField name={"Images ( lim. 8 ):"} mb={2} />
             <Flex flexBasis="60%" flexDirection="column" h="fit-content">
               {imageData &&
                 imageData.map((image, index) => {

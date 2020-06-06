@@ -86,10 +86,10 @@ const initialState = {
     isSubmitting: false
   },
   demoBoxForm: {
-    products: {
+    productIds: {
       data: []
     },
-    boxPrice: (0.0).toFixed(2),
+    price: (0.0).toFixed(2),
     refillPrice: (0.0).toFixed(2),
     shippingPrice: (0.0).toFixed(2),
     disabled: false,

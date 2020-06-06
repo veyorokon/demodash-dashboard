@@ -12,7 +12,7 @@ import {AddCircle} from "@styled-icons/material/AddCircle";
 import {Delete} from "@styled-icons/material/Delete";
 
 import {connect} from "react-redux";
-import {responsive as r, getToken} from "lib";
+import {responsive as r, getToken, getEventVal} from "lib";
 import {updateDemoBoxForm} from "redux/actions";
 import {ACCOUNT_USER__PRODUCTS} from "./gql";
 
@@ -82,6 +82,21 @@ const _CreateDemoBoxForm = props => {
 
       <FormSection bg={"blues.3"} flexDirection="column" pt={4} pb={4}>
         <FormGroup mb={r("3 ----> 2")}>
+          <FlexField name={"Box name:"} />
+          <FlexInput
+            mt={1}
+            value={demoBoxForm.name || ""}
+            onChange={evt =>
+              updateDemoBoxForm({
+                ...demoBoxForm,
+                name: getEventVal(evt),
+                disabled: false,
+                successMessage: ""
+              })
+            }
+          />
+        </FormGroup>
+        <FormGroup mt={2} mb={r("3 ----> 2")}>
           <FlexField mt={2} mb={2} name={"Products ( lim. 3 ):"} />
           <Flex h="fit-content" flexDirection="column" flexBasis="60%">
             {currentAccountUser !== null &&
@@ -97,7 +112,7 @@ const _CreateDemoBoxForm = props => {
                     <ProductsDropDown
                       onChange={evt => {
                         let newProductsData = [...productData];
-                        newProductsData[index] = parseInt(evt.target.value);
+                        newProductsData[index] = parseInt(getEventVal(evt));
                         updateDemoBoxForm({
                           ...demoBoxForm,
                           products: {data: newProductsData}
@@ -169,15 +184,15 @@ const _CreateDemoBoxForm = props => {
             onBlur={evt =>
               updateDemoBoxForm({
                 ...demoBoxForm,
-                boxPrice: evt.target.value
-                  ? parseFloat(evt.target.value).toFixed(2)
+                boxPrice: getEventVal(evt)
+                  ? parseFloat(getEventVal(evt)).toFixed(2)
                   : (0.0).toFixed(2)
               })
             }
             onChange={evt =>
               updateDemoBoxForm({
                 ...demoBoxForm,
-                boxPrice: parseFloat(evt.target.value)
+                boxPrice: parseFloat(getEventVal(evt))
               })
             }
           />
@@ -192,15 +207,15 @@ const _CreateDemoBoxForm = props => {
             onBlur={evt =>
               updateDemoBoxForm({
                 ...demoBoxForm,
-                refillPrice: evt.target.value
-                  ? parseFloat(evt.target.value).toFixed(2)
+                refillPrice: getEventVal(evt)
+                  ? parseFloat(getEventVal(evt)).toFixed(2)
                   : (0.0).toFixed(2)
               })
             }
             onChange={evt =>
               updateDemoBoxForm({
                 ...demoBoxForm,
-                refillPrice: parseFloat(evt.target.value)
+                refillPrice: parseFloat(getEventVal(evt))
               })
             }
           />
@@ -215,15 +230,15 @@ const _CreateDemoBoxForm = props => {
             onBlur={evt =>
               updateDemoBoxForm({
                 ...demoBoxForm,
-                shippingPrice: evt.target.value
-                  ? parseFloat(evt.target.value).toFixed(2)
+                shippingPrice: getEventVal(evt)
+                  ? parseFloat(getEventVal(evt)).toFixed(2)
                   : (0.0).toFixed(2)
               })
             }
             onChange={evt =>
               updateDemoBoxForm({
                 ...demoBoxForm,
-                shippingPrice: parseFloat(evt.target.value)
+                shippingPrice: parseFloat(getEventVal(evt))
               })
             }
           />

@@ -6,8 +6,9 @@ export const CREATE_PRODUCT = gql`
     $accountUserId: Int!
     $name: String!
     $description: String!
-    $images: [Images]
+    $images: [Images]!
     $variations: [Variations]
+    $price: Float!
   ) {
     createProduct(
       token: $token
@@ -16,6 +17,7 @@ export const CREATE_PRODUCT = gql`
       description: $description
       images: $images
       variations: $variations
+      price: $price
     ) {
       product {
         id
@@ -38,6 +40,7 @@ export const ACCOUNT_USER__PRODUCTS = gql`
           id
           name
           description
+          price
           variations {
             id
             name

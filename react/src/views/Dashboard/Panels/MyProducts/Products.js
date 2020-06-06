@@ -248,6 +248,14 @@ class ImageCard extends React.Component {
               </Flex>
             );
           })}
+        <Flex mt={1} mb={1} alignItems="center">
+          <Text letterSpacing="0.5px" color={"navys.0"} mr={2} fw={500}>
+            Price:
+          </Text>
+          <Text letterSpacing="0.5px" color={"reds.1"} fw={500}>
+            ${props.price.toFixed(2)}
+          </Text>
+        </Flex>
         <CallToActionButton
           hoverBackground="#FFC651"
           cursor="pointer"
@@ -335,6 +343,7 @@ function _Products(props) {
                           description={product.description}
                           images={product.images}
                           variations={product.variations}
+                          price={product.price}
                           currentAccountUser={currentAccountUser}
                         />
                       ))}

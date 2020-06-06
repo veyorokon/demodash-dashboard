@@ -1,5 +1,5 @@
 import React from "react";
-import {Box, Flex, Text, DropDown, Icon} from "components";
+import {Box, Flex, Text, DropDown, Icon, CallToActionButton} from "components";
 import {
   FlexInput,
   FlexField,
@@ -63,6 +63,8 @@ const _CreateDemoBoxForm = props => {
   const {currentAccountUser, demoBoxForm, updateDemoBoxForm} = props;
   const productData = demoBoxForm.products.data;
   let hasProducts = productData && productData.length ? true : false;
+
+  const {disabled} = demoBoxForm;
   return (
     <Box
       w={r("80rem ---------> 100rem")}
@@ -102,7 +104,6 @@ const _CreateDemoBoxForm = props => {
                         });
                       }}
                       value={productData[index] || -1}
-                      hiddenOption={"Add a product"}
                       defaultOption={"Add a product"}
                       defaultButtonText={"Create a product"}
                       mt={index && 2}
@@ -111,7 +112,7 @@ const _CreateDemoBoxForm = props => {
                     />
                     <FormButton
                       mt={2}
-                      mb={2}
+                      mb={index === 3 ? 0 : 2}
                       title="Remove this from the box"
                       onClick={() => {
                         let newProductsData = [...productData];
@@ -229,10 +230,33 @@ const _CreateDemoBoxForm = props => {
         </FormGroup>
       </FormSection>
 
-      <FormSection justifyContent="flex-end">
-        <Text fs="1.6rem" fw={500}>
-          Save
-        </Text>
+      <FormSection
+        justifyContent={[
+          "center",
+          "center",
+          "center",
+          "center",
+          "center",
+          "flex-end"
+        ]}
+        flexDirection={r("column ----> row")}
+        alignItems="center"
+      >
+        <CallToActionButton
+          disabled={disabled}
+          cursor={disabled ? "no-drop" : "pointer"}
+          hoverBackground={disabled ? "#ffb39f" : "#F87060"}
+          bg={disabled ? "#ffb39f" : "oranges.1"}
+          color={"whites.0"}
+          hoverColor={disabled ? "whites.2" : "whites.0"}
+          br={2}
+          w={r("100% 25rem ---> 10rem")}
+          maxWidth="100%"
+          fs={"1.6rem"}
+          onClick={() => console.log("er")}
+        >
+          {demoBoxForm.isSubmitting ? "Saving..." : "Save"}
+        </CallToActionButton>
       </FormSection>
     </Box>
   );

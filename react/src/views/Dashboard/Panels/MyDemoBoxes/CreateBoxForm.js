@@ -1,12 +1,16 @@
 import React from "react";
-import {Box, Flex, Text, DropDown} from "components";
+import {Box, Flex, Text, DropDown, Icon} from "components";
 import {
   FlexInput,
   FlexField,
   FormSection,
-  FormGroup
+  FormGroup,
+  FormButton
 } from "views/Dashboard/Components";
 import {Query} from "@apollo/react-components";
+import {AddCircle} from "@styled-icons/material/AddCircle";
+import {Delete} from "@styled-icons/material/Delete";
+
 import {connect} from "react-redux";
 import {responsive as r, getToken} from "lib";
 import {updateDemoBoxForm} from "redux/actions";
@@ -57,6 +61,8 @@ const ProductsDropDown = props => {
 
 const _CreateDemoBoxForm = props => {
   const {currentAccountUser, demoBoxForm, updateDemoBoxForm} = props;
+  const productData = demoBoxForm.products.data;
+  let hasProducts = productData && productData.length ? true : false;
   return (
     <Box
       w={r("80rem ---------> 100rem")}
@@ -74,21 +80,81 @@ const _CreateDemoBoxForm = props => {
 
       <FormSection bg={"blues.3"} flexDirection="column" pt={4} pb={4}>
         <FormGroup mb={r("3 ----> 2")}>
-          <FlexField mt={2} mb={2} name={"Choose a product:"} />
-          <Flex flexDirection="column" flexBasis="60%">
-            {currentAccountUser !== null && (
-              <ProductsDropDown
-                onChange={evt =>
+          <FlexField mt={2} mb={2} name={"Products ( lim. 3 ):"} />
+          <Flex h="fit-content" flexDirection="column" flexBasis="60%">
+            {currentAccountUser !== null &&
+              productData &&
+              productData.map((product, index) => {
+                return (
+                  <Flex
+                    maxWidth="25rem"
+                    key={index}
+                    flexDirection="column"
+                    h="fit-content"
+                  >
+                    <ProductsDropDown
+                      onChange={evt => {
+                        let newProductsData = [...productData];
+                        newProductsData[index] = parseInt(evt.target.value);
+                        updateDemoBoxForm({
+                          ...demoBoxForm,
+                          products: {data: newProductsData}
+                        });
+                      }}
+                      value={productData[index] || -1}
+                      hiddenOption={"Add a product"}
+                      defaultOption={"Add a product"}
+                      defaultButtonText={"Create a product"}
+                      mt={index && 2}
+                      useDefaultButton
+                      {...props}
+                    />
+                    <FormButton
+                      mt={2}
+                      mb={2}
+                      title="Remove this from the box"
+                      onClick={() => {
+                        let newProductsData = [...productData];
+                        newProductsData.splice(index, 1);
+                        updateDemoBoxForm({
+                          ...demoBoxForm,
+                          products: {data: newProductsData}
+                        });
+                      }}
+                    >
+                      <Flex alignItems="center">
+                        <Icon ml={3} mr={2} h={"2.2rem"}>
+                          <Delete />
+                        </Icon>
+                        <Text ml={4}>Remove product</Text>
+                      </Flex>
+                    </FormButton>
+                  </Flex>
+                );
+              })}
+
+            {productData.length < 3 && (
+              <FormButton
+                h={"3.5rem"}
+                title="Add a product"
+                onClick={() => {
+                  let newProductsData = [...productData];
+                  newProductsData.push(null);
                   updateDemoBoxForm({
                     ...demoBoxForm,
-                    productId: parseInt(evt.target.value)
-                  })
-                }
-                hiddenOption={"Add a product"}
-                defaultButtonText={"Create a product"}
-                useDefaultButton
-                {...props}
-              />
+                    products: {data: newProductsData}
+                  });
+                }}
+                mt={hasProducts ? 3 : 0}
+                mb={hasProducts ? 2 : 0}
+              >
+                <Flex alignItems="center">
+                  <Icon ml={3} mr={2} h={"2.2rem"}>
+                    <AddCircle />
+                  </Icon>
+                  <Text ml={4}>Add a product</Text>
+                </Flex>
+              </FormButton>
             )}
           </Flex>
         </FormGroup>

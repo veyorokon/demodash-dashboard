@@ -15,7 +15,8 @@ import {
   FlexTextArea,
   FormSection,
   FormGroup,
-  FlexText
+  FlexText,
+  FormButton
 } from "views/Dashboard/Components";
 import {connect} from "react-redux";
 import {
@@ -39,20 +40,6 @@ import {
   getToken,
   formatGQLErrorMessage
 } from "lib";
-
-const FormButton = props => (
-  <CallToActionButton
-    hoverBackground="#FFC651"
-    br={2}
-    bg={"yellows.1"}
-    w="25rem"
-    maxWidth={"100%"}
-    cursor={"pointer"}
-    {...props}
-  >
-    {props.children}
-  </CallToActionButton>
-);
 
 class ImageInput extends React.Component {
   handleImageChange(e) {

@@ -85,7 +85,13 @@ const initialState = {
     }
   },
   demoBoxForm: {
-    productId: null
+    products: {
+      data: []
+    },
+    productId: null,
+    boxPrice: (0.0).toFixed(2),
+    refillPrice: (0.0).toFixed(2),
+    shippingPrice: (0.0).toFixed(2)
   },
   panel: "myDemoBoxes",
   previousPanel: "home",
@@ -303,6 +309,7 @@ export default function rootReducer(state = initialState, action) {
       return Object.assign({}, state, newState);
     case UPDATE_DEMO_BOX_FORM:
       newState = updateState(state, ["demoBoxForm"], payload, false);
+      console.log(newState.demoBoxForm);
       return Object.assign({}, state, newState);
     default:
       return state;

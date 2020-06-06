@@ -94,15 +94,72 @@ const _CreateDemoBoxForm = props => {
         </FormGroup>
         <FormGroup mb={r("3 ----> 2")}>
           <FlexField name={"Demo box price:"} />
-          <FlexInput mt={1} />
+          <FlexInput
+            mt={1}
+            value={demoBoxForm.boxPrice}
+            type="number"
+            min="0"
+            onBlur={evt =>
+              updateDemoBoxForm({
+                ...demoBoxForm,
+                boxPrice: evt.target.value
+                  ? parseFloat(evt.target.value).toFixed(2)
+                  : (0.0).toFixed(2)
+              })
+            }
+            onChange={evt =>
+              updateDemoBoxForm({
+                ...demoBoxForm,
+                boxPrice: parseFloat(evt.target.value)
+              })
+            }
+          />
         </FormGroup>
         <FormGroup mb={r("3 ----> 2")}>
           <FlexField name={"Refill price:"} />
-          <FlexInput mt={1} />
+          <FlexInput
+            mt={1}
+            value={demoBoxForm.refillPrice}
+            type="number"
+            min="0"
+            onBlur={evt =>
+              updateDemoBoxForm({
+                ...demoBoxForm,
+                refillPrice: evt.target.value
+                  ? parseFloat(evt.target.value).toFixed(2)
+                  : (0.0).toFixed(2)
+              })
+            }
+            onChange={evt =>
+              updateDemoBoxForm({
+                ...demoBoxForm,
+                refillPrice: parseFloat(evt.target.value)
+              })
+            }
+          />
         </FormGroup>
         <FormGroup mb={r("3 ----> 2")}>
           <FlexField name={"Shipping price:"} />
-          <FlexInput mt={1} />
+          <FlexInput
+            mt={1}
+            value={demoBoxForm.shippingPrice}
+            type="number"
+            min="0"
+            onBlur={evt =>
+              updateDemoBoxForm({
+                ...demoBoxForm,
+                shippingPrice: evt.target.value
+                  ? parseFloat(evt.target.value).toFixed(2)
+                  : (0.0).toFixed(2)
+              })
+            }
+            onChange={evt =>
+              updateDemoBoxForm({
+                ...demoBoxForm,
+                shippingPrice: parseFloat(evt.target.value)
+              })
+            }
+          />
         </FormGroup>
       </FormSection>
 

@@ -8,7 +8,8 @@ import {
   FormSection,
   FormGroup,
   FlexTextArea,
-  FlexText
+  FlexText,
+  FormButton
 } from "./Form";
 import IconCard from "./IconCard";
 import Card from "./Card";
@@ -25,6 +26,7 @@ export {
   FormSection,
   FormGroup,
   FlexTextArea,
+  FormButton,
   IconCard,
   Card,
   AccountUserDropDown,

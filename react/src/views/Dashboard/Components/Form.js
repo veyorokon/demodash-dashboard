@@ -1,5 +1,5 @@
 import React from "react";
-import {Input, Flex, Text, TextArea} from "components";
+import {Input, Flex, Text, TextArea, CallToActionButton} from "components";
 import {responsive as r} from "lib";
 
 const FlexInput = props => {
@@ -75,4 +75,26 @@ const FormGroup = props => (
   </Flex>
 );
 
-export {FlexText, FlexTextArea, FlexInput, FlexField, FormSection, FormGroup};
+const FormButton = props => (
+  <CallToActionButton
+    hoverBackground="#FFC651"
+    br={2}
+    bg={"yellows.1"}
+    w="25rem"
+    maxWidth={"100%"}
+    cursor={"pointer"}
+    {...props}
+  >
+    {props.children}
+  </CallToActionButton>
+);
+
+export {
+  FlexText,
+  FlexTextArea,
+  FlexInput,
+  FlexField,
+  FormSection,
+  FormGroup,
+  FormButton
+};

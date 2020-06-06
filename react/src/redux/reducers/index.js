@@ -11,7 +11,8 @@ import {
   DELETE_VARIATION_PRODUCT_FORM,
   UPDATE_PRODUCT_FORM,
   ADD_IMAGE_PRODUCT_FORM,
-  DELETE_IMAGE_PRODUCT_FORM
+  DELETE_IMAGE_PRODUCT_FORM,
+  UPDATE_DEMO_BOX_FORM
 } from "redux/constants";
 import {updateState, validateEmail, validatePassword} from "lib";
 
@@ -82,6 +83,9 @@ const initialState = {
       data: [],
       errorMessage: ""
     }
+  },
+  demoBoxForm: {
+    productId: null
   },
   panel: "myDemoBoxes",
   previousPanel: "home",
@@ -296,6 +300,9 @@ export default function rootReducer(state = initialState, action) {
         false
       );
       newState.productForm.images.errorMessage = "";
+      return Object.assign({}, state, newState);
+    case UPDATE_DEMO_BOX_FORM:
+      newState = updateState(state, ["demoBoxForm"], payload, false);
       return Object.assign({}, state, newState);
     default:
       return state;

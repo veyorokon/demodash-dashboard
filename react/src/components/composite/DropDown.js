@@ -53,7 +53,7 @@ export default props => {
         <Icon mr={3} h={3} {...props.iconProps}>
           <AddCircle />
         </Icon>
-        {props.defaultOption}
+        {props.defaultButtonText}
       </DefaultButton>
     );
   }

@@ -34,7 +34,7 @@ class _AccountUserDropDown extends React.Component {
         useDefaultButton
         onChange={e => updateCurrentAccountUser(e.target.value)}
         options={options}
-        defaultOption={"Create an account"}
+        defaultButtonText={"Create an account"}
         defaultClick={() => console.log("test")}
         iconProps={{h: "2.4rem"}}
         value={currentAccountUser}

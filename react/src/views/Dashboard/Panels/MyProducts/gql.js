@@ -75,7 +75,7 @@ export const DELETE_PRODUCT = gql`
       productId: $productId
     ) {
       product {
-        trashed
+        id
       }
     }
   }

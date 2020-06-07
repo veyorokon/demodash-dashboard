@@ -19,7 +19,7 @@ import {
   formatGQLErrorMessage
 } from "lib";
 import {updateDemoBoxForm} from "redux/actions";
-import {ACCOUNT_USER__PRODUCTS, CREATE_DEMO_BOX} from "./gql";
+import {ACCOUNT_USER__PRODUCTS, CREATE_DEMO_BOX, DEMO_BOXES} from "./gql";
 import {USER__ACCOUNT_USER_SET} from "views/Dashboard/gql";
 
 const ProductsDropDown = props => {
@@ -140,7 +140,8 @@ class _CreateDemoBoxForm extends React.Component {
                   ...demoBoxForm,
                   name: getEventVal(evt),
                   disabled: false,
-                  successMessage: ""
+                  successMessage: "",
+                  errorMessage: ""
                 })
               }
             />
@@ -166,7 +167,8 @@ class _CreateDemoBoxForm extends React.Component {
                             ...demoBoxForm,
                             productIds: {data: newProductsData},
                             disabled: false,
-                            successMessage: ""
+                            successMessage: "",
+                            errorMessage: ""
                           });
                         }}
                         value={productData[index] || -1}
@@ -186,8 +188,8 @@ class _CreateDemoBoxForm extends React.Component {
                           updateDemoBoxForm({
                             ...demoBoxForm,
                             productIds: {data: newProductsData},
-                            disabled: false,
-                            successMessage: ""
+                            successMessage: "",
+                            errorMessage: ""
                           });
                         }}
                       >
@@ -212,8 +214,8 @@ class _CreateDemoBoxForm extends React.Component {
                     updateDemoBoxForm({
                       ...demoBoxForm,
                       productIds: {data: newProductsData},
-                      disabled: false,
-                      successMessage: ""
+                      successMessage: "",
+                      errorMessage: ""
                     });
                   }}
                   mt={hasProducts ? 3 : 0}
@@ -249,7 +251,8 @@ class _CreateDemoBoxForm extends React.Component {
                   ...demoBoxForm,
                   price: parseFloat(getEventVal(evt)),
                   disabled: false,
-                  successMessage: ""
+                  successMessage: "",
+                  errorMessage: ""
                 })
               }
             />
@@ -274,7 +277,8 @@ class _CreateDemoBoxForm extends React.Component {
                   ...demoBoxForm,
                   refillPrice: parseFloat(getEventVal(evt)),
                   disabled: false,
-                  successMessage: ""
+                  successMessage: "",
+                  errorMessage: ""
                 })
               }
             />
@@ -299,7 +303,8 @@ class _CreateDemoBoxForm extends React.Component {
                   ...demoBoxForm,
                   shippingPrice: parseFloat(getEventVal(evt)),
                   disabled: false,
-                  successMessage: ""
+                  successMessage: "",
+                  errorMessage: ""
                 })
               }
             />
@@ -344,6 +349,13 @@ class _CreateDemoBoxForm extends React.Component {
                 variables: {
                   token: getToken().token,
                   id: parseInt(currentAccountUser)
+                }
+              },
+              {
+                query: DEMO_BOXES,
+                variables: {
+                  token: getToken().token,
+                  accountUserId: parseInt(currentAccountUser)
                 }
               }
             ]}

@@ -12,7 +12,8 @@ import {
   UPDATE_PRODUCT_FORM,
   ADD_IMAGE_PRODUCT_FORM,
   DELETE_IMAGE_PRODUCT_FORM,
-  UPDATE_DEMO_BOX_FORM
+  UPDATE_DEMO_BOX_FORM,
+  UPDATE_DEMO_CAMPAIGN_FORM
 } from "redux/constants";
 import {updateState, validateEmail, validatePassword} from "lib";
 
@@ -94,6 +95,9 @@ const initialState = {
     shippingPrice: (0.0).toFixed(2),
     disabled: true,
     isSubmitting: false
+  },
+  demoCampaignForm: {
+    demoBoxId: -1
   },
   panel: "myDemoCampaigns",
   previousPanel: "home",
@@ -309,6 +313,10 @@ export default function rootReducer(state = initialState, action) {
       return Object.assign({}, state, newState);
     case UPDATE_DEMO_BOX_FORM:
       newState = updateState(state, ["demoBoxForm"], payload, false);
+      return Object.assign({}, state, newState);
+    case UPDATE_DEMO_CAMPAIGN_FORM:
+      newState = updateState(state, ["demoCampaignForm"], payload, false);
+      console.log(newState.demoCampaignForm);
       return Object.assign({}, state, newState);
     default:
       return state;

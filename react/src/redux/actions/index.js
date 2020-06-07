@@ -12,7 +12,8 @@ import {
   UPDATE_PRODUCT_FORM,
   ADD_IMAGE_PRODUCT_FORM,
   DELETE_IMAGE_PRODUCT_FORM,
-  UPDATE_DEMO_BOX_FORM
+  UPDATE_DEMO_BOX_FORM,
+  UPDATE_DEMO_CAMPAIGN_FORM
 } from "redux/constants";
 
 export function updateRegistrationForm(payload) {
@@ -91,5 +92,11 @@ export function deleteImageProductForm(payload) {
 export function updateDemoBoxForm(payload) {
   return function(dispatch) {
     return dispatch({type: UPDATE_DEMO_BOX_FORM, payload: payload});
+  };
+}
+
+export function updateDemoCampaignForm(payload) {
+  return function(dispatch) {
+    return dispatch({type: UPDATE_DEMO_CAMPAIGN_FORM, payload: payload});
   };
 }

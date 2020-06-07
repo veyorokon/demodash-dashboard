@@ -39,13 +39,13 @@ const ProductsDropDown = props => {
       {({loading, error, data}) => {
         if (loading)
           return (
-            <Flex alignItems="center" h="3.5rem">
+            <Flex maxWidth="100%" w="25rem" alignItems="center" h="3.5rem">
               <Text>Loading...</Text>
             </Flex>
           );
         if (error)
           return (
-            <Flex alignItems="center" h="3.5rem">
+            <Flex maxWidth="100%" w="25rem" alignItems="center" h="3.5rem">
               <Text>Error! {error.message}</Text>
             </Flex>
           );

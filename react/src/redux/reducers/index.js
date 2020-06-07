@@ -95,7 +95,7 @@ const initialState = {
     disabled: true,
     isSubmitting: false
   },
-  panel: "myDemoBoxes",
+  panel: "myDemoCampaigns",
   previousPanel: "home",
   navOpen: false
 };
@@ -211,7 +211,7 @@ export default function rootReducer(state = initialState, action) {
       newState = populateProfileForm(newState, accountUser);
       isMutualPanel = checkPanel(state.panel);
       //newState.panel = "home";
-      newState.panel = "myDemoBoxes";
+      newState.panel = "myDemoCampaigns";
 
       //Restores previous panel if it is a mutual panel
       if (isMutualPanel) newState.panel = state.panel;
@@ -230,7 +230,7 @@ export default function rootReducer(state = initialState, action) {
       //Restores previous panel if it is a mutual panel
       isMutualPanel = checkPanel(state.panel);
       //newState.panel = "home";
-      newState.panel = "myDemoBoxes";
+      newState.panel = "myDemoCampaigns";
 
       if (isMutualPanel) newState.panel = state.panel;
       //Sets default values for profile form

@@ -8,7 +8,7 @@ import styled, {css} from "styled-components";
 import {Mutation, Query} from "@apollo/react-components";
 import {connect} from "react-redux";
 import {API_MEDIA} from "api";
-import {ACCOUNT_USER__PRODUCTS, DELETE_PRODUCT} from "./gql";
+import {ACCOUNT_USER__PRODUCTS, DELETE_PRODUCT} from "views/Dashboard/gql";
 
 import {Delete} from "@styled-icons/material/Delete";
 

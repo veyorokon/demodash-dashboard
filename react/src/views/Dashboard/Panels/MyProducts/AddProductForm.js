@@ -31,8 +31,11 @@ import {Delete} from "@styled-icons/material/Delete";
 import {AddCircle} from "@styled-icons/material/AddCircle";
 import {Image} from "@styled-icons/boxicons-solid/Image";
 import {Mutation} from "@apollo/react-components";
-import {CREATE_PRODUCT, ACCOUNT_USER__PRODUCTS} from "./gql";
-import {USER__ACCOUNT_USER_SET} from "views/Dashboard/gql";
+import {
+  USER__ACCOUNT_USER_SET,
+  CREATE_PRODUCT,
+  ACCOUNT_USER__PRODUCTS
+} from "views/Dashboard/gql";
 
 import {
   responsive as r,
@@ -329,7 +332,7 @@ class _FormCard extends React.Component {
                   title="Add a variation"
                   onClick={addVariation}
                   mt={hasVariations ? 3 : r("0 ----> 2")}
-                  mb={hasVariations ? 3 : r("0 ----> 2")}
+                  mb={hasVariations ? 3 : r("0 ----> 1")}
                 >
                   <Flex alignItems="center">
                     <Icon ml={3} mr={2} h={"2.2rem"}>

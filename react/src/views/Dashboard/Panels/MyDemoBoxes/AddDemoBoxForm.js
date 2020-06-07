@@ -19,8 +19,12 @@ import {
   formatGQLErrorMessage
 } from "lib";
 import {updateDemoBoxForm} from "redux/actions";
-import {ACCOUNT_USER__PRODUCTS, CREATE_DEMO_BOX, DEMO_BOXES} from "./gql";
-import {USER__ACCOUNT_USER_SET} from "views/Dashboard/gql";
+import {
+  USER__ACCOUNT_USER_SET,
+  ACCOUNT_USER__PRODUCTS,
+  CREATE_DEMO_BOX,
+  DEMO_BOXES
+} from "views/Dashboard/gql";
 
 const ProductsDropDown = props => {
   const {currentAccountUser} = props;

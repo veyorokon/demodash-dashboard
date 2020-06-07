@@ -13,7 +13,7 @@ const FlexInput = props => {
 const FlexText = props => {
   return (
     <Flex mt={3} justifyContent="flex-start" alignItems="center" {...props}>
-      <Text>{props.children}</Text>
+      <Text fw={"inherit"}>{props.children}</Text>
     </Flex>
   );
 };

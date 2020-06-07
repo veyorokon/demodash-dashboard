@@ -97,7 +97,10 @@ const initialState = {
     isSubmitting: false
   },
   demoCampaignForm: {
-    demoBoxId: -1
+    demoBoxId: -1,
+    commission: {
+      data: []
+    }
   },
   panel: "myDemoCampaigns",
   previousPanel: "home",

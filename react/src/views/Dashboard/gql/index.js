@@ -179,6 +179,7 @@ export const DEMO_BOXES = gql`
         product {
           id
           name
+          price
         }
       }
       account {

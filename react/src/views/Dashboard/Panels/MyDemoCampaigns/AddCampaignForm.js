@@ -15,6 +15,13 @@ import {Delete} from "@styled-icons/material/Delete";
 
 import {DEMO_BOXES} from "views/Dashboard/gql";
 import {responsive as r, getToken, getEventVal} from "lib";
+import styled from "styled-components";
+
+const Price = styled(Text)`
+  display: flex;
+  flex-grow: 1;
+  justify-content: flex-end;
+`;
 
 const DemoBoxesDropDown = props => {
   const {currentAccountUser} = props;
@@ -65,6 +72,22 @@ const DemoBoxesDropDown = props => {
   );
 };
 
+const LineItem = props => (
+  <Flex mb={1} mt={2} w={"25rem"} maxWidth="100%" flexWrap="wrap">
+    <Text justifySelf="flex-start" {...props.titleProps}>
+      {props.title}
+    </Text>
+    <Price
+      ml={2}
+      justifySelf="flex-end"
+      color="oranges.0"
+      {...props.valueProps}
+    >
+      {props.value}
+    </Price>
+  </Flex>
+);
+
 class BoxItemsFormGroup extends React.Component {
   calcStripeFee(price) {
     return price - (price * 0.971 - 0.3);
@@ -76,7 +99,8 @@ class BoxItemsFormGroup extends React.Component {
   }
 
   calcRemainder(price, commission) {
-    commission = commission || 0;
+    commission = commission || 0.0;
+    commission = Math.max(commission, 0);
     let remainder = price - this.calcStripeFee(price) - 0.99 - commission;
     return Math.max(remainder, 0);
   }
@@ -136,50 +160,34 @@ class BoxItemsFormGroup extends React.Component {
                       <Flex
                         w="fit-content"
                         maxWidth="100%"
-                        borderBottom={"1px solid lightslategrey"}
+                        borderBottom={
+                          demoBox.items.length - 1 === indx
+                            ? "none"
+                            : "1px solid lightslategrey"
+                        }
                         pb={2}
                         mb={2}
                         key={indx}
                         fleGrow={0}
                         flexDirection="column"
                       >
-                        <Flex
-                          mb={1}
-                          mt={2}
-                          w={"25rem"}
-                          maxWidth="100%"
-                          flexWrap="wrap"
-                        >
-                          <Text fw={500}>{item.product.name}</Text>
-                          <Text fw={500} ml={2} color="oranges.0">
-                            ${price.toFixed(2)}
-                          </Text>
-                        </Flex>
-                        <Flex
-                          mb={1}
-                          mt={2}
-                          w={"25rem"}
-                          maxWidth="100%"
-                          flexWrap="wrap"
-                        >
-                          <Text fw={400}>Transaction Fee ( 2.9% + 0.30 ):</Text>
-                          <Text fw={500} ml={2} color="oranges.0">
-                            ${this.calcStripeFee(price).toFixed(2)}
-                          </Text>
-                        </Flex>
-                        <Flex
-                          mb={1}
-                          mt={2}
-                          w={"25rem"}
-                          maxWidth="100%"
-                          flexWrap="wrap"
-                        >
-                          <Text fw={400}>demodash fee:</Text>
-                          <Text fw={500} ml={2} color="oranges.0">
-                            $0.99
-                          </Text>
-                        </Flex>
-                        <Text mb={1} mt={1}>
+                        <LineItem
+                          titleProps={{fw: 500}}
+                          valueProps={{fw: 500}}
+                          title={item.product.name}
+                          value={`$${price.toFixed(2)}`}
+                        />
+                        <LineItem
+                          valueProps={{fw: 500}}
+                          title={"transaction fee ( 2.9% + 0.30 ):"}
+                          value={`$${this.calcStripeFee(price).toFixed(2)}`}
+                        />
+                        <LineItem
+                          valueProps={{fw: 500}}
+                          title={"demodash fee:"}
+                          value={`$0.99`}
+                        />
+                        <Text mb={1} mt={2}>
                           Commission:
                         </Text>
                         <FlexInput
@@ -190,12 +198,14 @@ class BoxItemsFormGroup extends React.Component {
                           max={price}
                           onBlur={evt => {
                             let newCommissionData = [...commissionData];
+                            let amount = getEventVal(evt)
+                              ? parseFloat(getEventVal(evt)).toFixed(2)
+                              : (0.0).toFixed(2);
+                            amount = Math.max(amount, 0).toFixed(2);
                             newCommissionData[indx] = {
                               ...newCommissionData[indx],
                               boxItemId: item.id,
-                              amount: getEventVal(evt)
-                                ? parseFloat(getEventVal(evt)).toFixed(2)
-                                : (0.0).toFixed(2)
+                              amount
                             };
                             updateDemoCampaignForm({
                               ...demoCampaignForm,
@@ -207,10 +217,14 @@ class BoxItemsFormGroup extends React.Component {
                             let amount = parseFloat(getEventVal(evt));
                             let maxCommission = this.calcMaxCommission(price);
                             amount = Math.min(amount, maxCommission);
+                            let saleLimit = newCommissionData.saleLimit
+                              ? newCommissionData.saleLimit
+                              : -1;
                             newCommissionData[indx] = {
                               ...newCommissionData[indx],
                               boxItemId: item.id,
-                              amount: amount
+                              amount,
+                              saleLimit
                             };
                             updateDemoCampaignForm({
                               ...demoCampaignForm,
@@ -218,16 +232,16 @@ class BoxItemsFormGroup extends React.Component {
                             });
                           }}
                         />
-                        <Flex mb={1} mt={2}>
-                          <Text fw={400}>Remainder:</Text>
-                          <Text fw={500} ml={2} color="greens.4">
-                            $
-                            {this.calcRemainder(
-                              price,
-                              commissionAmount
-                            ).toFixed(2)}
-                          </Text>
-                        </Flex>
+                        <LineItem
+                          titleProps={{fw: 500}}
+                          valueProps={{fw: 500, color: "greens.4"}}
+                          title={"Remainder:"}
+                          value={`$${this.calcRemainder(
+                            price,
+                            commissionAmount
+                          ).toFixed(2)}`}
+                        />
+
                         <Flex mb={1} mt={1}>
                           <Flex
                             h="fit-content"
@@ -236,7 +250,8 @@ class BoxItemsFormGroup extends React.Component {
                             flexDirection="column"
                           >
                             {commissionData[indx] &&
-                            commissionData[indx].saleLimit !== -1 ? (
+                            commissionData[indx].saleLimit !== -1 &&
+                            commissionData[indx].saleLimit !== null ? (
                               <>
                                 <Text mt={1} mb={1} fw={400}>
                                   Set maximum sales
@@ -305,30 +320,35 @@ class BoxItemsFormGroup extends React.Component {
                                 </FormButton>
                               </>
                             ) : (
-                              <FormButton
-                                mb={1}
-                                mt={2}
-                                //mb={index === 3 ? 0 : 2}
-                                title="Add sale limit"
-                                onClick={evt => {
-                                  let newCommissionData = [...commissionData];
-                                  newCommissionData[indx] = {
-                                    ...newCommissionData[indx],
-                                    saleLimit: 1000
-                                  };
-                                  updateDemoCampaignForm({
-                                    ...demoCampaignForm,
-                                    commission: {data: newCommissionData}
-                                  });
-                                }}
-                              >
-                                <Flex alignItems="center">
-                                  <Icon ml={3} mr={2} h={"2.2rem"}>
-                                    <AddCircle />
-                                  </Icon>
-                                  <Text ml={4}>Add sale limit</Text>
-                                </Flex>
-                              </FormButton>
+                              <>
+                                <Text mt={1} mb={1} fw={400}>
+                                  Add a limit on sales for this product?
+                                </Text>
+                                <FormButton
+                                  mb={1}
+                                  mt={2}
+                                  //mb={index === 3 ? 0 : 2}
+                                  title="Add sale limit"
+                                  onClick={evt => {
+                                    let newCommissionData = [...commissionData];
+                                    newCommissionData[indx] = {
+                                      ...newCommissionData[indx],
+                                      saleLimit: 1000
+                                    };
+                                    updateDemoCampaignForm({
+                                      ...demoCampaignForm,
+                                      commission: {data: newCommissionData}
+                                    });
+                                  }}
+                                >
+                                  <Flex alignItems="center">
+                                    <Icon ml={3} mr={2} h={"2.2rem"}>
+                                      <AddCircle />
+                                    </Icon>
+                                    <Text ml={4}>Add sale limit</Text>
+                                  </Flex>
+                                </FormButton>
+                              </>
                             )}
                           </Flex>
                         </Flex>

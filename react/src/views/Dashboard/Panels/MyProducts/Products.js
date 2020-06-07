@@ -187,42 +187,47 @@ class ImageCard extends React.Component {
             )}
           </Mutation>
         </Flex>
-        {props.brand && (
+        <Flex flexDirection="column" justifyContent="flex-start">
+          {props.brand && (
+            <Text
+              letterSpacing="0.5px"
+              color={"greys.0"}
+              mb={2}
+              fw={400}
+              w={"100%"}
+            >
+              {props.brand}
+            </Text>
+          )}
           <Text
-            mt="auto"
+            mt="2"
             letterSpacing="0.5px"
-            color={"greys.0"}
+            color={"navys.0"}
             mb={2}
-            fw={400}
+            fw={600}
             w={"100%"}
           >
-            {props.brand}
+            {props.title}
           </Text>
-        )}
-        <Text
-          mt="auto"
-          letterSpacing="0.5px"
-          color={"navys.0"}
-          mb={2}
-          fw={600}
-          w={"100%"}
-        >
-          {props.title}
-        </Text>
-        <Text
-          letterSpacing="0.5px"
-          color={"navys.0"}
-          mb={2}
-          fw={300}
-          w={"100%"}
-        >
-          {props.description}
-        </Text>
+          <Text
+            letterSpacing="0.5px"
+            color={"navys.0"}
+            mb={2}
+            fw={300}
+            w={"100%"}
+          >
+            {props.description}
+          </Text>
+        </Flex>
         {props.variations &&
           props.variations.map((variation, indx) => {
             let avAn = checkIfStartsVowel(variation.name);
             return (
-              <Flex flexDirection="column" key={`variation-${indx}`}>
+              <Flex
+                flexGrow={0}
+                flexDirection="column"
+                key={`variation-${indx}`}
+              >
                 <Text
                   letterSpacing="0.5px"
                   color={"navys.0"}
@@ -248,7 +253,7 @@ class ImageCard extends React.Component {
               </Flex>
             );
           })}
-        <Flex mt={1} mb={1} alignItems="center">
+        <Flex flexGrow={0} mt={1} mb={1} alignItems="center">
           <Text letterSpacing="0.5px" color={"navys.0"} mr={2} fw={500}>
             Price:
           </Text>
@@ -331,7 +336,7 @@ function _Products(props) {
                     p={r("0 --> 3 -----> 4")}
                     justifyContent={"center"}
                   >
-                    {products &&
+                    {products && products.length ? (
                       products.map((product, index) => (
                         <ImageCard
                           key={index}
@@ -346,7 +351,10 @@ function _Products(props) {
                           price={product.price}
                           currentAccountUser={currentAccountUser}
                         />
-                      ))}
+                      ))
+                    ) : (
+                      <Text color={"black"}>No products yet...</Text>
+                    )}
                   </Flex>
                 </FormSection>
               </Box>

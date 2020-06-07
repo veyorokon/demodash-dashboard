@@ -80,6 +80,7 @@ class _CreateDemoBoxForm extends React.Component {
     flatForm.shippingPrice = parseFloat(flatForm.shippingPrice);
     flatForm.refillPrice = parseFloat(flatForm.refillPrice);
     flatForm.token = getToken().token;
+
     try {
       await createDemoBox({
         variables: flatForm

@@ -53,3 +53,51 @@ export const CREATE_DEMO_BOX = gql`
     }
   }
 `;
+
+export const DEMO_BOXES = gql`
+  query demoBoxes($token: String!, $accountUserId: Int!) {
+    demoBoxes(token: $token, accountUserId: $accountUserId) {
+      id
+      name
+      price
+      refillPrice
+      shippingPrice
+      items {
+        id
+        product {
+          id
+          name
+        }
+      }
+      account {
+        id
+        profile {
+          id
+          name
+        }
+      }
+      images {
+        id
+        image
+      }
+    }
+  }
+`;
+
+export const DELETE_DEMO_BOX = gql`
+  mutation deleteDemoBox(
+    $token: String!
+    $demoBoxId: Int!
+    $accountUserId: Int!
+  ) {
+    deleteDemoBox(
+      accountUserId: $accountUserId
+      token: $token
+      demoBoxId: $demoBoxId
+    ) {
+      demoBox {
+        id
+      }
+    }
+  }
+`;

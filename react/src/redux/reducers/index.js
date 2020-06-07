@@ -92,7 +92,7 @@ const initialState = {
     price: (0.0).toFixed(2),
     refillPrice: (0.0).toFixed(2),
     shippingPrice: (0.0).toFixed(2),
-    disabled: false,
+    disabled: true,
     isSubmitting: false
   },
   panel: "myDemoBoxes",

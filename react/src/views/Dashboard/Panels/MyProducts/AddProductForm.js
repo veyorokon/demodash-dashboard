@@ -46,18 +46,22 @@ class ImageInput extends React.Component {
     e.preventDefault();
     let file = e.target.files[0];
     let reader = new FileReader();
-    reader.readAsDataURL(file);
-    if (file.size > (this.props.maxSize || 2097152))
-      return this.props.onChange({
-        errorMessage: "Image is too large! Max size allowed is 2MB."
-      });
-    reader.onloadend = () => {
-      this.setState({
-        file: file,
-        base64: reader.result
-      });
-      return this.props.onChange({name: file.name, encoding: reader.result});
-    };
+    try {
+      reader.readAsDataURL(file);
+      if (file.size > (this.props.maxSize || 2097152))
+        return this.props.onChange({
+          errorMessage: "Image is too large! Max size allowed is 2MB."
+        });
+      reader.onloadend = () => {
+        this.setState({
+          file: file,
+          base64: reader.result
+        });
+        return this.props.onChange({name: file.name, encoding: reader.result});
+      };
+    } catch {
+      return null;
+    }
   }
 
   render() {

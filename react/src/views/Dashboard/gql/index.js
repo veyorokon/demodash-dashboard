@@ -214,3 +214,43 @@ export const DELETE_DEMO_BOX = gql`
     }
   }
 `;
+
+/*
+  Demo Campaigns
+*/
+
+export const CAMPAIGN_TYPES = gql`
+  query campaignTypes {
+    campaignTypes {
+      text
+      value
+    }
+  }
+`;
+export const CREATE_DEMO_CAMPAIGN = gql`
+  mutation(
+    $accountUserId: Int!
+    $commissions: [Commission]!
+    $demoBoxId: Int!
+    $demoerLimit: Int
+    $name: String!
+    $refillLimit: Int
+    $token: String!
+    $type: String!
+  ) {
+    createDemoCampaign(
+      name: $name
+      accountUserId: $accountUserId
+      commissions: $commissions
+      demoBoxId: $demoBoxId
+      token: $token
+      demoerLimit: $demoerLimit
+      refillLimit: $refillLimit
+      type: $type
+    ) {
+      demoCampaign {
+        id
+      }
+    }
+  }
+`;

@@ -98,10 +98,15 @@ const initialState = {
   },
   demoCampaignForm: {
     demoBoxId: -1,
+    type: -1,
     name: "",
-    commission: {
+    demoerLimit: 30,
+    refillLimit: 65,
+    commissions: {
       data: []
-    }
+    },
+    disabled: true,
+    errorMessage: ""
   },
   panel: "myDemoCampaigns",
   previousPanel: "home",
@@ -320,7 +325,6 @@ export default function rootReducer(state = initialState, action) {
       return Object.assign({}, state, newState);
     case UPDATE_DEMO_CAMPAIGN_FORM:
       newState = updateState(state, ["demoCampaignForm"], payload, false);
-      console.log(newState.demoCampaignForm);
       return Object.assign({}, state, newState);
     default:
       return state;

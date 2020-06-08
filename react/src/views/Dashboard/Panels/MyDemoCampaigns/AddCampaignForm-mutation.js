@@ -19,12 +19,7 @@ import {
   DEMO_BOXES,
   CAMPAIGN_TYPES
 } from "views/Dashboard/gql";
-import {
-  responsive as r,
-  getToken,
-  getEventVal,
-  formatGQLErrorMessage
-} from "lib";
+import {responsive as r, getToken, getEventVal} from "lib";
 import styled from "styled-components";
 
 const Price = styled(Text)`
@@ -49,7 +44,7 @@ const DemoBoxesDropDown = props => {
             <Flex
               maxWidth="100%"
               w="25rem"
-              mt={1}
+              mt={2}
               alignItems="center"
               h="3.5rem"
             >
@@ -246,10 +241,7 @@ class BoxItemsFormGroup extends React.Component {
                             };
                             updateDemoCampaignForm({
                               ...demoCampaignForm,
-                              commissions: {data: newCommissionData},
-                              disabled: false,
-                              successMessage: "",
-                              errorMessage: ""
+                              commissions: {data: newCommissionData}
                             });
                           }}
                         />
@@ -309,10 +301,7 @@ class BoxItemsFormGroup extends React.Component {
                                     };
                                     updateDemoCampaignForm({
                                       ...demoCampaignForm,
-                                      commissions: {data: newCommissionData},
-                                      disabled: false,
-                                      successMessage: "",
-                                      errorMessage: ""
+                                      commissions: {data: newCommissionData}
                                     });
                                   }}
                                 />
@@ -330,10 +319,7 @@ class BoxItemsFormGroup extends React.Component {
                                     };
                                     updateDemoCampaignForm({
                                       ...demoCampaignForm,
-                                      commissions: {data: newCommissionData},
-                                      disabled: false,
-                                      successMessage: "",
-                                      errorMessage: ""
+                                      commissions: {data: newCommissionData}
                                     });
                                   }}
                                 >
@@ -364,10 +350,7 @@ class BoxItemsFormGroup extends React.Component {
                                     };
                                     updateDemoCampaignForm({
                                       ...demoCampaignForm,
-                                      commissions: {data: newCommissionData},
-                                      disabled: false,
-                                      successMessage: "",
-                                      errorMessage: ""
+                                      commissions: {data: newCommissionData}
                                     });
                                   }}
                                 >
@@ -400,27 +383,15 @@ const CampaignTypeDropDown = props => {
       {({loading, error, data}) => {
         if (loading)
           return (
-            <Flex
-              maxWidth="100%"
-              w="25rem"
-              mt={1}
-              alignItems="center"
-              h="3.5rem"
-            >
+            <Box h="3.5rem" mb={4}>
               <Text>Loading...</Text>
-            </Flex>
+            </Box>
           );
         if (error)
           return (
-            <Flex
-              maxWidth="100%"
-              w="25rem"
-              mt={1}
-              alignItems="center"
-              h="3.5rem"
-            >
+            <Box h="3.5rem" mb={4}>
               <Text>Error! {error.message}</Text>
-            </Flex>
+            </Box>
           );
         const options = data.campaignTypes;
         return (
@@ -441,67 +412,14 @@ const CampaignTypeDropDown = props => {
 };
 
 class _AddCampaignForm extends React.Component {
-  async createDemoCampaignMutation(createDemoCampaign) {
+  createDemoCampaignMutation(createDemoCampaign) {
     const {
       currentAccountUser,
       demoCampaignForm,
       updateDemoCampaignForm
     } = this.props;
-    updateDemoCampaignForm({
-      ...demoCampaignForm,
-      isSubmitting: true
-    });
 
     let flatForm = {...demoCampaignForm};
-    flatForm.token = getToken().token;
-    flatForm.accountUserId = parseInt(currentAccountUser);
-
-    let commissionsData = [...demoCampaignForm.commissions.data];
-    let newCommissionsData = [];
-    for (let indx in commissionsData) {
-      let commissionItem = commissionsData[indx];
-      let newCommissionItem = {};
-      if (commissionItem.amount) {
-        newCommissionItem.amount = parseFloat(commissionItem.amount);
-      }
-      if (commissionItem.boxItemId) {
-        newCommissionItem.boxItemId = parseInt(commissionItem.boxItemId);
-      }
-      if (commissionItem.saleLimit) {
-        newCommissionItem.saleLimit = parseInt(commissionItem.saleLimit);
-        if (newCommissionItem.saleLimit === -1)
-          newCommissionItem.saleLimit = null;
-      }
-      newCommissionsData.push(newCommissionItem);
-    }
-    flatForm.commissions = newCommissionsData;
-
-    try {
-      await createDemoCampaign({
-        variables: flatForm
-      });
-      return updateDemoCampaignForm({
-        demoBoxId: -1,
-        type: -1,
-        name: "",
-        demoerLimit: 30,
-        refillLimit: 65,
-        commissions: {
-          data: []
-        },
-        disabled: false,
-        errorMessage: "",
-        successMessage: "Demo campaign was successfully created!"
-      });
-    } catch (error) {
-      let gqlError = formatGQLErrorMessage(error, "");
-      return updateDemoCampaignForm({
-        ...demoCampaignForm,
-        ...gqlError,
-        isSubmitting: false,
-        disabled: true
-      });
-    }
   }
 
   render() {
@@ -540,10 +458,7 @@ class _AddCampaignForm extends React.Component {
               onChange={evt =>
                 updateDemoCampaignForm({
                   ...demoCampaignForm,
-                  name: getEventVal(evt),
-                  disabled: false,
-                  successMessage: "",
-                  errorMessage: ""
+                  name: getEventVal(evt)
                 })
               }
             />
@@ -556,10 +471,7 @@ class _AddCampaignForm extends React.Component {
                 onChange={evt =>
                   updateDemoCampaignForm({
                     ...demoCampaignForm,
-                    type: getEventVal(evt),
-                    disabled: false,
-                    successMessage: "",
-                    errorMessage: ""
+                    type: getEventVal(evt)
                   })
                 }
                 value={demoCampaignForm.type}
@@ -590,10 +502,7 @@ class _AddCampaignForm extends React.Component {
                     let demoerLimit = parseInt(getEventVal(evt));
                     updateDemoCampaignForm({
                       ...demoCampaignForm,
-                      demoerLimit: demoerLimit,
-                      disabled: false,
-                      successMessage: "",
-                      errorMessage: ""
+                      demoerLimit: demoerLimit
                     });
                   }}
                 />
@@ -607,18 +516,12 @@ class _AddCampaignForm extends React.Component {
                   if (hasDemoerLimit)
                     updateDemoCampaignForm({
                       ...demoCampaignForm,
-                      demoerLimit: null,
-                      disabled: false,
-                      successMessage: "",
-                      errorMessage: ""
+                      demoerLimit: null
                     });
                   else
                     updateDemoCampaignForm({
                       ...demoCampaignForm,
-                      demoerLimit: 30,
-                      disabled: false,
-                      successMessage: "",
-                      errorMessage: ""
+                      demoerLimit: 30
                     });
                 }}
                 mt={hasDemoerLimit ? 2 : 0}
@@ -653,20 +556,14 @@ class _AddCampaignForm extends React.Component {
                       : 0;
                     updateDemoCampaignForm({
                       ...demoCampaignForm,
-                      refillLimit: refillLimit,
-                      disabled: false,
-                      successMessage: "",
-                      errorMessage: ""
+                      refillLimit: refillLimit
                     });
                   }}
                   onChange={evt => {
                     let refillLimit = parseInt(getEventVal(evt));
                     updateDemoCampaignForm({
                       ...demoCampaignForm,
-                      refillLimit: refillLimit,
-                      disabled: false,
-                      successMessage: "",
-                      errorMessage: ""
+                      refillLimit: refillLimit
                     });
                   }}
                 />
@@ -682,18 +579,12 @@ class _AddCampaignForm extends React.Component {
                   if (hasRefillLimit)
                     updateDemoCampaignForm({
                       ...demoCampaignForm,
-                      refillLimit: null,
-                      disabled: false,
-                      successMessage: "",
-                      errorMessage: ""
+                      refillLimit: null
                     });
                   else
                     updateDemoCampaignForm({
                       ...demoCampaignForm,
-                      refillLimit: 65,
-                      disabled: false,
-                      successMessage: "",
-                      errorMessage: ""
+                      refillLimit: 65
                     });
                 }}
                 mt={hasRefillLimit ? 2 : 0}
@@ -727,10 +618,7 @@ class _AddCampaignForm extends React.Component {
                     updateDemoCampaignForm({
                       ...demoCampaignForm,
                       demoBoxId: parseInt(getEventVal(evt)),
-                      commissions: {data: []},
-                      disabled: false,
-                      successMessage: "",
-                      errorMessage: ""
+                      commissions: {data: []}
                     });
                   }}
                   currentAccountUser={currentAccountUser}

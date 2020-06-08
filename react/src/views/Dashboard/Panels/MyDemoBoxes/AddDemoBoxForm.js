@@ -242,14 +242,16 @@ class _CreateDemoBoxForm extends React.Component {
               value={demoBoxForm.price}
               type="number"
               min="0"
-              onBlur={evt =>
+              onBlur={evt => {
+                let amount = getEventVal(evt)
+                  ? parseFloat(getEventVal(evt)).toFixed(2)
+                  : (0.0).toFixed(2);
+                amount = Math.max(amount, 0).toFixed(2);
                 updateDemoBoxForm({
                   ...demoBoxForm,
-                  price: getEventVal(evt)
-                    ? parseFloat(getEventVal(evt)).toFixed(2)
-                    : (0.0).toFixed(2)
-                })
-              }
+                  price: amount
+                });
+              }}
               onChange={evt =>
                 updateDemoBoxForm({
                   ...demoBoxForm,
@@ -268,14 +270,16 @@ class _CreateDemoBoxForm extends React.Component {
               value={demoBoxForm.refillPrice}
               type="number"
               min="0"
-              onBlur={evt =>
+              onBlur={evt => {
+                let amount = getEventVal(evt)
+                  ? parseFloat(getEventVal(evt)).toFixed(2)
+                  : (0.0).toFixed(2);
+                amount = Math.max(amount, 0).toFixed(2);
                 updateDemoBoxForm({
                   ...demoBoxForm,
-                  refillPrice: getEventVal(evt)
-                    ? parseFloat(getEventVal(evt)).toFixed(2)
-                    : (0.0).toFixed(2)
-                })
-              }
+                  refillPrice: amount
+                });
+              }}
               onChange={evt =>
                 updateDemoBoxForm({
                   ...demoBoxForm,
@@ -294,14 +298,16 @@ class _CreateDemoBoxForm extends React.Component {
               value={demoBoxForm.shippingPrice}
               type="number"
               min="0"
-              onBlur={evt =>
+              onBlur={evt => {
+                let amount = getEventVal(evt)
+                  ? parseFloat(getEventVal(evt)).toFixed(2)
+                  : (0.0).toFixed(2);
+                amount = Math.max(amount, 0).toFixed(2);
                 updateDemoBoxForm({
                   ...demoBoxForm,
-                  shippingPrice: getEventVal(evt)
-                    ? parseFloat(getEventVal(evt)).toFixed(2)
-                    : (0.0).toFixed(2)
-                })
-              }
+                  shippingPrice: amount
+                });
+              }}
               onChange={evt =>
                 updateDemoBoxForm({
                   ...demoBoxForm,

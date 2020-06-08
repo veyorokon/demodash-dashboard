@@ -45,8 +45,8 @@ export const CREATE_PRODUCT = gql`
     $accountUserId: Int!
     $name: String!
     $description: String!
-    $images: [Images]!
-    $variations: [Variations]
+    $images: [Image]!
+    $variations: [Variation]
     $price: Float!
   ) {
     createProduct(

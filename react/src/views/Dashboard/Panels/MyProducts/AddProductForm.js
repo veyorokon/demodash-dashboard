@@ -247,18 +247,22 @@ class _FormCard extends React.Component {
               value={productForm.price}
               type="number"
               min="0"
-              onBlur={evt =>
+              onBlur={evt => {
+                let amount = getEventVal(evt)
+                  ? parseFloat(getEventVal(evt)).toFixed(2)
+                  : (0.0).toFixed(2);
+                amount = Math.max(amount, 0).toFixed(2);
                 updateProductForm({
                   ...productForm,
-                  price: evt.target.value
-                    ? parseFloat(evt.target.value).toFixed(2)
-                    : (0.0).toFixed(2)
-                })
-              }
+                  price: amount
+                });
+              }}
               onChange={evt =>
                 updateProductForm({
                   ...productForm,
-                  price: parseFloat(evt.target.value)
+                  price: parseFloat(evt.target.value),
+                  disabled: false,
+                  successMessage: ""
                 })
               }
             />
@@ -270,7 +274,7 @@ class _FormCard extends React.Component {
                 variationData.map((variation, index) => {
                   return (
                     <Flex key={index} flexDirection="column" h="fit-content">
-                      <FlexText h="2.2rem" mb={1} mt={3}>
+                      <FlexText fw={400} h="2.2rem" mb={1} mt={3}>
                         Variation name
                       </FlexText>
                       <FlexInput
@@ -356,7 +360,7 @@ class _FormCard extends React.Component {
                       flexDirection="column"
                       h="fit-content"
                     >
-                      <FlexText h="2.2rem" mb={1} mt={3}>
+                      <FlexText fw={400} h="2.2rem" mb={1} mt={3}>
                         Image name
                       </FlexText>
                       <Flex mt={1} mb={1} color="oranges.0" alignItems="center">

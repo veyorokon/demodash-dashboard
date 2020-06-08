@@ -73,7 +73,7 @@ const DemoBoxesDropDown = props => {
 };
 
 const LineItem = props => (
-  <Flex mb={1} mt={2} w={"25rem"} maxWidth="100%" flexWrap="wrap">
+  <Flex mb={1} mt={2} w={"25rem"} maxWidth="100%" flexWrap="wrap" {...props}>
     <Text justifySelf="flex-start" {...props.titleProps}>
       {props.title}
     </Text>
@@ -172,7 +172,11 @@ class BoxItemsFormGroup extends React.Component {
                         flexDirection="column"
                       >
                         <LineItem
-                          titleProps={{fw: 500}}
+                          mt={indx === 0 ? 1 : 2}
+                          titleProps={{
+                            fw: 500,
+                            fs: "1.6rem"
+                          }}
                           valueProps={{fw: 500}}
                           title={item.product.name}
                           value={`$${price.toFixed(2)}`}
@@ -233,7 +237,7 @@ class BoxItemsFormGroup extends React.Component {
                           }}
                         />
                         <LineItem
-                          titleProps={{fw: 500}}
+                          mt={1}
                           valueProps={{fw: 500, color: "greens.4"}}
                           title={"Remainder:"}
                           value={`$${this.calcRemainder(
@@ -333,6 +337,7 @@ class BoxItemsFormGroup extends React.Component {
                                     let newCommissionData = [...commissionData];
                                     newCommissionData[indx] = {
                                       ...newCommissionData[indx],
+                                      boxItemId: item.id,
                                       saleLimit: 1000
                                     };
                                     updateDemoCampaignForm({
@@ -389,6 +394,19 @@ class _AddCampaignForm extends React.Component {
         </FormSection>
 
         <FormSection bg={"blues.3"} flexDirection="column" pt={4} pb={4}>
+          <FormGroup mb={r("3 ----> 2")}>
+            <FlexField name={"Campaign name:"} />
+            <FlexInput
+              mt={1}
+              value={demoCampaignForm.name || ""}
+              onChange={evt =>
+                updateDemoCampaignForm({
+                  ...demoCampaignForm,
+                  name: getEventVal(evt)
+                })
+              }
+            />
+          </FormGroup>
           <FormGroup mb={r("3 ----> 2")}>
             <FlexField name={"Demo box:"} />
             <Flex h="fit-content" flexDirection="column" flexBasis="60%">

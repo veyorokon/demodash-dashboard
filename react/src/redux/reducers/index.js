@@ -98,6 +98,7 @@ const initialState = {
   },
   demoCampaignForm: {
     demoBoxId: -1,
+    name: "",
     commission: {
       data: []
     }

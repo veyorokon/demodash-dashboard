@@ -271,7 +271,7 @@ class ImageCard extends React.Component {
             </Text>
             <Text
               letterSpacing="0.5px"
-              color={props.shippingPrice ? "reds.1" : "navys.1"}
+              color={"navys.1"}
               fw={500}
               ml={1}
               fs={"1.2rem"}

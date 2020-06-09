@@ -49,10 +49,10 @@ const type =
 
 const initialState = {
   registrationForm: {
-    email: "veyorokon@gmail.com",
-    fullName: "Vahid Eyorokon",
-    password: "Ve12345",
-    passwordConfirmation: "Ve12345",
+    email: "",
+    fullName: "",
+    password: "",
+    passwordConfirmation: "",
     errorMessage: "",
     errorField: "",
     isValidEmail: true,
@@ -63,7 +63,7 @@ const initialState = {
   },
   loginForm: {
     email: "cherrys@barber.com",
-    password: "123456",
+    password: "Ve12345",
     errorMessage: ""
   },
   dashboard: {

@@ -145,10 +145,10 @@ const FlexCol = props => {
 const Layout = props => {
   return (
     <Box
-      ml={r("2 ----> 3 ---->  auto")}
-      mr={r("2 ----> 3 ---->  auto")}
-      pl={r("1 ----> 4")}
-      pr={r("1 ----> 4")}
+      ml={r("0 2 ---> 3 ---->  auto")}
+      mr={r("0 2 ---> 3 ---->  auto")}
+      pl={r("0 1 -------> 4")}
+      pr={r("0 1 -------> 4")}
       pt={r("5")}
       pb={r("5")}
       {...props}

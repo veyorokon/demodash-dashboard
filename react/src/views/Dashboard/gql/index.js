@@ -254,3 +254,42 @@ export const CREATE_DEMO_CAMPAIGN = gql`
     }
   }
 `;
+
+export const DEMO_CAMPAIGNS = gql`
+  query demoCampaigns($token: String!, $accountUserId: Int!) {
+    demoCampaigns(token: $token, accountUserId: $accountUserId) {
+      id
+      name
+      account {
+        id
+        profile {
+          id
+          name
+        }
+      }
+      demoCommissions {
+        id
+        amount
+        demoBoxItem {
+          id
+          product {
+            id
+            name
+            price
+          }
+        }
+      }
+      demoBox {
+        id
+        name
+        price
+        refillPrice
+        shippingPrice
+        images {
+          id
+          image
+        }
+      }
+    }
+  }
+`;

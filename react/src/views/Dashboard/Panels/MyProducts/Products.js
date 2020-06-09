@@ -118,7 +118,7 @@ class ImageCard extends React.Component {
       <Card
         p={3}
         maxWidth={r(
-          "26rem 28rem 30rem 33rem  30rem 22rem 29rem 32rem 24rem 30rem 27rem"
+          "26rem 28rem 30rem 33rem  30rem 28rem 29rem 32rem 25rem 29rem 27rem"
         )}
         mr={1}
         ml={1}

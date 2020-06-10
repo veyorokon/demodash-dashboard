@@ -293,3 +293,21 @@ export const DEMO_CAMPAIGNS = gql`
     }
   }
 `;
+
+export const DELETE_DEMO_CAMPAIGN = gql`
+  mutation deleteDemoCampaign(
+    $token: String!
+    $demoCampaignId: Int!
+    $accountUserId: Int!
+  ) {
+    deleteDemoCampaign(
+      accountUserId: $accountUserId
+      token: $token
+      demoCampaignId: $demoCampaignId
+    ) {
+      demoCampaign {
+        id
+      }
+    }
+  }
+`;

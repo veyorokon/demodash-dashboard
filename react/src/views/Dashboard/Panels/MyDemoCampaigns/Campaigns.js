@@ -8,7 +8,7 @@ import styled, {css} from "styled-components";
 import {Mutation, Query} from "@apollo/react-components";
 import {connect} from "react-redux";
 import {API_MEDIA} from "api";
-import {DEMO_CAMPAIGNS, DELETE_DEMO_BOX} from "views/Dashboard/gql";
+import {DEMO_CAMPAIGNS, DELETE_DEMO_CAMPAIGN} from "views/Dashboard/gql";
 
 import {Delete} from "@styled-icons/material/Delete";
 
@@ -89,13 +89,13 @@ class ImageCard extends React.Component {
     });
   };
 
-  deleteDemoBoxMutation = deleteDemoBox => {
-    const {demoBoxId, currentAccountUser} = this.props;
-    return deleteDemoBox({
+  deleteDemoCampaignMutation = deleteDemoCampaign => {
+    const {demoCampaignId, currentAccountUser} = this.props;
+    return deleteDemoCampaign({
       variables: {
         token: getToken().token,
         accountUserId: parseInt(currentAccountUser),
-        demoBoxId: parseInt(demoBoxId)
+        demoCampaignId: parseInt(demoCampaignId)
       }
     });
   };
@@ -150,7 +150,7 @@ class ImageCard extends React.Component {
         </PanelNavigation>
         <Flex flexGrow={0} alignItems="center" justifyContent="flex-end">
           <Mutation
-            mutation={DELETE_DEMO_BOX}
+            mutation={DELETE_DEMO_CAMPAIGN}
             refetchQueries={[
               {
                 query: DEMO_CAMPAIGNS,
@@ -161,13 +161,14 @@ class ImageCard extends React.Component {
               }
             ]}
           >
-            {deleteDemoBox => (
+            {deleteDemoCampaign => (
               <Icon
                 onClick={() => {
                   let conf = window.confirm(
-                    "Are you sure you want to delete this demo box?"
+                    "Are you sure you want to delete this demo campaign?"
                   );
-                  if (conf) return this.deleteDemoBoxMutation(deleteDemoBox);
+                  if (conf)
+                    return this.deleteDemoCampaignMutation(deleteDemoCampaign);
                 }}
                 cursor="pointer"
                 color="oranges.0"
@@ -387,7 +388,7 @@ function _DemoCampaigns(props) {
                                 demoCampaign.account.profile.name) ||
                               null
                             }
-                            demoBoxId={demoBox.id}
+                            demoCampaignId={demoCampaign.id}
                             title={demoBox.name}
                             images={demoBox.images}
                             price={demoBox.price}
@@ -400,7 +401,7 @@ function _DemoCampaigns(props) {
                       })
                     ) : (
                       <Text color={"navys.0"}>
-                        You haven't created any campaigns yet.
+                        You currently don't have any campaigns.
                       </Text>
                     )}
                   </Flex>

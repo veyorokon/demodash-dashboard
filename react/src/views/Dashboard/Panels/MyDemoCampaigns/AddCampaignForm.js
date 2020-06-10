@@ -17,7 +17,8 @@ import {
   USER__ACCOUNT_USER_SET,
   CREATE_DEMO_CAMPAIGN,
   DEMO_BOXES,
-  CAMPAIGN_TYPES
+  CAMPAIGN_TYPES,
+  DEMO_CAMPAIGNS
 } from "views/Dashboard/gql";
 import {
   responsive as r,
@@ -775,6 +776,13 @@ class _AddCampaignForm extends React.Component {
               {
                 query: USER__ACCOUNT_USER_SET,
                 variables: {token: getToken().token}
+              },
+              {
+                query: DEMO_CAMPAIGNS,
+                variables: {
+                  token: getToken().token,
+                  accountUserId: parseInt(currentAccountUser)
+                }
               }
             ]}
           >

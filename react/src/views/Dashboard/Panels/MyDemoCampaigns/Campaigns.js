@@ -119,6 +119,9 @@ class ImageCard extends React.Component {
         br={2}
         {...props}
       >
+        <Text mb={2} color={"navys.1"}>
+          {props.name}
+        </Text>
         <SwipeableViews
           index={index}
           onChangeIndex={indx => this.handleChangeIndex(indx)}
@@ -388,6 +391,7 @@ function _DemoCampaigns(props) {
                                 demoCampaign.account.profile.name) ||
                               null
                             }
+                            name={demoCampaign.name}
                             demoCampaignId={demoCampaign.id}
                             title={demoBox.name}
                             images={demoBox.images}

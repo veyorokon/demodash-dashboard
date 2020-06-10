@@ -74,6 +74,13 @@ class _CreateDemoBoxForm extends React.Component {
     const {demoBoxForm, currentAccountUser, updateDemoBoxForm} = this.props;
     let flatForm = {...demoBoxForm};
 
+    if (!flatForm.productIds.data.length)
+      return updateDemoBoxForm({
+        ...demoBoxForm,
+        disabled: true,
+        errorMessage: "Please add at least one product."
+      });
+
     updateDemoBoxForm({
       ...demoBoxForm,
       isSubmitting: true

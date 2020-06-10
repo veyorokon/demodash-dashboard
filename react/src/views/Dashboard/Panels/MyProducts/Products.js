@@ -253,13 +253,46 @@ class ImageCard extends React.Component {
               </Flex>
             );
           })}
-        <Flex flexGrow={0} mt={1} mb={1} alignItems="center">
+        <Flex mt={1} mb={1} alignItems="center">
           <Text letterSpacing="0.5px" color={"navys.0"} mr={2} fw={500}>
             Price:
           </Text>
-          <Text letterSpacing="0.5px" color={"reds.1"} fw={500}>
-            ${props.price.toFixed(2)}
-          </Text>
+          <Flex alignItems="center">
+            <Text letterSpacing="0.5px" color={"reds.1"} fw={500}>
+              ${props.price.toFixed(2)}
+            </Text>
+            <Text
+              ml={1}
+              letterSpacing="0.5px"
+              color={"navys.0"}
+              fw={500}
+              fs={"1.2rem"}
+            >
+              &#43;
+            </Text>
+            <Text
+              letterSpacing="0.5px"
+              color={"navys.1"}
+              fw={500}
+              ml={1}
+              fs={"1.2rem"}
+              h="fit-content"
+            >
+              {props.shippingPrice
+                ? `$${props.shippingPrice.toFixed(2)}`
+                : "FREE"}
+            </Text>
+            <Text
+              ml={1}
+              letterSpacing="0.5px"
+              color={"navys.1"}
+              fw={500}
+              fs={"1.2rem"}
+              h="fit-content"
+            >
+              Shipping
+            </Text>
+          </Flex>
         </Flex>
         <CallToActionButton
           hoverBackground="#FFC651"
@@ -349,6 +382,7 @@ function _Products(props) {
                           images={product.images}
                           variations={product.variations}
                           price={product.price}
+                          shippingPrice={product.shippingPrice}
                           currentAccountUser={currentAccountUser}
                         />
                       ))

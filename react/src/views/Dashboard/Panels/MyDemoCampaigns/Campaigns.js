@@ -104,7 +104,6 @@ class ImageCard extends React.Component {
     const {props} = this;
     const {index} = this.state;
     const {currentAccountUser} = props;
-    console.log(props.commissions);
     return (
       <Card
         p={3}
@@ -119,7 +118,7 @@ class ImageCard extends React.Component {
         br={2}
         {...props}
       >
-        <Text mb={2} color={"navys.1"}>
+        <Text mb={2} color={"greys.0"}>
           {props.name}
         </Text>
         <SwipeableViews
@@ -176,6 +175,7 @@ class ImageCard extends React.Component {
                 cursor="pointer"
                 color="oranges.0"
                 h="2rem"
+                title="Delete Campaign"
               >
                 <Delete />
               </Icon>
@@ -354,7 +354,6 @@ function _DemoCampaigns(props) {
                 </Box>
               );
             const {demoCampaigns} = data;
-            console.log(data);
             return (
               <Box
                 w={r("80rem ---------> 100rem")}

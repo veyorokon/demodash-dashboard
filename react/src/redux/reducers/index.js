@@ -83,6 +83,7 @@ const initialState = {
       errorMessage: ""
     },
     price: (0.0).toFixed(2),
+    shippingPrice: (0.0).toFixed(2),
     disabled: true,
     isSubmitting: false
   },

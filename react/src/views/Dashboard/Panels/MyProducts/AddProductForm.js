@@ -142,6 +142,7 @@ class _FormCard extends React.Component {
     }
     flatForm.images = newImageData;
     flatForm.price = parseFloat(flatForm.price);
+    flatForm.shippingPrice = parseFloat(flatForm.shippingPrice);
     try {
       await createProduct({
         variables: flatForm
@@ -152,6 +153,7 @@ class _FormCard extends React.Component {
         disabled: true,
         isSubmitting: false,
         price: (0.0).toFixed(2),
+        shippingPrice: (0.0).toFixed(2),
         errorMessage: "",
         variations: {
           data: []
@@ -261,6 +263,33 @@ class _FormCard extends React.Component {
                 updateProductForm({
                   ...productForm,
                   price: parseFloat(evt.target.value),
+                  disabled: false,
+                  successMessage: ""
+                })
+              }
+            />
+          </FormGroup>
+          <FormGroup mb={r("3 ----> 2")}>
+            <FlexField name={"Shipping price:"} />
+            <FlexInput
+              mt={1}
+              value={productForm.shippingPrice}
+              type="number"
+              min="0"
+              onBlur={evt => {
+                let amount = getEventVal(evt)
+                  ? parseFloat(getEventVal(evt)).toFixed(2)
+                  : (0.0).toFixed(2);
+                amount = Math.max(amount, 0).toFixed(2);
+                updateProductForm({
+                  ...productForm,
+                  shippingPrice: amount
+                });
+              }}
+              onChange={evt =>
+                updateProductForm({
+                  ...productForm,
+                  shippingPrice: parseFloat(evt.target.value),
                   disabled: false,
                   successMessage: ""
                 })

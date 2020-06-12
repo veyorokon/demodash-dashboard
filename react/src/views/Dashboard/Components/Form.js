@@ -5,7 +5,14 @@ import {responsive as r} from "lib";
 const FlexInput = props => {
   return (
     <Flex flexBasis="60%" {...props}>
-      <Input w={"25rem"} h={"3.5rem"} fs={"1.4rem"} p={2} {...props} />
+      <Input
+        w={"25rem"}
+        h={"3.5rem"}
+        fs={"1.4rem"}
+        p={2}
+        borderColor={props.borderColor ? props.borderColor : "lightslategrey"}
+        {...props}
+      />
     </Flex>
   );
 };

@@ -183,34 +183,37 @@ class _CreateDemoBoxForm extends React.Component {
                           });
                         }}
                         value={productData[index] || -1}
+                        defaultButtonProps={{h: "3.5rem"}}
                         defaultOption={"Add a product"}
                         defaultButtonText={"Create a product"}
                         mt={index && 2}
                         useDefaultButton
                         {...props}
                       />
-                      <FormButton
-                        mt={2}
-                        mb={index === 3 ? 0 : 2}
-                        title="Remove this from the box"
-                        onClick={() => {
-                          let newProductsData = [...productData];
-                          newProductsData.splice(index, 1);
-                          updateDemoBoxForm({
-                            ...demoBoxForm,
-                            productIds: {data: newProductsData},
-                            successMessage: "",
-                            errorMessage: ""
-                          });
-                        }}
-                      >
-                        <Flex alignItems="center">
-                          <Icon ml={3} mr={2} h={"2.2rem"}>
-                            <Delete />
-                          </Icon>
-                          <Text ml={4}>Remove product</Text>
-                        </Flex>
-                      </FormButton>
+                      {productData.length && (
+                        <FormButton
+                          mt={2}
+                          mb={index === 3 ? 0 : 2}
+                          title="Remove this from the box"
+                          onClick={() => {
+                            let newProductsData = [...productData];
+                            newProductsData.splice(index, 1);
+                            updateDemoBoxForm({
+                              ...demoBoxForm,
+                              productIds: {data: newProductsData},
+                              successMessage: "",
+                              errorMessage: ""
+                            });
+                          }}
+                        >
+                          <Flex alignItems="center">
+                            <Icon ml={3} mr={2} h={"2.2rem"}>
+                              <Delete />
+                            </Icon>
+                            <Text ml={4}>Remove product</Text>
+                          </Flex>
+                        </FormButton>
+                      )}
                     </Flex>
                   );
                 })}

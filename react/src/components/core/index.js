@@ -13,7 +13,8 @@ import {
   flexFields,
   letterSpacing,
   boxShadow,
-  fill
+  fill,
+  borderFields
 } from "theme";
 import styled from "styled-components";
 
@@ -51,11 +52,13 @@ Flex.defaultProps = {
 const Input = themedComponent(
   styled.input`
     outline: none;
+    border: 1px solid;
+    transition: border-color 0.2s;
     ${borderRadius}
+    ${borderFields}
   `
 );
 Input.defaultProps = {
-  border: "1px solid lightslategrey",
   fontSize: "1.6rem",
   lineHeight: "1",
   borderRadius: "4px"

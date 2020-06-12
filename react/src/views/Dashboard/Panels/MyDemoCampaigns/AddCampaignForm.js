@@ -250,7 +250,8 @@ class BoxItemsFormGroup extends React.Component {
                               commissions: {data: newCommissionData},
                               disabled: false,
                               successMessage: "",
-                              errorMessage: ""
+                              errorMessage: "",
+                              errorField: ""
                             });
                           }}
                         />
@@ -313,7 +314,8 @@ class BoxItemsFormGroup extends React.Component {
                                       commissions: {data: newCommissionData},
                                       disabled: false,
                                       successMessage: "",
-                                      errorMessage: ""
+                                      errorMessage: "",
+                                      errorField: ""
                                     });
                                   }}
                                 />
@@ -334,7 +336,8 @@ class BoxItemsFormGroup extends React.Component {
                                       commissions: {data: newCommissionData},
                                       disabled: false,
                                       successMessage: "",
-                                      errorMessage: ""
+                                      errorMessage: "",
+                                      errorField: ""
                                     });
                                   }}
                                 >
@@ -368,7 +371,8 @@ class BoxItemsFormGroup extends React.Component {
                                       commissions: {data: newCommissionData},
                                       disabled: false,
                                       successMessage: "",
-                                      errorMessage: ""
+                                      errorMessage: "",
+                                      errorField: ""
                                     });
                                   }}
                                 >
@@ -431,7 +435,6 @@ const CampaignTypeDropDown = props => {
               br={2}
               maxWidth="100%"
               w="25rem"
-              border={"1px solid lightslategrey"}
               {...props}
             />
           </Flex>
@@ -492,6 +495,7 @@ class _AddCampaignForm extends React.Component {
         },
         disabled: false,
         errorMessage: "",
+        errorField: "",
         successMessage: "Demo campaign was successfully created!"
       });
     } catch (error) {
@@ -515,7 +519,6 @@ class _AddCampaignForm extends React.Component {
     const {demoBoxId} = demoCampaignForm;
     let hasDemoerLimit = demoCampaignForm.demoerLimit === null ? false : true;
     let hasRefillLimit = demoCampaignForm.refillLimit === null ? false : true;
-
     const {disabled} = demoCampaignForm;
     return (
       <Box
@@ -538,13 +541,19 @@ class _AddCampaignForm extends React.Component {
             <FlexInput
               mt={1}
               value={demoCampaignForm.name || ""}
+              borderColor={
+                demoCampaignForm.errorField === "name"
+                  ? "oranges.0"
+                  : "lightslategrey"
+              }
               onChange={evt =>
                 updateDemoCampaignForm({
                   ...demoCampaignForm,
                   name: getEventVal(evt),
                   disabled: false,
                   successMessage: "",
-                  errorMessage: ""
+                  errorMessage: "",
+                  errorField: ""
                 })
               }
             />
@@ -554,13 +563,19 @@ class _AddCampaignForm extends React.Component {
             <Flex flexBasis="60%" flexDirection="column" mt={2}>
               <CampaignTypeDropDown
                 defaultOption={"Choose a campaign type"}
+                borderColor={
+                  demoCampaignForm.errorField === "type"
+                    ? "oranges.0"
+                    : "lightslategrey"
+                }
                 onChange={evt =>
                   updateDemoCampaignForm({
                     ...demoCampaignForm,
                     type: getEventVal(evt),
                     disabled: false,
                     successMessage: "",
-                    errorMessage: ""
+                    errorMessage: "",
+                    errorField: ""
                   })
                 }
                 value={demoCampaignForm.type}
@@ -594,7 +609,8 @@ class _AddCampaignForm extends React.Component {
                       demoerLimit: demoerLimit,
                       disabled: false,
                       successMessage: "",
-                      errorMessage: ""
+                      errorMessage: "",
+                      errorField: ""
                     });
                   }}
                 />
@@ -611,7 +627,8 @@ class _AddCampaignForm extends React.Component {
                       demoerLimit: null,
                       disabled: false,
                       successMessage: "",
-                      errorMessage: ""
+                      errorMessage: "",
+                      errorField: ""
                     });
                   else
                     updateDemoCampaignForm({
@@ -619,7 +636,8 @@ class _AddCampaignForm extends React.Component {
                       demoerLimit: 30,
                       disabled: false,
                       successMessage: "",
-                      errorMessage: ""
+                      errorMessage: "",
+                      errorField: ""
                     });
                 }}
                 mt={hasDemoerLimit ? 2 : 0}
@@ -657,7 +675,8 @@ class _AddCampaignForm extends React.Component {
                       refillLimit: refillLimit,
                       disabled: false,
                       successMessage: "",
-                      errorMessage: ""
+                      errorMessage: "",
+                      errorField: ""
                     });
                   }}
                   onChange={evt => {
@@ -667,7 +686,8 @@ class _AddCampaignForm extends React.Component {
                       refillLimit: refillLimit,
                       disabled: false,
                       successMessage: "",
-                      errorMessage: ""
+                      errorMessage: "",
+                      errorField: ""
                     });
                   }}
                 />
@@ -686,7 +706,8 @@ class _AddCampaignForm extends React.Component {
                       refillLimit: null,
                       disabled: false,
                       successMessage: "",
-                      errorMessage: ""
+                      errorMessage: "",
+                      errorField: ""
                     });
                   else
                     updateDemoCampaignForm({
@@ -694,7 +715,8 @@ class _AddCampaignForm extends React.Component {
                       refillLimit: 65,
                       disabled: false,
                       successMessage: "",
-                      errorMessage: ""
+                      errorMessage: "",
+                      errorField: ""
                     });
                 }}
                 mt={hasRefillLimit ? 2 : 0}
@@ -724,6 +746,7 @@ class _AddCampaignForm extends React.Component {
                   value={demoCampaignForm.demoBoxId}
                   defaultOption={"Choose a demo box"}
                   defaultButtonText={"Create a demo box"}
+                  defaultButtonProps={{h: "3.5rem"}}
                   onChange={evt => {
                     updateDemoCampaignForm({
                       ...demoCampaignForm,
@@ -731,7 +754,8 @@ class _AddCampaignForm extends React.Component {
                       commissions: {data: []},
                       disabled: false,
                       successMessage: "",
-                      errorMessage: ""
+                      errorMessage: "",
+                      errorField: ""
                     });
                   }}
                   currentAccountUser={currentAccountUser}

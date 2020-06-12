@@ -1,6 +1,6 @@
 import React from "react";
-import {Select, Option, Button, Icon} from "components";
-import {themedComponent} from "theme";
+import {Select, Option, Button, Icon, Flex, Text} from "components";
+import {themedComponent, borderFields} from "theme";
 import styled from "styled-components";
 import {AddCircle} from "@styled-icons/material-rounded/AddCircle";
 
@@ -20,12 +20,10 @@ const DropSelect = themedComponent(styled(Select)`
   background-size: 5px 5px, 5px 5px, 1px 1.5em;
   background-repeat: no-repeat;
 
-  border: {
-    props=>props.border: "1px solid currentColor";
-  }
   &:focus {
     outline: none;
   }
+  ${borderFields}
 `);
 const DropOption = styled(Option)`
   height: 3.5rem;
@@ -43,17 +41,34 @@ const DefaultButton = styled(Button)`
   }
   outline: none;
   background: transparent;
-  padding: 0.5rem;
 `;
 
 export default props => {
   if (!props.options.length && props.useDefaultButton) {
+    if (props.defaultButtonProps)
+      return (
+        <DefaultButton
+          br={2}
+          onClick={props.defaultClick}
+          {...props}
+          {...props.defaultButtonProps}
+        >
+          <Flex alignItems="center">
+            <Icon ml={3} mr={1} h={"2.2rem"} {...props.iconProps}>
+              <AddCircle />
+            </Icon>
+            <Text ml={4}>{props.defaultButtonText}</Text>
+          </Flex>
+        </DefaultButton>
+      );
     return (
       <DefaultButton br={2} onClick={props.defaultClick} {...props}>
-        <Icon mr={3} h={3} {...props.iconProps}>
-          <AddCircle />
-        </Icon>
-        {props.defaultButtonText}
+        <Flex alignItems="center">
+          <Icon ml={3} mr={1} h={"2.2rem"} {...props.iconProps}>
+            <AddCircle />
+          </Icon>
+          <Text ml={4}>{props.defaultButtonText}</Text>
+        </Flex>
       </DefaultButton>
     );
   }

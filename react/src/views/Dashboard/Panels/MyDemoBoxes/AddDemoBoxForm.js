@@ -59,7 +59,6 @@ const ProductsDropDown = props => {
               br={2}
               maxWidth="100%"
               w="25rem"
-              border={"1px solid lightslategrey"}
               {...props}
             />
           </Flex>
@@ -146,13 +145,19 @@ class _CreateDemoBoxForm extends React.Component {
             <FlexInput
               mt={1}
               value={demoBoxForm.name || ""}
+              borderColor={
+                demoBoxForm.errorField === "name"
+                  ? "oranges.0"
+                  : "lightslategrey"
+              }
               onChange={evt =>
                 updateDemoBoxForm({
                   ...demoBoxForm,
                   name: getEventVal(evt),
                   disabled: false,
                   successMessage: "",
-                  errorMessage: ""
+                  errorMessage: "",
+                  errorField: ""
                 })
               }
             />
@@ -179,9 +184,15 @@ class _CreateDemoBoxForm extends React.Component {
                             productIds: {data: newProductsData},
                             disabled: false,
                             successMessage: "",
-                            errorMessage: ""
+                            errorMessage: "",
+                            errorField: ""
                           });
                         }}
+                        borderColor={
+                          demoBoxForm.errorField === "productIds"
+                            ? "oranges.0"
+                            : "lightslategrey"
+                        }
                         value={productData[index] || -1}
                         defaultButtonProps={{h: "3.5rem"}}
                         defaultOption={"Add a product"}
@@ -202,7 +213,8 @@ class _CreateDemoBoxForm extends React.Component {
                               ...demoBoxForm,
                               productIds: {data: newProductsData},
                               successMessage: "",
-                              errorMessage: ""
+                              errorMessage: "",
+                              errorField: ""
                             });
                           }}
                         >
@@ -229,7 +241,8 @@ class _CreateDemoBoxForm extends React.Component {
                       ...demoBoxForm,
                       productIds: {data: newProductsData},
                       successMessage: "",
-                      errorMessage: ""
+                      errorMessage: "",
+                      errorField: ""
                     });
                   }}
                   mt={hasProducts ? 3 : 0}
@@ -268,7 +281,8 @@ class _CreateDemoBoxForm extends React.Component {
                   price: parseFloat(getEventVal(evt)),
                   disabled: false,
                   successMessage: "",
-                  errorMessage: ""
+                  errorMessage: "",
+                  errorField: ""
                 })
               }
             />
@@ -296,7 +310,8 @@ class _CreateDemoBoxForm extends React.Component {
                   refillPrice: parseFloat(getEventVal(evt)),
                   disabled: false,
                   successMessage: "",
-                  errorMessage: ""
+                  errorMessage: "",
+                  errorField: ""
                 })
               }
             />
@@ -324,7 +339,8 @@ class _CreateDemoBoxForm extends React.Component {
                   shippingPrice: parseFloat(getEventVal(evt)),
                   disabled: false,
                   successMessage: "",
-                  errorMessage: ""
+                  errorMessage: "",
+                  errorField: ""
                 })
               }
             />

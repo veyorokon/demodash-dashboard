@@ -80,10 +80,10 @@ const TextArea = themedComponent(
     outline: none;
     font-family: inherit;
     ${borderRadius}
+    ${borderFields}
   `
 );
 TextArea.defaultProps = {
-  border: "1px solid lightslategrey",
   fontSize: "1.6rem",
   lineHeight: "1",
   borderRadius: "4px"

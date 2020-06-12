@@ -45,6 +45,7 @@ const FlexTextArea = props => {
   return (
     <Flex flexBasis="60%" {...props}>
       <TextArea
+        borderColor={props.borderColor ? props.borderColor : "lightslategrey"}
         minHeight={"13rem"}
         w={"25rem"}
         fs={"1.4rem"}

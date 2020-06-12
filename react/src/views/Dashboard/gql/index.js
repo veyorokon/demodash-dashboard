@@ -46,7 +46,7 @@ export const CREATE_PRODUCT = gql`
     $name: String!
     $description: String!
     $images: [Image]!
-    $variations: [Variation]
+    $variations: [VariationInput]
     $price: Float!
     $shippingPrice: Float
   ) {

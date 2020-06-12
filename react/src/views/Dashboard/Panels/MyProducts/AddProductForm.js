@@ -215,12 +215,18 @@ class _FormCard extends React.Component {
             <FlexField name={"Product name:"} />
             <FlexInput
               value={productForm.name || ""}
+              borderColor={
+                productForm.errorField === "name"
+                  ? "oranges.0"
+                  : "lightslategrey"
+              }
               onChange={evt =>
                 updateProductForm({
                   ...productForm,
                   name: getEventVal(evt),
                   disabled: false,
-                  successMessage: ""
+                  successMessage: "",
+                  errorField: ""
                 })
               }
               mt={1}
@@ -230,12 +236,18 @@ class _FormCard extends React.Component {
             <FlexField name={"Description:"} />
             <FlexTextArea
               value={productForm.description || ""}
+              borderColor={
+                productForm.errorField === "description"
+                  ? "oranges.0"
+                  : "lightslategrey"
+              }
               onChange={evt =>
                 updateProductForm({
                   ...productForm,
                   description: getEventVal(evt),
                   disabled: false,
-                  successMessage: ""
+                  successMessage: "",
+                  errorField: ""
                 })
               }
               placeholder="About your product..."
@@ -247,6 +259,11 @@ class _FormCard extends React.Component {
             <FlexInput
               mt={1}
               value={productForm.price}
+              borderColor={
+                productForm.errorField === "price"
+                  ? "oranges.0"
+                  : "lightslategrey"
+              }
               type="number"
               min="0"
               onBlur={evt => {
@@ -264,7 +281,8 @@ class _FormCard extends React.Component {
                   ...productForm,
                   price: parseFloat(evt.target.value),
                   disabled: false,
-                  successMessage: ""
+                  successMessage: "",
+                  errorField: ""
                 })
               }
             />
@@ -291,7 +309,8 @@ class _FormCard extends React.Component {
                   ...productForm,
                   shippingPrice: parseFloat(evt.target.value),
                   disabled: false,
-                  successMessage: ""
+                  successMessage: "",
+                  errorField: ""
                 })
               }
             />
@@ -316,7 +335,8 @@ class _FormCard extends React.Component {
                             ...productForm,
                             variations: {data: newVariationData},
                             disabled: false,
-                            successMessage: ""
+                            successMessage: "",
+                            errorField: ""
                           });
                         }}
                         placeholder="Color, size etc."
@@ -334,7 +354,8 @@ class _FormCard extends React.Component {
                             ...productForm,
                             variations: {data: newVariationData},
                             disabled: false,
-                            successMessage: ""
+                            successMessage: "",
+                            errorField: ""
                           });
                         }}
                         placeholder="Variation choices..."
@@ -410,7 +431,6 @@ class _FormCard extends React.Component {
                               br={2}
                               maxWidth="100%"
                               w="25rem"
-                              border={"1px solid lightslategrey"}
                               defaultOption={"Link image to variation"}
                               value={image.variationLink || -1}
                               onChange={evt => {
@@ -421,7 +441,8 @@ class _FormCard extends React.Component {
                                   ...productForm,
                                   images: {data: newImageData},
                                   disabled: false,
-                                  successMessage: ""
+                                  successMessage: "",
+                                  errorField: ""
                                 });
                               }}
                               {...props}

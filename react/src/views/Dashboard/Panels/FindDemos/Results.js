@@ -114,9 +114,6 @@ class ProductCard extends React.Component {
         br={2}
         {...props}
       >
-        <Text mb={2} color={"greys.0"}>
-          {props.name}
-        </Text>
         <SwipeableViews
           index={index}
           onChangeIndex={indx => this.handleChangeIndex(indx)}

@@ -314,3 +314,62 @@ export const DELETE_DEMO_CAMPAIGN = gql`
     }
   }
 `;
+
+/*
+    Find Demo boxes
+*/
+
+export const OPEN_DEMO_CAMPAIGNS = gql`
+  query openDemoCampaigns($token: String!, $search: String) {
+    openDemoCampaigns(token: $token, search: $search) {
+      id
+      account {
+        id
+        profile {
+          id
+          name
+        }
+      }
+      demoCommissions {
+        id
+        amount
+        demoBoxItem {
+          id
+          product {
+            id
+            name
+            description
+            price
+            shippingPrice
+            variations {
+              id
+              name
+              options {
+                id
+                option
+                image {
+                  id
+                  image
+                }
+              }
+            }
+            images {
+              id
+              image
+              variationOption {
+                id
+              }
+            }
+          }
+        }
+      }
+      demoBox {
+        id
+        name
+        price
+        refillPrice
+        shippingPrice
+      }
+    }
+  }
+`;

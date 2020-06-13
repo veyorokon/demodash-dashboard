@@ -21,9 +21,9 @@ import {
 } from "./Panels";
 import {LogoutBox} from "@styled-icons/remix-line/LogoutBox";
 import {
-  //DemoerNav,
-  //BrandNav,
-  AllNav
+  DemoerNav,
+  BrandNav
+  // AllNav
 } from "./nav";
 
 import {responsive as r, clearToken} from "lib";
@@ -38,14 +38,14 @@ const mapStateToProps = state => {
 };
 
 const _Dashboard = props => {
-  // const {accountUserSet, currentAccountUser} = props;
-  // let type;
-  // if (currentAccountUser) {
-  //   const accountUser = accountUserSet.filter(
-  //     option => option.id === currentAccountUser
-  //   )[0];
-  //   type = accountUser.account.type;
-  // }
+  const {accountUserSet, currentAccountUser} = props;
+  let type;
+  if (currentAccountUser) {
+    const accountUser = accountUserSet.filter(
+      option => option.id === currentAccountUser
+    )[0];
+    type = accountUser.account.type;
+  }
   return (
     <Section height={"fit-content"} overflow="hidden">
       <Flex h={"100vh"}>
@@ -56,8 +56,8 @@ const _Dashboard = props => {
             <QueryAccountUsers />
             <AccountUserDropDown />
             <Flex w={"100%"} flexDirection="column">
-              {/*{type ? type === "Brand" ? <BrandNav /> : <DemoerNav /> : null}*/}
-              <AllNav />
+              {type ? type === "Brand" ? <BrandNav /> : <DemoerNav /> : null}
+              {/*<AllNav />*/}
             </Flex>
             <Flex mt={4} flexGrow={0} w={"100%"} flexDirection="column">
               <NavItem

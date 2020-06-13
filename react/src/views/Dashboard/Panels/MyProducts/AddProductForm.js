@@ -226,7 +226,8 @@ class _FormCard extends React.Component {
                   name: getEventVal(evt),
                   disabled: false,
                   successMessage: "",
-                  errorField: ""
+                  errorField: "",
+                  errorMessage: ""
                 })
               }
               mt={1}
@@ -247,7 +248,8 @@ class _FormCard extends React.Component {
                   description: getEventVal(evt),
                   disabled: false,
                   successMessage: "",
-                  errorField: ""
+                  errorField: "",
+                  errorMessage: ""
                 })
               }
               placeholder="About your product..."
@@ -282,7 +284,8 @@ class _FormCard extends React.Component {
                   price: parseFloat(evt.target.value),
                   disabled: false,
                   successMessage: "",
-                  errorField: ""
+                  errorField: "",
+                  errorMessage: ""
                 })
               }
             />
@@ -310,7 +313,8 @@ class _FormCard extends React.Component {
                   shippingPrice: parseFloat(evt.target.value),
                   disabled: false,
                   successMessage: "",
-                  errorField: ""
+                  errorField: "",
+                  errorMessage: ""
                 })
               }
             />
@@ -336,7 +340,8 @@ class _FormCard extends React.Component {
                             variations: {data: newVariationData},
                             disabled: false,
                             successMessage: "",
-                            errorField: ""
+                            errorField: "",
+                            errorMessage: ""
                           });
                         }}
                         placeholder="Color, size etc."
@@ -355,7 +360,8 @@ class _FormCard extends React.Component {
                             variations: {data: newVariationData},
                             disabled: false,
                             successMessage: "",
-                            errorField: ""
+                            errorField: "",
+                            errorMessage: ""
                           });
                         }}
                         placeholder="Variation choices..."
@@ -442,7 +448,8 @@ class _FormCard extends React.Component {
                                   images: {data: newImageData},
                                   disabled: false,
                                   successMessage: "",
-                                  errorField: ""
+                                  errorField: "",
+                                  errorMessage: ""
                                 });
                               }}
                               {...props}

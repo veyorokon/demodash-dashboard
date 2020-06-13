@@ -17,7 +17,7 @@ const DemoerNav = props => {
       <NavCategory mt={3} text={"Demos"} />
       <ConnectedNavItem
         id={"findDemos"}
-        text="Find demos"
+        text="Find demo boxes"
         icon={<Search />}
         ml={3}
       />

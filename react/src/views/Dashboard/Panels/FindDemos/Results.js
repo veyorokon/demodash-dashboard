@@ -303,6 +303,7 @@ function _DemoCampaigns(props) {
                 {openDemoCampaigns && openDemoCampaigns.length ? (
                   openDemoCampaigns.map((demoCampaign, index) => {
                     const {demoCommissions} = demoCampaign;
+                    console.log(demoCampaign);
                     return (
                       <Box
                         key={index}
@@ -314,9 +315,145 @@ function _DemoCampaigns(props) {
                         mb={4}
                       >
                         <FormSection>
-                          <Text fs="1.8rem" fw={500}>
-                            {demoCampaign.demoBox.name}
-                          </Text>
+                          <Flex
+                            alignItems="center"
+                            flexWrap="wrap"
+                            justifyContent="space-around"
+                          >
+                            <Text
+                              h="fit-content"
+                              ml={2}
+                              mr={2}
+                              fs="1.8rem"
+                              fw={500}
+                            >
+                              {demoCampaign.demoBox.name}
+                            </Text>
+                            <Flex
+                              mt={r("1 ---> 0")}
+                              flexGrow={0}
+                              flexDirection="column"
+                            >
+                              <Flex
+                                flexGrow={0}
+                                ml={2}
+                                mr={2}
+                                alignItems="center"
+                              >
+                                <Text
+                                  letterSpacing="0.5px"
+                                  color={"navys.0"}
+                                  mr={2}
+                                  fw={500}
+                                >
+                                  Price:
+                                </Text>
+                                <Flex alignItems="center">
+                                  <Text
+                                    letterSpacing="0.5px"
+                                    color={"reds.1"}
+                                    fw={500}
+                                  >
+                                    ${demoCampaign.demoBox.price.toFixed(2)}
+                                  </Text>
+                                  <Text
+                                    ml={1}
+                                    letterSpacing="0.5px"
+                                    color={"navys.0"}
+                                    fw={500}
+                                    fs={"1.2rem"}
+                                  >
+                                    &#43;
+                                  </Text>
+                                  <Text
+                                    letterSpacing="0.5px"
+                                    color={"navys.1"}
+                                    fw={500}
+                                    ml={1}
+                                    fs={"1.2rem"}
+                                    h="fit-content"
+                                  >
+                                    {demoCampaign.demoBox.shippingPrice
+                                      ? `$${demoCampaign.demoBox.shippingPrice.toFixed(
+                                          2
+                                        )}`
+                                      : "FREE"}
+                                  </Text>
+                                  <Text
+                                    ml={1}
+                                    letterSpacing="0.5px"
+                                    color={"navys.1"}
+                                    fw={500}
+                                    fs={"1.2rem"}
+                                    h="fit-content"
+                                  >
+                                    Shipping
+                                  </Text>
+                                </Flex>
+                              </Flex>
+
+                              <Flex
+                                flexGrow={0}
+                                ml={2}
+                                mr={2}
+                                alignItems="center"
+                              >
+                                <Text
+                                  letterSpacing="0.5px"
+                                  color={"navys.0"}
+                                  mr={2}
+                                  fw={500}
+                                >
+                                  Refill:
+                                </Text>
+                                <Flex alignItems="center">
+                                  <Text
+                                    letterSpacing="0.5px"
+                                    color={"reds.1"}
+                                    fw={500}
+                                  >
+                                    $
+                                    {demoCampaign.demoBox.refillPrice.toFixed(
+                                      2
+                                    )}
+                                  </Text>
+                                  <Text
+                                    ml={1}
+                                    letterSpacing="0.5px"
+                                    color={"navys.0"}
+                                    fw={500}
+                                    fs={"1.2rem"}
+                                  >
+                                    &#43;
+                                  </Text>
+                                  <Text
+                                    letterSpacing="0.5px"
+                                    color={"navys.1"}
+                                    fw={500}
+                                    ml={1}
+                                    fs={"1.2rem"}
+                                    h="fit-content"
+                                  >
+                                    {demoCampaign.demoBox.shippingPrice
+                                      ? `$${demoCampaign.demoBox.shippingPrice.toFixed(
+                                          2
+                                        )}`
+                                      : "FREE"}
+                                  </Text>
+                                  <Text
+                                    ml={1}
+                                    letterSpacing="0.5px"
+                                    color={"navys.1"}
+                                    fw={500}
+                                    fs={"1.2rem"}
+                                    h="fit-content"
+                                  >
+                                    Shipping
+                                  </Text>
+                                </Flex>
+                              </Flex>
+                            </Flex>
+                          </Flex>
                         </FormSection>
                         <FormSection bg={"blues.3"} flexDirection="column">
                           <Flex

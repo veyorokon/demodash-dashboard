@@ -1,18 +1,17 @@
 import React from "react";
+import {Grid, Box, Text, Icon} from "components";
+import {CloseOutline} from "@styled-icons/evaicons-outline/CloseOutline";
 import styled, {css} from "styled-components";
 import {system} from "styled-system";
-import {Grid, Box, Text, Flex, Icon} from "components";
 import {withRouter} from "react-router";
 
 // import {CallToAction} from "views/_components";
 
 import {responsive as r} from "lib";
 
-import LogoIcon from "assets/svg/logo.js";
 import {connect} from "react-redux";
 import {toggleCheckout} from "redux/actions";
 
-import {CloseOutline} from "@styled-icons/evaicons-outline/CloseOutline";
 function mapDispatchToProps(dispatch) {
   return {
     toggleCheckout: () => dispatch(toggleCheckout())
@@ -50,14 +49,14 @@ const DrawerContainer = styled(Grid)`
           ${system({
             transform: true
           })}
-          transition-duration: 0.5s;
-          transition-timing-function: cubic-bezier(0.3, 0, 0, 1);
+          transition: transform 0.5s cubic-bezier(0.3, 0, 0, 1),
+            0.3s z-index cubic-bezier(0.3, 0, 0, 1), height 0.2s;
         `
       : css`
           z-index: -1;
           transform: translate3d(0, 100vh, 0);
           height: 0;
-          transition-property: transform 0.3s cubic-bezier(0.3, 0, 0, 1),
+          transition: transform 0.3s cubic-bezier(0.3, 0, 0, 1),
             0.3s z-index cubic-bezier(0.3, 0, 0, 1), height 0.6s;
         `};
 `;
@@ -73,29 +72,16 @@ const _CheckoutDrawer = props => {
       bg={"whites.0"}
       w={r("100%")}
       h={"100%"}
+      mr={"1px"}
       open={checkoutOpen}
       {...props}
     >
-      <DrawerTitle w={"100%"} h={"100%"} pl={4} pr={4}>
-        <Flex
-          justifySelf="flex-start"
-          alignItems="center"
-          justifyContent="center"
-          flexGrow={0}
-        >
-          <Icon justifyContent="center" mr={3} h={"3rem"}>
-            <LogoIcon />
-          </Icon>
-          <Text
-            lineHeight={"1.5"}
-            as="p"
-            fw={700}
-            fs={"2.4rem"}
-            color="navys.0"
-          >
-            demodash
-          </Text>
-        </Flex>
+      <DrawerTitle
+        w={"100%"}
+        h={"100%"}
+        pl={r("2 ----> 4")}
+        pr={r("2 ----> 4")}
+      >
         <Icon
           cursor="pointer"
           onClick={toggleCheckout}
@@ -106,7 +92,9 @@ const _CheckoutDrawer = props => {
           <CloseOutline />
         </Icon>
       </DrawerTitle>
-      <Text>Test</Text>
+      <Box>
+        <Text display="inline-block">Test</Text>
+      </Box>
     </DrawerContainer>
   );
 };

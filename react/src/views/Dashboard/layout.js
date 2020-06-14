@@ -96,7 +96,7 @@ const LogoTitle = props => (
     <Icon justifyContent="center" mr={3} h={"3rem"}>
       <LogoIcon />
     </Icon>
-    <Logo as="h1" fs={r("3rem ------> 3.1rem")} color="navys.0">
+    <Logo as="h1" fs={r("2.6rem")} color="navys.0">
       demodash
     </Logo>
   </Flex>

@@ -1,7 +1,7 @@
 import React from "react";
 import styled, {css} from "styled-components";
 import {system} from "styled-system";
-import {Grid, Image, Box, Text, Flex} from "components";
+import {Grid, Image, Box, Text, Flex, Icon} from "components";
 import {withRouter} from "react-router";
 
 // import {CallToAction} from "views/_components";
@@ -19,7 +19,7 @@ import logo from "assets/svg/logo.svg";
 import {connect} from "react-redux";
 import {toggleNav} from "redux/actions";
 
-import close from "assets/icons/close.svg";
+import {CloseOutline} from "@styled-icons/evaicons-outline/CloseOutline";
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -35,10 +35,6 @@ const mapStateToProps = state => {
     accountUserSet
   };
 };
-
-const Icon = styled(Image)`
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-`;
 
 const DrawerTitle = styled(Box)`
   align-items: center;
@@ -136,12 +132,14 @@ const _Drawer = props => {
           </Text>
         </Flex>
         <Icon
-          w={"1.86rem"}
-          h={"1.86rem"}
           cursor="pointer"
-          src={close}
           onClick={toggleNav}
-        />
+          justifyContent="center"
+          mr={3}
+          h={"3rem"}
+        >
+          <CloseOutline />
+        </Icon>
       </DrawerTitle>
       <NavContainer ml={r("2 ---> 3")} mr={r("2 ---> 3")}>
         <Content

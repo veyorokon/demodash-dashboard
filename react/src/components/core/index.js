@@ -121,11 +121,13 @@ const Image = themedComponent(
 
 const Grid = themedComponent(
   styled.div`
-    display: grid;
     position: relative;
     ${gridFields}
   `
 );
+Grid.defaultProps = {
+  display: "grid"
+};
 
 const Link = themedComponent(styled.a`
   width: fit-content;

@@ -110,10 +110,16 @@ const initialState = {
     disabled: true,
     errorMessage: ""
   },
-  panel: "findDemos",
+  billingForm: {
+    cardNumber: "",
+    expirationMonth: "",
+    expirationYear: "",
+    cvc: ""
+  },
+  panel: "payoutBilling",
   previousPanel: "home",
   navOpen: false,
-  checkoutOpen: true
+  checkoutOpen: false
 };
 
 function checkEmail(newState) {
@@ -229,7 +235,7 @@ export default function rootReducer(state = initialState, action) {
       newState = populateProfileForm(newState, accountUser);
       isMutualPanel = checkPanel(state.panel);
       //newState.panel = "home";
-      newState.panel = "findDemos";
+      newState.panel = "payoutBilling";
 
       //Restores previous panel if it is a mutual panel
       if (isMutualPanel) newState.panel = state.panel;
@@ -248,7 +254,7 @@ export default function rootReducer(state = initialState, action) {
       //Restores previous panel if it is a mutual panel
       isMutualPanel = checkPanel(state.panel);
       //newState.panel = "home";
-      newState.panel = "findDemos";
+      newState.panel = "payoutBilling";
 
       if (isMutualPanel) newState.panel = state.panel;
       //Sets default values for profile form

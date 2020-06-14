@@ -14,7 +14,8 @@ import {
   DELETE_IMAGE_PRODUCT_FORM,
   UPDATE_DEMO_BOX_FORM,
   UPDATE_DEMO_CAMPAIGN_FORM,
-  TOGGLE_CHECKOUT
+  TOGGLE_CHECKOUT,
+  UPDATE_BILLING_FORM
 } from "redux/constants";
 
 export function updateRegistrationForm(payload) {
@@ -105,5 +106,11 @@ export function updateDemoBoxForm(payload) {
 export function updateDemoCampaignForm(payload) {
   return function(dispatch) {
     return dispatch({type: UPDATE_DEMO_CAMPAIGN_FORM, payload: payload});
+  };
+}
+
+export function updateBillingForm(payload) {
+  return function(dispatch) {
+    return dispatch({type: UPDATE_BILLING_FORM, payload: payload});
   };
 }

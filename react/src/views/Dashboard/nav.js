@@ -36,7 +36,7 @@ const DemoerNav = props => {
       <NavCategory mt={3} text={"Account"} />
       <ConnectedNavItem
         id={"payoutBilling"}
-        text="Payout"
+        text="Payout & billing"
         icon={<DollarSign />}
         ml={3}
       />
@@ -90,7 +90,7 @@ const BrandNav = props => {
       <NavCategory mt={3} text={"Account"} />
       <ConnectedNavItem
         id={"payoutBilling"}
-        text="Payout"
+        text="Payout & billing"
         icon={<DollarSign />}
         ml={3}
       />
@@ -146,7 +146,7 @@ const AllNav = props => {
       />
       <ConnectedNavItem
         id={"payoutBilling"}
-        text="Payout"
+        text="Payout & billing"
         icon={<DollarSign />}
       />
       <ConnectedNavItem

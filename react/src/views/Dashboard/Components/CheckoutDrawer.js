@@ -66,7 +66,6 @@ const _CheckoutDrawer = props => {
     checkoutOpen,
     toggleCheckout //currentAccountUser
   } = props;
-
   return (
     <DrawerContainer
       bg={"whites.0"}
@@ -76,12 +75,7 @@ const _CheckoutDrawer = props => {
       open={checkoutOpen}
       {...props}
     >
-      <DrawerTitle
-        w={"100%"}
-        h={"100%"}
-        pl={r("2 ----> 4")}
-        pr={r("2 ----> 4")}
-      >
+      <DrawerTitle w={"100%"} pl={r("2 ----> 4")} pr={r("2 ----> 4")}>
         <Icon
           cursor="pointer"
           onClick={toggleCheckout}

@@ -13,7 +13,8 @@ import {
   ADD_IMAGE_PRODUCT_FORM,
   DELETE_IMAGE_PRODUCT_FORM,
   UPDATE_DEMO_BOX_FORM,
-  UPDATE_DEMO_CAMPAIGN_FORM
+  UPDATE_DEMO_CAMPAIGN_FORM,
+  TOGGLE_CHECKOUT
 } from "redux/constants";
 
 export function updateRegistrationForm(payload) {
@@ -58,6 +59,12 @@ export function updatePanel(payload) {
 export function toggleNav() {
   return function(dispatch) {
     return dispatch({type: TOGGLE_NAV, payload: {}});
+  };
+}
+
+export function toggleCheckout() {
+  return function(dispatch) {
+    return dispatch({type: TOGGLE_CHECKOUT, payload: {}});
   };
 }
 

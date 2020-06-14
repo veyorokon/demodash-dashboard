@@ -1,10 +1,11 @@
 import React from "react";
-import {Box, Flex, Icon} from "components";
+import {Box, Flex, Icon, Text} from "components";
 import {connect} from "react-redux";
 import {responsive as r} from "lib";
 import styled, {css} from "styled-components";
 
 import LogoIcon from "assets/svg/logo.js";
+
 import {MenuOutline} from "@styled-icons/evaicons-outline/MenuOutline";
 
 import {Drawer} from "views/_components";
@@ -106,7 +107,6 @@ const _NavBar = props => {
   const {toggleNav} = props;
   return (
     <NavWrapper
-      position="fixed"
       w="100%"
       justifyContent="space-between"
       alignItems="center"
@@ -149,8 +149,8 @@ const Layout = props => {
       mr={r("0 2 ---> 3 ---->  auto")}
       pl={r("0 1 -------> 4")}
       pr={r("0 1 -------> 4")}
-      pt={r("5")}
-      pb={r("5")}
+      pt={r("4")}
+      pb={r("4")}
       {...props}
     >
       <FlexCol>{props.children}</FlexCol>
@@ -174,10 +174,7 @@ export function RightColumn(props) {
           props.children.map((component, index) => {
             return (
               <Hide key={index} showing={selected === component.key}>
-                <Layout
-                  display={navOpen ? r("none -------> block") : "block"}
-                  mt={r("5  -------> 0")}
-                >
+                <Layout display={navOpen ? r("none -------> block") : "block"}>
                   {component}
                 </Layout>
               </Hide>

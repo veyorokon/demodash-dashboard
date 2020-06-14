@@ -111,7 +111,8 @@ const initialState = {
   },
   panel: "findDemos",
   previousPanel: "home",
-  navOpen: false
+  navOpen: false,
+  checkoutOpen: true
 };
 
 function checkEmail(newState) {

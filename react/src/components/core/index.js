@@ -22,6 +22,7 @@ const Box = themedComponent(
   styled.div`
     ${borderRadius}
     ${boxShadow}
+    ${borderFields}
   `
 );
 Box.defaultProps = {};

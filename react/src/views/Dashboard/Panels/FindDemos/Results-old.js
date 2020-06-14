@@ -1,5 +1,5 @@
 import React from "react";
-import {Box, Flex, Text, CallToActionButton} from "components";
+import {Box, Flex, Text, DropDown} from "components";
 import {FormSection} from "views/Dashboard/Components";
 import {responsive as r, getToken} from "lib";
 import {Card} from "views/Dashboard/Components";
@@ -51,29 +51,13 @@ const BackgroundImage = styled(Box)`
   background-repeat: no-repeat;
 `;
 
-const Price = styled(Text)`
-  display: flex;
-  flex-grow: 1;
-  justify-content: flex-end;
-`;
+function checkIfStartsVowel(word) {
+  const vowels = "aeio";
+  if (vowels.includes(word[0])) return true;
+  return false;
+}
 
-const LineItem = props => (
-  <Flex mb={1} mt={2} w={"25rem"} maxWidth="100%" flexWrap="wrap" {...props}>
-    <Text justifySelf="flex-start" {...props.titleProps}>
-      {props.title}
-    </Text>
-    <Price
-      ml={2}
-      justifySelf="flex-end"
-      color="oranges.0"
-      {...props.valueProps}
-    >
-      {props.value}
-    </Price>
-  </Flex>
-);
-
-class ImageCard extends React.Component {
+class ProductCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -87,15 +71,30 @@ class ImageCard extends React.Component {
     });
   };
 
-  deleteDemoCampaignMutation = deleteDemoCampaign => {
-    const {demoCampaignId, currentAccountUser} = this.props;
-    return deleteDemoCampaign({
-      variables: {
-        token: getToken().token,
-        accountUserId: parseInt(currentAccountUser),
-        demoCampaignId: parseInt(demoCampaignId)
+  checkVariationImage = evt => {
+    let index = this.mapVariationToImageIndex(evt.target.value);
+    if (index) return this.setState({index: parseInt(index)});
+  };
+
+  getVariationOptions = variation => {
+    let options = [];
+    for (var indx in variation.options) {
+      let option = variation.options[indx];
+      options.push({text: option.option, value: option.id});
+    }
+    return options;
+  };
+
+  mapVariationToImageIndex = variationId => {
+    let images = this.props.images;
+    for (var indx in images) {
+      let image = images[indx];
+      let variationOption = image.variationOption;
+      if (variationOption !== null && variationOption.id === variationId) {
+        return indx;
       }
-    });
+    }
+    return null;
   };
 
   render() {
@@ -115,9 +114,6 @@ class ImageCard extends React.Component {
         br={2}
         {...props}
       >
-        <Text mb={2} color={"greys.0"}>
-          {props.name}
-        </Text>
         <SwipeableViews
           index={index}
           onChangeIndex={indx => this.handleChangeIndex(indx)}
@@ -133,98 +129,95 @@ class ImageCard extends React.Component {
             />
           ))}
         </SwipeableViews>
-        <PanelNavigation mt={2} mb={2}>
-          {props.images.map((image, indx) => (
-            <NavigationBullet
-              alignItems="center"
-              justifyContent="center"
-              w={r("1rem")}
-              h={r("1rem")}
-              onClick={() => this.handleChangeIndex(indx)}
-              color={"blacks.0"}
-              key={indx}
-              active={index === indx}
-            />
-          ))}
-        </PanelNavigation>
+        {props.images.length > 1 && (
+          <PanelNavigation mt={2} mb={2}>
+            {props.images.map((image, indx) => (
+              <NavigationBullet
+                alignItems="center"
+                justifyContent="center"
+                w={r("1rem")}
+                h={r("1rem")}
+                onClick={() => this.handleChangeIndex(indx)}
+                color={"blacks.0"}
+                key={indx}
+                active={index === indx}
+              />
+            ))}
+          </PanelNavigation>
+        )}
 
-        {props.brand && (
+        <Flex flexDirection="column" justifyContent="flex-start">
+          {props.brand && (
+            <Text
+              letterSpacing="0.5px"
+              color={"greys.0"}
+              mt={props.images.length === 1 ? 3 : 0}
+              mb={2}
+              fw={400}
+              w={"100%"}
+            >
+              {props.brand}
+            </Text>
+          )}
           <Text
-            mt="auto"
+            mt="2"
             letterSpacing="0.5px"
-            color={"greys.0"}
+            color={"navys.0"}
             mb={2}
-            fw={400}
+            fw={600}
             w={"100%"}
           >
-            {props.brand}
+            {props.title}
           </Text>
-        )}
-        <Text
-          mt="auto"
-          letterSpacing="0.5px"
-          color={"navys.0"}
-          mb={2}
-          fw={600}
-          w={"100%"}
-        >
-          {props.title}
-        </Text>
-
-        <Flex mt={1} mb={1} flexDirection="column" flexGrow={0}>
-          <Text letterSpacing="0.5px" color={"navys.0"} fw={500} w={"100%"}>
-            Products:
+          <Text
+            letterSpacing="0.5px"
+            color={"navys.0"}
+            mb={2}
+            fw={300}
+            w={"100%"}
+          >
+            {props.description}
           </Text>
-          {props.commissions &&
-            props.commissions.map((item, indx) => (
-              <Flex
-                flexGrow={0}
-                h={"fit-content"}
-                maxWidth="100%"
-                key={indx}
-                pl={2}
-                pr={2}
-              >
-                <Flex
-                  flexDirection="column"
-                  flexGrow={0}
-                  h={"fit-content"}
-                  maxWidth="100%"
-                  borderBottom={"1px solid #e3e3ee"}
-                  mb={props.commissions.length - 1 === indx ? 0 : 1}
-                  mt={props.commissions.length - 1 === indx ? 0 : 1}
-                >
-                  <Text
-                    letterSpacing="0.5px"
-                    color={"navys.1"}
-                    mb={1}
-                    mt={1}
-                    fw={400}
-                    w={"100%"}
-                  >
-                    {item.demoBoxItem.product.name}
-                  </Text>
-
-                  <LineItem
-                    mt={0}
-                    valueProps={{fw: 500, color: "navys.1"}}
-                    title={"Price:"}
-                    value={`$${item.demoBoxItem.product.price.toFixed(2)}`}
-                  />
-                  <LineItem
-                    mt={0}
-                    valueProps={{fw: 500, color: "greens.4"}}
-                    title={"Commission:"}
-                    value={`$${item.amount.toFixed(2)}`}
-                  />
-                </Flex>
-              </Flex>
-            ))}
         </Flex>
 
-        <Flex mt={1} mb={1} alignItems="center">
+        {props.variations &&
+          props.variations.map((variation, indx) => {
+            let avAn = checkIfStartsVowel(variation.name);
+            return (
+              <Flex
+                flexGrow={0}
+                flexDirection="column"
+                key={`variation-${indx}`}
+              >
+                <Text
+                  letterSpacing="0.5px"
+                  color={"navys.0"}
+                  mb={2}
+                  fw={500}
+                  w={"100%"}
+                >
+                  {variation.name}:
+                </Text>
+                <DropDown
+                  mb={2}
+                  options={this.getVariationOptions(variation)}
+                  onChange={evt => this.checkVariationImage(evt)}
+                  br={2}
+                  maxWidth="100%"
+                  w="100%"
+                  border={"1px solid lightslategrey"}
+                  hiddenOption={`Choose ${
+                    avAn ? "an" : "a"
+                  } ${variation.name.toLowerCase()}`}
+                  {...props}
+                />
+              </Flex>
+            );
+          })}
+
+        <Flex flexGrow={0} mt={1} alignItems="center">
           <Text letterSpacing="0.5px" color={"navys.0"} mr={2} fw={500}>
-            Price:
+            Sale price:
           </Text>
           <Flex alignItems="center">
             <Text letterSpacing="0.5px" color={"reds.1"} fw={500}>
@@ -263,41 +256,135 @@ class ImageCard extends React.Component {
             </Text>
           </Flex>
         </Flex>
-        <Flex mt={1} mb={1} alignItems="center">
+
+        <Flex flexGrow={0} mt={1} alignItems="center">
           <Text letterSpacing="0.5px" color={"navys.0"} mr={2} fw={500}>
-            Refill price:
+            Commission:
           </Text>
-          <Text letterSpacing="0.5px" color={"reds.1"} fw={500}>
-            ${props.refillPrice.toFixed(2)}
-          </Text>
+          <Flex alignItems="center">
+            <Text letterSpacing="0.5px" color={"greens.4"} fw={500}>
+              ${props.commissionAmount.toFixed(2)}
+            </Text>
+          </Flex>
         </Flex>
-        <CallToActionButton
-          hoverBackground="#FFC651"
-          cursor="pointer"
-          br={2}
-          mt={2}
-          bg={"yellows.1"}
-          w="100%"
-        >
-          <Text ml="auto" mr="auto">
-            Create a demo box
-          </Text>
-        </CallToActionButton>
       </Card>
     );
   }
 }
 
+const TitleSection = props => {
+  const {demoBox} = props;
+  return (
+    <FormSection>
+      <Flex
+        alignItems="center"
+        flexWrap="wrap"
+        justifyContent={[
+          "space-around",
+          "space-around",
+          "space-around",
+          "space-around",
+          "space-around",
+          "space-between"
+        ]}
+      >
+        <Text h="fit-content" ml={2} mr={2} fs="1.8rem" fw={500}>
+          {demoBox.name}
+        </Text>
+        <Flex mt={r("1 ---> 0")} flexGrow={0} flexDirection="column">
+          <Flex flexGrow={0} ml={2} mr={2} alignItems="center">
+            <Text letterSpacing="0.5px" color={"navys.0"} mr={2} fw={500}>
+              Price:
+            </Text>
+            <Flex alignItems="center">
+              <Text letterSpacing="0.5px" color={"reds.1"} fw={500}>
+                ${demoBox.price.toFixed(2)}
+              </Text>
+              <Text
+                ml={1}
+                letterSpacing="0.5px"
+                color={"navys.0"}
+                fw={500}
+                fs={"1.2rem"}
+              >
+                &#43;
+              </Text>
+              <Text
+                letterSpacing="0.5px"
+                color={"navys.1"}
+                fw={500}
+                ml={1}
+                fs={"1.2rem"}
+                h="fit-content"
+              >
+                {demoBox.shippingPrice
+                  ? `$${demoBox.shippingPrice.toFixed(2)}`
+                  : "FREE"}
+              </Text>
+              <Text
+                ml={1}
+                letterSpacing="0.5px"
+                color={"navys.1"}
+                fw={500}
+                fs={"1.2rem"}
+                h="fit-content"
+              >
+                Shipping
+              </Text>
+            </Flex>
+          </Flex>
+
+          <Flex flexGrow={0} ml={2} mr={2} alignItems="center">
+            <Text letterSpacing="0.5px" color={"navys.0"} mr={2} fw={500}>
+              Refill:
+            </Text>
+            <Flex alignItems="center">
+              <Text letterSpacing="0.5px" color={"reds.1"} fw={500}>
+                ${demoBox.refillPrice.toFixed(2)}
+              </Text>
+              <Text
+                ml={1}
+                letterSpacing="0.5px"
+                color={"navys.0"}
+                fw={500}
+                fs={"1.2rem"}
+              >
+                &#43;
+              </Text>
+              <Text
+                letterSpacing="0.5px"
+                color={"navys.1"}
+                fw={500}
+                ml={1}
+                fs={"1.2rem"}
+                h="fit-content"
+              >
+                {demoBox.shippingPrice
+                  ? `$${demoBox.shippingPrice.toFixed(2)}`
+                  : "FREE"}
+              </Text>
+              <Text
+                ml={1}
+                letterSpacing="0.5px"
+                color={"navys.1"}
+                fw={500}
+                fs={"1.2rem"}
+                h="fit-content"
+              >
+                Shipping
+              </Text>
+            </Flex>
+          </Flex>
+        </Flex>
+      </Flex>
+    </FormSection>
+  );
+};
+
 function _DemoCampaigns(props) {
   const {currentAccountUser} = props;
   return (
     <>
-      <Flex mb={4}>
-        <Text fw={500} fs={"2rem"}>
-          My demo campaigns
-        </Text>
-      </Flex>
-
       {currentAccountUser && (
         <Query
           query={OPEN_DEMO_CAMPAIGNS}
@@ -320,63 +407,63 @@ function _DemoCampaigns(props) {
                 </Box>
               );
             const {openDemoCampaigns} = data;
-            console.log(data);
             return (
-              <Box
-                w={r("80rem ---------> 100rem")}
-                maxWidth="100%"
-                boxShadow="0 1px 6px rgba(57,73,76,0.35)"
-                bg={"whites.0"}
-                br={2}
-                mb={4}
-              >
-                <FormSection>
-                  <Text fs="1.8rem" fw={500}>
-                    Demo campaigns
-                  </Text>
-                </FormSection>
-                <FormSection
-                  bg={"blues.3"}
-                  flexDirection="column"
-                  pt={4}
-                  pb={4}
-                >
-                  <Flex
-                    flexWrap={"wrap"}
-                    p={r("0 --> 3 -----> 4")}
-                    justifyContent={"center"}
-                  >
-                    {openDemoCampaigns && openDemoCampaigns.length ? (
-                      openDemoCampaigns.map((demoCampaign, index) => {
-                        const {demoCommissions, demoBox} = demoCampaign;
-                        return (
-                          <ImageCard
-                            key={index}
-                            brand={
-                              (demoCampaign.account.profile &&
-                                demoCampaign.account.profile.name) ||
-                              null
-                            }
-                            name={demoCampaign.name}
-                            demoCampaignId={demoCampaign.id}
-                            title={demoBox.name}
-                            images={demoBox.images}
-                            price={demoBox.price}
-                            commissions={demoCommissions}
-                            shippingPrice={demoBox.shippingPrice}
-                            refillPrice={demoBox.refillPrice}
-                            currentAccountUser={currentAccountUser}
-                          />
-                        );
-                      })
-                    ) : (
-                      <Text color={"navys.0"}>
-                        You currently don't have any campaigns.
-                      </Text>
-                    )}
-                  </Flex>
-                </FormSection>
-              </Box>
+              <>
+                {openDemoCampaigns && openDemoCampaigns.length ? (
+                  openDemoCampaigns.map((demoCampaign, index) => {
+                    const {demoCommissions} = demoCampaign;
+                    return (
+                      <Box
+                        key={index}
+                        w={r("80rem ---------> 100rem")}
+                        maxWidth="100%"
+                        boxShadow="0 1px 6px rgba(57,73,76,0.35)"
+                        bg={"whites.0"}
+                        br={2}
+                        mb={4}
+                      >
+                        <TitleSection demoBox={demoCampaign.demoBox} />
+                        <FormSection bg={"blues.3"} flexDirection="column">
+                          <Flex
+                            flexWrap={"wrap"}
+                            pt={"unset !important"}
+                            pb={"unset !important"}
+                            p={r("0 --> 3")}
+                            justifyContent={"center"}
+                          >
+                            {demoCommissions &&
+                              demoCommissions.length &&
+                              demoCommissions.map((demoCommission, indx) => {
+                                const {product} = demoCommission.demoBoxItem;
+                                return (
+                                  <ProductCard
+                                    key={indx}
+                                    brand={
+                                      (demoCampaign.account.profile &&
+                                        demoCampaign.account.profile.name) ||
+                                      null
+                                    }
+                                    productId={product.id}
+                                    title={product.name}
+                                    description={product.description}
+                                    images={product.images}
+                                    variations={product.variations}
+                                    price={product.price}
+                                    shippingPrice={product.shippingPrice}
+                                    commissionAmount={demoCommission.amount}
+                                    currentAccountUser={currentAccountUser}
+                                  />
+                                );
+                              })}
+                          </Flex>
+                        </FormSection>
+                      </Box>
+                    );
+                  })
+                ) : (
+                  <Text color={"navys.0"}>No demo boxes found.</Text>
+                )}
+              </>
             );
           }}
         </Query>

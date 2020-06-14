@@ -1,5 +1,5 @@
 import React from "react";
-import {Box, Flex, Text, DropDown} from "components";
+import {Box, Flex, Text, CallToActionButton} from "components";
 import {FormSection} from "views/Dashboard/Components";
 import {responsive as r, getToken} from "lib";
 import {Card} from "views/Dashboard/Components";
@@ -51,11 +51,27 @@ const BackgroundImage = styled(Box)`
   background-repeat: no-repeat;
 `;
 
-function checkIfStartsVowel(word) {
-  const vowels = "aeio";
-  if (vowels.includes(word[0])) return true;
-  return false;
-}
+const Price = styled(Text)`
+  display: flex;
+  flex-grow: 1;
+  justify-content: flex-end;
+`;
+
+const LineItem = props => (
+  <Flex mb={1} mt={2} w={"25rem"} maxWidth="100%" flexWrap="wrap" {...props}>
+    <Text justifySelf="flex-start" {...props.titleProps}>
+      {props.title}
+    </Text>
+    <Price
+      ml={2}
+      justifySelf="flex-end"
+      color="oranges.0"
+      {...props.valueProps}
+    >
+      {props.value}
+    </Price>
+  </Flex>
+);
 
 class ProductCard extends React.Component {
   constructor(props) {
@@ -69,32 +85,6 @@ class ProductCard extends React.Component {
     this.setState({
       index
     });
-  };
-
-  checkVariationImage = evt => {
-    let index = this.mapVariationToImageIndex(evt.target.value);
-    if (index) return this.setState({index: parseInt(index)});
-  };
-
-  getVariationOptions = variation => {
-    let options = [];
-    for (var indx in variation.options) {
-      let option = variation.options[indx];
-      options.push({text: option.option, value: option.id});
-    }
-    return options;
-  };
-
-  mapVariationToImageIndex = variationId => {
-    let images = this.props.images;
-    for (var indx in images) {
-      let image = images[indx];
-      let variationOption = image.variationOption;
-      if (variationOption !== null && variationOption.id === variationId) {
-        return indx;
-      }
-    }
-    return null;
   };
 
   render() {
@@ -129,26 +119,29 @@ class ProductCard extends React.Component {
             />
           ))}
         </SwipeableViews>
-        <PanelNavigation mt={2} mb={2}>
-          {props.images.map((image, indx) => (
-            <NavigationBullet
-              alignItems="center"
-              justifyContent="center"
-              w={r("1rem")}
-              h={r("1rem")}
-              onClick={() => this.handleChangeIndex(indx)}
-              color={"blacks.0"}
-              key={indx}
-              active={index === indx}
-            />
-          ))}
-        </PanelNavigation>
+        {props.images.length > 1 && (
+          <PanelNavigation mt={2} mb={2}>
+            {props.images.map((image, indx) => (
+              <NavigationBullet
+                alignItems="center"
+                justifyContent="center"
+                w={r("1rem")}
+                h={r("1rem")}
+                onClick={() => this.handleChangeIndex(indx)}
+                color={"blacks.0"}
+                key={indx}
+                active={index === indx}
+              />
+            ))}
+          </PanelNavigation>
+        )}
 
         <Flex flexDirection="column" justifyContent="flex-start">
           {props.brand && (
             <Text
               letterSpacing="0.5px"
               color={"greys.0"}
+              mt={props.images.length === 1 ? 3 : 0}
               mb={2}
               fw={400}
               w={"100%"}
@@ -177,91 +170,38 @@ class ProductCard extends React.Component {
           </Text>
         </Flex>
 
-        {props.variations &&
-          props.variations.map((variation, indx) => {
-            let avAn = checkIfStartsVowel(variation.name);
-            return (
-              <Flex
-                flexGrow={0}
-                flexDirection="column"
-                key={`variation-${indx}`}
-              >
-                <Text
-                  letterSpacing="0.5px"
-                  color={"navys.0"}
-                  mb={2}
-                  fw={500}
-                  w={"100%"}
-                >
-                  {variation.name}:
-                </Text>
-                <DropDown
-                  mb={2}
-                  options={this.getVariationOptions(variation)}
-                  onChange={evt => this.checkVariationImage(evt)}
-                  br={2}
-                  maxWidth="100%"
-                  w="100%"
-                  border={"1px solid lightslategrey"}
-                  hiddenOption={`Choose ${
-                    avAn ? "an" : "a"
-                  } ${variation.name.toLowerCase()}`}
-                  {...props}
-                />
-              </Flex>
-            );
-          })}
-
-        <Flex flexGrow={0} mt={1} alignItems="center">
-          <Text letterSpacing="0.5px" color={"navys.0"} mr={2} fw={500}>
-            Price:
-          </Text>
-          <Flex alignItems="center">
-            <Text letterSpacing="0.5px" color={"reds.1"} fw={500}>
-              ${props.price.toFixed(2)}
-            </Text>
-            <Text
-              ml={1}
-              letterSpacing="0.5px"
-              color={"navys.0"}
-              fw={500}
-              fs={"1.2rem"}
+        <Flex mt={1} mb={2} flexDirection="column" flexGrow={0}>
+          <Flex flexGrow={0} h={"fit-content"} maxWidth="100%" pl={2} pr={2}>
+            <Flex
+              flexDirection="column"
+              flexGrow={0}
+              h={"fit-content"}
+              maxWidth="100%"
+              borderBottom={"1px solid #e3e3ee"}
             >
-              &#43;
-            </Text>
-            <Text
-              letterSpacing="0.5px"
-              color={"navys.1"}
-              fw={500}
-              ml={1}
-              fs={"1.2rem"}
-              h="fit-content"
-            >
-              {props.shippingPrice
-                ? `$${props.shippingPrice.toFixed(2)}`
-                : "FREE"}
-            </Text>
-            <Text
-              ml={1}
-              letterSpacing="0.5px"
-              color={"navys.1"}
-              fw={500}
-              fs={"1.2rem"}
-              h="fit-content"
-            >
-              Shipping
-            </Text>
-          </Flex>
-        </Flex>
-
-        <Flex flexGrow={0} mt={1} mb={1} alignItems="center">
-          <Text letterSpacing="0.5px" color={"navys.0"} mr={2} fw={500}>
-            Commission:
-          </Text>
-          <Flex alignItems="center">
-            <Text letterSpacing="0.5px" color={"greens.4"} fw={500}>
-              ${props.commissionAmount.toFixed(2)}
-            </Text>
+              <LineItem
+                mt={0}
+                valueProps={{fw: 500, color: "navys.1"}}
+                title={"Price:"}
+                value={`$${props.price.toFixed(2)}`}
+              />
+              <LineItem
+                mt={0}
+                valueProps={{fw: 500, color: "navys.1"}}
+                title={"Shipping:"}
+                value={`${
+                  props.shippingPrice
+                    ? `$${props.shippingPrice.toFixed(2)}`
+                    : "FREE"
+                }`}
+              />
+              <LineItem
+                mt={0}
+                valueProps={{fw: 500, color: "greens.4"}}
+                title={"Commission:"}
+                value={`$${props.commissionAmount.toFixed(2)}`}
+              />
+            </Flex>
           </Flex>
         </Flex>
       </Card>
@@ -269,7 +209,20 @@ class ProductCard extends React.Component {
   }
 }
 
-function _DemoCampaigns(props) {
+const TitleSection = props => {
+  const {demoBox} = props;
+  return (
+    <FormSection>
+      <Flex alignItems="center" flexWrap="wrap">
+        <Text h="fit-content" ml={2} mr={2} fs="1.8rem" fw={500}>
+          {demoBox.name}
+        </Text>
+      </Flex>
+    </FormSection>
+  );
+};
+
+function Results(props) {
   const {currentAccountUser} = props;
   return (
     <>
@@ -299,8 +252,8 @@ function _DemoCampaigns(props) {
               <>
                 {openDemoCampaigns && openDemoCampaigns.length ? (
                   openDemoCampaigns.map((demoCampaign, index) => {
-                    const {demoCommissions} = demoCampaign;
-                    console.log(demoCampaign);
+                    const {demoBox, demoCommissions} = demoCampaign;
+
                     return (
                       <Box
                         key={index}
@@ -311,158 +264,18 @@ function _DemoCampaigns(props) {
                         br={2}
                         mb={4}
                       >
-                        <FormSection>
-                          <Flex
-                            alignItems="center"
-                            flexWrap="wrap"
-                            justifyContent="space-around"
-                          >
-                            <Text
-                              h="fit-content"
-                              ml={2}
-                              mr={2}
-                              fs="1.8rem"
-                              fw={500}
-                            >
-                              {demoCampaign.demoBox.name}
-                            </Text>
-                            <Flex
-                              mt={r("1 ---> 0")}
-                              flexGrow={0}
-                              flexDirection="column"
-                            >
-                              <Flex
-                                flexGrow={0}
-                                ml={2}
-                                mr={2}
-                                alignItems="center"
-                              >
-                                <Text
-                                  letterSpacing="0.5px"
-                                  color={"navys.0"}
-                                  mr={2}
-                                  fw={500}
-                                >
-                                  Price:
-                                </Text>
-                                <Flex alignItems="center">
-                                  <Text
-                                    letterSpacing="0.5px"
-                                    color={"reds.1"}
-                                    fw={500}
-                                  >
-                                    ${demoCampaign.demoBox.price.toFixed(2)}
-                                  </Text>
-                                  <Text
-                                    ml={1}
-                                    letterSpacing="0.5px"
-                                    color={"navys.0"}
-                                    fw={500}
-                                    fs={"1.2rem"}
-                                  >
-                                    &#43;
-                                  </Text>
-                                  <Text
-                                    letterSpacing="0.5px"
-                                    color={"navys.1"}
-                                    fw={500}
-                                    ml={1}
-                                    fs={"1.2rem"}
-                                    h="fit-content"
-                                  >
-                                    {demoCampaign.demoBox.shippingPrice
-                                      ? `$${demoCampaign.demoBox.shippingPrice.toFixed(
-                                          2
-                                        )}`
-                                      : "FREE"}
-                                  </Text>
-                                  <Text
-                                    ml={1}
-                                    letterSpacing="0.5px"
-                                    color={"navys.1"}
-                                    fw={500}
-                                    fs={"1.2rem"}
-                                    h="fit-content"
-                                  >
-                                    Shipping
-                                  </Text>
-                                </Flex>
-                              </Flex>
-
-                              <Flex
-                                flexGrow={0}
-                                ml={2}
-                                mr={2}
-                                alignItems="center"
-                              >
-                                <Text
-                                  letterSpacing="0.5px"
-                                  color={"navys.0"}
-                                  mr={2}
-                                  fw={500}
-                                >
-                                  Refill:
-                                </Text>
-                                <Flex alignItems="center">
-                                  <Text
-                                    letterSpacing="0.5px"
-                                    color={"reds.1"}
-                                    fw={500}
-                                  >
-                                    $
-                                    {demoCampaign.demoBox.refillPrice.toFixed(
-                                      2
-                                    )}
-                                  </Text>
-                                  <Text
-                                    ml={1}
-                                    letterSpacing="0.5px"
-                                    color={"navys.0"}
-                                    fw={500}
-                                    fs={"1.2rem"}
-                                  >
-                                    &#43;
-                                  </Text>
-                                  <Text
-                                    letterSpacing="0.5px"
-                                    color={"navys.1"}
-                                    fw={500}
-                                    ml={1}
-                                    fs={"1.2rem"}
-                                    h="fit-content"
-                                  >
-                                    {demoCampaign.demoBox.shippingPrice
-                                      ? `$${demoCampaign.demoBox.shippingPrice.toFixed(
-                                          2
-                                        )}`
-                                      : "FREE"}
-                                  </Text>
-                                  <Text
-                                    ml={1}
-                                    letterSpacing="0.5px"
-                                    color={"navys.1"}
-                                    fw={500}
-                                    fs={"1.2rem"}
-                                    h="fit-content"
-                                  >
-                                    Shipping
-                                  </Text>
-                                </Flex>
-                              </Flex>
-                            </Flex>
-                          </Flex>
-                        </FormSection>
+                        <TitleSection demoBox={demoBox} />
                         <FormSection bg={"blues.3"} flexDirection="column">
                           <Flex
                             flexWrap={"wrap"}
                             pt={"unset !important"}
                             pb={"unset !important"}
-                            p={r("0 --> 3 -----> 4")}
+                            p={r("0 --> 3")}
                             justifyContent={"center"}
                           >
-                            {demoCommissions && demoCommissions.length ? (
+                            {demoCommissions &&
+                              demoCommissions.length &&
                               demoCommissions.map((demoCommission, indx) => {
-                                console.log(demoCommission);
                                 const {product} = demoCommission.demoBoxItem;
                                 return (
                                   <ProductCard
@@ -476,26 +289,164 @@ function _DemoCampaigns(props) {
                                     title={product.name}
                                     description={product.description}
                                     images={product.images}
-                                    variations={product.variations}
                                     price={product.price}
                                     shippingPrice={product.shippingPrice}
                                     commissionAmount={demoCommission.amount}
                                     currentAccountUser={currentAccountUser}
                                   />
                                 );
-                              })
-                            ) : (
-                              <Text color={"navys.0"}>
-                                No demo boxes found.
-                              </Text>
-                            )}
+                              })}
                           </Flex>
+                        </FormSection>
+
+                        <FormSection
+                          justifyContent={[
+                            "space-around",
+                            "space-around",
+                            "space-around",
+                            "space-around",
+                            "space-around",
+                            "space-between"
+                          ]}
+                          flexDirection={r("column ----> row")}
+                          alignItems="center"
+                        >
+                          <Flex
+                            mb={r("2 ----> 0")}
+                            flexGrow={0}
+                            flexDirection="column"
+                          >
+                            <Flex
+                              flexGrow={0}
+                              ml={2}
+                              mr={2}
+                              alignItems="center"
+                            >
+                              <Text
+                                letterSpacing="0.5px"
+                                color={"navys.0"}
+                                mr={2}
+                                fw={500}
+                              >
+                                Price:
+                              </Text>
+                              <Flex alignItems="center">
+                                <Text
+                                  letterSpacing="0.5px"
+                                  color={"reds.1"}
+                                  fw={500}
+                                >
+                                  ${demoBox.price.toFixed(2)}
+                                </Text>
+                                <Text
+                                  ml={1}
+                                  letterSpacing="0.5px"
+                                  color={"navys.0"}
+                                  fw={500}
+                                  fs={"1.2rem"}
+                                >
+                                  &#43;
+                                </Text>
+                                <Text
+                                  letterSpacing="0.5px"
+                                  color={"navys.1"}
+                                  fw={500}
+                                  ml={1}
+                                  fs={"1.2rem"}
+                                  h="fit-content"
+                                >
+                                  {demoBox.shippingPrice
+                                    ? `$${demoBox.shippingPrice.toFixed(2)}`
+                                    : "FREE"}
+                                </Text>
+                                <Text
+                                  ml={1}
+                                  letterSpacing="0.5px"
+                                  color={"navys.1"}
+                                  fw={500}
+                                  fs={"1.2rem"}
+                                  h="fit-content"
+                                >
+                                  Shipping
+                                </Text>
+                              </Flex>
+                            </Flex>
+
+                            <Flex
+                              flexGrow={0}
+                              ml={2}
+                              mr={2}
+                              alignItems="center"
+                            >
+                              <Text
+                                letterSpacing="0.5px"
+                                color={"navys.0"}
+                                mr={2}
+                                fw={500}
+                              >
+                                Refill:
+                              </Text>
+                              <Flex alignItems="center">
+                                <Text
+                                  letterSpacing="0.5px"
+                                  color={"reds.1"}
+                                  fw={500}
+                                >
+                                  ${demoBox.refillPrice.toFixed(2)}
+                                </Text>
+                                <Text
+                                  ml={1}
+                                  letterSpacing="0.5px"
+                                  color={"navys.0"}
+                                  fw={500}
+                                  fs={"1.2rem"}
+                                >
+                                  &#43;
+                                </Text>
+                                <Text
+                                  letterSpacing="0.5px"
+                                  color={"navys.1"}
+                                  fw={500}
+                                  ml={1}
+                                  fs={"1.2rem"}
+                                  h="fit-content"
+                                >
+                                  {demoBox.shippingPrice
+                                    ? `$${demoBox.shippingPrice.toFixed(2)}`
+                                    : "FREE"}
+                                </Text>
+                                <Text
+                                  ml={1}
+                                  letterSpacing="0.5px"
+                                  color={"navys.1"}
+                                  fw={500}
+                                  fs={"1.2rem"}
+                                  h="fit-content"
+                                >
+                                  Shipping
+                                </Text>
+                              </Flex>
+                            </Flex>
+                          </Flex>
+                          <CallToActionButton
+                            hoverBackground={"#F87060"}
+                            bg={"oranges.1"}
+                            color={"whites.0"}
+                            hoverColor={"whites.0"}
+                            br={2}
+                            w={r("100% 25rem ---> 18rem")}
+                            maxWidth="100%"
+                            fs={"1.6rem"}
+                            onClick={() => console.log("here")}
+                          >
+                            Order a demo box
+                          </CallToActionButton>
                         </FormSection>
                       </Box>
                     );
                   })
                 ) : (
-                  <>test</>
+                  <Text color={"navys.0"}>No demo boxes found.</Text>
                 )}
               </>
             );
@@ -514,4 +465,4 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   null
-)(_DemoCampaigns);
+)(Results);

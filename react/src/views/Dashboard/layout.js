@@ -9,6 +9,7 @@ import LogoIcon from "assets/svg/logo.js";
 import {MenuOutline} from "@styled-icons/evaicons-outline/MenuOutline";
 
 import {Drawer} from "views/_components";
+import {CheckoutDrawer} from "views/Dashboard/Components";
 import {toggleNav} from "redux/actions";
 
 function mapDispatchToProps(dispatch) {
@@ -61,6 +62,8 @@ const Right = styled(ScrollContainer)`
   height: 100vh;
   flex-basis: 44rem;
   overflow: auto;
+  position: relative;
+  overflow-x: hidden;
 `;
 const Content = styled(Flex)`
   flex-direction: column;
@@ -159,7 +162,7 @@ const Layout = props => {
 };
 
 export function RightColumn(props) {
-  const {selected, navOpen} = props;
+  const {selected, navOpen, checkoutOpen} = props;
   return (
     <Right
       bg={"whites.0"}
@@ -168,13 +171,26 @@ export function RightColumn(props) {
       {...props}
     >
       <Content w={r("100%")} h="fit-content">
-        <Drawer display={r("grid -------> none")} />
-        <NavBar display={navOpen ? "none" : r("flex -------> none")} />
+        <Drawer display={checkoutOpen ? "none" : r("grid -------> none")} />
+        <NavBar
+          display={
+            navOpen ? "none" : checkoutOpen ? "none" : r("flex -------> none")
+          }
+        />
+        <CheckoutDrawer display={navOpen ? "none" : "grid"} />
         {props.children.length ? (
           props.children.map((component, index) => {
             return (
               <Hide key={index} showing={selected === component.key}>
-                <Layout display={navOpen ? r("none -------> block") : "block"}>
+                <Layout
+                  display={
+                    navOpen
+                      ? r("none -------> block")
+                      : checkoutOpen
+                      ? "none"
+                      : "block"
+                  }
+                >
                   {component}
                 </Layout>
               </Hide>
@@ -189,7 +205,11 @@ export function RightColumn(props) {
 }
 
 const mapStateToProps = state => {
-  return {selected: state.panel, navOpen: state.navOpen};
+  return {
+    selected: state.panel,
+    navOpen: state.navOpen,
+    checkoutOpen: state.checkoutOpen
+  };
 };
 
 export const ConnectedRightColumn = connect(

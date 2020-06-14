@@ -1,19 +1,18 @@
 import React from "react";
 import styled, {css} from "styled-components";
 import {system} from "styled-system";
-import {Grid, Image, Box, Text, Flex} from "components";
+import {Grid, Box, Text, Flex, Icon} from "components";
 import {withRouter} from "react-router";
 
 // import {CallToAction} from "views/_components";
 
 import {responsive as r} from "lib";
 
-import logo from "assets/svg/logo.svg";
+import LogoIcon from "assets/svg/logo.js";
 import {connect} from "react-redux";
 import {toggleCheckout} from "redux/actions";
 
-import close from "assets/icons/close.svg";
-
+import {CloseOutline} from "@styled-icons/evaicons-outline/CloseOutline";
 function mapDispatchToProps(dispatch) {
   return {
     toggleCheckout: () => dispatch(toggleCheckout())
@@ -29,10 +28,6 @@ const mapStateToProps = state => {
   };
 };
 
-const Icon = styled(Image)`
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-`;
-
 const DrawerTitle = styled(Box)`
   align-items: center;
   grid-row: 1;
@@ -45,9 +40,12 @@ const DrawerContainer = styled(Grid)`
   top: 0;
   right: 0;
   grid-template-rows: 8rem 1fr;
+  transform-origin: bottom;
+
   ${props =>
     props.open
       ? css`
+          height: 100%;
           z-index: 50;
           ${system({
             transform: true
@@ -57,38 +55,11 @@ const DrawerContainer = styled(Grid)`
         `
       : css`
           z-index: -1;
-          transition-property: transform, z-index;
-          transition-duration: 0.3s;
-          transition-timing-function: cubic-bezier(0.3, 0, 0, 1);
-          transform: translate3d(100vw, 0, 0);
+          transform: translate3d(0, 100vh, 0);
+          height: 0;
+          transition-property: transform 0.3s cubic-bezier(0.3, 0, 0, 1),
+            0.3s z-index cubic-bezier(0.3, 0, 0, 1), height 0.6s;
         `};
-`;
-const Content = styled(Flex)`
-  flex-direction: column;
-  flex-grow: 0;
-`;
-
-const ScrollContainer = styled(Flex)`
-  &::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: #ddd;
-    border-radius: 10px;
-  }
-`;
-
-const NavContainer = styled(ScrollContainer)`
-  height: 100vh;
-  justify-content: flex-start;
-  flex-basis: 27rem;
-  overflow: auto;
-  flex-grow: 25;
-  border-right: 2px solid transparent;
 `;
 
 const _CheckoutDrawer = props => {
@@ -100,7 +71,7 @@ const _CheckoutDrawer = props => {
   return (
     <DrawerContainer
       bg={"whites.0"}
-      w={r("100% ---> 60% -> 50%")}
+      w={r("100%")}
       h={"100%"}
       open={checkoutOpen}
       {...props}
@@ -112,7 +83,9 @@ const _CheckoutDrawer = props => {
           justifyContent="center"
           flexGrow={0}
         >
-          <Image mr={3} cursor="pointer" h={"3rem"} w={"auto"} src={logo} />
+          <Icon justifyContent="center" mr={3} h={"3rem"}>
+            <LogoIcon />
+          </Icon>
           <Text
             lineHeight={"1.5"}
             as="p"
@@ -124,23 +97,16 @@ const _CheckoutDrawer = props => {
           </Text>
         </Flex>
         <Icon
-          w={"1.86rem"}
-          h={"1.86rem"}
           cursor="pointer"
-          src={close}
           onClick={toggleCheckout}
-        />
-      </DrawerTitle>
-      <NavContainer ml={r("2 ---> 3")} mr={r("2 ---> 3")}>
-        <Content
-          h="100%"
-          justifyContent="space-between"
-          alignItems="flex-start"
-          w={"100%"}
+          justifyContent="center"
+          mr={3}
+          h={"3rem"}
         >
-          test
-        </Content>
-      </NavContainer>
+          <CloseOutline />
+        </Icon>
+      </DrawerTitle>
+      <Text>Test</Text>
     </DrawerContainer>
   );
 };

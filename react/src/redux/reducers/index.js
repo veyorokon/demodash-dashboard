@@ -5,6 +5,7 @@ import {
   UDPATE_CURRENT_ACCOUNT_USER,
   UDPATE_PANEL,
   TOGGLE_NAV,
+  TOGGLE_CHECKOUT,
   UDPATE_ACCOUNT_USER_SET,
   UPDATE_PROFILE_FORM,
   ADD_VARIATION_PRODUCT_FORM,
@@ -182,6 +183,8 @@ export default function rootReducer(state = initialState, action) {
   switch (action.type) {
     case TOGGLE_NAV:
       return updateState(state, ["navOpen"], !state.navOpen);
+    case TOGGLE_CHECKOUT:
+      return updateState(state, ["checkoutOpen"], !state.checkoutOpen);
     case UPDATE_REGISTRATION_FORM:
       newState = updateState(
         state,

@@ -9,6 +9,7 @@ import {Query} from "@apollo/react-components";
 import {connect} from "react-redux";
 import {API_MEDIA} from "api";
 import {OPEN_DEMO_CAMPAIGNS} from "views/Dashboard/gql";
+import {toggleCheckout} from "redux/actions";
 
 const NavigationBullet = styled(Flex)`
   cursor: pointer;
@@ -223,7 +224,7 @@ const TitleSection = props => {
 };
 
 function Results(props) {
-  const {currentAccountUser} = props;
+  const {currentAccountUser, toggleCheckout} = props;
   return (
     <>
       {currentAccountUser && (
@@ -437,7 +438,10 @@ function Results(props) {
                             w={r("100% 25rem ---> 18rem")}
                             maxWidth="100%"
                             fs={"1.6rem"}
-                            onClick={() => console.log("here")}
+                            onClick={() => {
+                              window.scrollTo(0, 0);
+                              toggleCheckout();
+                            }}
                           >
                             Order a demo box
                           </CallToActionButton>
@@ -462,7 +466,13 @@ const mapStateToProps = state => {
   };
 };
 
+function mapDispatchToProps(dispatch) {
+  return {
+    toggleCheckout: () => dispatch(toggleCheckout())
+  };
+}
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(Results);

@@ -14,7 +14,8 @@ import {
   ADD_IMAGE_PRODUCT_FORM,
   DELETE_IMAGE_PRODUCT_FORM,
   UPDATE_DEMO_BOX_FORM,
-  UPDATE_DEMO_CAMPAIGN_FORM
+  UPDATE_DEMO_CAMPAIGN_FORM,
+  UPDATE_BILLING_FORM
 } from "redux/constants";
 import {updateState, validateEmail, validatePassword} from "lib";
 
@@ -111,10 +112,12 @@ const initialState = {
     errorMessage: ""
   },
   billingForm: {
+    name: "",
     cardNumber: "",
     expirationMonth: "",
     expirationYear: "",
-    cvc: ""
+    cvc: "",
+    disabled: true
   },
   panel: "payoutBilling",
   previousPanel: "home",
@@ -212,6 +215,8 @@ export default function rootReducer(state = initialState, action) {
       return updateState(state, ["accountForm"], payload);
     case UPDATE_LOGIN_FORM:
       return updateState(state, ["loginForm"], payload);
+    case UPDATE_BILLING_FORM:
+      return updateState(state, ["billingForm"], payload);
     case UDPATE_ACCOUNT_USER_SET:
       newState = updateState(
         state,

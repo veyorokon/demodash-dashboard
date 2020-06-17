@@ -373,3 +373,33 @@ export const OPEN_DEMO_CAMPAIGNS = gql`
     }
   }
 `;
+
+/*
+  Payout and Billing
+*/
+
+export const CREATE_BILLING_CARD = gql`
+  mutation createCard(
+    $token: String!
+    $accountUserId: Int!
+    $cardNumber: String!
+    $cvc: String!
+    $expirationMonth: String!
+    $expirationYear: String!
+    $name: String!
+  ) {
+    createCard(
+      token: $token
+      accountUserId: $accountUserId
+      cardNumber: $cardNumber
+      cvc: $cvc
+      expirationMonth: $expirationMonth
+      expirationYear: $expirationYear
+      name: $name
+    ) {
+      account {
+        id
+      }
+    }
+  }
+`;

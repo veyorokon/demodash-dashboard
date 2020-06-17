@@ -403,3 +403,45 @@ export const CREATE_BILLING_CARD = gql`
     }
   }
 `;
+
+export const ACCOUNT_CARD_SET = gql`
+  query accountCardSet($token: String!, $accountUserId: Int!) {
+    accountCardSet(token: $token, accountUserId: $accountUserId) {
+      id
+      name
+      lastFour
+      expMonth
+      expYear
+      brand
+      isDefault
+    }
+  }
+`;
+
+export const DELETE_CARD = gql`
+  mutation deleteCard($token: String!, $cardId: Int!, $accountUserId: Int!) {
+    deleteCard(accountUserId: $accountUserId, token: $token, cardId: $cardId) {
+      account {
+        id
+      }
+    }
+  }
+`;
+
+export const SET_DEFAULT_CARD = gql`
+  mutation setDefaultCard(
+    $token: String!
+    $cardId: Int!
+    $accountUserId: Int!
+  ) {
+    setDefaultCard(
+      accountUserId: $accountUserId
+      token: $token
+      cardId: $cardId
+    ) {
+      account {
+        id
+      }
+    }
+  }
+`;

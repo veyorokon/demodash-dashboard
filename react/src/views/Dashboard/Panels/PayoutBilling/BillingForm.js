@@ -15,7 +15,11 @@ import {
 } from "lib";
 import {updateBillingForm} from "redux/actions";
 import {connect} from "react-redux";
-import {USER__ACCOUNT_USER_SET, CREATE_BILLING_CARD} from "views/Dashboard/gql";
+import {
+  USER__ACCOUNT_USER_SET,
+  CREATE_BILLING_CARD,
+  ACCOUNT_CARD_SET
+} from "views/Dashboard/gql";
 
 function format(s) {
   return s.toString().replace(/\d{4}(?=.)/g, "$& ");
@@ -62,7 +66,7 @@ class _FormCard extends React.Component {
 
   render() {
     const {props} = this;
-    const {billingForm, updateBillingForm} = props;
+    const {billingForm, updateBillingForm, currentAccountUser} = props;
     const {disabled} = billingForm;
     return (
       <Box
@@ -241,6 +245,13 @@ class _FormCard extends React.Component {
               {
                 query: USER__ACCOUNT_USER_SET,
                 variables: {token: getToken().token}
+              },
+              {
+                query: ACCOUNT_CARD_SET,
+                variables: {
+                  token: getToken().token,
+                  accountUserId: parseInt(currentAccountUser)
+                }
               }
             ]}
           >

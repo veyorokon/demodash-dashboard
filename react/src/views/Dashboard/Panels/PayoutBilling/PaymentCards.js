@@ -41,6 +41,16 @@ const CardWrapper = styled(Flex)`
   }
 `;
 
+function formatYear(s) {
+  return s.slice(-2);
+}
+
+function formatMonth(num, size = 2) {
+  var s = num + "";
+  while (s.length < size) s = "0" + s;
+  return s;
+}
+
 class CardComponent extends React.Component {
   state = {
     focus: "",
@@ -229,22 +239,26 @@ function _PaymentCards(props) {
                   justifyContent="center"
                 >
                   {accountCardSet && accountCardSet.length ? (
-                    accountCardSet.map((card, index) => (
-                      <CardComponent
-                        key={index}
-                        cardId={card.id}
-                        mr={2}
-                        ml={2}
-                        cvc={""}
-                        expiry={`${card.expMonth}${card.expYear}`}
-                        name={`${card.name}`}
-                        number={`------------${card.lastFour}`}
-                        issuer={`${card.brand}`}
-                        currentAccountUser={currentAccountUser}
-                        isDefault={card.isDefault}
-                        preview
-                      />
-                    ))
+                    accountCardSet.map((card, index) => {
+                      const formattedYear = formatYear(card.expYear, 2);
+                      const formattedMonth = formatMonth(card.expMonth);
+                      return (
+                        <CardComponent
+                          key={index}
+                          cardId={card.id}
+                          mr={2}
+                          ml={2}
+                          cvc={""}
+                          expiry={`${formattedMonth}${formattedYear}`}
+                          name={`${card.name}`}
+                          number={`------------${card.lastFour}`}
+                          issuer={`${card.brand}`}
+                          currentAccountUser={currentAccountUser}
+                          isDefault={card.isDefault}
+                          preview
+                        />
+                      );
+                    })
                   ) : (
                     <Text color={"black"}>
                       You don't have any payment cards.

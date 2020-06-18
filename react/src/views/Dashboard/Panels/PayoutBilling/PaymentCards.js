@@ -60,13 +60,14 @@ class CardComponent extends React.Component {
   async deleteCardMutation(deleteCard) {
     const {cardId, currentAccountUser} = this.props;
     this.setState({disabled: true});
-    return deleteCard({
+    await deleteCard({
       variables: {
         token: getToken().token,
         accountUserId: parseInt(currentAccountUser),
         cardId: parseInt(cardId)
       }
     });
+    return this.setState({disabled: false});
   }
   async makeDefaultCardMutation(defaultCard) {
     const {cardId, currentAccountUser} = this.props;
@@ -83,6 +84,7 @@ class CardComponent extends React.Component {
 
   render() {
     const {currentAccountUser} = this.props;
+    const {disabled} = this.state;
     return (
       <CardWrapper mt={1} {...this.props}>
         {this.props.isDefault && (
@@ -109,9 +111,11 @@ class CardComponent extends React.Component {
             >
               {defaultCard => (
                 <FormButton
+                  disabled={disabled}
                   mt={2}
-                  bg="navys.2"
-                  hoverBackground="#0B1750"
+                  bg={disabled ? "#7e88a2" : "navys.2"}
+                  hoverBackground={disabled ? "#7e88a2" : "#0B1750"}
+                  cursor={disabled ? "no-drop" : "pointer"}
                   w="45%"
                   title="Make default"
                   onClick={() => {
@@ -122,13 +126,7 @@ class CardComponent extends React.Component {
                   }}
                 >
                   <Flex alignItems="center">
-                    <Icon
-                      color="whites.0"
-                      cursor="pointer"
-                      h="2.2rem"
-                      ml={2}
-                      mr={1}
-                    >
+                    <Icon color="whites.0" h="2.2rem" ml={2} mr={1}>
                       <CreditCard />
                     </Icon>
                     <Text color="whites.0" mr={3} ml={2}>
@@ -154,7 +152,11 @@ class CardComponent extends React.Component {
           >
             {deleteCard => (
               <FormButton
-                disabled={this.state.disabled}
+                disabled={disabled}
+                bg={disabled ? "#f7d899" : "yellows.1"}
+                hoverBackground={disabled ? "#f7d899" : "#FFC651"}
+                color={disabled ? "navys.1" : "navys.0"}
+                cursor={disabled ? "no-drop" : "pointer"}
                 mt={2}
                 w="45%"
                 title="Delete this card"
@@ -166,7 +168,7 @@ class CardComponent extends React.Component {
                 }}
               >
                 <Flex alignItems="center">
-                  <Icon cursor="pointer" h="2.2rem" ml={2} mr={1}>
+                  <Icon h="2.2rem" ml={2} mr={1}>
                     <Delete />
                   </Icon>
                   <Text mr={2} ml={2}>
@@ -195,7 +197,7 @@ function _PaymentCards(props) {
         w={r("80rem ---------> 100rem")}
         maxWidth="100%"
         pb={2}
-        mb={2}
+        mb={4}
       >
         {currentAccountUser && (
           <Query

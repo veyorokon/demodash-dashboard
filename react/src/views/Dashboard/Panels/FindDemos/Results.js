@@ -8,11 +8,12 @@ import styled, {css} from "styled-components";
 import {Query} from "@apollo/react-components";
 import {connect} from "react-redux";
 import {API_MEDIA} from "api";
-import {OPEN_DEMO_CAMPAIGNS} from "views/Dashboard/gql";
+import {OPEN_DEMO_CAMPAIGNS, QUERY_ACCOUNT_BILLABLE} from "views/Dashboard/gql";
 import {
   toggleCheckout,
   updateDemoBoxCheckoutForm,
-  updateScrollY
+  updateScrollY,
+  updatePanel
 } from "redux/actions";
 
 const NavigationBullet = styled(Flex)`
@@ -233,7 +234,8 @@ function Results(props) {
     toggleCheckout,
     updateDemoBoxCheckoutForm,
     demoBoxCheckoutForm,
-    updateScrollY
+    updateScrollY,
+    updatePanel
   } = props;
   return (
     <>
@@ -439,35 +441,70 @@ function Results(props) {
                               </Flex>
                             </Flex>
                           </Flex>
-                          <CallToActionButton
-                            hoverBackground={"#F87060"}
-                            bg={"oranges.1"}
-                            color={"whites.0"}
-                            hoverColor={"whites.0"}
-                            br={2}
-                            w={r("100% 25rem ---> 18rem")}
-                            maxWidth="100%"
-                            fs={"1.6rem"}
-                            onClick={() => {
-                              const container = document.querySelector(
-                                "#rightContainer"
-                              );
-                              let mobileTop = Math.abs(
-                                container.getBoundingClientRect().top
-                              );
-                              let desktopTop = container.scrollTop;
 
-                              updateScrollY(Math.max(mobileTop, desktopTop));
-                              window.scrollTo(0, 0);
-                              updateDemoBoxCheckoutForm({
-                                ...demoBoxCheckoutForm,
-                                demoBoxId: demoBox.id
-                              });
-                              toggleCheckout();
+                          <Query
+                            query={QUERY_ACCOUNT_BILLABLE}
+                            variables={{
+                              token: getToken().token,
+                              id: parseInt(currentAccountUser)
                             }}
                           >
-                            Order a demo box
-                          </CallToActionButton>
+                            {({loading, error, data}) => {
+                              if (loading)
+                                return (
+                                  <Box h="3.5rem" mb={4}>
+                                    <Text>Loading...</Text>
+                                  </Box>
+                                );
+                              if (error)
+                                return (
+                                  <Box h="3.5rem" mb={4}>
+                                    <Text>Error! {error.message}</Text>
+                                  </Box>
+                                );
+                              const {hasValidCard} = data.accountUser.account;
+                              return (
+                                <CallToActionButton
+                                  cursor={"pointer"}
+                                  hoverBackground={"#F87060"}
+                                  bg={"oranges.1"}
+                                  color={"whites.0"}
+                                  hoverColor={"whites.0"}
+                                  br={2}
+                                  w={r("100% 25rem ---> 18rem")}
+                                  maxWidth="100%"
+                                  fs={"1.6rem"}
+                                  onClick={() => {
+                                    if (hasValidCard) {
+                                      const container = document.querySelector(
+                                        "#rightContainer"
+                                      );
+                                      let mobileTop = Math.abs(
+                                        container.getBoundingClientRect().top
+                                      );
+                                      let desktopTop = container.scrollTop;
+
+                                      updateScrollY(
+                                        Math.max(mobileTop, desktopTop)
+                                      );
+                                      window.scrollTo(0, 0);
+                                      updateDemoBoxCheckoutForm({
+                                        ...demoBoxCheckoutForm,
+                                        demoBoxId: demoBox.id
+                                      });
+                                      return toggleCheckout();
+                                    } else {
+                                      return updatePanel("payoutBilling");
+                                    }
+                                  }}
+                                >
+                                  {hasValidCard
+                                    ? "Order a demo box"
+                                    : "Update billing info"}
+                                </CallToActionButton>
+                              );
+                            }}
+                          </Query>
                         </FormSection>
                       </Box>
                     );
@@ -495,7 +532,8 @@ function mapDispatchToProps(dispatch) {
     toggleCheckout: () => dispatch(toggleCheckout()),
     updateScrollY: payload => dispatch(updateScrollY(payload)),
     updateDemoBoxCheckoutForm: payload =>
-      dispatch(updateDemoBoxCheckoutForm(payload))
+      dispatch(updateDemoBoxCheckoutForm(payload)),
+    updatePanel: payload => dispatch(updatePanel(payload))
   };
 }
 

@@ -18,7 +18,8 @@ import {connect} from "react-redux";
 import {
   USER__ACCOUNT_USER_SET,
   CREATE_BILLING_CARD,
-  ACCOUNT_CARD_SET
+  ACCOUNT_CARD_SET,
+  QUERY_ACCOUNT_BILLABLE
 } from "views/Dashboard/gql";
 
 function format(s) {
@@ -251,6 +252,13 @@ class _FormCard extends React.Component {
                 variables: {
                   token: getToken().token,
                   accountUserId: parseInt(currentAccountUser)
+                }
+              },
+              {
+                query: QUERY_ACCOUNT_BILLABLE,
+                variables: {
+                  token: getToken().token,
+                  id: parseInt(currentAccountUser)
                 }
               }
             ]}

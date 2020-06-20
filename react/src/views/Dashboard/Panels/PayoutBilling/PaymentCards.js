@@ -8,7 +8,8 @@ import {connect} from "react-redux";
 import {
   ACCOUNT_CARD_SET,
   DELETE_CARD,
-  SET_DEFAULT_CARD
+  SET_DEFAULT_CARD,
+  QUERY_ACCOUNT_BILLABLE
 } from "views/Dashboard/gql";
 import {getToken, responsive as r} from "lib";
 import styled from "styled-components";
@@ -156,6 +157,13 @@ class CardComponent extends React.Component {
                 variables: {
                   token: getToken().token,
                   accountUserId: parseInt(currentAccountUser)
+                }
+              },
+              {
+                query: QUERY_ACCOUNT_BILLABLE,
+                variables: {
+                  token: getToken().token,
+                  id: parseInt(currentAccountUser)
                 }
               }
             ]}

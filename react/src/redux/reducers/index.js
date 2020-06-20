@@ -15,7 +15,9 @@ import {
   DELETE_IMAGE_PRODUCT_FORM,
   UPDATE_DEMO_BOX_FORM,
   UPDATE_DEMO_CAMPAIGN_FORM,
-  UPDATE_BILLING_FORM
+  UPDATE_BILLING_FORM,
+  UPDATE_DEMO_BOX_CHECKOUT_FORM,
+  UPDATE_SCROLLY
 } from "redux/constants";
 import {updateState, validateEmail, validatePassword} from "lib";
 
@@ -119,10 +121,14 @@ const initialState = {
     cvc: "",
     disabled: true
   },
-  panel: "payoutBilling",
+  demoBoxCheckoutForm: {
+    demoBoxId: null
+  },
+  panel: "findDemos",
   previousPanel: "home",
   navOpen: false,
-  checkoutOpen: false
+  checkoutOpen: false,
+  lastScrollY: 0
 };
 
 function checkEmail(newState) {
@@ -190,6 +196,8 @@ export default function rootReducer(state = initialState, action) {
   let newState, accountUser, isMutualPanel, data;
 
   switch (action.type) {
+    case UPDATE_SCROLLY:
+      return updateState(state, ["lastScrollY"], payload);
     case TOGGLE_NAV:
       return updateState(state, ["navOpen"], !state.navOpen);
     case TOGGLE_CHECKOUT:
@@ -240,7 +248,7 @@ export default function rootReducer(state = initialState, action) {
       newState = populateProfileForm(newState, accountUser);
       isMutualPanel = checkPanel(state.panel);
       //newState.panel = "home";
-      newState.panel = "payoutBilling";
+      newState.panel = "findDemos";
 
       //Restores previous panel if it is a mutual panel
       if (isMutualPanel) newState.panel = state.panel;
@@ -259,7 +267,7 @@ export default function rootReducer(state = initialState, action) {
       //Restores previous panel if it is a mutual panel
       isMutualPanel = checkPanel(state.panel);
       //newState.panel = "home";
-      newState.panel = "payoutBilling";
+      newState.panel = "findDemos";
 
       if (isMutualPanel) newState.panel = state.panel;
       //Sets default values for profile form
@@ -341,6 +349,9 @@ export default function rootReducer(state = initialState, action) {
       return Object.assign({}, state, newState);
     case UPDATE_DEMO_CAMPAIGN_FORM:
       newState = updateState(state, ["demoCampaignForm"], payload, false);
+      return Object.assign({}, state, newState);
+    case UPDATE_DEMO_BOX_CHECKOUT_FORM:
+      newState = updateState(state, ["demoBoxCheckoutForm"], payload, false);
       return Object.assign({}, state, newState);
     default:
       return state;

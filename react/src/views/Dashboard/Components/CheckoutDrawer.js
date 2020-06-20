@@ -20,10 +20,12 @@ function mapDispatchToProps(dispatch) {
 const mapStateToProps = state => {
   const {checkoutOpen} = state;
   const {currentAccountUser, accountUserSet} = state.dashboard;
+  const {lastScrollY} = state;
   return {
     checkoutOpen,
     currentAccountUser,
-    accountUserSet
+    accountUserSet,
+    lastScrollY
   };
 };
 
@@ -40,12 +42,13 @@ const DrawerContainer = styled(Grid)`
   right: 0;
   grid-template-rows: 8rem 1fr;
   transform-origin: bottom;
+  backface-visibility: hidden;
 
   ${props =>
     props.open
       ? css`
           height: 100%;
-          z-index: 50;
+          z-index: 1;
           ${system({
             transform: true
           })}
@@ -56,14 +59,15 @@ const DrawerContainer = styled(Grid)`
           z-index: -1;
           transform: translate3d(0, 100vh, 0);
           height: 0;
-          transition: transform 0.3s cubic-bezier(0.3, 0, 0, 1),
-            0.3s z-index cubic-bezier(0.3, 0, 0, 1), height 0.6s;
+          transition: transform 0.5s cubic-bezier(0.2, 0, 0, 1),
+            0.2s z-index cubic-bezier(0.1, 0, 0, 1), height 0.2s;
         `};
 `;
 
 const _CheckoutDrawer = props => {
   const {
     checkoutOpen,
+    lastScrollY,
     toggleCheckout //currentAccountUser
   } = props;
   return (
@@ -78,7 +82,14 @@ const _CheckoutDrawer = props => {
       <DrawerTitle w={"100%"} pl={r("2 ----> 4")} pr={r("2 ----> 4")}>
         <Icon
           cursor="pointer"
-          onClick={toggleCheckout}
+          onClick={() => {
+            toggleCheckout();
+            window.setTimeout(() => {
+              const container = document.querySelector("#rightContainer");
+              container.scrollTop = lastScrollY;
+              window.scroll({top: lastScrollY, left: 0});
+            }, 50);
+          }}
           justifyContent="center"
           mr={3}
           h={"3rem"}

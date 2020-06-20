@@ -9,7 +9,11 @@ import {Query} from "@apollo/react-components";
 import {connect} from "react-redux";
 import {API_MEDIA} from "api";
 import {OPEN_DEMO_CAMPAIGNS} from "views/Dashboard/gql";
-import {toggleCheckout} from "redux/actions";
+import {
+  toggleCheckout,
+  updateDemoBoxCheckoutForm,
+  updateScrollY
+} from "redux/actions";
 
 const NavigationBullet = styled(Flex)`
   cursor: pointer;
@@ -224,7 +228,13 @@ const TitleSection = props => {
 };
 
 function Results(props) {
-  const {currentAccountUser, toggleCheckout} = props;
+  const {
+    currentAccountUser,
+    toggleCheckout,
+    updateDemoBoxCheckoutForm,
+    demoBoxCheckoutForm,
+    updateScrollY
+  } = props;
   return (
     <>
       {currentAccountUser && (
@@ -439,7 +449,20 @@ function Results(props) {
                             maxWidth="100%"
                             fs={"1.6rem"}
                             onClick={() => {
+                              const container = document.querySelector(
+                                "#rightContainer"
+                              );
+                              let mobileTop = Math.abs(
+                                container.getBoundingClientRect().top
+                              );
+                              let desktopTop = container.scrollTop;
+
+                              updateScrollY(Math.max(mobileTop, desktopTop));
                               window.scrollTo(0, 0);
+                              updateDemoBoxCheckoutForm({
+                                ...demoBoxCheckoutForm,
+                                demoBoxId: demoBox.id
+                              });
                               toggleCheckout();
                             }}
                           >
@@ -462,13 +485,17 @@ function Results(props) {
 }
 const mapStateToProps = state => {
   return {
-    currentAccountUser: state.dashboard.currentAccountUser
+    currentAccountUser: state.dashboard.currentAccountUser,
+    demoBoxCheckoutForm: state.demoBoxCheckoutForm
   };
 };
 
 function mapDispatchToProps(dispatch) {
   return {
-    toggleCheckout: () => dispatch(toggleCheckout())
+    toggleCheckout: () => dispatch(toggleCheckout()),
+    updateScrollY: payload => dispatch(updateScrollY(payload)),
+    updateDemoBoxCheckoutForm: payload =>
+      dispatch(updateDemoBoxCheckoutForm(payload))
   };
 }
 

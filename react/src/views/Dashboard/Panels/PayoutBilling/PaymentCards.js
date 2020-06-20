@@ -240,7 +240,7 @@ function _PaymentCards(props) {
                 >
                   {accountCardSet && accountCardSet.length ? (
                     accountCardSet.map((card, index) => {
-                      const formattedYear = formatYear(card.expYear, 2);
+                      const formattedYear = formatYear(card.expYear);
                       const formattedMonth = formatMonth(card.expMonth);
                       return (
                         <CardComponent

@@ -165,6 +165,7 @@ export function RightColumn(props) {
   const {selected, navOpen, checkoutOpen} = props;
   return (
     <Right
+      id={"rightContainer"}
       bg={"whites.0"}
       h="fit-content"
       justifyContent="flex-start"

@@ -16,7 +16,7 @@ import {
   UPDATE_DEMO_BOX_FORM,
   UPDATE_DEMO_CAMPAIGN_FORM,
   UPDATE_BILLING_FORM,
-  UPDATE_DEMO_BOX_CHECKOUT_FORM,
+  UPDATE_DEMO_CHECKOUT_FORM,
   UPDATE_SCROLLY
 } from "redux/constants";
 import {updateState, validateEmail, validatePassword} from "lib";
@@ -59,8 +59,8 @@ const initialState = {
     passwordConfirmation: "",
     errorMessage: "",
     errorField: "",
-    isValidEmail: true,
-    isValidPassword: true
+    isValidEmail: false,
+    isValidPassword: false
   },
   accountForm: {
     type: type
@@ -121,8 +121,8 @@ const initialState = {
     cvc: "",
     disabled: true
   },
-  demoBoxCheckoutForm: {
-    demoBoxId: null
+  demoCheckoutForm: {
+    demoCampaignId: null
   },
   panel: "findDemos",
   previousPanel: "home",
@@ -277,6 +277,7 @@ export default function rootReducer(state = initialState, action) {
       newState = updateState(state, ["panel"], payload, false);
       newState.previousPanel = state.panel;
       newState.navOpen = false;
+      newState.checkoutOpen = false;
       return Object.assign({}, state, newState);
     case UPDATE_PROFILE_FORM:
       newState = updateState(state, ["profileForm"], payload, false);
@@ -350,8 +351,8 @@ export default function rootReducer(state = initialState, action) {
     case UPDATE_DEMO_CAMPAIGN_FORM:
       newState = updateState(state, ["demoCampaignForm"], payload, false);
       return Object.assign({}, state, newState);
-    case UPDATE_DEMO_BOX_CHECKOUT_FORM:
-      newState = updateState(state, ["demoBoxCheckoutForm"], payload, false);
+    case UPDATE_DEMO_CHECKOUT_FORM:
+      newState = updateState(state, ["demoCheckoutForm"], payload, false);
       return Object.assign({}, state, newState);
     default:
       return state;

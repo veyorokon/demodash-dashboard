@@ -457,3 +457,58 @@ export const QUERY_ACCOUNT_BILLABLE = gql`
     }
   }
 `;
+
+/*
+  Demo Checkout Drawer
+*/
+export const OPEN_DEMO_CAMPAIGN = gql`
+  query openDemoCampaign($token: String!, $demoCampaignId: Int!) {
+    openDemoCampaign(token: $token, demoCampaignId: $demoCampaignId) {
+      id
+      account {
+        id
+        profile {
+          id
+          name
+        }
+      }
+      demoCommissions {
+        id
+        amount
+        demoBoxItem {
+          id
+          product {
+            id
+            name
+            description
+            price
+            images {
+              id
+              image
+            }
+          }
+        }
+      }
+      demoBox {
+        id
+        name
+        price
+        refillPrice
+        shippingPrice
+        images {
+          id
+          image
+        }
+      }
+    }
+  }
+`;
+
+export const ACCOUNT_CATEGORIES = gql`
+  query industries {
+    industries {
+      text
+      value
+    }
+  }
+`;

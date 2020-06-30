@@ -11,7 +11,7 @@ export default function Search(props) {
           Get demo boxes
         </Text>
       </Flex>
-      <Flex alignItems="center" mb={5}>
+      <Flex alignItems="center" mb={4}>
         <SearchInput
           placeholder="search"
           width={"100%"}

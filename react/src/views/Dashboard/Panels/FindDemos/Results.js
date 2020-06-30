@@ -11,7 +11,7 @@ import {API_MEDIA} from "api";
 import {OPEN_DEMO_CAMPAIGNS, QUERY_ACCOUNT_BILLABLE} from "views/Dashboard/gql";
 import {
   toggleCheckout,
-  updateDemoBoxCheckoutForm,
+  updateDemoCheckoutForm,
   updateScrollY,
   updatePanel
 } from "redux/actions";
@@ -232,8 +232,8 @@ function Results(props) {
   const {
     currentAccountUser,
     toggleCheckout,
-    updateDemoBoxCheckoutForm,
-    demoBoxCheckoutForm,
+    updateDemoCheckoutForm,
+    demoCheckoutForm,
     updateScrollY,
     updatePanel
   } = props;
@@ -305,7 +305,6 @@ function Results(props) {
                                     price={product.price}
                                     shippingPrice={product.shippingPrice}
                                     commissionAmount={demoCommission.amount}
-                                    currentAccountUser={currentAccountUser}
                                   />
                                 );
                               })}
@@ -488,12 +487,13 @@ function Results(props) {
                                         Math.max(mobileTop, desktopTop)
                                       );
                                       window.scrollTo(0, 0);
-                                      updateDemoBoxCheckoutForm({
-                                        ...demoBoxCheckoutForm,
-                                        demoBoxId: demoBox.id
+                                      updateDemoCheckoutForm({
+                                        ...demoCheckoutForm,
+                                        demoCampaignId: demoCampaign.id
                                       });
                                       return toggleCheckout();
                                     } else {
+                                      window.scrollTo(0, 0);
                                       return updatePanel("payoutBilling");
                                     }
                                   }}
@@ -523,7 +523,7 @@ function Results(props) {
 const mapStateToProps = state => {
   return {
     currentAccountUser: state.dashboard.currentAccountUser,
-    demoBoxCheckoutForm: state.demoBoxCheckoutForm
+    demoCheckoutForm: state.demoCheckoutForm
   };
 };
 
@@ -531,8 +531,8 @@ function mapDispatchToProps(dispatch) {
   return {
     toggleCheckout: () => dispatch(toggleCheckout()),
     updateScrollY: payload => dispatch(updateScrollY(payload)),
-    updateDemoBoxCheckoutForm: payload =>
-      dispatch(updateDemoBoxCheckoutForm(payload)),
+    updateDemoCheckoutForm: payload =>
+      dispatch(updateDemoCheckoutForm(payload)),
     updatePanel: payload => dispatch(updatePanel(payload))
   };
 }

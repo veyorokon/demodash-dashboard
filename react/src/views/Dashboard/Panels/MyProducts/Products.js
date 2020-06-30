@@ -9,6 +9,7 @@ import {Mutation, Query} from "@apollo/react-components";
 import {connect} from "react-redux";
 import {API_MEDIA} from "api";
 import {ACCOUNT_USER__PRODUCTS, DELETE_PRODUCT} from "views/Dashboard/gql";
+import {updatePanel} from "redux/actions";
 
 import {Delete} from "@styled-icons/material/Delete";
 
@@ -58,6 +59,34 @@ function checkIfStartsVowel(word) {
   if (vowels.includes(word[0])) return true;
   return false;
 }
+
+const _CardButton = props => (
+  <CallToActionButton
+    hoverBackground="#FFC651"
+    cursor="pointer"
+    br={2}
+    mt={2}
+    bg={"yellows.1"}
+    w="100%"
+    onClick={() => props.updatePanel("myDemoBoxes")}
+    {...props}
+  >
+    <Text ml="auto" mr="auto">
+      {props.children}
+    </Text>
+  </CallToActionButton>
+);
+
+function mapDispatchToProps(dispatch) {
+  return {
+    updatePanel: payload => dispatch(updatePanel(payload))
+  };
+}
+
+const CardButton = connect(
+  null,
+  mapDispatchToProps
+)(_CardButton);
 
 class ImageCard extends React.Component {
   constructor(props) {
@@ -136,28 +165,35 @@ class ImageCard extends React.Component {
             <BackgroundImage
               key={indx}
               mt="auto"
-              mb={1}
+              mb={props.images.length > 1 ? 0 : 2}
               br={1}
               w={"100%"}
               image={API_MEDIA + image.image}
             />
           ))}
         </SwipeableViews>
-        <PanelNavigation mt={2} mb={2}>
-          {props.images.map((image, indx) => (
-            <NavigationBullet
-              alignItems="center"
-              justifyContent="center"
-              w={r("1rem")}
-              h={r("1rem")}
-              onClick={() => this.handleChangeIndex(indx)}
-              color={"blacks.0"}
-              key={indx}
-              active={index === indx}
-            />
-          ))}
-        </PanelNavigation>
-        <Flex flexGrow={0} alignItems="center" justifyContent="flex-end">
+        {props.images.length > 1 && (
+          <PanelNavigation mt={2} mb={2}>
+            {props.images.map((image, indx) => (
+              <NavigationBullet
+                alignItems="center"
+                justifyContent="center"
+                w={r("1rem")}
+                h={r("1rem")}
+                onClick={() => this.handleChangeIndex(indx)}
+                color={"blacks.0"}
+                key={indx}
+                active={index === indx}
+              />
+            ))}
+          </PanelNavigation>
+        )}
+        <Flex
+          mt={props.images.length > 1 ? 0 : 3}
+          flexGrow={0}
+          alignItems="center"
+          justifyContent="flex-end"
+        >
           <Mutation
             mutation={DELETE_PRODUCT}
             refetchQueries={[
@@ -294,18 +330,7 @@ class ImageCard extends React.Component {
             </Text>
           </Flex>
         </Flex>
-        <CallToActionButton
-          hoverBackground="#FFC651"
-          cursor="pointer"
-          br={2}
-          mt={2}
-          bg={"yellows.1"}
-          w="100%"
-        >
-          <Text ml="auto" mr="auto">
-            Create a demo box
-          </Text>
-        </CallToActionButton>
+        <CardButton>Create a demo box</CardButton>
       </Card>
     );
   }

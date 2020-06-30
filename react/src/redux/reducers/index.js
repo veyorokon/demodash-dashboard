@@ -124,7 +124,7 @@ const initialState = {
   demoCheckoutForm: {
     demoCampaignId: null
   },
-  panel: "findDemos",
+  panel: "createAccount",
   previousPanel: "home",
   navOpen: false,
   checkoutOpen: false,
@@ -155,13 +155,19 @@ function filterAccountUser(state, id) {
 }
 
 function populateProfileForm(state, accountUser, props = {}) {
+  const {industry} = accountUser.account.profile;
+  const choice1 = industry && industry.choice1 ? industry.choice1 : -1;
+  const choice2 = industry && industry.choice2 ? industry.choice2 : -1;
+  const choice3 = industry && industry.choice3 ? industry.choice3 : -1;
   state.profileForm = {
     accountName: accountUser.account.profile.name,
     disabled: true,
     isSubmitting: false,
     submitComplete: true,
+    choice1: choice1,
+    choice2: choice2,
+    choice3: choice3,
     ...accountUser.account.profile.address,
-    ...accountUser.account.profile.industry,
     ...props
   };
   return state;
@@ -194,7 +200,6 @@ function updateImageVariationLinks(imageData, index) {
 export default function rootReducer(state = initialState, action) {
   const {payload} = action;
   let newState, accountUser, isMutualPanel, data;
-
   switch (action.type) {
     case UPDATE_SCROLLY:
       return updateState(state, ["lastScrollY"], payload);
@@ -248,7 +253,7 @@ export default function rootReducer(state = initialState, action) {
       newState = populateProfileForm(newState, accountUser);
       isMutualPanel = checkPanel(state.panel);
       //newState.panel = "home";
-      newState.panel = "findDemos";
+      newState.panel = "createAccount";
 
       //Restores previous panel if it is a mutual panel
       if (isMutualPanel) newState.panel = state.panel;
@@ -267,7 +272,7 @@ export default function rootReducer(state = initialState, action) {
       //Restores previous panel if it is a mutual panel
       isMutualPanel = checkPanel(state.panel);
       //newState.panel = "home";
-      newState.panel = "findDemos";
+      newState.panel = "createAccount";
 
       if (isMutualPanel) newState.panel = state.panel;
       //Sets default values for profile form

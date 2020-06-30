@@ -228,6 +228,7 @@ class RegistrationForm extends React.Component {
                           }
                         />
                         <AccountForm
+                          showTitle
                           header={
                             <Hidden height="fit-content" flexGrow="0" up={7}>
                               <LogoTitle />

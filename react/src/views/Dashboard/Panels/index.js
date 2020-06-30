@@ -9,8 +9,10 @@ import MyDemoBoxes from "./MyDemoBoxes";
 import MyDemoCampaigns from "./MyDemoCampaigns";
 import FindDemoers from "./FindDemoers";
 import Purchases from "./Purchases";
+import CreateAccount from "./CreateAccount";
 
 export {
+  CreateAccount,
   Home,
   FindDemos,
   MyDemos,

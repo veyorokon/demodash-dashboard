@@ -7,6 +7,7 @@ import {
   QueryAccountUsers
 } from "views/Dashboard/Components";
 import {
+  CreateAccount,
   Home,
   FindDemos,
   Settings,
@@ -72,6 +73,7 @@ const _Dashboard = props => {
           </Flex>
         </LeftColumn>
         <ConnectedRightColumn bg={"navys.4"}>
+          <CreateAccount key={"createAccount"} />
           <Home key={"home"} />
           <FindDemos key={"findDemos"} />
           <MyDemos key={"myDemos"} />

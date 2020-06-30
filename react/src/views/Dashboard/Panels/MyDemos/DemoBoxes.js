@@ -503,7 +503,7 @@ function _DemoCampaigns(props) {
                     );
                   })
                 ) : (
-                  <>test</>
+                  <Text color={"navys.0"}>No demo boxes found.</Text>
                 )}
               </>
             );

@@ -52,14 +52,20 @@ const CategoryDropDown = props => {
 class _AccountFormCard extends React.Component {
   async updateAccountMutation(updateAccount) {
     const {profileForm, currentAccountUser, updateProfileForm} = this.props;
+
     updateProfileForm({
       ...profileForm,
       isSubmitting: true
     });
-    profileForm.accountUserId = parseInt(currentAccountUser);
-    profileForm.token = getToken().token;
+    let flatForm = {...profileForm};
+
+    flatForm.accountUserId = parseInt(currentAccountUser);
+    flatForm.token = getToken().token;
+    if (flatForm.choice1 === -1) flatForm.choice1 = null;
+    if (flatForm.choice2 === -1) flatForm.choice2 = null;
+    if (flatForm.choice3 === -1) flatForm.choice3 = null;
     return updateAccount({
-      variables: profileForm
+      variables: flatForm
     });
   }
 
@@ -178,6 +184,7 @@ class _AccountFormCard extends React.Component {
                     submitComplete: false
                   })
                 }
+                defaultOption={"Choose an industry"}
                 value={profileForm.choice1}
               />
               <CategoryDropDown
@@ -188,6 +195,7 @@ class _AccountFormCard extends React.Component {
                     submitComplete: false
                   })
                 }
+                defaultOption={"Choose an industry"}
                 value={profileForm.choice2}
                 mt={2}
               />
@@ -199,6 +207,7 @@ class _AccountFormCard extends React.Component {
                     submitComplete: false
                   })
                 }
+                defaultOption={"Choose an industry"}
                 value={profileForm.choice3}
                 mt={2}
               />

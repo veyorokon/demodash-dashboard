@@ -15,6 +15,7 @@ const Panel = props => (
     flexDirection="column"
     alignItems="center"
     justifyContent="space-around"
+    bg={props.bg}
   >
     <Image mb={4} mt={4} maxWidth={"100%"} h={r("16rem ")} src={props.svg} />
     <Box>
@@ -45,15 +46,19 @@ function AccountForm(props) {
       flexDirection="column"
     >
       {props.header && props.header}
-      <Text color="navys.0" mt={r("4")} mb={4} fs={"2rem"}>
-        Choose your account type:
-      </Text>
+      {props.showTitle && (
+        <Text color="navys.0" mt={r("4")} mb={4} fs={"2rem"}>
+          Choose your account type:
+        </Text>
+      )}
       <Flex mt={3} h="100%">
         <VertTabs
+          bg={props.bg ? props.bg : "whites.0"}
           tabHeaders={["Brand", "Storefront", "Influencer"]}
           selected={props.account}
         >
           <Panel
+            bg={props.bg ? props.bg : "whites.0"}
             text={
               "You ship demo products to storefronts and influencers; and purchases to customers."
             }
@@ -61,6 +66,7 @@ function AccountForm(props) {
             callBack={() => updateAccountForm({type: "brand"})}
           ></Panel>
           <Panel
+            bg={props.bg ? props.bg : "whites.0"}
             text={
               "Demo products on customers at your storefront and earn commission for each sale."
             }
@@ -68,6 +74,7 @@ function AccountForm(props) {
             callBack={() => updateAccountForm({type: "storefront"})}
           ></Panel>
           <Panel
+            bg={props.bg ? props.bg : "whites.0"}
             text={
               "Demo products for followers on your social media and earn commission for each sale."
             }

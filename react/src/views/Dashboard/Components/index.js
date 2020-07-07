@@ -15,7 +15,7 @@ import IconCard from "./IconCard";
 import Card from "./Card";
 import AccountUserDropDown from "./AccountUserDropDown";
 import QueryAccountUsers from "./QueryAccountUsers";
-import CheckoutDrawer from "./CheckoutDrawer";
+import {CheckoutDrawer} from "./CheckoutDrawer";
 export {
   NavButton,
   NavItem,

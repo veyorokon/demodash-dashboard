@@ -29,28 +29,6 @@ const type =
     ? "influencer"
     : "brand";
 
-// const initialState = {
-//   registrationForm: {
-//     email: "",
-//     fullName: "",
-//     password: "",
-//     passwordConfirmation: "",
-//     errorMessage: "",
-//     errorField: "",
-//     isValidEmail: false,
-//     isValidPassword: false
-//   },
-//   accountForm: {
-//     type: type
-//   },
-//   loginForm: {
-//     email: "",
-//     password: "",
-//     errorMessage: ""
-//   },
-// dashboard:{}
-// };
-
 const initialState = {
   registrationForm: {
     email: "",
@@ -66,8 +44,8 @@ const initialState = {
     type: type
   },
   loginForm: {
-    email: "cherrys@barber.com",
-    password: "Ve12345",
+    email: "",
+    password: "",
     errorMessage: ""
   },
   dashboard: {
@@ -122,9 +100,10 @@ const initialState = {
     disabled: true
   },
   demoCheckoutForm: {
-    demoCampaignId: null
+    demoCampaignId: null,
+    paymentCardId: null
   },
-  panel: "createAccount",
+  panel: "findDemos",
   previousPanel: "home",
   navOpen: false,
   checkoutOpen: false,
@@ -253,8 +232,7 @@ export default function rootReducer(state = initialState, action) {
       newState = populateProfileForm(newState, accountUser);
       isMutualPanel = checkPanel(state.panel);
       //newState.panel = "home";
-      newState.panel = "createAccount";
-
+      newState.panel = "findDemos";
       //Restores previous panel if it is a mutual panel
       if (isMutualPanel) newState.panel = state.panel;
       return Object.assign({}, state, newState);
@@ -272,7 +250,7 @@ export default function rootReducer(state = initialState, action) {
       //Restores previous panel if it is a mutual panel
       isMutualPanel = checkPanel(state.panel);
       //newState.panel = "home";
-      newState.panel = "createAccount";
+      newState.panel = "findDemos";
 
       if (isMutualPanel) newState.panel = state.panel;
       //Sets default values for profile form
@@ -358,6 +336,7 @@ export default function rootReducer(state = initialState, action) {
       return Object.assign({}, state, newState);
     case UPDATE_DEMO_CHECKOUT_FORM:
       newState = updateState(state, ["demoCheckoutForm"], payload, false);
+      console.log(newState.demoCheckoutForm);
       return Object.assign({}, state, newState);
     default:
       return state;

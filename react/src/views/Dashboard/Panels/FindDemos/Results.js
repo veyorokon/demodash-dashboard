@@ -451,13 +451,13 @@ function Results(props) {
                             {({loading, error, data}) => {
                               if (loading)
                                 return (
-                                  <Box h="3.5rem" mb={4}>
+                                  <Box h="3.5rem">
                                     <Text>Loading...</Text>
                                   </Box>
                                 );
                               if (error)
                                 return (
-                                  <Box h="3.5rem" mb={4}>
+                                  <Box h="3.5rem">
                                     <Text>Error! {error.message}</Text>
                                   </Box>
                                 );
@@ -489,7 +489,9 @@ function Results(props) {
                                       window.scrollTo(0, 0);
                                       updateDemoCheckoutForm({
                                         ...demoCheckoutForm,
-                                        demoCampaignId: demoCampaign.id
+                                        demoCampaignId: parseInt(
+                                          demoCampaign.id
+                                        )
                                       });
                                       return toggleCheckout();
                                     } else {

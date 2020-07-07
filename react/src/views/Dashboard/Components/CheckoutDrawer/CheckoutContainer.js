@@ -4,12 +4,10 @@ import {Grid, Box, Flex, Text, Icon} from "components";
 import {CloseOutline} from "@styled-icons/evaicons-outline/CloseOutline";
 import styled, {css} from "styled-components";
 import {system} from "styled-system";
-import {withRouter} from "react-router";
 import {OPEN_DEMO_CAMPAIGN} from "views/Dashboard/gql";
 import {responsive as r, getToken} from "lib";
 import {connect} from "react-redux";
 import {toggleCheckout, updateDemoCheckoutForm} from "redux/actions";
-import Overview from "./Overview";
 
 const DrawerTitle = styled(Box)`
   align-items: center;
@@ -34,7 +32,7 @@ const DrawerContainer = styled(Grid)`
           ${system({
             transform: true
           })}
-          transition: transform 0.5s cubic-bezier(0.3, 0, 0, 1),
+          transition: transform 0.8s cubic-bezier(0.3, 0, 0, 1),
             0.3s z-index cubic-bezier(0.3, 0, 0, 1), height 0.2s;
         `
       : css`
@@ -94,13 +92,15 @@ const _CheckoutDrawer = props => {
             )[0].account;
             const {address} = currentAccount.profile;
             return (
-              <Overview
-                address={address}
-                openDemoCampaign={openDemoCampaign}
-                currentAccount={currentAccount}
-                disabled={disabled}
-                {...props}
-              />
+              <>
+                {React.cloneElement(props.children, {
+                  address: address,
+                  openDemoCampaign: openDemoCampaign,
+                  currentAccount: currentAccount,
+                  disabled: disabled,
+                  ...props
+                })}
+              </>
             );
           }}
         </Query>
@@ -162,9 +162,7 @@ const mapStateToProps = state => {
   };
 };
 
-const CheckoutDrawer = connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(_CheckoutDrawer);
-
-export default withRouter(CheckoutDrawer);

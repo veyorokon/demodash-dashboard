@@ -101,7 +101,8 @@ const initialState = {
   },
   demoCheckoutForm: {
     demoCampaignId: null,
-    paymentCardId: null
+    paymentCardId: null,
+    currentPanel: 0
   },
   panel: "findDemos",
   previousPanel: "home",
@@ -336,7 +337,6 @@ export default function rootReducer(state = initialState, action) {
       return Object.assign({}, state, newState);
     case UPDATE_DEMO_CHECKOUT_FORM:
       newState = updateState(state, ["demoCheckoutForm"], payload, false);
-      console.log(newState.demoCheckoutForm);
       return Object.assign({}, state, newState);
     default:
       return state;

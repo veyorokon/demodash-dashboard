@@ -28,7 +28,7 @@ const DrawerContainer = styled(Grid)`
       ? css`
           height: 100%;
           z-index: 1;
-          grid-template-rows: 8rem minmax(35rem, min-content) 8rem 1fr;
+          grid-template-rows: 8rem minmax(35rem, min-content) 8rem;
           ${system({
             transform: true
           })}

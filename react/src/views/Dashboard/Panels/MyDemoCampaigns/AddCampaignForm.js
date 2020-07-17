@@ -9,7 +9,7 @@ import {
 } from "views/Dashboard/Components";
 import {Mutation, Query} from "@apollo/react-components";
 import {connect} from "react-redux";
-import {updateDemoCampaignForm} from "redux/actions";
+import {updateDemoCampaignForm, updatePanel} from "redux/actions";
 import {AddCircle} from "@styled-icons/material/AddCircle";
 import {Delete} from "@styled-icons/material/Delete";
 
@@ -514,7 +514,8 @@ class _AddCampaignForm extends React.Component {
     const {
       currentAccountUser,
       demoCampaignForm,
-      updateDemoCampaignForm
+      updateDemoCampaignForm,
+      updatePanel
     } = props;
     const {demoBoxId} = demoCampaignForm;
     let hasDemoerLimit = demoCampaignForm.demoerLimit === null ? false : true;
@@ -744,6 +745,7 @@ class _AddCampaignForm extends React.Component {
                   useDefaultButton
                   mt={2}
                   value={demoCampaignForm.demoBoxId}
+                  defaultClick={() => updatePanel("myDemoBoxes")}
                   defaultOption={"Choose a demo box"}
                   defaultButtonText={"Create a demo box"}
                   defaultButtonProps={{h: "3.5rem"}}
@@ -845,7 +847,9 @@ const mapStateToProps = state => {
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateDemoCampaignForm: payload => dispatch(updateDemoCampaignForm(payload))
+    updateDemoCampaignForm: payload =>
+      dispatch(updateDemoCampaignForm(payload)),
+    updatePanel: payload => dispatch(updatePanel(payload))
   };
 }
 

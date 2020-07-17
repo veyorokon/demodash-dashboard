@@ -151,7 +151,7 @@ const _Overview = props => {
   return (
     <>
       <DrawerTitle
-        bg={"greys.4"}
+        bg={"blues.3"}
         w={"100%"}
         pl={r("2 ----> 4")}
         pr={r("2 ----> 4")}
@@ -165,6 +165,10 @@ const _Overview = props => {
               container.scrollTop = lastScrollY;
               window.scroll({top: lastScrollY, left: 0});
             }, 50);
+            updateDemoCheckoutForm({
+              ...demoCheckoutForm,
+              currentPanel: 0
+            });
           }}
           justifyContent="center"
           mr={3}
@@ -277,7 +281,7 @@ const _Overview = props => {
       </Box>
       <Flex
         p={2}
-        bg={"greys.4"}
+        bg={"blues.3"}
         w="100%"
         alignItems="center"
         justifyContent={["center", "center", "center", "flex-start"]}
@@ -294,7 +298,12 @@ const _Overview = props => {
           m="0 auto"
           maxWidth="100%"
           fs={"1.6rem"}
-          onClick={() => console.log("here")}
+          onClick={() =>
+            updateDemoCheckoutForm({
+              ...demoCheckoutForm,
+              currentPanel: demoCheckoutForm.currentPanel + 1
+            })
+          }
         >
           {demoCheckoutForm.isSubmitting ? "Saving..." : "Place your order"}
         </CallToActionButton>

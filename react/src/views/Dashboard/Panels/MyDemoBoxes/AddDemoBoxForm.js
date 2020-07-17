@@ -18,7 +18,7 @@ import {
   getEventVal,
   formatGQLErrorMessage
 } from "lib";
-import {updateDemoBoxForm} from "redux/actions";
+import {updateDemoBoxForm, updatePanel} from "redux/actions";
 import {
   USER__ACCOUNT_USER_SET,
   ACCOUNT_USER__PRODUCTS,
@@ -119,7 +119,12 @@ class _CreateDemoBoxForm extends React.Component {
 
   render() {
     const {props} = this;
-    const {currentAccountUser, demoBoxForm, updateDemoBoxForm} = props;
+    const {
+      currentAccountUser,
+      demoBoxForm,
+      updateDemoBoxForm,
+      updatePanel
+    } = props;
     const productData = demoBoxForm.productIds.data;
     let hasProducts = productData && productData.length ? true : false;
 
@@ -198,6 +203,7 @@ class _CreateDemoBoxForm extends React.Component {
                         defaultOption={"Add a product"}
                         defaultButtonText={"Create a product"}
                         mt={index && 2}
+                        defaultClick={() => updatePanel("myProducts")}
                         useDefaultButton
                         {...props}
                       />
@@ -428,7 +434,8 @@ const mapStateToProps = state => {
 };
 function mapDispatchToProps(dispatch) {
   return {
-    updateDemoBoxForm: payload => dispatch(updateDemoBoxForm(payload))
+    updateDemoBoxForm: payload => dispatch(updateDemoBoxForm(payload)),
+    updatePanel: payload => dispatch(updatePanel(payload))
   };
 }
 

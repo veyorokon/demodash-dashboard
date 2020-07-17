@@ -36,9 +36,7 @@ const DefaultButton = styled(Button)`
   font-size: 1.6rem;
   cursor: pointer;
   justify-content: center;
-  border: {
-    props=>props.border: "1px solid currentColor";
-  }
+  border: 1px solid currentColor;
   outline: none;
   background: transparent;
 `;

@@ -512,3 +512,28 @@ export const ACCOUNT_CATEGORIES = gql`
     }
   }
 `;
+
+/*
+
+*/
+
+export const CREATE_DEMO_BOX_PURCHASE = gql`
+  mutation createDemoboxPurchase(
+    $token: String!
+    $accountUserId: Int!
+    $demoCampaignId: Int!
+    $accountCardId: Int
+  ) {
+    createDemoBoxPurchase(
+      token: $token
+      accountUserId: $accountUserId
+      demoCampaignId: $demoCampaignId
+      accountCardId: $accountCardId
+    ) {
+      receipt {
+        id
+        uid
+      }
+    }
+  }
+`;

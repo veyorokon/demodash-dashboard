@@ -101,8 +101,9 @@ const initialState = {
   },
   demoCheckoutForm: {
     demoCampaignId: null,
-    paymentCardId: null,
-    currentPanel: 0
+    accountCardId: null,
+    currentPanel: 0,
+    receiptUId: ""
   },
   panel: "findDemos",
   previousPanel: "home",

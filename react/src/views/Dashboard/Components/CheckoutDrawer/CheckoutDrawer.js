@@ -2,6 +2,7 @@ import React from "react";
 import {Box} from "components";
 
 import CheckoutContainer from "./CheckoutContainer";
+import Confirmation from "./Confirmation";
 import Overview from "./Overview";
 import Success from "./Success";
 import styled, {css} from "styled-components";
@@ -75,6 +76,7 @@ export default props => {
   return (
     <Checkout>
       <Overview />
+      <Confirmation />
       <Success />
     </Checkout>
   );

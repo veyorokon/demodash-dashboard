@@ -4,7 +4,11 @@ import {CloseOutline} from "@styled-icons/evaicons-outline/CloseOutline";
 import styled from "styled-components";
 import {responsive as r} from "lib";
 import {connect} from "react-redux";
-import {toggleCheckout, updateDemoCheckoutForm} from "redux/actions";
+import {
+  toggleCheckout,
+  updateDemoCheckoutForm,
+  updatePanel
+} from "redux/actions";
 
 const DrawerTitle = styled(Box)`
   align-items: center;
@@ -14,7 +18,7 @@ const DrawerTitle = styled(Box)`
   justify-content: space-between;
 `;
 
-const _Overview = props => {
+const _Success = props => {
   const {
     demoCheckoutForm,
     lastScrollY,
@@ -22,9 +26,9 @@ const _Overview = props => {
     currentAccountUser,
     currentAccount,
     address,
-    updateDemoCheckoutForm
+    updateDemoCheckoutForm,
+    updatePanel
   } = props;
-  const disabled = true;
   return (
     <>
       <DrawerTitle
@@ -44,7 +48,8 @@ const _Overview = props => {
             }, 50);
             updateDemoCheckoutForm({
               ...demoCheckoutForm,
-              currentPanel: 0
+              currentPanel: 0,
+              receiptUId: ""
             });
           }}
           justifyContent="center"
@@ -75,7 +80,7 @@ const _Overview = props => {
           Thank you, your order has been placed.
         </Text>
         <Text color={"navys.1"} ml={2} mt={2} mb={2} fs={"1.5rem"}>
-          Order: #123-456
+          Order: #{demoCheckoutForm.receiptUId}
         </Text>
         <Text m={2} mb={3} color={"greys.0"}>
           You'll receive an email for your order confirmation.
@@ -110,20 +115,31 @@ const _Overview = props => {
         justifyContent={["center", "center", "center", "flex-start"]}
       >
         <CallToActionButton
-          disabled={disabled}
-          cursor={disabled ? "no-drop" : "pointer"}
-          hoverBackground={disabled ? "#ffb39f" : "#F87060"}
-          bg={disabled ? "#ffb39f" : "oranges.1"}
+          cursor={"pointer"}
+          hoverBackground={"#F87060"}
+          bg={"oranges.1"}
           color={"whites.0"}
-          hoverColor={disabled ? "whites.2" : "whites.0"}
+          hoverColor={"whites.0"}
           br={2}
           w={r("100% 28rem")}
           m="0 auto"
           maxWidth="100%"
           fs={"1.6rem"}
-          onClick={() => console.log("here")}
+          onClick={() => {
+            window.setTimeout(() => {
+              const container = document.querySelector("#rightContainer");
+              container.scrollTop = lastScrollY;
+              window.scroll({top: lastScrollY, left: 0});
+            }, 50);
+            updatePanel("myDemos");
+            updateDemoCheckoutForm({
+              ...demoCheckoutForm,
+              currentPanel: 0,
+              receiptUId: ""
+            });
+          }}
         >
-          {demoCheckoutForm.isSubmitting ? "Saving..." : "Place your order"}
+          Manage my demos
         </CallToActionButton>
       </Flex>
     </>
@@ -133,7 +149,9 @@ const _Overview = props => {
 function mapDispatchToProps(dispatch) {
   return {
     toggleCheckout: () => dispatch(toggleCheckout()),
-    updateDemoCheckoutForm: payload => dispatch(updateDemoCheckoutForm(payload))
+    updateDemoCheckoutForm: payload =>
+      dispatch(updateDemoCheckoutForm(payload)),
+    updatePanel: payload => dispatch(updatePanel(payload))
   };
 }
 
@@ -149,4 +167,4 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(_Overview);
+)(_Success);

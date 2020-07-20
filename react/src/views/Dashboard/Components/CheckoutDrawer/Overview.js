@@ -167,7 +167,8 @@ const _Overview = props => {
             }, 50);
             updateDemoCheckoutForm({
               ...demoCheckoutForm,
-              currentPanel: 0
+              currentPanel: 0,
+              receiptUId: ""
             });
           }}
           justifyContent="center"
@@ -213,6 +214,7 @@ const _Overview = props => {
           pb={3}
           mb={1}
           borderBottom="1px solid #e3e3ee"
+          justifyContent="space-between"
         >
           <Box mb={2} w="6rem" mr={r("4 --> 5 ---> 6")}>
             <Text fw={500} color={"navys.2"} mt={2}>
@@ -223,10 +225,10 @@ const _Overview = props => {
             onChange={evt =>
               updateDemoCheckoutForm({
                 ...demoCheckoutForm,
-                paymentCardId: parseInt(evt.target.value)
+                accountCardId: parseInt(evt.target.value)
               })
             }
-            currentValue={demoCheckoutForm.paymentCardId}
+            currentValue={demoCheckoutForm.accountCardId}
             currentAccountUser={currentAccountUser}
           />
         </Flex>
@@ -240,6 +242,7 @@ const _Overview = props => {
           pb={3}
           mb={1}
           borderBottom="1px solid #e3e3ee"
+          justifyContent="space-between"
         >
           <Box mb={2} w="6rem" mr={r("4 --> 5 ---> 6")}>
             <Text fw={500} color={"navys.2"} mt={2}>
@@ -264,7 +267,17 @@ const _Overview = props => {
           )}
         </Flex>
 
-        <Flex pt={1} mt={3} pl={2} w="fit-content">
+        <Flex
+          flexDirection={r("column --> row")}
+          pt={3}
+          mt={1}
+          pl={2}
+          w="100%"
+          pb={3}
+          mb={1}
+          borderBottom="1px solid #e3e3ee"
+          justifyContent="space-between"
+        >
           <Box mb={2} w="6rem" mr={r("4 --> 5 ---> 6")}>
             <Text fw={500} color={"navys.2"} mt={2}>
               Total:
@@ -305,7 +318,7 @@ const _Overview = props => {
             })
           }
         >
-          {demoCheckoutForm.isSubmitting ? "Saving..." : "Place your order"}
+          {demoCheckoutForm.isSubmitting ? "Saving..." : "Continue"}
         </CallToActionButton>
       </Flex>
     </>

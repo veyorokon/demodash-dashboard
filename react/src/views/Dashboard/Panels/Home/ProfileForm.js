@@ -11,8 +11,11 @@ import {STATES, responsive as r, getEventVal} from "lib";
 import {getToken} from "lib";
 import {connect} from "react-redux";
 import {updateProfileForm} from "redux/actions";
-import {ACCOUNT_CATEGORIES, UPDATE_ACCOUNT} from "./gql";
-import {USER__ACCOUNT_USER_SET} from "views/Dashboard/gql";
+import {
+  ACCOUNT_CATEGORIES,
+  UPDATE_ACCOUNT,
+  USER__ACCOUNT_USER_SET
+} from "views/Dashboard/gql";
 
 const CategoryDropDown = props => {
   return (
@@ -103,7 +106,22 @@ class _AccountFormCard extends React.Component {
               mt={1}
             />
           </FormGroup>
-          <FormGroup mt={3} mb={r("3 ----> 2")}>
+          <FormGroup mt={3}>
+            <FlexField mt={2} name={"Website:"} />
+            <FlexInput
+              onChange={evt =>
+                updateProfileForm({
+                  ...profileForm,
+                  website: getEventVal(evt),
+                  submitComplete: false
+                })
+              }
+              value={profileForm.website || ""}
+              placeholder="https://"
+              mb={1}
+            />
+          </FormGroup>
+          <FormGroup mt={r("3 ----> 2")}>
             <FlexField name={"Address:"} />
             <Flex flexBasis="60%" flexDirection="column" mt={2}>
               <FlexInput

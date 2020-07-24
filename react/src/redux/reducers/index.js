@@ -105,7 +105,7 @@ const initialState = {
     currentPanel: 0,
     receiptUId: ""
   },
-  panel: "findDemos",
+  panel: "home",
   previousPanel: "home",
   navOpen: false,
   checkoutOpen: false,
@@ -145,6 +145,7 @@ function populateProfileForm(state, accountUser, props = {}) {
     disabled: true,
     isSubmitting: false,
     submitComplete: true,
+    website: accountUser.account.profile.website,
     choice1: choice1,
     choice2: choice2,
     choice3: choice3,
@@ -235,7 +236,7 @@ export default function rootReducer(state = initialState, action) {
       }
       isMutualPanel = checkPanel(state.panel);
       //newState.panel = "home";
-      if (newState.panel !== "createAccount") newState.panel = "findDemos";
+      if (newState.panel !== "createAccount") newState.panel = "home";
       //Restores previous panel if it is a mutual panel
       if (isMutualPanel) newState.panel = state.panel;
       return Object.assign({}, state, newState);
@@ -253,7 +254,7 @@ export default function rootReducer(state = initialState, action) {
       //Restores previous panel if it is a mutual panel
       isMutualPanel = checkPanel(state.panel);
       //newState.panel = "home";
-      newState.panel = "findDemos";
+      newState.panel = "home";
 
       if (isMutualPanel) newState.panel = state.panel;
       //Sets default values for profile form

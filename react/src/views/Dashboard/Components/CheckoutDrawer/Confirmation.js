@@ -124,7 +124,7 @@ class CardPaymentDropdown extends React.Component {
           })[0];
           return (
             <Flex>
-              <Text>{selected.text}</Text>
+              <Text>{selected && selected.text}</Text>
             </Flex>
           );
         }}

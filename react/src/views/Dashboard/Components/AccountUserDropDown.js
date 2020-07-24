@@ -41,7 +41,7 @@ class _AccountUserDropDown extends React.Component {
         defaultButtonProps={{h: "3.5rem"}}
         defaultButtonText={"Create an account"}
         defaultOption={"Create an account"}
-        defaultClick={() => console.log("test")}
+        defaultClick={() => updatePanel("createAccount")}
         iconProps={{h: "2.4rem"}}
         value={currentAccountUser}
         {...this.props}

@@ -1,5 +1,5 @@
 import React from "react";
-import {Box, Flex, Text, CallToActionButton} from "components";
+import {Box, Flex, Text, CallToActionButton, Link} from "components";
 import {FormSection, FormGroup} from "views/Dashboard/Components";
 import AccountForm from "views/Auth/Register/Sections/Forms/AccountForm";
 import {Mutation} from "@apollo/react-components";
@@ -13,10 +13,11 @@ import {responsive as r, getToken, formatGQLErrorMessage} from "lib";
 import {connect} from "react-redux";
 
 import {USER__ACCOUNT_USER_SET} from "views/Dashboard/gql";
+const publicIp = require("public-ip");
 
 const CREATE_ACCOUNT = gql`
-  mutation createAccount($token: String!, $type: String!) {
-    createAccount(token: $token, type: $type) {
+  mutation createAccount($token: String!, $type: String!, $ip: String!) {
+    createAccount(token: $token, type: $type, ip: $ip) {
       account {
         id
         liveMode
@@ -44,8 +45,11 @@ class _FormCard extends React.Component {
 
     const token = getToken().token;
     try {
+      const ip = await (async () => {
+        return await publicIp.v4();
+      })();
       await createAccount({
-        variables: {token: token, ...accountForm}
+        variables: {token: token, ip: ip, ...accountForm}
       });
       return updateAccountForm({
         type: "Brand",
@@ -86,6 +90,31 @@ class _FormCard extends React.Component {
           <FormGroup ml={"auto"} mr={"auto"} w={r("100% ---> 50rem --> 45rem")}>
             <AccountForm bg={"blues.3"} />
           </FormGroup>
+        </FormSection>
+        <FormSection>
+          <Flex justifyContent="center">
+            <Text>
+              By creating an account, you agree to our{" "}
+              <Link
+                display="inline-flex"
+                href="https://demodash.com/legal/terms"
+              >
+                <Text hoverColor={"#212C39"} fw={500} color="navys.2">
+                  Terms
+                </Text>
+              </Link>{" "}
+              and the{" "}
+              <Link
+                display="inline-flex"
+                href="https://stripe.com/connect-account/legal"
+              >
+                <Text hoverColor={"#212C39"} fw={500} color="navys.2">
+                  Stripe Connected Account Agreement
+                </Text>
+              </Link>
+              .
+            </Text>
+          </Flex>
         </FormSection>
 
         <FormSection

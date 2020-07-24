@@ -10,6 +10,7 @@
     "apollo-client": "^2.6.9",
     "apollo-link-http": "^1.5.15",
     "graphql": "^15.0.0",
+    "public-ip": "^4.0.2",
     "rc-collapse": "^2.0.0",
     "react": "^16.9.0",
     "react-credit-cards": "^0.8.3",

@@ -219,9 +219,11 @@ export default function rootReducer(state = initialState, action) {
         false
       );
       //Checks if a previous account user was selected to return user
-      if (!newState.dashboard.previousAccountUser) {
+      if (!newState.dashboard.previousAccountUser && payload.length) {
         newState.dashboard.currentAccountUser = payload[0].id || null;
         accountUser = filterAccountUser(newState, payload[0].id);
+        //Sets default values for profile form
+        newState = populateProfileForm(newState, accountUser);
       } else {
         newState.dashboard.currentAccountUser =
           state.dashboard.currentAccountUser;
@@ -229,12 +231,11 @@ export default function rootReducer(state = initialState, action) {
           newState,
           newState.dashboard.currentAccountUser
         );
+        newState.panel = "createAccount";
       }
-      //Sets default values for profile form
-      newState = populateProfileForm(newState, accountUser);
       isMutualPanel = checkPanel(state.panel);
       //newState.panel = "home";
-      newState.panel = "findDemos";
+      if (newState.panel !== "createAccount") newState.panel = "findDemos";
       //Restores previous panel if it is a mutual panel
       if (isMutualPanel) newState.panel = state.panel;
       return Object.assign({}, state, newState);

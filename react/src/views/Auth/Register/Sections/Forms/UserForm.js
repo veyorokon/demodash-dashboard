@@ -1,5 +1,5 @@
 import React from "react";
-import {Flex, Input, Text} from "components";
+import {Flex, Input, Text, Link} from "components";
 import {responsive as r} from "lib";
 import {connect} from "react-redux";
 import {updateRegistrationForm} from "redux/actions";
@@ -90,6 +90,26 @@ export function UserForm(props) {
           {props.errorMessage}
         </Text>
       )}
+      <Flex>
+        <Text>
+          By creating an account, you agree to our{" "}
+          <Link display="inline-flex" href="https://demodash.com/legal/terms">
+            <Text hoverColor={"#212C39"} fw={500} color="navys.2">
+              Terms
+            </Text>
+          </Link>{" "}
+          and the{" "}
+          <Link
+            display="inline-flex"
+            href="https://stripe.com/connect-account/legal"
+          >
+            <Text hoverColor={"#212C39"} fw={500} color="navys.2">
+              Stripe Connected Account Agreement
+            </Text>
+          </Link>
+          .
+        </Text>
+      </Flex>
     </Flex>
   );
 }

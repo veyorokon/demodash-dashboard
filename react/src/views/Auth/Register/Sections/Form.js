@@ -12,6 +12,7 @@ import {gql} from "apollo-boost";
 
 import checkmark from "assets/svg/checkmark.svg";
 import LogoIcon from "assets/svg/logo.js";
+const publicIp = require("public-ip");
 
 const CREATE_USER = gql`
   mutation createUser($email: String!, $fullName: String, $password: String!) {
@@ -23,8 +24,8 @@ const CREATE_USER = gql`
 `;
 
 const CREATE_ACCOUNT = gql`
-  mutation createAccount($token: String!, $type: String!) {
-    createAccount(token: $token, type: $type) {
+  mutation createAccount($token: String!, $type: String!, $ip: String!) {
+    createAccount(token: $token, type: $type, ip: $ip) {
       account {
         id
         liveMode
@@ -133,8 +134,11 @@ class RegistrationForm extends React.Component {
   async createAccountMutation(createAccount) {
     const {accountForm} = this.props;
     const token = getToken()["token"];
+    const ip = await (async () => {
+      return await publicIp.v4();
+    })();
     await createAccount({
-      variables: {token: token, ...accountForm}
+      variables: {token: token, ip: ip, ...accountForm}
     });
     return this.props.history.push("/dashboard");
   }
@@ -237,20 +241,22 @@ class RegistrationForm extends React.Component {
                           account={account}
                         />
                       </MultiForm>
-                      <Flex
-                        alignItems="flex-start"
-                        flexGrow={0}
-                        w={"fit-content"}
-                        ml={"auto"}
-                        mr={"auto"}
-                        mt={4}
-                      >
-                        <Text mr={2}>Already have an account? </Text>
-                        <Link href="/login">
-                          <Text hoverColor={"#212C39"} color="navys.2">
-                            Login
-                          </Text>
-                        </Link>
+                      <Flex alignItems="center" flexDirection="column">
+                        <Flex
+                          alignItems="flex-start"
+                          flexGrow={0}
+                          w={"fit-content"}
+                          ml={"auto"}
+                          mr={"auto"}
+                          mt={3}
+                        >
+                          <Text mr={2}>Already have an account? </Text>
+                          <Link href="/login">
+                            <Text hoverColor={"#212C39"} color="navys.2">
+                              Login
+                            </Text>
+                          </Link>
+                        </Flex>
                       </Flex>
                       <Hidden up={7}>
                         <Flex

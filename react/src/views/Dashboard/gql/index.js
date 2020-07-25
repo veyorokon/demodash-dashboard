@@ -522,6 +522,24 @@ export const ACCOUNT_CARD_SET = gql`
   }
 `;
 
+export const DELETE_EXTERNAL_ACCOUNT = gql`
+  mutation deleteExternalAccount(
+    $token: String!
+    $externalAccountId: Int!
+    $accountUserId: Int!
+  ) {
+    deleteExternalAccount(
+      accountUserId: $accountUserId
+      token: $token
+      externalAccountId: $externalAccountId
+    ) {
+      account {
+        id
+      }
+    }
+  }
+`;
+
 export const DELETE_CARD = gql`
   mutation deleteCard($token: String!, $cardId: Int!, $accountUserId: Int!) {
     deleteCard(accountUserId: $accountUserId, token: $token, cardId: $cardId) {

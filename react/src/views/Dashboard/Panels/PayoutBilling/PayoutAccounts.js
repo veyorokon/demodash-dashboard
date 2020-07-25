@@ -1,12 +1,20 @@
 import React from "react";
 import {Flex, Text, Box, Icon} from "components";
+import {FormButton} from "views/Dashboard/Components";
 import Cards from "react-credit-cards";
 import "react-credit-cards/es/styles-compiled.css";
-import {Query} from "@apollo/react-components";
+import {Mutation, Query} from "@apollo/react-components";
 import {connect} from "react-redux";
-import {ACCOUNT_PAYOUT_SET} from "views/Dashboard/gql";
-import {getToken, responsive as r} from "lib";
+import {
+  ACCOUNT_PAYOUT_SET,
+  DELETE_EXTERNAL_ACCOUNT,
+  QUERY_ACCOUNT_BILLABLE
+} from "views/Dashboard/gql";
+import {getToken, responsive as r, formatGQLErrorMessage} from "lib";
 import styled from "styled-components";
+
+import {Delete} from "@styled-icons/material/Delete";
+// import {CreditCard} from "@styled-icons/boxicons-solid/CreditCard";
 
 import {Bank as BankIcon} from "@styled-icons/remix-fill/Bank";
 
@@ -65,9 +73,45 @@ class CardComponent extends React.Component {
 }
 
 class BankComponent extends React.Component {
+  state = {
+    disabled: false
+  };
+
+  async deleteExternalAccountMutation(deleteExternalAccount) {
+    const {id, currentAccountUser} = this.props;
+    this.setState({disabled: true});
+    try {
+      await deleteExternalAccount({
+        variables: {
+          token: getToken().token,
+          accountUserId: parseInt(currentAccountUser),
+          externalAccountId: parseInt(id)
+        }
+      });
+      return this.setState({disabled: false});
+    } catch (error) {
+      let gqlError = formatGQLErrorMessage(error, "");
+      alert(gqlError.errorMessage);
+      return this.setState({disabled: true});
+    }
+  }
+  // async makeDefaultPayoutMutation(defaultCard) {
+  //   const {id, currentAccountUser} = this.props;
+  //   this.setState({disabled: true});
+  //   await defaultCard({
+  //     variables: {
+  //       token: getToken().token,
+  //       accountUserId: parseInt(currentAccountUser),
+  //       externalAccountId: parseInt(id)
+  //     }
+  //   });
+  //   return this.setState({disabled: false});
+  // }
+
   render() {
     const {props} = this;
-    console.log(props);
+    const {currentAccountUser} = props;
+    const {disabled} = this.state;
     return (
       <Flex mt={1} flexGrow="0" flexDirection="column">
         {this.props.isDefault && (
@@ -122,6 +166,100 @@ class BankComponent extends React.Component {
             </Flex>
           </Flex>
         </Box>
+        <Flex justifyContent="space-evenly">
+          {/*{this.props.isDefault ? (
+            <Flex flexGrow={0} w="45%" alignItems="flex-end" />
+          ) : (
+            <Mutation
+              mutation={SET_DEFAULT_CARD}
+              refetchQueries={[
+                {
+                  query: ACCOUNT_CARD_SET,
+                  variables: {
+                    token: getToken().token,
+                    accountUserId: parseInt(currentAccountUser)
+                  }
+                }
+              ]}
+            >
+              {defaultCard => (
+                <FormButton
+                  disabled={disabled}
+                  mt={2}
+                  bg={disabled ? "#7e88a2" : "navys.2"}
+                  hoverBackground={disabled ? "#7e88a2" : "#0B1750"}
+                  cursor={disabled ? "no-drop" : "pointer"}
+                  w="45%"
+                  title="Make default"
+                  onClick={() => {
+                    let conf = window.confirm(
+                      "Make this your default card for purchases?"
+                    );
+                    if (conf) this.makeDefaultCardMutation(defaultCard);
+                  }}
+                >
+                  <Flex alignItems="center">
+                    <Icon color="whites.0" h="2.2rem" ml={2} mr={1}>
+                      <CreditCard />
+                    </Icon>
+                    <Text color="whites.0" mr={3} ml={2}>
+                      Make default
+                    </Text>
+                  </Flex>
+                </FormButton>
+              )}
+            </Mutation>
+          )}*/}
+
+          <Mutation
+            mutation={DELETE_EXTERNAL_ACCOUNT}
+            refetchQueries={[
+              {
+                query: ACCOUNT_PAYOUT_SET,
+                variables: {
+                  token: getToken().token,
+                  accountUserId: parseInt(currentAccountUser)
+                }
+              },
+              {
+                query: QUERY_ACCOUNT_BILLABLE,
+                variables: {
+                  token: getToken().token,
+                  id: parseInt(currentAccountUser)
+                }
+              }
+            ]}
+          >
+            {deleteExternalAccount => (
+              <FormButton
+                disabled={disabled}
+                bg={disabled ? "#f7d899" : "yellows.1"}
+                hoverBackground={disabled ? "#f7d899" : "#FFC651"}
+                color={disabled ? "navys.1" : "navys.0"}
+                cursor={disabled ? "no-drop" : "pointer"}
+                mt={2}
+                w="45%"
+                title="Delete this card"
+                onClick={() => {
+                  let conf = window.confirm(
+                    "Are you sure you want to delete this bank from your payouts?"
+                  );
+                  if (conf)
+                    this.deleteExternalAccountMutation(deleteExternalAccount);
+                }}
+              >
+                <Flex alignItems="center">
+                  <Icon h="2.2rem" ml={2} mr={1}>
+                    <Delete />
+                  </Icon>
+                  <Text mr={2} ml={2}>
+                    Delete bank
+                  </Text>
+                </Flex>
+              </FormButton>
+            )}
+          </Mutation>
+        </Flex>
       </Flex>
     );
   }
@@ -196,7 +334,11 @@ function _PayoutAccounts(props) {
                         );
                       }
                       return (
-                        <BankComponent key={index} {...externalAccount.bank} />
+                        <BankComponent
+                          currentAccountUser={currentAccountUser}
+                          key={index}
+                          {...externalAccount.bank}
+                        />
                       );
                     })
                   ) : (

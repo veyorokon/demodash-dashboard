@@ -15,7 +15,7 @@ import {
 } from "lib";
 import {updateDepositForm} from "redux/actions";
 import {connect} from "react-redux";
-import {CREATE_BANK} from "views/Dashboard/gql";
+import {CREATE_BANK, ACCOUNT_PAYOUT_SET} from "views/Dashboard/gql";
 
 class _FormCard extends React.Component {
   async createBankMutation(createBank) {
@@ -54,11 +54,12 @@ class _FormCard extends React.Component {
 
   render() {
     const {props} = this;
-    const {depositForm, updateDepositForm} = props;
+    const {depositForm, updateDepositForm, currentAccountUser} = props;
     const isDisabled = depositForm.disabled;
-    const disabled =
-      isDisabled ||
-      depositForm.accountNumber !== depositForm.accountNumberConfirmation;
+    const accountNumbersMatch =
+      depositForm.accountNumber === depositForm.accountNumberConfirmation;
+    const disabled = isDisabled || !accountNumbersMatch;
+
     return (
       <Box
         w={r("80rem ---------> 100rem")}
@@ -86,7 +87,7 @@ class _FormCard extends React.Component {
                 return updateDepositForm({
                   ...depositForm,
                   routingNumber: value,
-                  disabled: !disabled ? false : true,
+                  disabled: accountNumbersMatch ? false : true,
                   successMessage: "",
                   errorField: "",
                   errorMessage: ""
@@ -175,7 +176,18 @@ class _FormCard extends React.Component {
               </Text>
             </Flex>
           )}
-          <Mutation mutation={CREATE_BANK}>
+          <Mutation
+            mutation={CREATE_BANK}
+            refetchQueries={[
+              {
+                query: ACCOUNT_PAYOUT_SET,
+                variables: {
+                  token: getToken().token,
+                  accountUserId: parseInt(currentAccountUser)
+                }
+              }
+            ]}
+          >
             {createBank => (
               <CallToActionButton
                 disabled={disabled}

@@ -108,7 +108,7 @@ class BankComponent extends React.Component {
             <Flex mb={2} flexGrow={0} flexDirection="column">
               <Flex alignItems="center" justifyContent="space-between">
                 <MonoText>Account:</MonoText>
-                <MonoText>*{props.lastFour}</MonoText>
+                <MonoText>-------- {props.lastFour}</MonoText>
               </Flex>
               <Flex
                 mb={1}

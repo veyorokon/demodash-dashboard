@@ -55,7 +55,10 @@ class _FormCard extends React.Component {
   render() {
     const {props} = this;
     const {depositForm, updateDepositForm} = props;
-    const {disabled} = depositForm;
+    const isDisabled = depositForm.disabled;
+    const disabled =
+      isDisabled ||
+      depositForm.accountNumber !== depositForm.accountNumberConfirmation;
     return (
       <Box
         w={r("80rem ---------> 100rem")}
@@ -83,7 +86,7 @@ class _FormCard extends React.Component {
                 return updateDepositForm({
                   ...depositForm,
                   routingNumber: value,
-                  disabled: false,
+                  disabled: !disabled ? false : true,
                   successMessage: "",
                   errorField: "",
                   errorMessage: ""

@@ -17,7 +17,8 @@ import {
   UPDATE_DEMO_CAMPAIGN_FORM,
   UPDATE_BILLING_FORM,
   UPDATE_DEMO_CHECKOUT_FORM,
-  UPDATE_SCROLLY
+  UPDATE_SCROLLY,
+  UPDATE_DEPOSIT_FORM
 } from "redux/constants";
 import {updateState, validateEmail, validatePassword} from "lib";
 
@@ -99,13 +100,19 @@ const initialState = {
     cvc: "",
     disabled: true
   },
+  depositForm: {
+    routingNumber: "",
+    accountNumber: "",
+    accountNumberConfirmation: "",
+    disabled: true
+  },
   demoCheckoutForm: {
     demoCampaignId: null,
     accountCardId: null,
     currentPanel: 0,
     receiptUId: ""
   },
-  panel: "home",
+  panel: "payoutBilling",
   previousPanel: "home",
   navOpen: false,
   checkoutOpen: false,
@@ -236,7 +243,7 @@ export default function rootReducer(state = initialState, action) {
       }
       isMutualPanel = checkPanel(state.panel);
       //newState.panel = "home";
-      if (newState.panel !== "createAccount") newState.panel = "home";
+      if (newState.panel !== "createAccount") newState.panel = "payoutBilling";
       //Restores previous panel if it is a mutual panel
       if (isMutualPanel) newState.panel = state.panel;
       return Object.assign({}, state, newState);
@@ -254,7 +261,7 @@ export default function rootReducer(state = initialState, action) {
       //Restores previous panel if it is a mutual panel
       isMutualPanel = checkPanel(state.panel);
       //newState.panel = "home";
-      newState.panel = "home";
+      newState.panel = "payoutBilling";
 
       if (isMutualPanel) newState.panel = state.panel;
       //Sets default values for profile form
@@ -340,6 +347,9 @@ export default function rootReducer(state = initialState, action) {
       return Object.assign({}, state, newState);
     case UPDATE_DEMO_CHECKOUT_FORM:
       newState = updateState(state, ["demoCheckoutForm"], payload, false);
+      return Object.assign({}, state, newState);
+    case UPDATE_DEPOSIT_FORM:
+      newState = updateState(state, ["depositForm"], payload, false);
       return Object.assign({}, state, newState);
     default:
       return state;

@@ -71,7 +71,8 @@ import {
   order,
   backgroundColor,
   boxShadow,
-  borderFields
+  borderFields,
+  fontFamily
 } from "./fields";
 
 export default theme;
@@ -147,5 +148,6 @@ export {
   order,
   backgroundColor,
   boxShadow,
-  borderFields
+  borderFields,
+  fontFamily
 };

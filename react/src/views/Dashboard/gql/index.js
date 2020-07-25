@@ -489,6 +489,25 @@ export const CREATE_BILLING_CARD = gql`
   }
 `;
 
+export const ACCOUNT_PAYOUT_SET = gql`
+  query accountPayoutSet($token: String!, $accountUserId: Int!) {
+    accountPayoutSet(token: $token, accountUserId: $accountUserId) {
+      id
+      card {
+        id
+        isDefault
+      }
+      bank {
+        id
+        bankName
+        routingNumber
+        lastFour
+        isDefault
+      }
+    }
+  }
+`;
+
 export const ACCOUNT_CARD_SET = gql`
   query accountCardSet($token: String!, $accountUserId: Int!) {
     accountCardSet(token: $token, accountUserId: $accountUserId) {
@@ -538,6 +557,26 @@ export const QUERY_ACCOUNT_BILLABLE = gql`
       account {
         id
         hasValidCard
+      }
+    }
+  }
+`;
+
+export const CREATE_BANK = gql`
+  mutation createBank(
+    $token: String!
+    $accountUserId: Int!
+    $accountNumber: String!
+    $routingNumber: String!
+  ) {
+    createBank(
+      token: $token
+      accountUserId: $accountUserId
+      accountNumber: $accountNumber
+      routingNumber: $routingNumber
+    ) {
+      account {
+        id
       }
     }
   }

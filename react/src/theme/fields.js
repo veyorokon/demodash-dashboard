@@ -42,6 +42,7 @@ const lineHeight = configure("lineHeight", "lh");
 const textTransform = configure("textTransform");
 const cursor = configure("cursor");
 
+const fontFamily = configure("fontFamily", ["fm"], "fontFamily");
 const typography = compose(
   fontWeight,
   fontSize,
@@ -49,7 +50,8 @@ const typography = compose(
   textAlign,
   textTransform,
   cursor,
-  alignSelf
+  alignSelf,
+  fontFamily
 );
 
 const marginTop = configure("marginTop", ["marginTop", "mt"], "space");
@@ -282,5 +284,6 @@ export {
   order,
   backgroundColor,
   boxShadow,
-  borderFields
+  borderFields,
+  fontFamily
 };

@@ -33,9 +33,10 @@ const theme = {
     navys: ["#112237", "#212C39", "#525F81", "#e6edff", "#f4f7ff"],
     darkBlues: ["#0B1750"],
     yellows: ["#FFC651", "#F7D590", "#FEF8E7"],
+    purples: ["#8a8dcc"],
     blues: ["#1C47F5", "#6B64F6", "#f5f5ff", "#F7FAFD"]
   },
-  radii: [0, 2, 4],
+  radii: [0, 2, 4, 8, 14, 16],
   shadows: ["0 1px 6px rgba(57,73,76,0.35)"],
   defaultProps: {
     transition: "all",

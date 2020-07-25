@@ -16,6 +16,7 @@ import {
   UPDATE_DEMO_CAMPAIGN_FORM,
   TOGGLE_CHECKOUT,
   UPDATE_BILLING_FORM,
+  UPDATE_DEPOSIT_FORM,
   UPDATE_DEMO_CHECKOUT_FORM,
   UPDATE_SCROLLY
 } from "redux/constants";
@@ -126,5 +127,11 @@ export function updateDemoCheckoutForm(payload) {
 export function updateScrollY(payload) {
   return function(dispatch) {
     return dispatch({type: UPDATE_SCROLLY, payload: payload});
+  };
+}
+
+export function updateDepositForm(payload) {
+  return function(dispatch) {
+    return dispatch({type: UPDATE_DEPOSIT_FORM, payload: payload});
   };
 }

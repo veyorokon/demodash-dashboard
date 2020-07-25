@@ -202,13 +202,13 @@ class CardComponent extends React.Component {
   }
 }
 
-function _PaymentCards(props) {
+function _PayoutAccounts(props) {
   const {currentAccountUser} = props;
   return (
     <>
       <Flex mb={4}>
         <Text fw={500} fs={"2rem"}>
-          Cards
+          Payout accounts
         </Text>
       </Flex>
       <ScrollWrapper
@@ -290,4 +290,4 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   null
-)(_PaymentCards);
+)(_PayoutAccounts);

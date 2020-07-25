@@ -76,6 +76,7 @@ class _FormCard extends React.Component {
             <FlexField name={"Routing number:"} />
             <FlexInput
               mt={1}
+              type="number"
               value={depositForm.routingNumber}
               onChange={evt => {
                 let value = getEventVal(evt);
@@ -99,6 +100,7 @@ class _FormCard extends React.Component {
             <FlexField name={"Account number:"} />
             <FlexInput
               mt={1}
+              type="number"
               value={depositForm.accountNumber}
               onChange={evt => {
                 let value = getEventVal(evt);
@@ -121,6 +123,7 @@ class _FormCard extends React.Component {
           <FormGroup>
             <FlexField name={"Verify account number:"} />
             <FlexInput
+              type="number"
               mt={1}
               value={depositForm.accountNumberConfirmation}
               onChange={evt => {

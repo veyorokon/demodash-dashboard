@@ -42,7 +42,7 @@ const lineHeight = configure("lineHeight", "lh");
 const textTransform = configure("textTransform");
 const cursor = configure("cursor");
 
-const fontFamily = configure("fontFamily", ["fm"], "fontFamily");
+const fontFamily = configure("fontFamily", ["fm"], "fonts");
 const typography = compose(
   fontWeight,
   fontSize,

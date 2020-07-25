@@ -49,7 +49,7 @@ const TextTitle = styled(Text)`
   text-transform: capitalize;
 `;
 const MonoText = props => (
-  <Text letterSpacing="0.5px" fs={"1.6rem"} color={"whites.1"} {...props}>
+  <Text fontFamily="mono" fs={"1.6rem"} color={"whites.1"} {...props}>
     {props.children}
   </Text>
 );
@@ -107,10 +107,15 @@ class BankComponent extends React.Component {
             </Flex>
             <Flex mb={2} flexGrow={0} flexDirection="column">
               <Flex alignItems="center" justifyContent="space-between">
-                <MonoText>Account ending:</MonoText>
+                <MonoText>Account:</MonoText>
                 <MonoText>*{props.lastFour}</MonoText>
               </Flex>
-              <Flex mt={2} alignItems="center" justifyContent="space-between">
+              <Flex
+                mb={1}
+                mt={2}
+                alignItems="center"
+                justifyContent="space-between"
+              >
                 <MonoText>Routing:</MonoText>
                 <MonoText>{props.routingNumber}</MonoText>
               </Flex>

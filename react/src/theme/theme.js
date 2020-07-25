@@ -16,7 +16,7 @@ const theme = {
   fonts: {
     sans:
       "-apple-system, BlinkMacSystemFont, Oxygen, Ubuntu, Cantarell, Fira Sans, system-ui, sans-serif",
-    mono: "Menlo, monospace"
+    mono: '"Consolas", "Courier", monospace'
   },
   fontSizes: [12, 14, 16, 20, 24, 32, 48, 64, 72, 96],
   fontWeights: {

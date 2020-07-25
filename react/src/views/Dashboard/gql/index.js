@@ -568,6 +568,24 @@ export const SET_DEFAULT_CARD = gql`
   }
 `;
 
+export const SET_DEFAULT_EXTERNAL_ACCOUNT = gql`
+  mutation setDefaultExternalAccount(
+    $token: String!
+    $externalAccountId: Int!
+    $accountUserId: Int!
+  ) {
+    setDefaultExternalAccount(
+      accountUserId: $accountUserId
+      token: $token
+      externalAccountId: $externalAccountId
+    ) {
+      account {
+        id
+      }
+    }
+  }
+`;
+
 export const QUERY_ACCOUNT_BILLABLE = gql`
   query accountUser($token: String!, $id: Int!) {
     accountUser(token: $token, id: $id) {

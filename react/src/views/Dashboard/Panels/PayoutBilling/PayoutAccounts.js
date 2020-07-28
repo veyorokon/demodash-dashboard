@@ -300,7 +300,6 @@ function _PayoutAccounts(props) {
                   </Box>
                 );
               const {accountPayoutSet} = data;
-              console.log(accountPayoutSet);
               return (
                 <Flex
                   w="fit-content"

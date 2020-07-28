@@ -281,7 +281,7 @@ class ImageCard extends React.Component {
                   maxWidth="100%"
                   w="100%"
                   border={"1px solid lightslategrey"}
-                  hiddenOption={`Choose ${
+                  defaultOption={`Choose ${
                     avAn ? "an" : "a"
                   } ${variation.name.toLowerCase()}`}
                   {...props}

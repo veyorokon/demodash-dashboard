@@ -460,6 +460,74 @@ export const OPEN_DEMO_CAMPAIGNS = gql`
 `;
 
 /*
+
+ */
+export const MY_DEMO_BOXES = gql`
+  query demoerInventory($token: String!, $accountUserId: Int!) {
+    demoerInventory(token: $token, accountUserId: $accountUserId) {
+      id
+      demoCampaign {
+        id
+        account {
+          id
+          profile {
+            id
+            name
+          }
+        }
+        demoCommissions {
+          id
+          amount
+          demoBoxItem {
+            id
+            product {
+              id
+              name
+              price
+              description
+              images {
+                id
+                image
+                variationOption {
+                  id
+                  image {
+                    id
+                    image
+                  }
+                }
+              }
+              variations {
+                id
+                name
+                options {
+                  id
+                  option
+                  image {
+                    id
+                    image
+                  }
+                }
+              }
+            }
+          }
+        }
+        demoBox {
+          id
+          name
+          price
+          refillPrice
+          shippingPrice
+          images {
+            id
+            image
+          }
+        }
+      }
+    }
+  }
+`;
+
+/*
   Payout and Billing
 */
 

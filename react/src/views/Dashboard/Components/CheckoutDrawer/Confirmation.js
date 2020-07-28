@@ -5,7 +5,11 @@ import {CloseOutline} from "@styled-icons/evaicons-outline/CloseOutline";
 import {LeftArrow} from "@styled-icons/boxicons-solid/LeftArrow";
 
 import styled from "styled-components";
-import {ACCOUNT_CARD_SET, CREATE_DEMO_BOX_PURCHASE} from "views/Dashboard/gql";
+import {
+  ACCOUNT_CARD_SET,
+  CREATE_DEMO_BOX_PURCHASE,
+  MY_DEMO_BOXES
+} from "views/Dashboard/gql";
 import {API_MEDIA} from "api";
 import {responsive as r, getToken, formatGQLErrorMessage} from "lib";
 import {connect} from "react-redux";
@@ -360,7 +364,18 @@ class _Overview extends React.Component {
               </Icon>
             </CallToActionButton>
 
-            <Mutation mutation={CREATE_DEMO_BOX_PURCHASE}>
+            <Mutation
+              mutation={CREATE_DEMO_BOX_PURCHASE}
+              refetchQueries={[
+                {
+                  query: MY_DEMO_BOXES,
+                  variables: {
+                    token: getToken().token,
+                    accountUserId: parseInt(currentAccountUser)
+                  }
+                }
+              ]}
+            >
               {createOrderDemoBox => (
                 <CallToActionButton
                   disabled={disabled}

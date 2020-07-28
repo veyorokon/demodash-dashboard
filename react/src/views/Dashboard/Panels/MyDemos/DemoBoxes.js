@@ -8,7 +8,7 @@ import styled, {css} from "styled-components";
 import {Query} from "@apollo/react-components";
 import {connect} from "react-redux";
 import {API_MEDIA} from "api";
-import {OPEN_DEMO_CAMPAIGNS} from "views/Dashboard/gql";
+import {MY_DEMO_BOXES} from "views/Dashboard/gql";
 
 const NavigationBullet = styled(Flex)`
   cursor: pointer;
@@ -278,7 +278,7 @@ function _DemoCampaigns(props) {
     <>
       {currentAccountUser && (
         <Query
-          query={OPEN_DEMO_CAMPAIGNS}
+          query={MY_DEMO_BOXES}
           variables={{
             token: getToken().token,
             accountUserId: parseInt(currentAccountUser)
@@ -297,11 +297,11 @@ function _DemoCampaigns(props) {
                   <Text>Error! {error.message}</Text>
                 </Box>
               );
-            const {openDemoCampaigns} = data;
+            const {demoerInventory} = data;
             return (
               <>
-                {openDemoCampaigns && openDemoCampaigns.length ? (
-                  openDemoCampaigns.map((demoCampaign, index) => {
+                {demoerInventory && demoerInventory.length ? (
+                  demoerInventory.map(({demoCampaign}, index) => {
                     const {demoCommissions} = demoCampaign;
                     return (
                       <Box
@@ -340,64 +340,6 @@ function _DemoCampaigns(props) {
                               flexGrow={0}
                               flexDirection="column"
                             >
-                              <Flex
-                                flexGrow={0}
-                                ml={2}
-                                mr={2}
-                                alignItems="center"
-                              >
-                                <Text
-                                  letterSpacing="0.5px"
-                                  color={"navys.0"}
-                                  mr={2}
-                                  fw={500}
-                                >
-                                  Price:
-                                </Text>
-                                <Flex alignItems="center">
-                                  <Text
-                                    letterSpacing="0.5px"
-                                    color={"reds.1"}
-                                    fw={500}
-                                  >
-                                    ${demoCampaign.demoBox.price.toFixed(2)}
-                                  </Text>
-                                  <Text
-                                    ml={1}
-                                    letterSpacing="0.5px"
-                                    color={"navys.0"}
-                                    fw={500}
-                                    fs={"1.2rem"}
-                                  >
-                                    &#43;
-                                  </Text>
-                                  <Text
-                                    letterSpacing="0.5px"
-                                    color={"navys.1"}
-                                    fw={500}
-                                    ml={1}
-                                    fs={"1.2rem"}
-                                    h="fit-content"
-                                  >
-                                    {demoCampaign.demoBox.shippingPrice
-                                      ? `$${demoCampaign.demoBox.shippingPrice.toFixed(
-                                          2
-                                        )}`
-                                      : "FREE"}
-                                  </Text>
-                                  <Text
-                                    ml={1}
-                                    letterSpacing="0.5px"
-                                    color={"navys.1"}
-                                    fw={500}
-                                    fs={"1.2rem"}
-                                    h="fit-content"
-                                  >
-                                    Shipping
-                                  </Text>
-                                </Flex>
-                              </Flex>
-
                               <Flex
                                 flexGrow={0}
                                 ml={2}

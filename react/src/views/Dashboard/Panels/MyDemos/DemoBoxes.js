@@ -206,7 +206,7 @@ class ProductCard extends React.Component {
                   maxWidth="100%"
                   w="100%"
                   border={"1px solid lightslategrey"}
-                  hiddenOption={`Choose ${
+                  defaultOption={`Choose ${
                     avAn ? "an" : "a"
                   } ${variation.name.toLowerCase()}`}
                   {...props}
@@ -276,6 +276,11 @@ function _DemoCampaigns(props) {
   const {currentAccountUser} = props;
   return (
     <>
+      <Flex mb={4} w={r("80rem ---------> 100rem")} maxWidth="100%">
+        <Text fw={500} fs={"2rem"}>
+          My demo boxes
+        </Text>
+      </Flex>
       {currentAccountUser && (
         <Query
           query={MY_DEMO_BOXES}

@@ -183,7 +183,9 @@ const _Overview = props => {
           pr={r("2 ----> 4")}
         >
           <Text fw="500" fs={"1.4rem"}>
-            Order: {openDemoCampaign.demoBox.name}
+            {demoCheckoutForm.isRefill
+              ? `Refill: ${openDemoCampaign.demoBox.name}`
+              : `Order: ${openDemoCampaign.demoBox.name}`}
           </Text>
         </Flex>
       </DrawerTitle>
@@ -285,10 +287,15 @@ const _Overview = props => {
           </Box>
           <Text fw={600} color="reds.1" mt={2}>
             $
-            {(
-              openDemoCampaign.demoBox.price +
-              openDemoCampaign.demoBox.shippingPrice
-            ).toFixed(2)}
+            {demoCheckoutForm.isRefill
+              ? (
+                  openDemoCampaign.demoBox.refillPrice +
+                  openDemoCampaign.demoBox.shippingPrice
+                ).toFixed(2)
+              : (
+                  openDemoCampaign.demoBox.price +
+                  openDemoCampaign.demoBox.shippingPrice
+                ).toFixed(2)}
           </Text>
         </Flex>
       </Box>

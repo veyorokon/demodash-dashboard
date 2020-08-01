@@ -324,10 +324,15 @@ class _Overview extends React.Component {
             </Box>
             <Text fw={600} color="reds.1" mt={2}>
               $
-              {(
-                openDemoCampaign.demoBox.price +
-                openDemoCampaign.demoBox.shippingPrice
-              ).toFixed(2)}
+              {demoCheckoutForm.isRefill
+                ? (
+                    openDemoCampaign.demoBox.refillPrice +
+                    openDemoCampaign.demoBox.shippingPrice
+                  ).toFixed(2)
+                : (
+                    openDemoCampaign.demoBox.price +
+                    openDemoCampaign.demoBox.shippingPrice
+                  ).toFixed(2)}
             </Text>
           </Flex>
         </Box>

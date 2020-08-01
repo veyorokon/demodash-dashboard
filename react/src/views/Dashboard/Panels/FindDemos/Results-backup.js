@@ -8,11 +8,7 @@ import styled, {css} from "styled-components";
 import {Query} from "@apollo/react-components";
 import {connect} from "react-redux";
 import {API_MEDIA} from "api";
-import {
-  MY_DEMO_BOXES,
-  OPEN_DEMO_CAMPAIGNS,
-  QUERY_ACCOUNT_BILLABLE
-} from "views/Dashboard/gql";
+import {OPEN_DEMO_CAMPAIGNS, QUERY_ACCOUNT_BILLABLE} from "views/Dashboard/gql";
 import {
   toggleCheckout,
   updateDemoCheckoutForm,
@@ -232,16 +228,6 @@ const TitleSection = props => {
   );
 };
 
-function isInInventory(demoCampaignId, inventory) {
-  if (!inventory) return false;
-  let hasItem = inventory.filter(function(item) {
-    if (item.demoCampaign.id === demoCampaignId) return item;
-    return null;
-  });
-  if (hasItem.length) return true;
-  return false;
-}
-
 function Results(props) {
   const {
     currentAccountUser,
@@ -280,6 +266,7 @@ function Results(props) {
                 {openDemoCampaigns && openDemoCampaigns.length ? (
                   openDemoCampaigns.map((demoCampaign, index) => {
                     const {demoBox, demoCommissions} = demoCampaign;
+
                     return (
                       <Box
                         key={index}
@@ -476,107 +463,47 @@ function Results(props) {
                                 );
                               const {hasValidCard} = data.accountUser.account;
                               return (
-                                <>
-                                  {currentAccountUser && (
-                                    <Query
-                                      query={MY_DEMO_BOXES}
-                                      variables={{
-                                        token: getToken().token,
-                                        accountUserId: parseInt(
-                                          currentAccountUser
-                                        )
-                                      }}
-                                    >
-                                      {({loading, error, data}) => {
-                                        if (loading)
-                                          return (
-                                            <Box h="3.5rem" mb={4}>
-                                              <Text>Loading...</Text>
-                                            </Box>
-                                          );
-                                        if (error)
-                                          return (
-                                            <Box h="3.5rem" mb={4}>
-                                              <Text>
-                                                Error! {error.message}
-                                              </Text>
-                                            </Box>
-                                          );
-                                        const {demoerInventory} = data;
-                                        const campaignInInventory = isInInventory(
-                                          demoCampaign.id,
-                                          demoerInventory
-                                        );
-                                        let hoverBg = "#F87060";
-                                        let background = "oranges.1";
-                                        let color = "whites.0";
-                                        if (
-                                          hasValidCard &&
-                                          campaignInInventory
-                                        ) {
-                                          hoverBg = "#FFC651";
-                                          background = "yellows.1";
-                                          color = "blacks.0";
-                                        }
-                                        return (
-                                          <CallToActionButton
-                                            cursor={"pointer"}
-                                            hoverBackground={`${hoverBg}`}
-                                            bg={`${background}`}
-                                            color={`${color}`}
-                                            hoverColor={"whites.0"}
-                                            br={2}
-                                            w={r("100% 25rem ---> 18rem")}
-                                            maxWidth="100%"
-                                            fs={"1.6rem"}
-                                            onClick={() => {
-                                              if (hasValidCard) {
-                                                const container = document.querySelector(
-                                                  "#rightContainer"
-                                                );
-                                                let mobileTop = Math.abs(
-                                                  container.getBoundingClientRect()
-                                                    .top
-                                                );
-                                                let desktopTop =
-                                                  container.scrollTop;
+                                <CallToActionButton
+                                  cursor={"pointer"}
+                                  hoverBackground={"#F87060"}
+                                  bg={"oranges.1"}
+                                  color={"whites.0"}
+                                  hoverColor={"whites.0"}
+                                  br={2}
+                                  w={r("100% 25rem ---> 18rem")}
+                                  maxWidth="100%"
+                                  fs={"1.6rem"}
+                                  onClick={() => {
+                                    if (hasValidCard) {
+                                      const container = document.querySelector(
+                                        "#rightContainer"
+                                      );
+                                      let mobileTop = Math.abs(
+                                        container.getBoundingClientRect().top
+                                      );
+                                      let desktopTop = container.scrollTop;
 
-                                                updateScrollY(
-                                                  Math.max(
-                                                    mobileTop,
-                                                    desktopTop
-                                                  )
-                                                );
-                                                window.scrollTo(0, 0);
-                                                updateDemoCheckoutForm({
-                                                  ...demoCheckoutForm,
-                                                  demoCampaignId: parseInt(
-                                                    demoCampaign.id
-                                                  ),
-                                                  isRefill: campaignInInventory
-                                                });
-                                                return toggleCheckout();
-                                              } else {
-                                                window.scrollTo(0, 0);
-                                                return updatePanel(
-                                                  "payoutBilling"
-                                                );
-                                              }
-                                            }}
-                                          >
-                                            {hasValidCard &&
-                                            !campaignInInventory
-                                              ? "Order a demo box"
-                                              : hasValidCard &&
-                                                campaignInInventory
-                                              ? "Order a refill"
-                                              : "Update billing info"}
-                                          </CallToActionButton>
-                                        );
-                                      }}
-                                    </Query>
-                                  )}
-                                </>
+                                      updateScrollY(
+                                        Math.max(mobileTop, desktopTop)
+                                      );
+                                      window.scrollTo(0, 0);
+                                      updateDemoCheckoutForm({
+                                        ...demoCheckoutForm,
+                                        demoCampaignId: parseInt(
+                                          demoCampaign.id
+                                        )
+                                      });
+                                      return toggleCheckout();
+                                    } else {
+                                      window.scrollTo(0, 0);
+                                      return updatePanel("payoutBilling");
+                                    }
+                                  }}
+                                >
+                                  {hasValidCard
+                                    ? "Order a demo box"
+                                    : "Update billing info"}
+                                </CallToActionButton>
                               );
                             }}
                           </Query>

@@ -113,7 +113,7 @@ const initialState = {
     receiptUId: "",
     isRefill: false
   },
-  panel: "myDemos",
+  panel: "purchases",
   previousPanel: "home",
   navOpen: false,
   checkoutOpen: false,
@@ -244,7 +244,7 @@ export default function rootReducer(state = initialState, action) {
       }
       isMutualPanel = checkPanel(state.panel);
       //newState.panel = "home";
-      if (newState.panel !== "createAccount") newState.panel = "myDemos";
+      if (newState.panel !== "createAccount") newState.panel = "purchases";
       //Restores previous panel if it is a mutual panel
       if (isMutualPanel) newState.panel = state.panel;
       return Object.assign({}, state, newState);
@@ -262,7 +262,7 @@ export default function rootReducer(state = initialState, action) {
       //Restores previous panel if it is a mutual panel
       isMutualPanel = checkPanel(state.panel);
       //newState.panel = "home";
-      newState.panel = "myDemos";
+      newState.panel = "purchases";
       if (isMutualPanel) newState.panel = state.panel;
       //Sets default values for profile form
       populateProfileForm(newState, accountUser);
@@ -348,7 +348,6 @@ export default function rootReducer(state = initialState, action) {
       return Object.assign({}, state, newState);
     case UPDATE_DEMO_CHECKOUT_FORM:
       newState = updateState(state, ["demoCheckoutForm"], payload, false);
-      console.log(newState.demoCheckoutForm);
       return Object.assign({}, state, newState);
     case UPDATE_DEPOSIT_FORM:
       newState = updateState(state, ["depositForm"], payload, false);

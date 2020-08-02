@@ -16,7 +16,7 @@ class _QueryAccountUsers extends React.Component {
         {({loading, error, data}) => {
           if (loading)
             return (
-              <Box h="3.5rem" mb={4}>
+              <Box h="3.5rem">
                 <Text>Loading...</Text>
               </Box>
             );

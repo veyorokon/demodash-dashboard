@@ -756,3 +756,52 @@ export const CREATE_DEMO_BOX_PURCHASE = gql`
     }
   }
 `;
+
+/*
+Purchases
+*/
+export const SALES = gql`
+  query sales($token: String!, $accountUserId: Int!) {
+    sales(token: $token, accountUserId: $accountUserId) {
+      id
+      purchase {
+        id
+        paymentStatus
+        receipt {
+          id
+          items {
+            id
+            itemName
+            demoBox {
+              id
+              items {
+                id
+                product {
+                  id
+                  name
+                }
+              }
+            }
+            options {
+              id
+              variationOptionName
+            }
+          }
+        }
+        recipient {
+          id
+          name
+          address {
+            id
+            line1
+            line2
+            state
+            city
+            country
+            zip
+          }
+        }
+      }
+    }
+  }
+`;

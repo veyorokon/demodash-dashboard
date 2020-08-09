@@ -766,6 +766,7 @@ export const SALES = gql`
       id
       purchase {
         id
+        price
         paymentStatus
         receipt {
           id

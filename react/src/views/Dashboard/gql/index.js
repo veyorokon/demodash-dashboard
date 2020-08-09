@@ -766,13 +766,22 @@ export const SALES = gql`
       id
       purchase {
         id
-        price
+        dateCreated
         paymentStatus
+        price
         receipt {
           id
           items {
             id
             itemName
+            commission {
+              id
+              amount
+            }
+            product {
+              id
+              name
+            }
             demoBox {
               id
               items {

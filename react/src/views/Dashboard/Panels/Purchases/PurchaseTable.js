@@ -10,18 +10,18 @@ import {SALES} from "views/Dashboard/gql";
 import {CheckCircle} from "@styled-icons/boxicons-solid/CheckCircle";
 import {TimesCircle} from "@styled-icons/fa-regular/TimesCircle";
 import {TimeFive} from "@styled-icons/boxicons-solid/TimeFive";
+import Moment from "react-moment";
 
 const AddressLine = props => {
   return (
     <Box {...props}>
-      <Text color="navys.1">{props.children}</Text>
+      <Text color="navys.0">{props.children}</Text>
     </Box>
   );
 };
 
 const Customer = ({props}) => {
   const {purchase} = props;
-  console.log(purchase);
   const {address} = purchase.recipient;
   return (
     <Box pt={2} pb={2}>
@@ -128,25 +128,44 @@ const Commission = ({props}) => {
     </Flex>
   );
 };
+
+const Date = ({props}) => {
+  const {purchase} = props;
+  return (
+    <Flex pt={2} pb={2}>
+      <Text color="navys.0" ml={2}>
+        <Moment format="MMMM, DD YYYY">{purchase.dateCreated}</Moment>
+      </Text>
+    </Flex>
+  );
+};
 // const ExpandedOrder = ({props}) => {
 //   return <Flex alignItems="center">Ordered:</Flex>;
 // };
 
 const columns = [
   {
+    name: "Date",
+    selector: "date",
+    sortable: true,
+    maxWidth: "20rem",
+    width: "20rem",
+    cell: purchase => <Date props={purchase} />
+  },
+  {
     name: "Customer",
     selector: "customer",
     sortable: true,
-    maxWidth: "25rem",
-    width: "25rem",
+    maxWidth: "20rem",
+    width: "20rem",
     cell: purchase => <Customer props={purchase} />
   },
   {
     name: "Order",
     selector: "order",
     sortable: true,
-    maxWidth: "25rem",
-    width: "25rem",
+    maxWidth: "20rem",
+    width: "20rem",
     cell: purchase => <Order props={purchase} />
   },
   {

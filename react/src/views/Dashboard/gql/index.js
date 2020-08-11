@@ -771,6 +771,10 @@ export const SALES = gql`
         price
         receipt {
           id
+          transfers {
+            id
+            amount
+          }
           items {
             id
             itemName

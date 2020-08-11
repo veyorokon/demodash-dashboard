@@ -105,7 +105,7 @@ class NavigationTabs extends React.Component {
           w={r("100%")}
           overflow="hidden"
           bg="white"
-          h={r("3rem")}
+          h={r("3.9rem")}
         >
           {this.props.tabHeaders.map((elem, index) => {
             const isActive = selected === index;

@@ -109,7 +109,19 @@ const Order = ({props}) => {
   );
 };
 
-const Payout = ({props}) => {
+const Price = ({props}) => {
+  const {purchase} = props;
+  return (
+    <Flex pt={2} pb={2}>
+      <Text color="navys.0">$</Text>
+      <Text color="navys.0" ml={2}>
+        {purchase.price.toFixed(2)}
+      </Text>
+    </Flex>
+  );
+};
+
+const Commission = ({props}) => {
   const {purchase} = props;
   const {items} = purchase.receipt;
   let commissionTotal = 0;
@@ -117,65 +129,24 @@ const Payout = ({props}) => {
     let item = items[key];
     if (item.commission) commissionTotal += item.commission.amount;
   }
-  let fee = 0.029 * purchase.price + 0.3;
-  let payout = 0;
-  if (purchase.receipt.transfers.length)
-    payout = purchase.receipt.transfers[0].amount;
   return (
-    <Flex pt={2} pb={2} flexDirection="column">
-      <Flex justifyContent="space-between" alignItems="center">
-        <Text mr={1} color="navys.0">
-          Price:
-        </Text>
-        <Flex flexGrow={0}>
-          <Text color="navys.0">$</Text>
-          <Text color="navys.0" ml={1}>
-            {purchase.price.toFixed(2)}
-          </Text>
-        </Flex>
-      </Flex>
+    <Flex pt={2} pb={2}>
+      <Text color="navys.0">$</Text>
+      <Text color="navys.0" ml={2}>
+        {commissionTotal.toFixed(2)}
+      </Text>
+    </Flex>
+  );
+};
 
-      <Flex mt={1} justifyContent="space-between" alignItems="center">
-        <Text mr={1} color="navys.0">
-          Fees:
-        </Text>
-        <Flex flexGrow={0}>
-          <Text color="navys.0">- $</Text>
-          <Text color="navys.0" ml={1}>
-            {fee.toFixed(2)}
-          </Text>
-        </Flex>
-      </Flex>
-
-      <Flex
-        borderBottom={"1px solid #dae0e6"}
-        mt={1}
-        pb={1}
-        justifyContent="space-between"
-        alignItems="center"
-      >
-        <Text mr={1} color="navys.0">
-          Commission:
-        </Text>
-        <Flex flexGrow={0}>
-          <Text color="darkBlues.0">- $</Text>
-          <Text color="darkBlues.0" ml={1}>
-            {commissionTotal.toFixed(2)}
-          </Text>
-        </Flex>
-      </Flex>
-
-      <Flex mt={1} justifyContent="space-between" alignItems="center">
-        <Text mr={1} color="navys.0">
-          Net payout:
-        </Text>
-        <Flex flexGrow={0}>
-          <Text color="greens.4">$</Text>
-          <Text color="greens.4" ml={1}>
-            {payout.toFixed(2)}
-          </Text>
-        </Flex>
-      </Flex>
+const TransferAmount = ({props}) => {
+  const {purchase} = props;
+  return (
+    <Flex pt={2} pb={2}>
+      <Text color="navys.0">$</Text>
+      <Text color="navys.0" ml={2}>
+        {purchase.receipt.transfers[0].amount.toFixed(2)}
+      </Text>
     </Flex>
   );
 };
@@ -196,6 +167,7 @@ const columns = [
   {
     name: "Customer",
     selector: "customer",
+    sortable: true,
     maxWidth: "20rem",
     width: "20rem",
     cell: purchase => <Customer props={purchase} />
@@ -203,16 +175,34 @@ const columns = [
   {
     name: "Order",
     selector: "order",
+    sortable: true,
     maxWidth: "20rem",
     width: "20rem",
     cell: purchase => <Order props={purchase} />
   },
   {
-    name: "Payout",
-    selector: "payout",
-    maxWidth: "20rem",
-    width: "20rem",
-    cell: purchase => <Payout props={purchase} />
+    name: "Price",
+    selector: "price",
+    sortable: true,
+    maxWidth: "10rem",
+    width: "10rem",
+    cell: purchase => <Price props={purchase} />
+  },
+  {
+    name: "Commission",
+    selector: "commission",
+    sortable: true,
+    maxWidth: "10rem",
+    width: "10rem",
+    cell: purchase => <Commission props={purchase} />
+  },
+  {
+    name: "Net",
+    selector: "netAmount",
+    sortable: true,
+    maxWidth: "10rem",
+    width: "10rem",
+    cell: purchase => <TransferAmount props={purchase} />
   },
   {
     name: "Payment Status",

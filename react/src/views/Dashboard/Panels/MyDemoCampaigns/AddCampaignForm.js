@@ -160,7 +160,8 @@ class BoxItemsFormGroup extends React.Component {
             <FormGroup mb={r("3 ----> 2")}>
               <FlexField name={"Commission:"} />
               <Flex mt={2} flexBasis="60%" flexDirection="column">
-                {demoBox.items &&
+                {demoBox &&
+                  demoBox.items &&
                   demoBox.items.map((item, indx) => {
                     const {price} = item.product;
                     const commissionAmount = commissionData[indx]

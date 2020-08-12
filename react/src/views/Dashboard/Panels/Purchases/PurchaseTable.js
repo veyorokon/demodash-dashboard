@@ -17,7 +17,7 @@ const Date = ({props}) => {
   return (
     <Flex pt={2} pb={2}>
       <Text color="navys.0" ml={2}>
-        <Moment format="MMMM, DD YYYY">{purchase.dateCreated}</Moment>
+        <Moment format="MMMM DD YYYY">{purchase.dateCreated}</Moment>
       </Text>
     </Flex>
   );
@@ -93,8 +93,12 @@ const Order = ({props}) => {
       displayItems.push(item.product.name);
     }
   }
+  let uid = purchase.receipt.uid.split("-");
   return (
     <Flex pt={2} pb={2} flexDirection="column">
+      <Text mb={1}>
+        #{uid[0]}-{uid[3]}
+      </Text>
       <Text mb={1} color="navys.0">
         Demo box:
       </Text>
@@ -189,8 +193,8 @@ const columns = [
     name: "Purchase date",
     selector: "date",
     sortable: true,
-    maxWidth: "20rem",
-    width: "20rem",
+    maxWidth: "18rem",
+    width: "18rem",
     cell: purchase => <Date props={purchase} />
   },
   {

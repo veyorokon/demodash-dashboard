@@ -736,25 +736,22 @@ export const OPEN_DEMO_CAMPAIGN = gql`
   Purchase demobox
 */
 
-export const CREATE_ACCOUNT_USER_PURCHASE = gql`
-  mutation createAccountUserPurchase(
+export const CREATE_DEMO_BOX_PURCHASE = gql`
+  mutation createDemoboxPurchase(
     $token: String!
     $accountUserId: Int!
+    $demoCampaignId: Int!
     $accountCardId: Int
-    $cartCheckouts: [Checkout]!
   ) {
-    createAccountUserPurchase(
+    createDemoBoxPurchase(
       token: $token
       accountUserId: $accountUserId
+      demoCampaignId: $demoCampaignId
       accountCardId: $accountCardId
-      cartCheckouts: $cartCheckouts
     ) {
-      purchase {
+      receipt {
         id
-        receipt {
-          id
-          uid
-        }
+        uid
       }
     }
   }

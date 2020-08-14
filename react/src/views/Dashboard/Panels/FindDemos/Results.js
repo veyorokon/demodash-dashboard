@@ -553,7 +553,13 @@ function Results(props) {
                                                   demoCampaignId: parseInt(
                                                     demoCampaign.id
                                                   ),
-                                                  isRefill: campaignInInventory
+                                                  isRefill: campaignInInventory,
+                                                  sellerAccountId: parseInt(
+                                                    demoCampaign.account.id
+                                                  ),
+                                                  demoBoxId: parseInt(
+                                                    demoBox.id
+                                                  )
                                                 });
                                                 return toggleCheckout();
                                               } else {

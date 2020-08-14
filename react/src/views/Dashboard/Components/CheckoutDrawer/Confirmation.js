@@ -7,7 +7,7 @@ import {LeftArrow} from "@styled-icons/boxicons-solid/LeftArrow";
 import styled from "styled-components";
 import {
   ACCOUNT_CARD_SET,
-  CREATE_DEMO_BOX_PURCHASE,
+  CREATE_ACCOUNT_USER_PURCHASE,
   MY_DEMO_BOXES
 } from "views/Dashboard/gql";
 import {API_MEDIA} from "api";
@@ -138,7 +138,7 @@ class CardPaymentDropdown extends React.Component {
 }
 
 class _Overview extends React.Component {
-  async createDemoBoxPurchaseMutation(orderDemoBox) {
+  async createAccountUserPurchaseMutation(createAccountUserPurchase) {
     const {
       demoCheckoutForm,
       currentAccountUser,
@@ -151,16 +151,32 @@ class _Overview extends React.Component {
       isSubmitting: true,
       disabled: true
     });
-    flatForm.token = getToken().token;
-    flatForm.accountUserId = parseInt(currentAccountUser);
 
+    let checkoutForm = {
+      token: getToken().token,
+      accountUserId: parseInt(currentAccountUser),
+      accountCardId: flatForm.accountCardId,
+      cartCheckouts: [
+        {
+          sellerAccountId: flatForm.sellerAccountId,
+          checkoutItems: [
+            {
+              demoBoxId: flatForm.demoBoxId,
+              demoCampaignId: flatForm.demoCampaignId,
+              quantity: 1
+            }
+          ]
+        }
+      ]
+    };
     try {
-      const receipt = await orderDemoBox({
-        variables: flatForm
+      const response = await createAccountUserPurchase({
+        variables: checkoutForm
       });
+      const data = response.data.createAccountUserPurchase;
       return updateDemoCheckoutForm({
         ...demoCheckoutForm,
-        receiptUId: receipt.data.createDemoBoxPurchase.receipt.uid,
+        receiptUId: data.purchase.receipt.uid,
         isSubmitting: false,
         disabled: false,
         currentPanel: demoCheckoutForm.currentPanel + 1
@@ -370,7 +386,7 @@ class _Overview extends React.Component {
             </CallToActionButton>
 
             <Mutation
-              mutation={CREATE_DEMO_BOX_PURCHASE}
+              mutation={CREATE_ACCOUNT_USER_PURCHASE}
               refetchQueries={[
                 {
                   query: MY_DEMO_BOXES,
@@ -381,7 +397,7 @@ class _Overview extends React.Component {
                 }
               ]}
             >
-              {createOrderDemoBox => (
+              {createAccountUserPurchase => (
                 <CallToActionButton
                   disabled={disabled}
                   cursor={disabled ? "no-drop" : "pointer"}
@@ -394,7 +410,9 @@ class _Overview extends React.Component {
                   maxWidth="100%"
                   fs={"1.6rem"}
                   onClick={() => {
-                    this.createDemoBoxPurchaseMutation(createOrderDemoBox);
+                    this.createAccountUserPurchaseMutation(
+                      createAccountUserPurchase
+                    );
                   }}
                 >
                   {demoCheckoutForm.isSubmitting

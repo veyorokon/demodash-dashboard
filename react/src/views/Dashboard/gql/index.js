@@ -778,6 +778,8 @@ export const SALES = gql`
           transfers {
             id
             amount
+            stripeFee
+            demodashFee
           }
           items {
             id

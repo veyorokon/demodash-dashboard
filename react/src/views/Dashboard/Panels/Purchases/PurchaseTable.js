@@ -15,9 +15,12 @@ import Moment from "react-moment";
 const Date = ({props}) => {
   const {purchase} = props;
   return (
-    <Flex pt={2} pb={2}>
-      <Text color="navys.0" ml={2}>
+    <Flex flexDirection="column" pt={2} pb={2}>
+      <Text fw={500} color="navys.0">
         <Moment format="MMMM DD YYYY">{purchase.dateCreated}</Moment>
+      </Text>
+      <Text fw={300} color="navys.1">
+        <Moment format="hh:mm A">{purchase.dateCreated}</Moment>
       </Text>
     </Flex>
   );
@@ -121,10 +124,15 @@ const Payout = ({props}) => {
     let item = items[key];
     if (item.commission) commissionTotal += item.commission.amount;
   }
-  let fee = 0.029 * purchase.total + 0.3;
+  let feeTotal = 0;
   let payout = 0;
-  if (purchase.receipt.transfers.length)
-    payout = purchase.receipt.transfers[0].amount;
+  let transfer = 0;
+  if (purchase.receipt.transfers.length) {
+    transfer = purchase.receipt.transfers[0];
+    feeTotal = transfer.demodashFee + transfer.stripeFee;
+    payout = transfer.amount - feeTotal - commissionTotal;
+  }
+
   return (
     <Flex pt={2} pb={2} flexDirection="column">
       <Flex justifyContent="space-between" alignItems="center">
@@ -146,7 +154,7 @@ const Payout = ({props}) => {
         <Flex flexGrow={0}>
           <Text color="navys.0">- $</Text>
           <Text color="navys.0" ml={1}>
-            {fee.toFixed(2)}
+            {feeTotal.toFixed(2)}
           </Text>
         </Flex>
       </Flex>
@@ -249,7 +257,7 @@ const _PurchaseTable = props => {
         {currentAccountUser && (
           <Query
             query={SALES}
-            // pollInterval={500}
+            pollInterval={500}
             variables={{
               token: getToken().token,
               accountUserId: parseInt(currentAccountUser)

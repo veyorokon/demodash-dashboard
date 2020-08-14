@@ -121,7 +121,7 @@ const Payout = ({props}) => {
     let item = items[key];
     if (item.commission) commissionTotal += item.commission.amount;
   }
-  let fee = 0.029 * purchase.price + 0.3;
+  let fee = 0.029 * purchase.total + 0.3;
   let payout = 0;
   if (purchase.receipt.transfers.length)
     payout = purchase.receipt.transfers[0].amount;
@@ -134,7 +134,7 @@ const Payout = ({props}) => {
         <Flex flexGrow={0}>
           <Text color="navys.0">$</Text>
           <Text color="navys.0" ml={1}>
-            {purchase.price.toFixed(2)}
+            {purchase.total.toFixed(2)}
           </Text>
         </Flex>
       </Flex>

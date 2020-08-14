@@ -771,7 +771,7 @@ export const SALES = gql`
         id
         dateCreated
         paymentStatus
-        price
+        total
         receipt {
           id
           uid

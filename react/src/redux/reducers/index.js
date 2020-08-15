@@ -114,7 +114,7 @@ const initialState = {
     receiptUId: "",
     isRefill: false
   },
-  panel: "purchases",
+  panel: "sales",
   previousPanel: "home",
   navOpen: false,
   checkoutOpen: false,
@@ -245,7 +245,7 @@ export default function rootReducer(state = initialState, action) {
       }
       isMutualPanel = checkPanel(state.panel);
       //newState.panel = "home";
-      if (newState.panel !== "createAccount") newState.panel = "purchases";
+      if (newState.panel !== "createAccount") newState.panel = "sales";
       //Restores previous panel if it is a mutual panel
       if (isMutualPanel) newState.panel = state.panel;
       return Object.assign({}, state, newState);
@@ -263,7 +263,7 @@ export default function rootReducer(state = initialState, action) {
       //Restores previous panel if it is a mutual panel
       isMutualPanel = checkPanel(state.panel);
       //newState.panel = "home";
-      newState.panel = "purchases";
+      newState.panel = "sales";
       if (isMutualPanel) newState.panel = state.panel;
       //Sets default values for profile form
       populateProfileForm(newState, accountUser);

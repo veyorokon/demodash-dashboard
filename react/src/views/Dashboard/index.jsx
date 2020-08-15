@@ -18,7 +18,7 @@ import {
   MyDemoBoxes,
   MyDemoCampaigns,
   FindDemoers,
-  Purchases
+  Sales
 } from "./Panels";
 import {LogoutBox} from "@styled-icons/remix-line/LogoutBox";
 import {
@@ -83,7 +83,7 @@ const _Dashboard = props => {
           <MyDemoBoxes key={"myDemoBoxes"} />
           <MyDemoCampaigns key={"myDemoCampaigns"} />
           <FindDemoers key={"findDemoers"} />
-          <Purchases key={"purchases"} />
+          <Sales key={"sales"} />
 
           <PayoutBilling key={"payoutBilling"} />
           <Settings key={"settings"} />

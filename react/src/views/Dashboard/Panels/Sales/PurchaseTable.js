@@ -42,7 +42,7 @@ const Customer = ({props}) => {
         {purchase.recipient.name}
       </Text>
       <AddressLine>{address.line1}</AddressLine>
-      <AddressLine>{address.line2}</AddressLine>
+      {address.line2 && <AddressLine>{address.line2}</AddressLine>}
       <AddressLine>
         {address.city}, {address.state} {address.zip}
       </AddressLine>
@@ -308,8 +308,15 @@ const PurchaseTable = connect(
 
 export default props => {
   return (
-    <Flex mb={4} justifyContent="center">
-      <PurchaseTable title={"Real-time purchases"} />
-    </Flex>
+    <>
+      <Flex mb={4}>
+        <Text fw={500} fs={"2rem"}>
+          Real-time sales
+        </Text>
+      </Flex>
+      <Flex mb={4} justifyContent="center">
+        <PurchaseTable title={"Sales"} />
+      </Flex>
+    </>
   );
 };

@@ -8,7 +8,7 @@ import MyProducts from "./MyProducts";
 import MyDemoBoxes from "./MyDemoBoxes";
 import MyDemoCampaigns from "./MyDemoCampaigns";
 import FindDemoers from "./FindDemoers";
-import Purchases from "./Purchases";
+import Sales from "./Sales";
 import CreateAccount from "./CreateAccount";
 
 export {
@@ -23,5 +23,5 @@ export {
   MyDemoBoxes,
   MyDemoCampaigns,
   FindDemoers,
-  Purchases
+  Sales
 };

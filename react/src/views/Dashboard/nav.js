@@ -81,12 +81,7 @@ const BrandNav = props => {
         ml={3}
       />
       <NavCategory mt={3} text={"Sales"} />
-      <ConnectedNavItem
-        id={"purchases"}
-        text="Purchases"
-        icon={<MoneyBill />}
-        ml={3}
-      />
+      <ConnectedNavItem id={"sales"} text="Sales" icon={<MoneyBill />} ml={3} />
       <NavCategory mt={3} text={"Account"} />
       <ConnectedNavItem
         id={"payoutBilling"}
@@ -139,11 +134,7 @@ const AllNav = props => {
         icon={<Search />}
       />
       <ConnectedNavItem id={"findDemos"} text="Find demos" icon={<Search />} />
-      <ConnectedNavItem
-        id={"purchases"}
-        text="Purchases"
-        icon={<MoneyBill />}
-      />
+      <ConnectedNavItem id={"sales"} text="Sales" icon={<MoneyBill />} />
       <ConnectedNavItem
         id={"payoutBilling"}
         text="Payout & billing"

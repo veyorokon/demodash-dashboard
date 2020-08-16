@@ -310,6 +310,9 @@ const ShippingInfo = ({props}) => {
     setTrackingNum(purchase.receipt.trackingNumber);
   }, [purchase.receipt.trackingNumber]);
 
+  let hasTrackingNumber = true;
+  if (trackingNumber === 0 || trackingNumber === "" || trackingNumber === null)
+    hasTrackingNumber = false;
   return (
     <Flex pt={2} pb={2} flexDirection="column" maxWidth="100%">
       <Text color="navys.0">Tracking number:</Text>
@@ -323,7 +326,7 @@ const ShippingInfo = ({props}) => {
           setTrackingNum(evt.target.value);
         }}
       />
-      {trackingNumber !== 0 && (
+      {hasTrackingNumber && (
         <Text color="navys.1" fs="1.2rem">
           {format(trackingNumber)}
         </Text>

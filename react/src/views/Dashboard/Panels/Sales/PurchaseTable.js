@@ -8,6 +8,8 @@ import {Query, Mutation} from "@apollo/react-components";
 import {SALES, UPDATE_PURCHASE_TRACKING} from "views/Dashboard/gql";
 // import DemodashIcon from "assets/icons/demodash";
 import {Truck} from "@styled-icons/boxicons-solid/Truck";
+import {Lock} from "@styled-icons/boxicons-solid/Lock";
+import {LockOpen} from "@styled-icons/boxicons-solid/LockOpen";
 
 import {CheckCircle} from "@styled-icons/boxicons-solid/CheckCircle";
 import {TimesCircle} from "@styled-icons/fa-regular/TimesCircle";
@@ -60,7 +62,7 @@ const Customer = ({props}) => {
 
 const PaymentStatus = props => {
   const {purchase} = props;
-  let color = "yellows.0";
+  let color = "oranges.0";
   let paymentStatus = "Pending";
   let displayIcon = (
     <Icon mr={2} color={color} h={"2.5rem"}>
@@ -95,7 +97,7 @@ const PaymentStatus = props => {
 const ShippingStatus = props => {
   const {purchase} = props;
   const {receipt} = purchase;
-  let color = "yellows.0";
+  let color = "oranges.0";
   let shippingStatus = "Shipping needed";
   let displayIcon = (
     <Icon mr={2} color={color} h={"2.5rem"}>
@@ -283,7 +285,7 @@ const _MutationButton = props => {
               <Truck />
             </Icon>
             <Text color="blacks.0" mr={3} ml={2}>
-              Mark shipped
+              Update shipping
             </Text>
           </Flex>
         </FormButton>
@@ -299,8 +301,10 @@ const MutationButton = connect(
 
 const ShippingInfo = ({props}) => {
   const {purchase} = props;
-  const initialTracking = purchase.receipt.trackingNumber || 0;
+  const initialTracking = purchase.receipt.trackingNumber || "";
   const [trackingNumber, setTrackingNum] = useState(initialTracking);
+  const [edit, toggleEdit] = useState(initialTracking ? false : true);
+
   const disabled =
     purchase.receipt.trackingNumber === trackingNumber ||
     trackingNumber === 0 ||
@@ -308,15 +312,53 @@ const ShippingInfo = ({props}) => {
 
   useEffect(() => {
     setTrackingNum(purchase.receipt.trackingNumber);
+    toggleEdit(false);
   }, [purchase.receipt.trackingNumber]);
 
   let hasTrackingNumber = true;
   if (trackingNumber === 0 || trackingNumber === "" || trackingNumber === null)
     hasTrackingNumber = false;
+
   return (
-    <Flex pt={2} pb={2} flexDirection="column" maxWidth="100%">
-      <Text color="navys.0">Tracking number:</Text>
+    <Flex
+      mt={!edit ? 3 : 0}
+      mb={!edit ? 3 : 0}
+      pt={2}
+      pb={2}
+      flexDirection="column"
+      maxWidth="100%"
+    >
+      <Flex justifyContent="space-between">
+        <Text color="navys.0">Tracking number:</Text>
+        {purchase.receipt.wasShipped && edit && (
+          <Icon
+            cursor="pointer"
+            onClick={() => {
+              toggleEdit(!edit);
+            }}
+            mr={1}
+            color="oranges.0"
+            h="1.5rem"
+          >
+            <LockOpen />
+          </Icon>
+        )}
+        {purchase.receipt.wasShipped && !edit && (
+          <Icon
+            cursor="pointer"
+            onClick={() => {
+              toggleEdit(!edit);
+            }}
+            mr={1}
+            color="oranges.0"
+            h="1.5rem"
+          >
+            <Lock />
+          </Icon>
+        )}
+      </Flex>
       <FlexInput
+        disabled={purchase.receipt.wasShipped && !edit}
         mt={1}
         mb={1}
         inputProps={{fontSize: "1.4rem", mt: 0, mb: 0}}
@@ -331,14 +373,16 @@ const ShippingInfo = ({props}) => {
           {format(trackingNumber)}
         </Text>
       )}
-      <MutationButton
-        disabled={disabled}
-        mutationVariables={{
-          token: getToken().token,
-          purchaseId: parseInt(purchase.id),
-          trackingNumber: trackingNumber
-        }}
-      />
+      {(!purchase.receipt.wasShipped || edit) && (
+        <MutationButton
+          disabled={disabled}
+          mutationVariables={{
+            token: getToken().token,
+            purchaseId: parseInt(purchase.id),
+            trackingNumber: trackingNumber
+          }}
+        />
+      )}
     </Flex>
   );
 };
@@ -399,7 +443,7 @@ const _PurchaseTable = props => {
   const {currentAccountUser} = props;
   return (
     <Box
-      w={r("100rem")}
+      w={r("120rem")}
       maxWidth="100%"
       boxShadow="0 1px 6px rgba(57,73,76,0.35)"
       bg={"whites.0"}
@@ -416,7 +460,7 @@ const _PurchaseTable = props => {
         {currentAccountUser && (
           <Query
             query={SALES}
-            pollInterval={500}
+            pollInterval={1000}
             variables={{
               token: getToken().token,
               accountUserId: parseInt(currentAccountUser)

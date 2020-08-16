@@ -158,7 +158,7 @@ const Icon = props => (
   <IconBox {...props}>
     {React.cloneElement(props.children, {
       height: "100%",
-      fill: "currentColor"
+      fill: props.fill || "currentColor"
     })}
   </IconBox>
 );

@@ -327,7 +327,7 @@ const ShippingInfo = ({props}) => {
         }}
       />
       {hasTrackingNumber && (
-        <Text color="navys.1" fs="1.2rem">
+        <Text color="navys.1" fs="1.1rem">
           {format(trackingNumber)}
         </Text>
       )}

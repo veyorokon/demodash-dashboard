@@ -349,7 +349,6 @@ export default function rootReducer(state = initialState, action) {
       return Object.assign({}, state, newState);
     case UPDATE_DEMO_CHECKOUT_FORM:
       newState = updateState(state, ["demoCheckoutForm"], payload, false);
-      console.log(newState.demoCheckoutForm);
       return Object.assign({}, state, newState);
     case UPDATE_DEPOSIT_FORM:
       newState = updateState(state, ["depositForm"], payload, false);

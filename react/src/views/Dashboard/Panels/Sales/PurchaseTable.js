@@ -1,11 +1,13 @@
-import React from "react";
+import React, {useState} from "react";
 import {Box, Flex, Text, Icon} from "components";
-import {FormSection} from "views/Dashboard/Components";
+import {FormSection, FlexInput, FormButton} from "views/Dashboard/Components";
 import {responsive as r, getToken} from "lib";
 import {connect} from "react-redux";
 import DataTable from "react-data-table-component";
 import {Query} from "@apollo/react-components";
 import {SALES} from "views/Dashboard/gql";
+// import DemodashIcon from "assets/icons/demodash";
+import {Truck} from "@styled-icons/boxicons-solid/Truck";
 
 import {CheckCircle} from "@styled-icons/boxicons-solid/CheckCircle";
 import {TimesCircle} from "@styled-icons/fa-regular/TimesCircle";
@@ -50,9 +52,10 @@ const Customer = ({props}) => {
   );
 };
 
-const PaymentStatus = ({props}) => {
+const PaymentStatus = props => {
   const {purchase} = props;
   let color = "yellows.0";
+  let paymentStatus = "Pending";
   let displayIcon = (
     <Icon mr={2} color={color} h={"2.5rem"}>
       <TimeFive />
@@ -60,6 +63,7 @@ const PaymentStatus = ({props}) => {
   );
   if (purchase.paymentStatus === "Successful") {
     color = "greens.4";
+    paymentStatus = "Paid";
     displayIcon = (
       <Icon mr={2} color={color} h={"2.5rem"}>
         <CheckCircle />
@@ -67,6 +71,7 @@ const PaymentStatus = ({props}) => {
     );
   } else if (purchase.paymentStatus === "Failed") {
     color = "reds.1";
+    paymentStatus = "Failed";
     displayIcon = (
       <Icon mr={2} color={color} h={"2.5rem"}>
         <TimesCircle />
@@ -74,9 +79,54 @@ const PaymentStatus = ({props}) => {
     );
   }
   return (
-    <Flex pt={2} pb={2} color={color} alignItems="center">
+    <Flex color={color} alignItems="center" {...props}>
       {displayIcon}
-      <Text color={color}>{purchase.paymentStatus}</Text>
+      <Text color={color}>{paymentStatus}</Text>
+    </Flex>
+  );
+};
+
+const ShippingStatus = props => {
+  const {purchase} = props;
+  let color = "yellows.0";
+  let shippingStatus = "Shipping pending";
+  let displayIcon = (
+    <Icon mr={2} color={color} h={"2.5rem"}>
+      <TimeFive />
+    </Icon>
+  );
+  if (purchase.paymentStatus === "Shipped") {
+    color = "greens.4";
+    shippingStatus = "Paid";
+    displayIcon = (
+      <Icon mr={2} color={color} h={"2.5rem"}>
+        <CheckCircle />
+      </Icon>
+    );
+  } else if (purchase.paymentStatus === "Failed") {
+    color = "reds.1";
+    shippingStatus = "Failed";
+    displayIcon = (
+      <Icon mr={2} color={color} h={"2.5rem"}>
+        <TimesCircle />
+      </Icon>
+    );
+  }
+  return (
+    <Flex color={color} alignItems="center" {...props}>
+      {displayIcon}
+      <Text color={color}>{shippingStatus}</Text>
+    </Flex>
+  );
+};
+
+const Status = ({props}) => {
+  const {purchase} = props;
+  const wasPaid = purchase.paymentStatus === "Successful";
+  return (
+    <Flex flexDirection="column" pt={2} pb={2}>
+      <PaymentStatus mb={wasPaid ? 2 : 0} purchase={purchase} />
+      {wasPaid && <ShippingStatus purchase={purchase} />}
     </Flex>
   );
 };
@@ -192,6 +242,55 @@ const Payout = ({props}) => {
   );
 };
 
+function format(s) {
+  return s.toString().replace(/\w{4}(?=.)/g, "$& ");
+}
+
+const ShippingInfo = ({props}) => {
+  // const {purchase} = props;
+  const [trackingNum, setTrackingNum] = useState(0);
+  return (
+    <Flex pt={2} pb={2} flexDirection="column" maxWidth="100%">
+      <Text color="navys.0">Tracking number:</Text>
+      <FlexInput
+        mt={1}
+        mb={1}
+        inputProps={{fontSize: "1.4rem", mt: 0, mb: 0}}
+        value={trackingNum}
+        maxWidth={"100%"}
+        onChange={evt => {
+          setTrackingNum(evt.target.value);
+        }}
+      />
+      {trackingNum !== 0 && (
+        <Text color="navys.1" fs="1.2rem">
+          {format(trackingNum)}
+        </Text>
+      )}
+
+      <FormButton
+        mt={1}
+        cursor={"pointer"}
+        w="100%"
+        maxWidth={"100%"}
+        title="Shipped"
+        onClick={() => {
+          console.log("Shipped!");
+        }}
+      >
+        <Flex justifyContent="center" alignItems="center">
+          <Icon color="blacks.0" h="2rem" ml={2} mr={1}>
+            <Truck />
+          </Icon>
+          <Text color="blacks.0" mr={3} ml={2}>
+            Mark shipped
+          </Text>
+        </Flex>
+      </FormButton>
+    </Flex>
+  );
+};
+
 // const ExpandedOrder = ({props}) => {
 //   return <Flex alignItems="center">Ordered:</Flex>;
 // };
@@ -227,12 +326,20 @@ const columns = [
     cell: purchase => <Payout props={purchase} />
   },
   {
-    name: "Payment Status",
-    selector: "paymentStatus",
+    name: "Status",
+    selector: "status",
     sortable: true,
-    maxWidth: "15rem",
-    width: "15rem",
-    cell: purchase => <PaymentStatus props={purchase} />
+    maxWidth: "18rem",
+    width: "18rem",
+    cell: purchase => <Status props={purchase} />
+  },
+  {
+    name: "Shipping",
+    selector: "shipping",
+    sortable: false,
+    maxWidth: "20rem",
+    width: "20rem",
+    cell: purchase => <ShippingInfo props={purchase} />
   }
 ];
 
@@ -276,7 +383,6 @@ const _PurchaseTable = props => {
                     <Text>Error! {error.message}</Text>
                   </Box>
                 );
-              console.log(data.sales);
               return (
                 <DataTable
                   noHeader

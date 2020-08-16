@@ -12,6 +12,7 @@ const FlexInput = props => {
         p={2}
         borderColor={props.borderColor ? props.borderColor : "lightslategrey"}
         {...props}
+        {...props.inputProps}
       />
     </Flex>
   );

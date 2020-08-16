@@ -776,6 +776,7 @@ export const SALES = gql`
           id
           uid
           wasShipped
+          trackingNumber
           transfers {
             id
             amount
@@ -822,6 +823,26 @@ export const SALES = gql`
             zip
           }
         }
+      }
+    }
+  }
+`;
+
+export const UPDATE_PURCHASE_TRACKING = gql`
+  mutation updatePurchaseTracking(
+    $token: String!
+    $accountUserId: Int!
+    $purchaseId: Int!
+    $trackingNumber: String
+  ) {
+    updatePurchaseTracking(
+      token: $token
+      accountUserId: $accountUserId
+      purchaseId: $purchaseId
+      trackingNumber: $trackingNumber
+    ) {
+      purchase {
+        id
       }
     }
   }

@@ -1,11 +1,11 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {Box, Flex, Text, Icon} from "components";
 import {FormSection, FlexInput, FormButton} from "views/Dashboard/Components";
 import {responsive as r, getToken} from "lib";
 import {connect} from "react-redux";
 import DataTable from "react-data-table-component";
-import {Query} from "@apollo/react-components";
-import {SALES} from "views/Dashboard/gql";
+import {Query, Mutation} from "@apollo/react-components";
+import {SALES, UPDATE_PURCHASE_TRACKING} from "views/Dashboard/gql";
 // import DemodashIcon from "assets/icons/demodash";
 import {Truck} from "@styled-icons/boxicons-solid/Truck";
 
@@ -13,6 +13,12 @@ import {CheckCircle} from "@styled-icons/boxicons-solid/CheckCircle";
 import {TimesCircle} from "@styled-icons/fa-regular/TimesCircle";
 import {TimeFive} from "@styled-icons/boxicons-solid/TimeFive";
 import Moment from "react-moment";
+
+const mapStateToProps = state => {
+  return {
+    currentAccountUser: state.dashboard.currentAccountUser
+  };
+};
 
 const Date = ({props}) => {
   const {purchase} = props;
@@ -88,27 +94,20 @@ const PaymentStatus = props => {
 
 const ShippingStatus = props => {
   const {purchase} = props;
+  const {receipt} = purchase;
   let color = "yellows.0";
-  let shippingStatus = "Shipping pending";
+  let shippingStatus = "Shipping needed";
   let displayIcon = (
     <Icon mr={2} color={color} h={"2.5rem"}>
       <TimeFive />
     </Icon>
   );
-  if (purchase.paymentStatus === "Shipped") {
+  if (receipt.wasShipped) {
     color = "greens.4";
-    shippingStatus = "Paid";
+    shippingStatus = "Shipped";
     displayIcon = (
       <Icon mr={2} color={color} h={"2.5rem"}>
         <CheckCircle />
-      </Icon>
-    );
-  } else if (purchase.paymentStatus === "Failed") {
-    color = "reds.1";
-    shippingStatus = "Failed";
-    displayIcon = (
-      <Icon mr={2} color={color} h={"2.5rem"}>
-        <TimesCircle />
       </Icon>
     );
   }
@@ -246,9 +245,71 @@ function format(s) {
   return s.toString().replace(/\w{4}(?=.)/g, "$& ");
 }
 
+const _MutationButton = props => {
+  const accountUserId = parseInt(props.currentAccountUser);
+  return (
+    <Mutation
+      mutation={UPDATE_PURCHASE_TRACKING}
+      refetchQueries={[
+        {
+          query: SALES,
+          variables: {
+            token: getToken().token,
+            accountUserId: accountUserId
+          }
+        }
+      ]}
+    >
+      {updatePurchaseTracking => (
+        <FormButton
+          mt={1}
+          disabled={props.disabled}
+          cursor={props.disabled ? "no-drop" : "pointer"}
+          hoverBackground={props.disabled ? "yellows.1" : "#FFC651"}
+          w="100%"
+          maxWidth={"100%"}
+          title="Shipped"
+          onClick={() => {
+            updatePurchaseTracking({
+              variables: {
+                accountUserId: accountUserId,
+                ...props.mutationVariables
+              }
+            });
+          }}
+        >
+          <Flex justifyContent="center" alignItems="center">
+            <Icon color="blacks.0" h="2rem" ml={2} mr={1}>
+              <Truck />
+            </Icon>
+            <Text color="blacks.0" mr={3} ml={2}>
+              Mark shipped
+            </Text>
+          </Flex>
+        </FormButton>
+      )}
+    </Mutation>
+  );
+};
+
+const MutationButton = connect(
+  mapStateToProps,
+  null
+)(_MutationButton);
+
 const ShippingInfo = ({props}) => {
-  // const {purchase} = props;
-  const [trackingNum, setTrackingNum] = useState(0);
+  const {purchase} = props;
+  const initialTracking = purchase.receipt.trackingNumber || 0;
+  const [trackingNumber, setTrackingNum] = useState(initialTracking);
+  const disabled =
+    purchase.receipt.trackingNumber === trackingNumber ||
+    trackingNumber === 0 ||
+    trackingNumber === "";
+
+  useEffect(() => {
+    setTrackingNum(purchase.receipt.trackingNumber);
+  }, [purchase.receipt.trackingNumber]);
+
   return (
     <Flex pt={2} pb={2} flexDirection="column" maxWidth="100%">
       <Text color="navys.0">Tracking number:</Text>
@@ -256,37 +317,25 @@ const ShippingInfo = ({props}) => {
         mt={1}
         mb={1}
         inputProps={{fontSize: "1.4rem", mt: 0, mb: 0}}
-        value={trackingNum}
+        value={trackingNumber}
         maxWidth={"100%"}
         onChange={evt => {
           setTrackingNum(evt.target.value);
         }}
       />
-      {trackingNum !== 0 && (
+      {trackingNumber !== 0 && (
         <Text color="navys.1" fs="1.2rem">
-          {format(trackingNum)}
+          {format(trackingNumber)}
         </Text>
       )}
-
-      <FormButton
-        mt={1}
-        cursor={"pointer"}
-        w="100%"
-        maxWidth={"100%"}
-        title="Shipped"
-        onClick={() => {
-          console.log("Shipped!");
+      <MutationButton
+        disabled={disabled}
+        mutationVariables={{
+          token: getToken().token,
+          purchaseId: parseInt(purchase.id),
+          trackingNumber: trackingNumber
         }}
-      >
-        <Flex justifyContent="center" alignItems="center">
-          <Icon color="blacks.0" h="2rem" ml={2} mr={1}>
-            <Truck />
-          </Icon>
-          <Text color="blacks.0" mr={3} ml={2}>
-            Mark shipped
-          </Text>
-        </Flex>
-      </FormButton>
+      />
     </Flex>
   );
 };
@@ -383,11 +432,13 @@ const _PurchaseTable = props => {
                     <Text>Error! {error.message}</Text>
                   </Box>
                 );
+              console.log(data.sales);
               return (
                 <DataTable
                   noHeader
                   allowOverflow
                   columns={columns}
+                  currentAccountUser={parseInt(currentAccountUser)}
                   data={data.sales}
                   // expandableRows
                   // expandableRowsComponent={<ExpandedOrder />}
@@ -399,12 +450,6 @@ const _PurchaseTable = props => {
       </FormSection>
     </Box>
   );
-};
-
-const mapStateToProps = state => {
-  return {
-    currentAccountUser: state.dashboard.currentAccountUser
-  };
 };
 
 const PurchaseTable = connect(

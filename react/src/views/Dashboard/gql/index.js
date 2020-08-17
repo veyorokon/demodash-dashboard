@@ -94,6 +94,12 @@ export const USER__ACCOUNT_USER_SET = gql`
         account {
           id
           type
+          store {
+            id
+            handle
+            name
+            description
+          }
           profile {
             id
             name
@@ -842,6 +848,28 @@ export const UPDATE_PURCHASE_TRACKING = gql`
       trackingNumber: $trackingNumber
     ) {
       purchase {
+        id
+      }
+    }
+  }
+`;
+
+export const UPDATE_ACCOUNT_STORE = gql`
+  mutation updateAccountStore(
+    $token: String!
+    $accountUserId: Int!
+    $handle: String
+    $name: String
+    $description: String
+  ) {
+    updateAccountStore(
+      token: $token
+      accountUserId: $accountUserId
+      handle: $handle
+      name: $name
+      description: $description
+    ) {
+      account {
         id
       }
     }

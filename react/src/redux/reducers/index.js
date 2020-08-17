@@ -116,9 +116,11 @@ const initialState = {
     isRefill: false
   },
   demodashStoreForm: {
-    storeHandle: "",
-    storeName: "",
-    storeDescription: ""
+    handle: "",
+    name: "",
+    description: "",
+    disabled: true,
+    isSubmitting: false
   },
   panel: "demodashStore",
   previousPanel: "home",
@@ -166,6 +168,13 @@ function populateProfileForm(state, accountUser, props = {}) {
     choice3: choice3,
     ...accountUser.account.profile.address,
     ...props
+  };
+  return state;
+}
+
+function populateDemodashStoreForm(state, accountUser) {
+  state.demodashStoreForm = {
+    ...accountUser.account.store
   };
   return state;
 }
@@ -240,6 +249,7 @@ export default function rootReducer(state = initialState, action) {
         accountUser = filterAccountUser(newState, payload[0].id);
         //Sets default values for profile form
         newState = populateProfileForm(newState, accountUser);
+        newState = populateDemodashStoreForm(newState, accountUser);
       } else {
         newState.dashboard.currentAccountUser =
           state.dashboard.currentAccountUser;
@@ -273,6 +283,7 @@ export default function rootReducer(state = initialState, action) {
       if (isMutualPanel) newState.panel = state.panel;
       //Sets default values for profile form
       populateProfileForm(newState, accountUser);
+      newState = populateDemodashStoreForm(newState, accountUser);
       newState.checkoutOpen = false;
       return Object.assign({}, state, newState);
     case UDPATE_PANEL:
@@ -356,7 +367,6 @@ export default function rootReducer(state = initialState, action) {
     case UPDATE_DEPOSIT_FORM:
       return updateState(state, ["depositForm"], payload);
     case UPDATE_DEMODASH_STORE_FORM:
-      console.log(payload);
       return updateState(state, ["demodashStoreForm"], payload);
     default:
       return state;

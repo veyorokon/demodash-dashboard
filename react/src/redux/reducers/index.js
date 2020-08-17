@@ -257,7 +257,7 @@ export default function rootReducer(state = initialState, action) {
           newState,
           newState.dashboard.currentAccountUser
         );
-        newState.panel = "createAccount";
+        //newState.panel = "createAccount";
       }
       isMutualPanel = checkPanel(state.panel);
       //newState.panel = "home";

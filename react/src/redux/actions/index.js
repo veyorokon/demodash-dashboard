@@ -18,7 +18,8 @@ import {
   UPDATE_BILLING_FORM,
   UPDATE_DEPOSIT_FORM,
   UPDATE_DEMO_CHECKOUT_FORM,
-  UPDATE_SCROLLY
+  UPDATE_SCROLLY,
+  UPDATE_DEMODASH_STORE_FORM
 } from "redux/constants";
 
 export function updateRegistrationForm(payload) {
@@ -133,5 +134,11 @@ export function updateScrollY(payload) {
 export function updateDepositForm(payload) {
   return function(dispatch) {
     return dispatch({type: UPDATE_DEPOSIT_FORM, payload: payload});
+  };
+}
+
+export function updateDemodashStoreForm(payload) {
+  return function(dispatch) {
+    return dispatch({type: UPDATE_DEMODASH_STORE_FORM, payload: payload});
   };
 }

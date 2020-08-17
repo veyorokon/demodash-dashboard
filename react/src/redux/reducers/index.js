@@ -18,7 +18,8 @@ import {
   UPDATE_BILLING_FORM,
   UPDATE_DEMO_CHECKOUT_FORM,
   UPDATE_SCROLLY,
-  UPDATE_DEPOSIT_FORM
+  UPDATE_DEPOSIT_FORM,
+  UPDATE_DEMODASH_STORE_FORM
 } from "redux/constants";
 import {updateState, validateEmail, validatePassword} from "lib";
 
@@ -113,6 +114,11 @@ const initialState = {
     currentPanel: 0,
     receiptUId: "",
     isRefill: false
+  },
+  demodashStoreForm: {
+    storeHandle: "",
+    storeName: "",
+    storeDescription: ""
   },
   panel: "demodashStore",
   previousPanel: "home",
@@ -349,6 +355,9 @@ export default function rootReducer(state = initialState, action) {
       return updateState(state, ["demoCheckoutForm"], payload);
     case UPDATE_DEPOSIT_FORM:
       return updateState(state, ["depositForm"], payload);
+    case UPDATE_DEMODASH_STORE_FORM:
+      console.log(payload);
+      return updateState(state, ["demodashStoreForm"], payload);
     default:
       return state;
   }

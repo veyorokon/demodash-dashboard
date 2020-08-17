@@ -359,6 +359,7 @@ const ShippingInfo = ({props}) => {
       </Flex>
       <FlexInput
         disabled={purchase.receipt.wasShipped && !edit}
+        cursor={purchase.receipt.wasShipped && !edit ? "text" : "default"}
         mt={1}
         mb={1}
         inputProps={{fontSize: "1.4rem", mt: 0, mb: 0}}
@@ -387,14 +388,10 @@ const ShippingInfo = ({props}) => {
   );
 };
 
-// const ExpandedOrder = ({props}) => {
-//   return <Flex alignItems="center">Ordered:</Flex>;
-// };
-
 const columns = [
   {
     name: "Purchase date",
-    selector: "date",
+    selector: "purchase.dateCreated",
     sortable: true,
     maxWidth: "18rem",
     width: "18rem",
@@ -402,14 +399,16 @@ const columns = [
   },
   {
     name: "Customer",
-    selector: "customer",
+    selector: "purchase.recipient.name",
+    sortable: true,
     maxWidth: "20rem",
     width: "20rem",
     cell: purchase => <Customer props={purchase} />
   },
   {
     name: "Order",
-    selector: "order",
+    selector: "purchase.receipt.uid",
+    sortable: true,
     maxWidth: "20rem",
     width: "20rem",
     cell: purchase => <Order props={purchase} />
@@ -460,7 +459,7 @@ const _PurchaseTable = props => {
         {currentAccountUser && (
           <Query
             query={SALES}
-            pollInterval={1000}
+            // pollInterval={1000}
             variables={{
               token: getToken().token,
               accountUserId: parseInt(currentAccountUser)
@@ -487,8 +486,11 @@ const _PurchaseTable = props => {
                   columns={columns}
                   currentAccountUser={parseInt(currentAccountUser)}
                   data={data.sales}
-                  // expandableRows
-                  // expandableRowsComponent={<ExpandedOrder />}
+                  noDataComponent={
+                    <Box p={4}>
+                      <Text>No records yet</Text>
+                    </Box>
+                  }
                 />
               );
             }}

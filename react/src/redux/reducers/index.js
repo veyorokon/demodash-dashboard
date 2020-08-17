@@ -114,7 +114,7 @@ const initialState = {
     receiptUId: "",
     isRefill: false
   },
-  panel: "sales",
+  panel: "demodashStore",
   previousPanel: "home",
   navOpen: false,
   checkoutOpen: false,
@@ -245,7 +245,7 @@ export default function rootReducer(state = initialState, action) {
       }
       isMutualPanel = checkPanel(state.panel);
       //newState.panel = "home";
-      if (newState.panel !== "createAccount") newState.panel = "sales";
+      if (newState.panel !== "createAccount") newState.panel = "demodashStore";
       //Restores previous panel if it is a mutual panel
       if (isMutualPanel) newState.panel = state.panel;
       return Object.assign({}, state, newState);
@@ -263,7 +263,7 @@ export default function rootReducer(state = initialState, action) {
       //Restores previous panel if it is a mutual panel
       isMutualPanel = checkPanel(state.panel);
       //newState.panel = "home";
-      newState.panel = "sales";
+      newState.panel = "demodashStore";
       if (isMutualPanel) newState.panel = state.panel;
       //Sets default values for profile form
       populateProfileForm(newState, accountUser);
@@ -342,17 +342,13 @@ export default function rootReducer(state = initialState, action) {
       newState.productForm.images.errorMessage = "";
       return Object.assign({}, state, newState);
     case UPDATE_DEMO_BOX_FORM:
-      newState = updateState(state, ["demoBoxForm"], payload, false);
-      return Object.assign({}, state, newState);
+      return updateState(state, ["demoBoxForm"], payload);
     case UPDATE_DEMO_CAMPAIGN_FORM:
-      newState = updateState(state, ["demoCampaignForm"], payload, false);
-      return Object.assign({}, state, newState);
+      return updateState(state, ["demoCampaignForm"], payload);
     case UPDATE_DEMO_CHECKOUT_FORM:
-      newState = updateState(state, ["demoCheckoutForm"], payload, false);
-      return Object.assign({}, state, newState);
+      return updateState(state, ["demoCheckoutForm"], payload);
     case UPDATE_DEPOSIT_FORM:
-      newState = updateState(state, ["depositForm"], payload, false);
-      return Object.assign({}, state, newState);
+      return updateState(state, ["depositForm"], payload);
     default:
       return state;
   }

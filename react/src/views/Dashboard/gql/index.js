@@ -474,49 +474,6 @@ export const MY_DEMO_BOXES = gql`
       id
       demoCampaign {
         id
-        account {
-          id
-          profile {
-            id
-            name
-          }
-        }
-        demoCommissions {
-          id
-          amount
-          demoBoxItem {
-            id
-            product {
-              id
-              name
-              price
-              description
-              images {
-                id
-                image
-                variationOption {
-                  id
-                  image {
-                    id
-                    image
-                  }
-                }
-              }
-              variations {
-                id
-                name
-                options {
-                  id
-                  option
-                  image {
-                    id
-                    image
-                  }
-                }
-              }
-            }
-          }
-        }
         demoBox {
           id
           name
@@ -526,6 +483,49 @@ export const MY_DEMO_BOXES = gql`
           images {
             id
             image
+          }
+        }
+        account {
+          id
+          profile {
+            id
+            name
+          }
+        }
+      }
+      demoCommission {
+        id
+        amount
+        demoBoxItem {
+          id
+          product {
+            id
+            name
+            price
+            description
+            images {
+              id
+              image
+              variationOption {
+                id
+                image {
+                  id
+                  image
+                }
+              }
+            }
+            variations {
+              id
+              name
+              options {
+                id
+                option
+                image {
+                  id
+                  image
+                }
+              }
+            }
           }
         }
       }

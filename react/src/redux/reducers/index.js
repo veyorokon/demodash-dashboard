@@ -174,7 +174,8 @@ function populateProfileForm(state, accountUser, props = {}) {
 
 function populateDemodashStoreForm(state, accountUser) {
   state.demodashStoreForm = {
-    ...accountUser.account.store
+    ...accountUser.account.store,
+    disabled: true
   };
   return state;
 }

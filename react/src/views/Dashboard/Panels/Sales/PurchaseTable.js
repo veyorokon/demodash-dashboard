@@ -459,7 +459,7 @@ const _PurchaseTable = props => {
         {currentAccountUser && (
           <Query
             query={SALES}
-            // pollInterval={1000}
+            pollInterval={1000}
             variables={{
               token: getToken().token,
               accountUserId: parseInt(currentAccountUser)

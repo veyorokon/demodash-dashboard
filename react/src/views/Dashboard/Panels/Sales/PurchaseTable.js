@@ -18,7 +18,8 @@ import Moment from "react-moment";
 
 const mapStateToProps = state => {
   return {
-    currentAccountUser: state.dashboard.currentAccountUser
+    currentAccountUser: state.dashboard.currentAccountUser,
+    panel: state.panel
   };
 };
 
@@ -439,7 +440,7 @@ const columns = [
 ];
 
 const _PurchaseTable = props => {
-  const {currentAccountUser} = props;
+  const {currentAccountUser, panel} = props;
   return (
     <Box
       w={r("120rem")}
@@ -456,10 +457,10 @@ const _PurchaseTable = props => {
       </FormSection>
 
       <FormSection h="auto" bg={"blues.3"} flexDirection="column" pt={4} pb={4}>
-        {currentAccountUser && (
+        {currentAccountUser && panel === "sales" && (
           <Query
             query={SALES}
-            pollInterval={1000}
+            pollInterval={1000} //Every second
             variables={{
               token: getToken().token,
               accountUserId: parseInt(currentAccountUser)

@@ -8,7 +8,7 @@ import styled from "styled-components";
 import {
   ACCOUNT_CARD_SET,
   CREATE_ACCOUNT_USER_PURCHASE,
-  MY_DEMO_BOXES
+  HAS_EXISTING_INVENTORY
 } from "views/Dashboard/gql";
 import {API_MEDIA} from "api";
 import {responsive as r, getToken, formatGQLErrorMessage} from "lib";
@@ -389,10 +389,11 @@ class _Overview extends React.Component {
               mutation={CREATE_ACCOUNT_USER_PURCHASE}
               refetchQueries={[
                 {
-                  query: MY_DEMO_BOXES,
+                  query: HAS_EXISTING_INVENTORY,
                   variables: {
                     token: getToken().token,
-                    accountUserId: parseInt(currentAccountUser)
+                    accountUserId: parseInt(currentAccountUser),
+                    demoCampaignId: parseInt(demoCheckoutForm.demoCampaignId)
                   }
                 }
               ]}

@@ -302,11 +302,11 @@ function _DemoCampaigns(props) {
                   <Text>Error! {error.message}</Text>
                 </Box>
               );
-            const {demoerInventory} = data;
+            const {demoBoxInventory} = data;
             return (
               <>
-                {demoerInventory && demoerInventory.length ? (
-                  demoerInventory.map(({demoCampaign}, index) => {
+                {demoBoxInventory && demoBoxInventory.length ? (
+                  demoBoxInventory.map(({demoCampaign}, index) => {
                     const {demoCommissions} = demoCampaign;
                     return (
                       <Box

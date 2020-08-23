@@ -469,11 +469,47 @@ export const OPEN_DEMO_CAMPAIGNS = gql`
 
  */
 export const MY_DEMO_BOXES = gql`
-  query demoerInventory($token: String!, $accountUserId: Int!) {
-    demoerInventory(token: $token, accountUserId: $accountUserId) {
+  query demoBoxInventory($token: String!, $accountUserId: Int!) {
+    demoBoxInventory(token: $token, accountUserId: $accountUserId) {
       id
       demoCampaign {
         id
+        demoCommissions {
+          id
+          amount
+          demoBoxItem {
+            id
+            product {
+              id
+              name
+              price
+              description
+              images {
+                id
+                image
+                variationOption {
+                  id
+                  image {
+                    id
+                    image
+                  }
+                }
+              }
+              variations {
+                id
+                name
+                options {
+                  id
+                  option
+                  image {
+                    id
+                    image
+                  }
+                }
+              }
+            }
+          }
+        }
         demoBox {
           id
           name
@@ -493,42 +529,22 @@ export const MY_DEMO_BOXES = gql`
           }
         }
       }
-      demoCommission {
-        id
-        amount
-        demoBoxItem {
-          id
-          product {
-            id
-            name
-            price
-            description
-            images {
-              id
-              image
-              variationOption {
-                id
-                image {
-                  id
-                  image
-                }
-              }
-            }
-            variations {
-              id
-              name
-              options {
-                id
-                option
-                image {
-                  id
-                  image
-                }
-              }
-            }
-          }
-        }
-      }
+    }
+  }
+`;
+
+export const HAS_EXISTING_INVENTORY = gql`
+  query inventoryExists(
+    $token: String!
+    $accountUserId: Int!
+    $demoCampaignId: Int!
+  ) {
+    inventoryExists(
+      token: $token
+      accountUserId: $accountUserId
+      demoCampaignId: $demoCampaignId
+    ) {
+      exists
     }
   }
 `;

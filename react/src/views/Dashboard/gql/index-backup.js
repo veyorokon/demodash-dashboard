@@ -94,6 +94,12 @@ export const USER__ACCOUNT_USER_SET = gql`
         account {
           id
           type
+          store {
+            id
+            handle
+            name
+            description
+          }
           profile {
             id
             name
@@ -468,49 +474,6 @@ export const MY_DEMO_BOXES = gql`
       id
       demoCampaign {
         id
-        account {
-          id
-          profile {
-            id
-            name
-          }
-        }
-        demoCommissions {
-          id
-          amount
-          demoBoxItem {
-            id
-            product {
-              id
-              name
-              price
-              description
-              images {
-                id
-                image
-                variationOption {
-                  id
-                  image {
-                    id
-                    image
-                  }
-                }
-              }
-              variations {
-                id
-                name
-                options {
-                  id
-                  option
-                  image {
-                    id
-                    image
-                  }
-                }
-              }
-            }
-          }
-        }
         demoBox {
           id
           name
@@ -520,6 +483,49 @@ export const MY_DEMO_BOXES = gql`
           images {
             id
             image
+          }
+        }
+        account {
+          id
+          profile {
+            id
+            name
+          }
+        }
+      }
+      demoCommission {
+        id
+        amount
+        demoBoxItem {
+          id
+          product {
+            id
+            name
+            price
+            description
+            images {
+              id
+              image
+              variationOption {
+                id
+                image {
+                  id
+                  image
+                }
+              }
+            }
+            variations {
+              id
+              name
+              options {
+                id
+                option
+                image {
+                  id
+                  image
+                }
+              }
+            }
           }
         }
       }
@@ -736,22 +742,25 @@ export const OPEN_DEMO_CAMPAIGN = gql`
   Purchase demobox
 */
 
-export const CREATE_DEMO_BOX_PURCHASE = gql`
-  mutation createDemoboxPurchase(
+export const CREATE_ACCOUNT_USER_PURCHASE = gql`
+  mutation createAccountUserPurchase(
     $token: String!
     $accountUserId: Int!
-    $demoCampaignId: Int!
     $accountCardId: Int
+    $cartCheckouts: [Checkout]!
   ) {
-    createDemoBoxPurchase(
+    createAccountUserPurchase(
       token: $token
       accountUserId: $accountUserId
-      demoCampaignId: $demoCampaignId
       accountCardId: $accountCardId
+      cartCheckouts: $cartCheckouts
     ) {
-      receipt {
+      purchase {
         id
-        uid
+        receipt {
+          id
+          uid
+        }
       }
     }
   }
@@ -768,13 +777,17 @@ export const SALES = gql`
         id
         dateCreated
         paymentStatus
-        price
+        total
         receipt {
           id
           uid
+          wasShipped
+          trackingNumber
           transfers {
             id
             amount
+            stripeFee
+            demodashFee
           }
           items {
             id
@@ -816,6 +829,48 @@ export const SALES = gql`
             zip
           }
         }
+      }
+    }
+  }
+`;
+
+export const UPDATE_PURCHASE_TRACKING = gql`
+  mutation updatePurchaseTracking(
+    $token: String!
+    $accountUserId: Int!
+    $purchaseId: Int!
+    $trackingNumber: String
+  ) {
+    updatePurchaseTracking(
+      token: $token
+      accountUserId: $accountUserId
+      purchaseId: $purchaseId
+      trackingNumber: $trackingNumber
+    ) {
+      purchase {
+        id
+      }
+    }
+  }
+`;
+
+export const UPDATE_ACCOUNT_STORE = gql`
+  mutation updateAccountStore(
+    $token: String!
+    $accountUserId: Int!
+    $handle: String
+    $name: String
+    $description: String
+  ) {
+    updateAccountStore(
+      token: $token
+      accountUserId: $accountUserId
+      handle: $handle
+      name: $name
+      description: $description
+    ) {
+      account {
+        id
       }
     }
   }

@@ -9,8 +9,8 @@ import {Query} from "@apollo/react-components";
 import {connect} from "react-redux";
 import {API_MEDIA} from "api";
 import {
-  MY_DEMO_BOXES,
   OPEN_DEMO_CAMPAIGNS,
+  HAS_EXISTING_INVENTORY,
   QUERY_ACCOUNT_BILLABLE
 } from "views/Dashboard/gql";
 import {
@@ -231,16 +231,6 @@ const TitleSection = props => {
     </FormSection>
   );
 };
-
-function isInInventory(demoCampaignId, inventory) {
-  if (!inventory) return false;
-  let hasItem = inventory.filter(function(item) {
-    if (item.demoCampaign.id === demoCampaignId) return item;
-    return null;
-  });
-  if (hasItem.length) return true;
-  return false;
-}
 
 function Results(props) {
   const {
@@ -479,11 +469,14 @@ function Results(props) {
                                 <>
                                   {currentAccountUser && (
                                     <Query
-                                      query={MY_DEMO_BOXES}
+                                      query={HAS_EXISTING_INVENTORY}
                                       variables={{
                                         token: getToken().token,
                                         accountUserId: parseInt(
                                           currentAccountUser
+                                        ),
+                                        demoCampaignId: parseInt(
+                                          demoCampaign.id
                                         )
                                       }}
                                     >
@@ -502,18 +495,11 @@ function Results(props) {
                                               </Text>
                                             </Box>
                                           );
-                                        const {demoerInventory} = data;
-                                        const campaignInInventory = isInInventory(
-                                          demoCampaign.id,
-                                          demoerInventory
-                                        );
+                                        const {exists} = data.inventoryExists;
                                         let hoverBg = "#F87060";
                                         let background = "oranges.1";
                                         let color = "whites.0";
-                                        if (
-                                          hasValidCard &&
-                                          campaignInInventory
-                                        ) {
+                                        if (hasValidCard && exists) {
                                           hoverBg = "#FFC651";
                                           background = "yellows.1";
                                           color = "blacks.0";
@@ -529,6 +515,9 @@ function Results(props) {
                                             w={r("100% 25rem ---> 18rem")}
                                             maxWidth="100%"
                                             fs={"1.6rem"}
+                                            accountUserId={currentAccountUser}
+                                            demoCampaignId={demoCampaign.id}
+                                            hasValidCard={hasValidCard}
                                             onClick={() => {
                                               if (hasValidCard) {
                                                 const container = document.querySelector(
@@ -553,7 +542,7 @@ function Results(props) {
                                                   demoCampaignId: parseInt(
                                                     demoCampaign.id
                                                   ),
-                                                  isRefill: campaignInInventory,
+                                                  isRefill: exists,
                                                   sellerAccountId: parseInt(
                                                     demoCampaign.account.id
                                                   ),
@@ -570,11 +559,9 @@ function Results(props) {
                                               }
                                             }}
                                           >
-                                            {hasValidCard &&
-                                            !campaignInInventory
+                                            {hasValidCard && !exists
                                               ? "Order a demo box"
-                                              : hasValidCard &&
-                                                campaignInInventory
+                                              : hasValidCard && exists
                                               ? "Order a refill"
                                               : "Update billing info"}
                                           </CallToActionButton>

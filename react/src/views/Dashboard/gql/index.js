@@ -483,6 +483,7 @@ export const MY_DEMO_BOXES = gql`
               id
               name
               price
+              shippingPrice
               description
               images {
                 id

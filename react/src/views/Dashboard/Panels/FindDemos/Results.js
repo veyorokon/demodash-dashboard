@@ -495,7 +495,9 @@ function Results(props) {
                                               </Text>
                                             </Box>
                                           );
-                                        const {exists} = data.inventoryExists;
+                                        let exists = false;
+                                        if (data && data.inventoryExists)
+                                          exists = data.inventoryExists;
                                         let hoverBg = "#F87060";
                                         let background = "oranges.1";
                                         let color = "whites.0";

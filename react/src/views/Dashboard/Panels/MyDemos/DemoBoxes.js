@@ -111,6 +111,7 @@ class ProductCard extends React.Component {
         mt={3}
         mb={3}
         bg={"whites.0"}
+        h="fit-content"
         br={2}
         {...props}
       >

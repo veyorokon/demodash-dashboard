@@ -115,6 +115,7 @@ const _NavBar = props => {
       alignItems="center"
       bg={"whites.0"}
       h={5}
+      minHeight={5}
       borderBottom="2px solid #ecedf1"
       {...props}
     >
@@ -240,7 +241,10 @@ export function RightColumn(props) {
         )}
       </Content>
 
-      <Footer mt={6} />
+      <Footer
+        mt={6}
+        display={navOpen ? "none" : checkoutOpen ? "none" : "flex"}
+      />
     </Right>
   );
 }

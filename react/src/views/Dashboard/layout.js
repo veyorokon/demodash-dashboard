@@ -1,5 +1,5 @@
 import React from "react";
-import {Box, Flex, Icon, Text} from "components";
+import {Box, Flex, Icon, Text, Link} from "components";
 import {connect} from "react-redux";
 import {responsive as r} from "lib";
 import styled, {css} from "styled-components";
@@ -161,6 +161,43 @@ const Layout = props => {
   );
 };
 
+const Footer = props => (
+  <Flex
+    mb={4}
+    alignItems={"flex-end"}
+    w={"fit-content"}
+    ml={"auto"}
+    mr={"auto"}
+    flexGrow={0}
+    {...props}
+  >
+    <Link target="_blank" mr={3} h="fit-content" href="https://demodash.com">
+      <Text hoverColor={"#212C39"} fw={500} color="navys.2">
+        &copy; demodash
+      </Text>
+    </Link>
+    <Link
+      target="_blank"
+      mr={3}
+      h="fit-content"
+      href="https://demodash.com/legal/privacy"
+    >
+      <Text hoverColor={"#212C39"} fw={500} color="navys.2">
+        Privacy
+      </Text>
+    </Link>
+    <Link
+      target="_blank"
+      h="fit-content"
+      href="https://demodash.com/legal/terms"
+    >
+      <Text hoverColor={"#212C39"} fw={500} color="navys.2">
+        Terms
+      </Text>
+    </Link>
+  </Flex>
+);
+
 export function RightColumn(props) {
   const {selected, navOpen, checkoutOpen} = props;
   return (
@@ -168,7 +205,8 @@ export function RightColumn(props) {
       id={"rightContainer"}
       bg={"whites.0"}
       h="fit-content"
-      justifyContent="flex-start"
+      flexDirection="column"
+      justifyContent="space-between"
       {...props}
     >
       <Content w={r("100%")} h="fit-content">
@@ -201,6 +239,8 @@ export function RightColumn(props) {
           <Hide showing={true}>{props.children}</Hide>
         )}
       </Content>
+
+      <Footer mt={6} />
     </Right>
   );
 }

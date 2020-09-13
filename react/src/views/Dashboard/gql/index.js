@@ -16,6 +16,7 @@ export const ACCOUNT_USER = gql`
           id
           name
           website
+          logo
           address {
             id
             line1
@@ -61,6 +62,7 @@ export const UPDATE_ACCOUNT = gql`
     $choice1: String
     $choice2: String
     $choice3: String
+    $logo: Logo
   ) {
     updateAccount(
       token: $token
@@ -76,6 +78,7 @@ export const UPDATE_ACCOUNT = gql`
       choice1: $choice1
       choice2: $choice2
       choice3: $choice3
+      logo: $logo
     ) {
       account {
         id
@@ -104,6 +107,7 @@ export const USER__ACCOUNT_USER_SET = gql`
             id
             name
             website
+            logo
             address {
               id
               line1

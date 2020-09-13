@@ -158,6 +158,7 @@ function populateProfileForm(state, accountUser, props = {}) {
   const choice2 = industry && industry.choice2 ? industry.choice2 : -1;
   const choice3 = industry && industry.choice3 ? industry.choice3 : -1;
   state.profileForm = {
+    type: accountUser.account.type,
     accountName: accountUser.account.profile.name,
     disabled: true,
     isSubmitting: false,
@@ -166,6 +167,8 @@ function populateProfileForm(state, accountUser, props = {}) {
     choice1: choice1,
     choice2: choice2,
     choice3: choice3,
+    logo: null,
+    logoUrl: accountUser.account.profile.logo,
     ...accountUser.account.profile.address,
     ...props
   };

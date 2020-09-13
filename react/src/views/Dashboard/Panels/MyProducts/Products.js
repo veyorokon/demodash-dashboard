@@ -155,6 +155,7 @@ class ImageCard extends React.Component {
         mb={3}
         bg={"whites.0"}
         br={2}
+        h="fit-content"
         {...props}
       >
         <SwipeableViews

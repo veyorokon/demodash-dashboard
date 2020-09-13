@@ -1,10 +1,20 @@
 import React from "react";
-import {Box, Flex, Text, DropDown, CallToActionButton} from "components";
+import {
+  Box,
+  Flex,
+  Text,
+  DropDown,
+  CallToActionButton,
+  Label,
+  Icon,
+  Input
+} from "components";
 import {
   FlexInput,
   FlexField,
   FormSection,
-  FormGroup
+  FormGroup,
+  FlexText
 } from "views/Dashboard/Components";
 import {Query, Mutation} from "@apollo/react-components";
 import {STATES, responsive as r, getEventVal} from "lib";
@@ -16,6 +26,67 @@ import {
   UPDATE_ACCOUNT,
   USER__ACCOUNT_USER_SET
 } from "views/Dashboard/gql";
+import {AddCircle} from "@styled-icons/material/AddCircle";
+import {Image} from "@styled-icons/boxicons-solid/Image";
+
+class FileInput extends React.Component {
+  handleImageChange(e) {
+    e.preventDefault();
+    let file = e.target.files[0];
+    let reader = new FileReader();
+    try {
+      reader.readAsDataURL(file);
+      if (file.size > (this.props.maxSize || 2097152))
+        return this.props.onChange({
+          errorMessage: "Logo is too large! Max size allowed is 2MB."
+        });
+      reader.onloadend = () => {
+        this.setState({
+          file: file,
+          base64: reader.result
+        });
+        return this.props.onChange({
+          name: file.name,
+          encoding: reader.result.replace("data:image/svg+xml;base64,", "")
+        });
+      };
+    } catch {
+      return null;
+    }
+  }
+
+  render() {
+    return (
+      <>
+        <Label
+          hoverBackground="#FFC651"
+          cursor="pointer"
+          br={2}
+          bg={"yellows.1"}
+          display="flex"
+          alignItems="center"
+          h={"3.5rem"}
+          w="25rem"
+          maxWidth={"100%"}
+          htmlFor="account-logo-upload"
+          {...this.props}
+        >
+          <Icon ml={3} mr={2} h={"2.2rem"}>
+            <AddCircle />
+          </Icon>
+          <Text ml={4}>{this.props.children}</Text>
+        </Label>
+        <Input
+          display="none"
+          onChange={evt => this.handleImageChange(evt)}
+          id="account-logo-upload"
+          type="file"
+          accept=".svg"
+        />
+      </>
+    );
+  }
+}
 
 const CategoryDropDown = props => {
   return (
@@ -231,6 +302,39 @@ class _AccountFormCard extends React.Component {
               />
             </Flex>
           </FormGroup>
+
+          {profileForm.type === "Brand" && (
+            <FormGroup mt={3}>
+              <FlexField name={"Logo:"} />
+              <Flex flexBasis="60%" flexDirection="column" h="fit-content">
+                {profileForm.logo && (
+                  <Flex maxWidth="25rem" flexDirection="column" h="fit-content">
+                    <FlexText fw={400} h="2.2rem" mb={1} mt={3}>
+                      Logo name
+                    </FlexText>
+                    <Flex mt={1} mb={1} color="oranges.0" alignItems="center">
+                      <Icon ml={3} mr={2} h={"2.2rem"}>
+                        <Image />
+                      </Icon>
+                      <Text>{profileForm.logo.name}</Text>
+                    </Flex>
+                  </Flex>
+                )}
+                <FileInput
+                  mt={2}
+                  onChange={result =>
+                    updateProfileForm({
+                      ...profileForm,
+                      logo: result,
+                      submitComplete: false
+                    })
+                  }
+                >
+                  {profileForm.logo ? "Change brand logo" : "Add brand logo"}
+                </FileInput>
+              </Flex>
+            </FormGroup>
+          )}
         </FormSection>
 
         <FormSection
@@ -258,6 +362,15 @@ class _AccountFormCard extends React.Component {
                 variables: {token: getToken().token}
               }
             ]}
+            onCompleted={() =>
+              updateProfileForm({
+                ...profileForm,
+                logoUrl: profileForm.logo,
+                submitComplete: true,
+                isSubmitting: false,
+                disabled: true
+              })
+            }
           >
             {updateAccount => (
               <CallToActionButton

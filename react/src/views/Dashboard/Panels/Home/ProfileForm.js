@@ -365,7 +365,10 @@ class _AccountFormCard extends React.Component {
             onCompleted={() =>
               updateProfileForm({
                 ...profileForm,
-                submitComplete: true
+                logoUrl: profileForm.logo,
+                submitComplete: true,
+                isSubmitting: false,
+                disabled: true
               })
             }
           >

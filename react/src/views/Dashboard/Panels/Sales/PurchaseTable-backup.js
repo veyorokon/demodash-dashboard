@@ -143,19 +143,11 @@ const Order = ({props}) => {
     if (item.demoBox) {
       for (let i in item.demoBox.items) {
         let demoBoxItem = item.demoBox.items[i];
-        displayItems.push({
-          name: demoBoxItem.product.name,
-          quantity: item.quantity
-        });
+        displayItems.push(demoBoxItem.product.name);
       }
     } else {
+      displayItems.push(item.product.name);
       orderType = "Purchase";
-      console.log(item);
-      displayItems.push({
-        name: item.product.name,
-        quantity: item.quantity,
-        options: item.options
-      });
     }
   }
   let uid = purchase.receipt.uid.split("-");
@@ -169,33 +161,10 @@ const Order = ({props}) => {
         {orderType}:
       </Text>
       {displayItems.map(function(item, i) {
-        const {options} = item;
         return (
-          <Flex key={`${uid[0]}_${i}`} flexDirection="column">
-            <Text color="navys.0" ml={2} mb={1}>
-              {item.name} &#10005; {item.quantity}
-            </Text>
-            {options && options.length ? (
-              <Flex ml={2} mb={1}>
-                {options.map(function(option, index) {
-                  return (
-                    <Text
-                      key={`o_${i}_${index}`}
-                      color="greys.0"
-                      fs={"1.1rem"}
-                      ml={1}
-                      w={"fit-content"}
-                    >
-                      {option.variationOptionName}
-                      {index < options.length - 1 && ", "}
-                    </Text>
-                  );
-                })}
-              </Flex>
-            ) : (
-              ""
-            )}
-          </Flex>
+          <Text key={i} color="navys.0" ml={2}>
+            {item}
+          </Text>
         );
       })}
     </Flex>
@@ -494,7 +463,7 @@ const _PurchaseTable = props => {
         {currentAccountUser && panel === "sales" && (
           <Query
             query={SALES}
-            pollInterval={2000} //Every 2 seconds
+            pollInterval={1000} //Every second
             variables={{
               token: getToken().token,
               accountUserId: parseInt(currentAccountUser)
@@ -513,7 +482,7 @@ const _PurchaseTable = props => {
                     <Text>Error! {error.message}</Text>
                   </Box>
                 );
-              // console.log(data.sales);
+              console.log(data.sales);
               return (
                 <DataTable
                   noHeader

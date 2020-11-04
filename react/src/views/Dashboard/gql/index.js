@@ -813,6 +813,7 @@ export const SALES = gql`
           items {
             id
             itemName
+            quantity
             commission {
               id
               amount

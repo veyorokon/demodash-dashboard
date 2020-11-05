@@ -897,3 +897,30 @@ export const UPDATE_ACCOUNT_STORE = gql`
     }
   }
 `;
+
+/*
+  Analytics
+*/
+export const QUERY_TOTAL_ACCOUNT_SALES = gql`
+  query totalAccountSales($token: String!, $accountUserId: Int!) {
+    totalAccountSales(token: $token, accountUserId: $accountUserId) {
+      value
+    }
+  }
+`;
+
+export const QUERY_TOTAL_ACCOUNT_VOLUME = gql`
+  query totalAccountVolume($token: String!, $accountUserId: Int!) {
+    totalAccountVolume(token: $token, accountUserId: $accountUserId) {
+      value
+    }
+  }
+`;
+
+export const QUERY_TOTAL_COMMISSION_GENERATED = gql`
+  query totalCommissionGenerated($token: String!, $accountUserId: Int!) {
+    totalCommissionGenerated(token: $token, accountUserId: $accountUserId) {
+      value
+    }
+  }
+`;

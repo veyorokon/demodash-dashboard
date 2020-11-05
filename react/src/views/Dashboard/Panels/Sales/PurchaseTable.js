@@ -150,7 +150,6 @@ const Order = ({props}) => {
       }
     } else {
       orderType = "Purchase";
-      console.log(item);
       displayItems.push({
         name: item.product.name,
         quantity: item.quantity,

@@ -33,19 +33,30 @@ export default props => {
       pb={4}
       pt={4}
       w={r("20rem --------> 23rem")}
+      minHeight={"23rem"}
       boxShadow="0 1px 6px rgba(57,73,76,0.35)"
       bg={"whites.0"}
       br={"3px"}
       {...props}
     >
       <Icon icon={props.icon} {...props.iconProps} />
-      <Text ml="auto" mr="auto" w={"100%"} fs={"3.6rem"} fw={800}>
-        {props.value}
+      <Text
+        ml="auto"
+        mr="auto"
+        w={"100%"}
+        minHeight="4.4rem"
+        color={props.loading ? "greys.0" : "navys.0"}
+        fs={"3.6rem"}
+        fw={800}
+        transition="color 0.2s !important;"
+      >
+        {props.loading ? "" : props.value}
       </Text>
       <Text
         letterSpacing="0.5px"
         color={"navys.2"}
         mb={3}
+        mt={3}
         fw={300}
         ml="auto"
         mr="auto"

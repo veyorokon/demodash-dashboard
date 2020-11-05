@@ -16,7 +16,7 @@ function _TotalSales(props) {
   const {accountUserId} = props;
   const {loading, error, data} = useQuery(QUERY_TOTAL_COMMISSION_GENERATED, {
     variables: {accountUserId, token: getToken().token},
-    pollInterval: 4000,
+    pollInterval: 5000,
     skip: !accountUserId
   });
   if (loading)
@@ -31,7 +31,17 @@ function _TotalSales(props) {
         title={"Commission generated"}
       />
     );
-  if (error) return `Error! ${error.message}`;
+  if (error)
+    return (
+      <IconCard
+        iconProps={{color: "yellows.0", bg: "yellows.2"}}
+        mr={r("2")}
+        mb={r("2")}
+        icon={<HandHoldingUsd />}
+        value={""}
+        title={"Commission generated"}
+      />
+    );
   let value = 0;
   if (data) value = data.totalCommissionGenerated.value;
   return (

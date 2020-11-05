@@ -4,8 +4,16 @@ import TotalSales from "./TotalSales";
 import SalesVolume from "./SalesVolume";
 import TotalCommission from "./TotalCommission";
 import {responsive as r} from "lib";
+import {connect} from "react-redux";
 
-export default function Analytics(props) {
+const mapStateToProps = state => {
+  return {
+    currentAccountUser: state.dashboard.currentAccountUser,
+    panel: state.panel
+  };
+};
+
+function _Analytics(props) {
   return (
     <>
       <Flex mb={4}>
@@ -26,10 +34,19 @@ export default function Analytics(props) {
         ]}
         alignItems="center"
       >
-        <TotalSales />
-        <SalesVolume />
-        <TotalCommission />
+        {props.panel === "home" && (
+          <>
+            <TotalSales />
+            <SalesVolume />
+            <TotalCommission />
+          </>
+        )}
       </Flex>
     </>
   );
 }
+
+export default connect(
+  mapStateToProps,
+  null
+)(_Analytics);

@@ -16,7 +16,7 @@ function _TotalSales(props) {
   const {accountUserId} = props;
   const {loading, error, data} = useQuery(QUERY_TOTAL_ACCOUNT_VOLUME, {
     variables: {accountUserId, token: getToken().token},
-    pollInterval: 4000,
+    pollInterval: 5000,
     skip: !accountUserId
   });
   if (loading)
@@ -31,7 +31,17 @@ function _TotalSales(props) {
         title={"Sales volume"}
       />
     );
-  if (error) return `Error! ${error.message}`;
+  if (error)
+    return (
+      <IconCard
+        iconProps={{color: "greens.2", bg: "greens.3"}}
+        mr={r("2")}
+        mb={r("2")}
+        icon={<CoinDollar />}
+        value={0}
+        title={"Sales volume"}
+      />
+    );
   let value = 0;
   if (data) value = data.totalAccountVolume.value;
   return (

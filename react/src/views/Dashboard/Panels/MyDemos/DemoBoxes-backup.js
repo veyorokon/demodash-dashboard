@@ -1,5 +1,5 @@
 import React from "react";
-import {Box, Flex, Text, DropDown} from "components";
+import {Box, Flex, Text} from "components";
 import {FormSection} from "views/Dashboard/Components";
 import {responsive as r, getToken} from "lib";
 import {Card} from "views/Dashboard/Components";

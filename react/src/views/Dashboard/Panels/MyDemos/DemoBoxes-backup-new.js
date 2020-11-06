@@ -1,5 +1,5 @@
 import React from "react";
-import {Box, Flex, Text, CallToActionButton} from "components";
+import {Box, Flex, Text, DropDown} from "components";
 import {FormSection} from "views/Dashboard/Components";
 import {responsive as r, getToken} from "lib";
 import {Card} from "views/Dashboard/Components";
@@ -8,17 +8,7 @@ import styled, {css} from "styled-components";
 import {Query} from "@apollo/react-components";
 import {connect} from "react-redux";
 import {API_MEDIA} from "api";
-import {
-  MY_DEMO_BOXES,
-  HAS_EXISTING_INVENTORY,
-  QUERY_ACCOUNT_BILLABLE
-} from "views/Dashboard/gql";
-import {
-  toggleCheckout,
-  updateDemoCheckoutForm,
-  updateScrollY,
-  updatePanel
-} from "redux/actions";
+import {MY_DEMO_BOXES} from "views/Dashboard/gql";
 
 const NavigationBullet = styled(Flex)`
   cursor: pointer;
@@ -218,14 +208,7 @@ class ProductCard extends React.Component {
 }
 
 function _DemoCampaigns(props) {
-  const {
-    currentAccountUser,
-    toggleCheckout,
-    updateScrollY,
-    updateDemoCheckoutForm,
-    updatePanel,
-    demoCheckoutForm
-  } = props;
+  const {currentAccountUser} = props;
   return (
     <>
       <Flex mb={4} w={r("80rem ---------> 100rem")} maxWidth="100%">
@@ -259,7 +242,7 @@ function _DemoCampaigns(props) {
               <>
                 {demoBoxInventory && demoBoxInventory.length ? (
                   demoBoxInventory.map(({demoCampaign}, index) => {
-                    const {demoCommissions, demoBox} = demoCampaign;
+                    const {demoCommissions} = demoCampaign;
                     return (
                       <Box
                         key={index}
@@ -398,213 +381,6 @@ function _DemoCampaigns(props) {
                             )}
                           </Flex>
                         </FormSection>
-
-                        <FormSection
-                          justifyContent={[
-                            "space-around",
-                            "space-around",
-                            "space-around",
-                            "space-around",
-                            "space-around",
-                            "space-between"
-                          ]}
-                          flexDirection={r("column ----> row")}
-                          alignItems="center"
-                        >
-                          <Flex
-                            mb={r("2 ----> 0")}
-                            flexGrow={0}
-                            flexDirection="column"
-                          >
-                            <Flex
-                              flexGrow={0}
-                              ml={2}
-                              mr={2}
-                              alignItems="center"
-                            >
-                              <Text
-                                letterSpacing="0.5px"
-                                color={"navys.0"}
-                                mr={2}
-                                fw={500}
-                              >
-                                Refill:
-                              </Text>
-                              <Flex alignItems="center">
-                                <Text
-                                  letterSpacing="0.5px"
-                                  color={"reds.1"}
-                                  fw={500}
-                                >
-                                  ${demoBox.refillPrice.toFixed(2)}
-                                </Text>
-                                <Text
-                                  ml={1}
-                                  letterSpacing="0.5px"
-                                  color={"navys.0"}
-                                  fw={500}
-                                  fs={"1.2rem"}
-                                >
-                                  &#43;
-                                </Text>
-                                <Text
-                                  letterSpacing="0.5px"
-                                  color={"navys.1"}
-                                  fw={500}
-                                  ml={1}
-                                  fs={"1.2rem"}
-                                  h="fit-content"
-                                >
-                                  {demoBox.shippingPrice
-                                    ? `$${demoBox.shippingPrice.toFixed(2)}`
-                                    : "FREE"}
-                                </Text>
-                                <Text
-                                  ml={1}
-                                  letterSpacing="0.5px"
-                                  color={"navys.1"}
-                                  fw={500}
-                                  fs={"1.2rem"}
-                                  h="fit-content"
-                                >
-                                  Shipping
-                                </Text>
-                              </Flex>
-                            </Flex>
-                          </Flex>
-
-                          <Query
-                            query={QUERY_ACCOUNT_BILLABLE}
-                            variables={{
-                              token: getToken().token,
-                              id: parseInt(currentAccountUser)
-                            }}
-                          >
-                            {({loading, error, data}) => {
-                              if (loading)
-                                return (
-                                  <Box h="3.5rem">
-                                    <Text>Loading...</Text>
-                                  </Box>
-                                );
-                              if (error)
-                                return (
-                                  <Box h="3.5rem">
-                                    <Text>Error! {error.message}</Text>
-                                  </Box>
-                                );
-                              const {hasValidCard} = data.accountUser.account;
-                              return (
-                                <>
-                                  {currentAccountUser && (
-                                    <Query
-                                      query={HAS_EXISTING_INVENTORY}
-                                      variables={{
-                                        token: getToken().token,
-                                        accountUserId: parseInt(
-                                          currentAccountUser
-                                        ),
-                                        demoCampaignId: parseInt(
-                                          demoCampaign.id
-                                        )
-                                      }}
-                                    >
-                                      {({loading, error, data}) => {
-                                        if (loading)
-                                          return (
-                                            <Box h="3.5rem" mb={4}>
-                                              <Text>Loading...</Text>
-                                            </Box>
-                                          );
-                                        if (error)
-                                          return (
-                                            <Box h="3.5rem" mb={4}>
-                                              <Text>
-                                                Error! {error.message}
-                                              </Text>
-                                            </Box>
-                                          );
-                                        let exists = false;
-                                        if (data && data.inventoryExists)
-                                          exists = data.inventoryExists;
-                                        let hoverBg = "#F87060";
-                                        let background = "oranges.1";
-                                        let color = "whites.0";
-                                        if (hasValidCard && exists) {
-                                          hoverBg = "#FFC651";
-                                          background = "yellows.1";
-                                          color = "blacks.0";
-                                        }
-                                        return (
-                                          <CallToActionButton
-                                            cursor={"pointer"}
-                                            hoverBackground={`${hoverBg}`}
-                                            bg={`${background}`}
-                                            color={`${color}`}
-                                            hoverColor={"whites.0"}
-                                            br={2}
-                                            w={r("100% 25rem ---> 18rem")}
-                                            maxWidth="100%"
-                                            fs={"1.6rem"}
-                                            accountUserId={currentAccountUser}
-                                            demoCampaignId={demoCampaign.id}
-                                            hasValidCard={hasValidCard}
-                                            onClick={() => {
-                                              if (hasValidCard) {
-                                                const container = document.querySelector(
-                                                  "#rightContainer"
-                                                );
-                                                let mobileTop = Math.abs(
-                                                  container.getBoundingClientRect()
-                                                    .top
-                                                );
-                                                let desktopTop =
-                                                  container.scrollTop;
-
-                                                updateScrollY(
-                                                  Math.max(
-                                                    mobileTop,
-                                                    desktopTop
-                                                  )
-                                                );
-                                                window.scrollTo(0, 0);
-                                                updateDemoCheckoutForm({
-                                                  ...demoCheckoutForm,
-                                                  demoCampaignId: parseInt(
-                                                    demoCampaign.id
-                                                  ),
-                                                  isRefill: exists,
-                                                  sellerAccountId: parseInt(
-                                                    demoCampaign.account.id
-                                                  ),
-                                                  demoBoxId: parseInt(
-                                                    demoBox.id
-                                                  )
-                                                });
-                                                return toggleCheckout();
-                                              } else {
-                                                window.scrollTo(0, 0);
-                                                return updatePanel(
-                                                  "payoutBilling"
-                                                );
-                                              }
-                                            }}
-                                          >
-                                            {hasValidCard && !exists
-                                              ? "Order a demo box"
-                                              : hasValidCard && exists
-                                              ? "Order a refill"
-                                              : "Update billing info"}
-                                          </CallToActionButton>
-                                        );
-                                      }}
-                                    </Query>
-                                  )}
-                                </>
-                              );
-                            }}
-                          </Query>
-                        </FormSection>
                       </Box>
                     );
                   })
@@ -621,22 +397,11 @@ function _DemoCampaigns(props) {
 }
 const mapStateToProps = state => {
   return {
-    currentAccountUser: state.dashboard.currentAccountUser,
-    demoCheckoutForm: state.demoCheckoutForm
+    currentAccountUser: state.dashboard.currentAccountUser
   };
 };
 
-function mapDispatchToProps(dispatch) {
-  return {
-    toggleCheckout: () => dispatch(toggleCheckout()),
-    updateScrollY: payload => dispatch(updateScrollY(payload)),
-    updateDemoCheckoutForm: payload =>
-      dispatch(updateDemoCheckoutForm(payload)),
-    updatePanel: payload => dispatch(updatePanel(payload))
-  };
-}
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(_DemoCampaigns);

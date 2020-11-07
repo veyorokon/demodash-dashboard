@@ -1,16 +1,19 @@
 import React, {useState, useEffect} from "react";
 import {Box, Flex, Text, Icon} from "components";
 import {FormSection, FlexInput, FormButton} from "views/Dashboard/Components";
+
 import {responsive as r, getToken} from "lib";
 import {connect} from "react-redux";
 import DataTable from "react-data-table-component";
 import {Query, Mutation} from "@apollo/react-components";
-import {SALES, UPDATE_PURCHASE_TRACKING} from "views/Dashboard/gql";
-// import DemodashIcon from "assets/icons/demodash";
+import {
+  SALES,
+  COMMISSIONS,
+  UPDATE_PURCHASE_TRACKING
+} from "views/Dashboard/gql";
 import {Truck} from "@styled-icons/boxicons-solid/Truck";
 import {Lock} from "@styled-icons/boxicons-solid/Lock";
 import {LockOpen} from "@styled-icons/boxicons-solid/LockOpen";
-
 import {CheckCircle} from "@styled-icons/boxicons-solid/CheckCircle";
 import {TimesCircle} from "@styled-icons/fa-regular/TimesCircle";
 import {TimeFive} from "@styled-icons/boxicons-solid/TimeFive";
@@ -19,7 +22,8 @@ import Moment from "react-moment";
 const mapStateToProps = state => {
   return {
     currentAccountUser: state.dashboard.currentAccountUser,
-    panel: state.panel
+    panel: state.panel,
+    accountType: state.profileForm.type
   };
 };
 
@@ -202,7 +206,7 @@ const Order = ({props}) => {
 };
 
 const Payout = ({props}) => {
-  const {purchase} = props;
+  const {purchase, isBrand} = props;
   const {items} = purchase.receipt;
   let commissionTotal = 0;
   for (let key in items) {
@@ -222,7 +226,7 @@ const Payout = ({props}) => {
     <Flex pt={2} pb={2} flexDirection="column">
       <Flex justifyContent="space-between" alignItems="center">
         <Text mr={1} color="navys.0">
-          Price:
+          Total:
         </Text>
         <Flex flexGrow={0}>
           <Text color="navys.0">$</Text>
@@ -232,17 +236,19 @@ const Payout = ({props}) => {
         </Flex>
       </Flex>
 
-      <Flex mt={1} justifyContent="space-between" alignItems="center">
-        <Text mr={1} color="navys.0">
-          Fees:
-        </Text>
-        <Flex flexGrow={0}>
-          <Text color="navys.0">- $</Text>
-          <Text color="navys.0" ml={1}>
-            {feeTotal.toFixed(2)}
+      {isBrand && (
+        <Flex mt={1} justifyContent="space-between" alignItems="center">
+          <Text mr={1} color="navys.0">
+            Fees:
           </Text>
+          <Flex flexGrow={0}>
+            <Text color="navys.0">- $</Text>
+            <Text color="navys.0" ml={1}>
+              {feeTotal.toFixed(2)}
+            </Text>
+          </Flex>
         </Flex>
-      </Flex>
+      )}
 
       <Flex
         borderBottom={"1px solid #dae0e6"}
@@ -255,24 +261,26 @@ const Payout = ({props}) => {
           Commission:
         </Text>
         <Flex flexGrow={0}>
-          <Text color="darkBlues.0">- $</Text>
-          <Text color="darkBlues.0" ml={1}>
+          {isBrand && <Text color="darkBlues.0">- $</Text>}
+          <Text color={isBrand ? "darkBlues.0" : "greens.4"} ml={1}>
             {commissionTotal.toFixed(2)}
           </Text>
         </Flex>
       </Flex>
 
-      <Flex mt={1} justifyContent="space-between" alignItems="center">
-        <Text mr={1} color="navys.0">
-          Net payout:
-        </Text>
-        <Flex flexGrow={0}>
-          <Text color="greens.4">$</Text>
-          <Text color="greens.4" ml={1}>
-            {payout.toFixed(2)}
+      {isBrand && (
+        <Flex mt={1} justifyContent="space-between" alignItems="center">
+          <Text mr={1} color="navys.0">
+            Net payout:
           </Text>
+          <Flex flexGrow={0}>
+            <Text color="greens.4">$</Text>
+            <Text color="greens.4" ml={1}>
+              {payout.toFixed(2)}
+            </Text>
+          </Flex>
         </Flex>
-      </Flex>
+      )}
     </Flex>
   );
 };
@@ -334,7 +342,7 @@ const MutationButton = connect(
 )(_MutationButton);
 
 const ShippingInfo = ({props}) => {
-  const {purchase} = props;
+  const {purchase, isBrand} = props;
   const initialTracking = purchase.receipt.trackingNumber || "";
   const [trackingNumber, setTrackingNum] = useState(initialTracking);
   const [edit, toggleEdit] = useState(initialTracking ? false : true);
@@ -377,7 +385,7 @@ const ShippingInfo = ({props}) => {
             <LockOpen />
           </Icon>
         )}
-        {purchase.receipt.wasShipped && !edit && (
+        {purchase.receipt.wasShipped && !edit && isBrand && (
           <Icon
             cursor="pointer"
             onClick={() => {
@@ -392,7 +400,7 @@ const ShippingInfo = ({props}) => {
         )}
       </Flex>
       <FlexInput
-        disabled={purchase.receipt.wasShipped && !edit}
+        disabled={purchase.receipt.wasShipped && !edit && !isBrand}
         cursor={purchase.receipt.wasShipped && !edit ? "text" : "default"}
         mt={1}
         mb={1}
@@ -422,58 +430,58 @@ const ShippingInfo = ({props}) => {
   );
 };
 
-const columns = [
-  {
-    name: "Purchase date",
-    selector: "purchase.dateCreated",
-    sortable: true,
-    maxWidth: "18rem",
-    width: "18rem",
-    cell: purchase => <Date props={purchase} />
-  },
-  {
-    name: "Customer",
-    selector: "purchase.recipient.name",
-    sortable: true,
-    maxWidth: "20rem",
-    width: "20rem",
-    cell: purchase => <Customer props={purchase} />
-  },
-  {
-    name: "Order",
-    selector: "purchase.receipt.uid",
-    sortable: true,
-    maxWidth: "20rem",
-    width: "20rem",
-    cell: purchase => <Order props={purchase} />
-  },
-  {
-    name: "Payout",
-    selector: "payout",
-    maxWidth: "20rem",
-    width: "20rem",
-    cell: purchase => <Payout props={purchase} />
-  },
-  {
-    name: "Status",
-    selector: "status",
-    sortable: true,
-    maxWidth: "18rem",
-    width: "18rem",
-    cell: purchase => <Status props={purchase} />
-  },
-  {
-    name: "Shipping",
-    selector: "shipping",
-    sortable: false,
-    maxWidth: "20rem",
-    width: "20rem",
-    cell: purchase => <ShippingInfo props={purchase} />
-  }
-];
-
-const _PurchaseTable = props => {
-  const {currentAccountUser, panel} = props;
+function _PurchaseTable(props) {
+  const {currentAccountUser, panel, accountType} = props;
+  const isBrand = accountType === "Brand";
+  const columns = [
+    {
+      name: "Purchase date",
+      selector: "purchase.dateCreated",
+      sortable: true,
+      maxWidth: "18rem",
+      width: "18rem",
+      cell: purchase => <Date props={purchase} />
+    },
+    {
+      name: "Customer",
+      selector: "purchase.recipient.name",
+      sortable: true,
+      maxWidth: "20rem",
+      width: "20rem",
+      cell: purchase => <Customer props={purchase} />
+    },
+    {
+      name: "Order",
+      selector: "purchase.receipt.uid",
+      sortable: true,
+      maxWidth: "20rem",
+      width: "20rem",
+      cell: purchase => <Order props={purchase} />
+    },
+    {
+      name: "Payout",
+      selector: "payout",
+      maxWidth: "20rem",
+      width: "20rem",
+      cell: purchase => <Payout props={{isBrand, ...purchase}} />
+    },
+    {
+      name: "Status",
+      selector: "status",
+      sortable: true,
+      maxWidth: "18rem",
+      width: "18rem",
+      cell: purchase => <Status props={purchase} />
+    },
+    {
+      name: "Shipping",
+      selector: "shipping",
+      sortable: false,
+      maxWidth: "20rem",
+      width: "20rem",
+      cell: purchase => <ShippingInfo props={{isBrand, ...purchase}} />
+    }
+  ];
   return (
     <Box
       w={r("120rem")}
@@ -492,8 +500,8 @@ const _PurchaseTable = props => {
       <FormSection h="auto" bg={"blues.3"} flexDirection="column" pt={4} pb={4}>
         {currentAccountUser && panel === "sales" && (
           <Query
-            query={SALES}
-            pollInterval={2000} //Every 2 seconds
+            query={accountType === "Brand" ? SALES : COMMISSIONS}
+            pollInterval={3000} //Every 3 seconds
             variables={{
               token: getToken().token,
               accountUserId: parseInt(currentAccountUser)
@@ -512,14 +520,15 @@ const _PurchaseTable = props => {
                     <Text>Error! {error.message}</Text>
                   </Box>
                 );
-              // console.log(data.sales);
+              let queryData = data.sales;
+              if (accountType !== "Brand") queryData = data.commissions;
               return (
                 <DataTable
                   noHeader
                   allowOverflow
                   columns={columns}
                   currentAccountUser={parseInt(currentAccountUser)}
-                  data={data.sales}
+                  data={queryData}
                   noDataComponent={
                     <Box p={4}>
                       <Text>No records yet</Text>
@@ -533,7 +542,7 @@ const _PurchaseTable = props => {
       </FormSection>
     </Box>
   );
-};
+}
 
 const PurchaseTable = connect(
   mapStateToProps,

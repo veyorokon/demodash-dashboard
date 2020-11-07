@@ -856,6 +856,72 @@ export const SALES = gql`
   }
 `;
 
+export const COMMISSIONS = gql`
+  query commissions($token: String!, $accountUserId: Int!) {
+    commissions(token: $token, accountUserId: $accountUserId) {
+      id
+      purchase {
+        id
+        dateCreated
+        paymentStatus
+        total
+        receipt {
+          id
+          uid
+          wasShipped
+          trackingNumber
+          transfers {
+            id
+            amount
+            stripeFee
+            demodashFee
+          }
+          items {
+            id
+            itemName
+            quantity
+            commission {
+              id
+              amount
+            }
+            product {
+              id
+              name
+            }
+            demoBox {
+              id
+              items {
+                id
+                product {
+                  id
+                  name
+                }
+              }
+            }
+            options {
+              id
+              variationOptionName
+            }
+          }
+        }
+        recipient {
+          id
+          name
+          address {
+            id
+            line1
+            line2
+            state
+            city
+            country
+            zip
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const UPDATE_PURCHASE_TRACKING = gql`
   mutation updatePurchaseTracking(
     $token: String!

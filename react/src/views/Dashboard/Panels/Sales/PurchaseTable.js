@@ -400,7 +400,7 @@ const ShippingInfo = ({props}) => {
         )}
       </Flex>
       <FlexInput
-        disabled={purchase.receipt.wasShipped && !edit && !isBrand}
+        disabled={(purchase.receipt.wasShipped && !edit) || !isBrand}
         cursor={purchase.receipt.wasShipped && !edit ? "text" : "default"}
         mt={1}
         mb={1}

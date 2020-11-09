@@ -224,7 +224,12 @@ const Payout = ({props}) => {
 
   return (
     <Flex pt={2} pb={2} flexDirection="column">
-      <Flex justifyContent="space-between" alignItems="center">
+      <Flex
+        pb={!isBrand ? 1 : 0}
+        borderBottom={!isBrand ? "1px solid #dae0e6" : ""}
+        justifyContent="space-between"
+        alignItems="center"
+      >
         <Text mr={1} color="navys.0">
           Total:
         </Text>
@@ -251,8 +256,8 @@ const Payout = ({props}) => {
       )}
 
       <Flex
-        borderBottom={"1px solid #dae0e6"}
-        mt={1}
+        borderBottom={isBrand ? "1px solid #dae0e6" : ""}
+        pt={1}
         pb={1}
         justifyContent="space-between"
         alignItems="center"
@@ -399,23 +404,29 @@ const ShippingInfo = ({props}) => {
           </Icon>
         )}
       </Flex>
-      <FlexInput
-        disabled={(purchase.receipt.wasShipped && !edit) || !isBrand}
-        cursor={purchase.receipt.wasShipped && !edit ? "text" : "default"}
-        mt={1}
-        mb={1}
-        inputProps={{fontSize: "1.4rem", mt: 0, mb: 0}}
-        value={trackingNumber || ""}
-        maxWidth={"100%"}
-        onChange={evt => {
-          setTrackingNum(evt.target.value);
-        }}
-      />
-      {hasTrackingNumber && (
-        <Text color="navys.1" fs="1.1rem">
-          {format(trackingNumber)}
-        </Text>
+      {isBrand && (
+        <FlexInput
+          disabled={(purchase.receipt.wasShipped && !edit) || !isBrand}
+          cursor={purchase.receipt.wasShipped && !edit ? "text" : "default"}
+          mt={1}
+          mb={1}
+          inputProps={{fontSize: "1.4rem", mt: 0, mb: 0}}
+          value={trackingNumber || ""}
+          maxWidth={"100%"}
+          onChange={evt => {
+            setTrackingNum(evt.target.value);
+          }}
+        />
       )}
+      <Text
+        mt={!isBrand ? 2 : 0}
+        color="navys.1"
+        fs={!isBrand ? "1.2rem" : "1.1rem"}
+      >
+        {hasTrackingNumber
+          ? format(trackingNumber)
+          : "No tracking number yet..."}
+      </Text>
       {(!purchase.receipt.wasShipped || edit) && (
         <MutationButton
           disabled={disabled}

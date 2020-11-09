@@ -33,6 +33,8 @@ const DemoerNav = props => {
         icon={<DemodashIcon />}
         ml={3}
       />
+      <NavCategory mt={3} text={"Sales"} />
+      <ConnectedNavItem id={"sales"} text="Sales" icon={<MoneyBill />} ml={3} />
       <NavCategory mt={3} text={"Account"} />
       <ConnectedNavItem
         id={"payoutBilling"}

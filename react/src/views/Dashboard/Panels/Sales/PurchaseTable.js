@@ -410,7 +410,7 @@ const ShippingInfo = ({props}) => {
           cursor={purchase.receipt.wasShipped && !edit ? "text" : "default"}
           mt={1}
           mb={1}
-          inputProps={{fontSize: "1.4rem", mt: 0, mb: 0}}
+          inputProps={{fontSize: "1.6rem", mt: 0, mb: 0}}
           value={trackingNumber || ""}
           maxWidth={"100%"}
           onChange={evt => {

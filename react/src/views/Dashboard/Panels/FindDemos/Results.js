@@ -497,7 +497,7 @@ function Results(props) {
                                           );
                                         let exists = false;
                                         if (data && data.inventoryExists)
-                                          exists = data.inventoryExists;
+                                          exists = data.inventoryExists.exists;
                                         let hoverBg = "#F87060";
                                         let background = "oranges.1";
                                         let color = "whites.0";
@@ -506,6 +506,7 @@ function Results(props) {
                                           background = "yellows.1";
                                           color = "blacks.0";
                                         }
+
                                         return (
                                           <CallToActionButton
                                             cursor={"pointer"}

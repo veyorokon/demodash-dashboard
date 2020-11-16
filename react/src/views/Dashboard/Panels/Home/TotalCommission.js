@@ -43,7 +43,8 @@ function _TotalSales(props) {
       />
     );
   let value = 0;
-  if (data) value = data.totalCommissionGenerated.value;
+  if (data && data.totalCommissionGenerated)
+    value = data.totalCommissionGenerated.value;
   return (
     <IconCard
       iconProps={{color: "yellows.0", bg: "yellows.2"}}

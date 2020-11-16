@@ -43,7 +43,7 @@ function _TotalSales(props) {
       />
     );
   let value = 0;
-  if (data) value = data.totalAccountSales.value;
+  if (data && data.totalAccountSales) value = data.totalAccountSales.value;
   return (
     <IconCard
       iconProps={{color: "blues.0", bg: "navys.3"}}

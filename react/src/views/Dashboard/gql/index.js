@@ -802,6 +802,7 @@ export const SALES = gql`
         receipts {
           id
           wasShipped
+          trackingNumber
           sellerAccount {
             id
             profile {
@@ -857,19 +858,19 @@ export const SALES = gql`
 `;
 
 export const UPDATE_PURCHASE_TRACKING = gql`
-  mutation updatePurchaseTracking(
+  mutation updateReceiptTracking(
     $token: String!
     $accountUserId: Int!
-    $purchaseId: Int!
+    $receiptId: Int!
     $trackingNumber: String
   ) {
-    updatePurchaseTracking(
+    updateReceiptTracking(
       token: $token
       accountUserId: $accountUserId
-      purchaseId: $purchaseId
+      receiptId: $receiptId
       trackingNumber: $trackingNumber
     ) {
-      purchase {
+      receipt {
         id
       }
     }

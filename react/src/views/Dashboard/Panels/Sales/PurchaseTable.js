@@ -62,23 +62,22 @@ const Customer = ({props}) => {
 };
 
 const PaymentStatus = props => {
-  const {purchase} = props;
   let color = "oranges.0";
-  let paymentStatus = "Pending";
+  let paymentStatus = "Payment Pending";
   let displayIcon = (
     <Icon mr={2} color={color} h={"2.5rem"}>
       <TimeFive />
     </Icon>
   );
-  if (purchase.paymentStatus === "Successful") {
+  if (props.paymentStatus === "Successful") {
     color = "greens.4";
-    paymentStatus = "Paid";
+    paymentStatus = "Payment Successful";
     displayIcon = (
       <Icon mr={2} color={color} h={"2.5rem"}>
         <CheckCircle />
       </Icon>
     );
-  } else if (purchase.paymentStatus === "Failed") {
+  } else if (props.paymentStatus === "Failed") {
     color = "reds.1";
     paymentStatus = "Failed";
     displayIcon = (
@@ -96,8 +95,7 @@ const PaymentStatus = props => {
 };
 
 const ShippingStatus = props => {
-  const {purchase} = props;
-  const {receipts} = purchase;
+  const {wasShipped} = props;
   let color = "oranges.0";
   let shippingStatus = "Shipping needed";
   let displayIcon = (
@@ -105,7 +103,7 @@ const ShippingStatus = props => {
       <TimeFive />
     </Icon>
   );
-  if (receipts[0].wasShipped) {
+  if (wasShipped) {
     color = "greens.4";
     shippingStatus = "Shipped";
     displayIcon = (
@@ -123,18 +121,49 @@ const ShippingStatus = props => {
 };
 
 const Status = ({props}) => {
-  const {purchase} = props;
-  const wasPaid = purchase.paymentStatus === "Successful";
+  const {paymentStatus, order, isBrand} = props;
+  const wasPaid = paymentStatus === "Successful";
   return (
     <Flex flexDirection="column" pt={2} pb={2}>
-      <PaymentStatus mb={wasPaid ? 2 : 0} purchase={purchase} />
-      {wasPaid && <ShippingStatus purchase={purchase} />}
+      <PaymentStatus mt={1} mb={1} paymentStatus={paymentStatus} />
+      {wasPaid &&
+        order.receipts.map(function(receipt, index) {
+          const {wasShipped, trackingNumber} = receipt;
+          let hasTrackingNumber = true;
+          if (
+            trackingNumber === 0 ||
+            trackingNumber === "" ||
+            trackingNumber === null
+          )
+            hasTrackingNumber = false;
+          return (
+            <Flex mb={2} flexDirection="column">
+              {!isBrand && (
+                <Text
+                  mb={1}
+                  key={`${index}`}
+                  color="navys.2"
+                  ml={2}
+                  w={"fit-content"}
+                >
+                  {receipt.sellerAccount.profile.name}
+                </Text>
+              )}
+              {<ShippingStatus wasShipped={wasShipped} />}
+              {hasTrackingNumber && (
+                <Text ml="auto" mr="auto" mt={1} color="navys.1" fs={"1.2rem"}>
+                  tracking #: {format(receipt.trackingNumber)}
+                </Text>
+              )}
+            </Flex>
+          );
+        })}
     </Flex>
   );
 };
 
 const Order = ({props}) => {
-  const {order} = props;
+  const {order, isBrand} = props;
   let orderType = "Demo box";
   let brandItems = [];
   for (let key in order.receipts) {
@@ -173,13 +202,18 @@ const Order = ({props}) => {
       {brandItems.map(function(receipt, index) {
         return (
           <Flex key={index} flexDirection="column">
+            {!isBrand && (
+              <Text color="navys.2" ml={2} mb={1}>
+                {receipt.brand}
+              </Text>
+            )}
             {receipt.items.map(function(item, i) {
               return (
                 <Flex
                   borderBottom={
-                    index < brandItems.length - 1 ? "1px solid #dae0e6" : ""
+                    i < receipt.items.length - 1 ? "1px solid #dae0e6" : ""
                   }
-                  marginBottom={index < brandItems.length - 1 ? 1 : 0}
+                  marginBottom={i < receipt.items.length - 1 ? 1 : 0}
                   key={i}
                   flexDirection="column"
                 >
@@ -345,20 +379,21 @@ const MutationButton = connect(
 )(_MutationButton);
 
 const ShippingInfo = ({props}) => {
-  const {purchase, isBrand} = props;
-  const initialTracking = purchase.receipts[0].trackingNumber || "";
+  const {order, isBrand} = props;
+  const receipt = order.receipts[0];
+  const initialTracking = receipt.trackingNumber || "";
   const [trackingNumber, setTrackingNum] = useState(initialTracking);
   const [edit, toggleEdit] = useState(initialTracking ? false : true);
 
   const disabled =
-    purchase.receipts[0].trackingNumber === trackingNumber ||
+    receipt.trackingNumber === trackingNumber ||
     trackingNumber === 0 ||
     trackingNumber === "";
 
   useEffect(() => {
-    setTrackingNum(purchase.receipts[0].trackingNumber);
+    setTrackingNum(receipt.trackingNumber);
     toggleEdit(false);
-  }, [purchase.receipts]);
+  }, [receipt.trackingNumber]);
 
   let hasTrackingNumber = true;
   if (trackingNumber === 0 || trackingNumber === "" || trackingNumber === null)
@@ -375,7 +410,7 @@ const ShippingInfo = ({props}) => {
     >
       <Flex justifyContent="space-between">
         <Text color="navys.0">Tracking number:</Text>
-        {purchase.receipts[0].wasShipped && edit && (
+        {receipt.wasShipped && edit && (
           <Icon
             cursor="pointer"
             onClick={() => {
@@ -388,7 +423,7 @@ const ShippingInfo = ({props}) => {
             <LockOpen />
           </Icon>
         )}
-        {purchase.receipts[0].wasShipped && !edit && isBrand && (
+        {receipt.wasShipped && !edit && isBrand && (
           <Icon
             cursor="pointer"
             onClick={() => {
@@ -404,8 +439,8 @@ const ShippingInfo = ({props}) => {
       </Flex>
       {isBrand && (
         <FlexInput
-          disabled={(purchase.receipts[0].wasShipped && !edit) || !isBrand}
-          cursor={purchase.receipts[0].wasShipped && !edit ? "text" : "default"}
+          disabled={(receipt.wasShipped && !edit) || !isBrand}
+          cursor={receipt.wasShipped && !edit ? "text" : "default"}
           mt={1}
           mb={1}
           inputProps={{fontSize: "1.6rem", mt: 0, mb: 0}}
@@ -425,12 +460,12 @@ const ShippingInfo = ({props}) => {
           ? format(trackingNumber)
           : "No tracking number yet..."}
       </Text>
-      {((!purchase.receipts[0].wasShipped && isBrand) || edit) && (
+      {((!receipt.wasShipped && isBrand) || edit) && (
         <MutationButton
           disabled={disabled}
           mutationVariables={{
             token: getToken().token,
-            purchaseId: parseInt(purchase.id),
+            receiptId: parseInt(receipt.id),
             trackingNumber: trackingNumber
           }}
         />
@@ -442,7 +477,7 @@ const ShippingInfo = ({props}) => {
 function _PurchaseTable(props) {
   const {currentAccountUser, panel, accountType} = props;
   const isBrand = accountType === "Brand";
-  const columns = [
+  let columns = [
     {
       name: "Purchase date",
       selector: "dateCreated",
@@ -467,30 +502,32 @@ function _PurchaseTable(props) {
       width: "20rem",
       cell: purchase => <Order props={{isBrand, ...purchase}} />
     },
+
     {
       name: "Payout",
       selector: "payout",
       maxWidth: "20rem",
       width: "20rem",
       cell: purchase => <Payout props={{isBrand, ...purchase}} />
+    },
+    {
+      name: "Status",
+      selector: "status",
+      sortable: true,
+      maxWidth: "20rem",
+      width: "20rem",
+      cell: purchase => <Status props={{isBrand, ...purchase}} />
     }
-    // {
-    //   name: "Status",
-    //   selector: "status",
-    //   sortable: true,
-    //   maxWidth: "18rem",
-    //   width: "18rem",
-    //   cell: purchase => <Status props={purchase} />
-    // },
-    // {
-    //   name: "Shipping",
-    //   selector: "shipping",
-    //   sortable: false,
-    //   maxWidth: "20rem",
-    //   width: "20rem",
-    //   cell: purchase => <ShippingInfo props={{isBrand, ...purchase}} />
-    // }
   ];
+  if (isBrand)
+    columns.push({
+      name: "Shipping",
+      selector: "shipping",
+      sortable: false,
+      maxWidth: "20rem",
+      width: "20rem",
+      cell: purchase => <ShippingInfo props={{isBrand, ...purchase}} />
+    });
   return (
     <Box
       w={r("120rem")}
@@ -530,7 +567,6 @@ function _PurchaseTable(props) {
                   </Box>
                 );
               let queryData = data.sales;
-              console.log(queryData);
               return (
                 <DataTable
                   noHeader

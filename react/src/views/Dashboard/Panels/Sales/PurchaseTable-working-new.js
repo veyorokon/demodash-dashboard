@@ -62,23 +62,22 @@ const Customer = ({props}) => {
 };
 
 const PaymentStatus = props => {
-  const {purchase} = props;
   let color = "oranges.0";
-  let paymentStatus = "Pending";
+  let paymentStatus = "Payment Pending";
   let displayIcon = (
     <Icon mr={2} color={color} h={"2.5rem"}>
       <TimeFive />
     </Icon>
   );
-  if (purchase.paymentStatus === "Successful") {
+  if (props.paymentStatus === "Successful") {
     color = "greens.4";
-    paymentStatus = "Paid";
+    paymentStatus = "Payment Successful";
     displayIcon = (
       <Icon mr={2} color={color} h={"2.5rem"}>
         <CheckCircle />
       </Icon>
     );
-  } else if (purchase.paymentStatus === "Failed") {
+  } else if (props.paymentStatus === "Failed") {
     color = "reds.1";
     paymentStatus = "Failed";
     displayIcon = (
@@ -96,8 +95,7 @@ const PaymentStatus = props => {
 };
 
 const ShippingStatus = props => {
-  const {purchase} = props;
-  const {receipts} = purchase;
+  const {wasShipped} = props;
   let color = "oranges.0";
   let shippingStatus = "Shipping needed";
   let displayIcon = (
@@ -105,7 +103,7 @@ const ShippingStatus = props => {
       <TimeFive />
     </Icon>
   );
-  if (receipts[0].wasShipped) {
+  if (wasShipped) {
     color = "greens.4";
     shippingStatus = "Shipped";
     displayIcon = (
@@ -123,12 +121,31 @@ const ShippingStatus = props => {
 };
 
 const Status = ({props}) => {
-  const {purchase} = props;
-  const wasPaid = purchase.paymentStatus === "Successful";
+  const {paymentStatus, order, isBrand} = props;
+  const wasPaid = paymentStatus === "Successful";
   return (
     <Flex flexDirection="column" pt={2} pb={2}>
-      <PaymentStatus mb={wasPaid ? 2 : 0} purchase={purchase} />
-      {wasPaid && <ShippingStatus purchase={purchase} />}
+      <PaymentStatus mt={1} mb={1} paymentStatus={paymentStatus} />
+      {wasPaid &&
+        order.receipts.map(function(receipt, index) {
+          const {wasShipped} = receipt;
+          return (
+            <Flex mb={2} flexDirection="column">
+              {!isBrand && (
+                <Text
+                  mb={1}
+                  key={`${index}`}
+                  color="navys.2"
+                  ml={2}
+                  w={"fit-content"}
+                >
+                  {receipt.sellerAccount.profile.name}
+                </Text>
+              )}
+              {<ShippingStatus wasShipped={wasShipped} />}
+            </Flex>
+          );
+        })}
     </Flex>
   );
 };
@@ -173,13 +190,18 @@ const Order = ({props}) => {
       {brandItems.map(function(receipt, index) {
         return (
           <Flex key={index} flexDirection="column">
+            {!isBrand && (
+              <Text color="navys.2" ml={2} mb={1}>
+                {receipt.brand}
+              </Text>
+            )}
             {receipt.items.map(function(item, i) {
               return (
                 <Flex
                   borderBottom={
-                    index < brandItems.length - 1 ? "1px solid #dae0e6" : ""
+                    i < receipt.items.length - 1 ? "1px solid #dae0e6" : ""
                   }
-                  marginBottom={index < brandItems.length - 1 ? 1 : 0}
+                  marginBottom={i < receipt.items.length - 1 ? 1 : 0}
                   key={i}
                   flexDirection="column"
                 >
@@ -222,7 +244,7 @@ const Payout = ({props}) => {
   const {total, fees, commission} = payout;
   const netAmount = total - (fees + commission);
   return (
-    <Flex pt={2} pb={2} flexDirection="column" mb={"auto"}>
+    <Flex pt={2} pb={2} flexDirection="column">
       <Flex
         pb={!isBrand ? 1 : 0}
         borderBottom={!isBrand ? "1px solid #dae0e6" : ""}
@@ -467,21 +489,23 @@ function _PurchaseTable(props) {
       width: "20rem",
       cell: purchase => <Order props={{isBrand, ...purchase}} />
     },
+
     {
       name: "Payout",
       selector: "payout",
       maxWidth: "20rem",
       width: "20rem",
       cell: purchase => <Payout props={{isBrand, ...purchase}} />
+    },
+    {
+      name: "Status",
+      selector: "status",
+      sortable: true,
+      maxWidth: "20rem",
+      width: "20rem",
+      cell: purchase => <Status props={{isBrand, ...purchase}} />
     }
-    // {
-    //   name: "Status",
-    //   selector: "status",
-    //   sortable: true,
-    //   maxWidth: "18rem",
-    //   width: "18rem",
-    //   cell: purchase => <Status props={purchase} />
-    // },
+
     // {
     //   name: "Shipping",
     //   selector: "shipping",
@@ -530,7 +554,6 @@ function _PurchaseTable(props) {
                   </Box>
                 );
               let queryData = data.sales;
-              console.log(queryData);
               return (
                 <DataTable
                   noHeader

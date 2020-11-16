@@ -134,7 +134,7 @@ const Status = ({props}) => {
 };
 
 const Order = ({props}) => {
-  const {order} = props;
+  const {order, isBrand} = props;
   let orderType = "Demo box";
   let brandItems = [];
   for (let key in order.receipts) {
@@ -222,7 +222,7 @@ const Payout = ({props}) => {
   const {total, fees, commission} = payout;
   const netAmount = total - (fees + commission);
   return (
-    <Flex pt={2} pb={2} flexDirection="column">
+    <Flex pt={2} pb={2} flexDirection="column" mb={"auto"}>
       <Flex
         pb={!isBrand ? 1 : 0}
         borderBottom={!isBrand ? "1px solid #dae0e6" : ""}

@@ -802,6 +802,13 @@ export const SALES = gql`
         receipts {
           id
           wasShipped
+          sellerAccount {
+            id
+            profile {
+              id
+              name
+            }
+          }
           items {
             id
             itemName

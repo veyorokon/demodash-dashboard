@@ -24,7 +24,6 @@ const mapStateToProps = state => {
 };
 
 const Date = ({props}) => {
-  console.log(props);
   return (
     <Flex flexDirection="column" pt={2} pb={2}>
       <Text fw={500} color="navys.0">
@@ -137,7 +136,7 @@ const Status = ({props}) => {
           )
             hasTrackingNumber = false;
           return (
-            <Flex mb={2} flexDirection="column">
+            <Flex key={index} mb={2} flexDirection="column">
               {!isBrand && (
                 <Text
                   mb={1}
@@ -150,7 +149,7 @@ const Status = ({props}) => {
                 </Text>
               )}
               {<ShippingStatus wasShipped={wasShipped} />}
-              {hasTrackingNumber && (
+              {hasTrackingNumber && !isBrand && (
                 <Text ml="auto" mr="auto" mt={1} color="navys.1" fs={"1.2rem"}>
                   tracking #: {format(receipt.trackingNumber)}
                 </Text>

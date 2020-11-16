@@ -794,18 +794,30 @@ export const SALES = gql`
   query sales($token: String!, $accountUserId: Int!) {
     sales(token: $token, accountUserId: $accountUserId) {
       id
-      paymentStatus
-      dateCreated
-      order {
+      purchase {
         id
-        uid
+        dateCreated
+        paymentStatus
+        total
         receipts {
           id
+          uid
           wasShipped
+          trackingNumber
+          transfers {
+            id
+            amount
+            stripeFee
+            demodashFee
+          }
           items {
             id
             itemName
             quantity
+            commission {
+              id
+              amount
+            }
             product {
               id
               name
@@ -826,23 +838,84 @@ export const SALES = gql`
             }
           }
         }
-      }
-      payout {
-        id
-        total
-        fees
-        commission
-      }
-      recipient {
-        id
-        name
-        address {
+        recipient {
           id
-          line1
-          line2
-          city
-          state
-          zip
+          name
+          address {
+            id
+            line1
+            line2
+            state
+            city
+            country
+            zip
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const COMMISSIONS = gql`
+  query commissions($token: String!, $accountUserId: Int!) {
+    commissions(token: $token, accountUserId: $accountUserId) {
+      id
+      purchase {
+        id
+        dateCreated
+        paymentStatus
+        total
+        receipts {
+          id
+          uid
+          wasShipped
+          trackingNumber
+          transfers {
+            id
+            amount
+            stripeFee
+            demodashFee
+          }
+          items {
+            id
+            itemName
+            quantity
+            commission {
+              id
+              amount
+            }
+            product {
+              id
+              name
+            }
+            demoBox {
+              id
+              items {
+                id
+                product {
+                  id
+                  name
+                }
+              }
+            }
+            options {
+              id
+              variationOptionName
+            }
+          }
+        }
+        recipient {
+          id
+          name
+          address {
+            id
+            line1
+            line2
+            state
+            city
+            country
+            zip
+          }
         }
       }
     }

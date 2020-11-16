@@ -176,7 +176,7 @@ class _Overview extends React.Component {
       const data = response.data.createAccountUserPurchase;
       return updateDemoCheckoutForm({
         ...demoCheckoutForm,
-        receiptUId: data.purchase.receipt.uid,
+        receiptUId: data.purchase.receipts[0].uid,
         isSubmitting: false,
         disabled: false,
         currentPanel: demoCheckoutForm.currentPanel + 1

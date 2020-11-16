@@ -6,7 +6,11 @@ import {responsive as r, getToken} from "lib";
 import {connect} from "react-redux";
 import DataTable from "react-data-table-component";
 import {Query, Mutation} from "@apollo/react-components";
-import {SALES, UPDATE_PURCHASE_TRACKING} from "views/Dashboard/gql";
+import {
+  SALES,
+  COMMISSIONS,
+  UPDATE_PURCHASE_TRACKING
+} from "views/Dashboard/gql";
 import {Truck} from "@styled-icons/boxicons-solid/Truck";
 import {Lock} from "@styled-icons/boxicons-solid/Lock";
 import {LockOpen} from "@styled-icons/boxicons-solid/LockOpen";
@@ -24,14 +28,14 @@ const mapStateToProps = state => {
 };
 
 const Date = ({props}) => {
-  console.log(props);
+  const {purchase} = props;
   return (
     <Flex flexDirection="column" pt={2} pb={2}>
       <Text fw={500} color="navys.0">
-        <Moment format="MMMM DD YYYY">{props.dateCreated}</Moment>
+        <Moment format="MMMM DD YYYY">{purchase.dateCreated}</Moment>
       </Text>
       <Text fw={300} color="navys.1">
-        <Moment format="hh:mm A">{props.dateCreated}</Moment>
+        <Moment format="hh:mm A">{purchase.dateCreated}</Moment>
       </Text>
     </Flex>
   );
@@ -45,12 +49,12 @@ const AddressLine = props => {
 };
 
 const Customer = ({props}) => {
-  const {recipient} = props;
-  const {address} = props.recipient;
+  const {purchase} = props;
+  const {address} = purchase.recipient;
   return (
     <Box pt={2} pb={2}>
       <Text color="navys.0" mb={1}>
-        {recipient.name}
+        {purchase.recipient.name}
       </Text>
       <AddressLine>{address.line1}</AddressLine>
       {address.line2 && <AddressLine>{address.line2}</AddressLine>}
@@ -443,51 +447,51 @@ function _PurchaseTable(props) {
   const columns = [
     {
       name: "Purchase date",
-      selector: "dateCreated",
+      selector: "purchase.dateCreated",
       sortable: true,
       maxWidth: "18rem",
       width: "18rem",
-      cell: props => <Date props={props} />
+      cell: purchase => <Date props={purchase} />
     },
     {
       name: "Customer",
-      selector: "recipient.name",
+      selector: "purchase.recipient.name",
       sortable: true,
       maxWidth: "20rem",
       width: "20rem",
-      cell: props => <Customer props={props} />
+      cell: purchase => <Customer props={purchase} />
+    },
+    {
+      name: "Order",
+      selector: "purchase.receipts[0].uid",
+      sortable: true,
+      maxWidth: "20rem",
+      width: "20rem",
+      cell: purchase => <Order props={purchase} />
+    },
+    {
+      name: "Payout",
+      selector: "payout",
+      maxWidth: "20rem",
+      width: "20rem",
+      cell: purchase => <Payout props={{isBrand, ...purchase}} />
+    },
+    {
+      name: "Status",
+      selector: "status",
+      sortable: true,
+      maxWidth: "18rem",
+      width: "18rem",
+      cell: purchase => <Status props={purchase} />
+    },
+    {
+      name: "Shipping",
+      selector: "shipping",
+      sortable: false,
+      maxWidth: "20rem",
+      width: "20rem",
+      cell: purchase => <ShippingInfo props={{isBrand, ...purchase}} />
     }
-    // {
-    //   name: "Order",
-    //   selector: "purchase.receipts[0].uid",
-    //   sortable: true,
-    //   maxWidth: "20rem",
-    //   width: "20rem",
-    //   cell: purchase => <Order props={purchase} />
-    // },
-    // {
-    //   name: "Payout",
-    //   selector: "payout",
-    //   maxWidth: "20rem",
-    //   width: "20rem",
-    //   cell: purchase => <Payout props={{isBrand, ...purchase}} />
-    // },
-    // {
-    //   name: "Status",
-    //   selector: "status",
-    //   sortable: true,
-    //   maxWidth: "18rem",
-    //   width: "18rem",
-    //   cell: purchase => <Status props={purchase} />
-    // },
-    // {
-    //   name: "Shipping",
-    //   selector: "shipping",
-    //   sortable: false,
-    //   maxWidth: "20rem",
-    //   width: "20rem",
-    //   cell: purchase => <ShippingInfo props={{isBrand, ...purchase}} />
-    // }
   ];
   return (
     <Box
@@ -507,7 +511,7 @@ function _PurchaseTable(props) {
       <FormSection h="auto" bg={"blues.3"} flexDirection="column" pt={4} pb={4}>
         {currentAccountUser && panel === "sales" && (
           <Query
-            query={SALES}
+            query={accountType === "Brand" ? SALES : COMMISSIONS}
             pollInterval={3000} //Every 3 seconds
             variables={{
               token: getToken().token,
@@ -528,7 +532,7 @@ function _PurchaseTable(props) {
                   </Box>
                 );
               let queryData = data.sales;
-              console.log(queryData);
+              if (accountType !== "Brand") queryData = data.commissions;
               return (
                 <DataTable
                   noHeader

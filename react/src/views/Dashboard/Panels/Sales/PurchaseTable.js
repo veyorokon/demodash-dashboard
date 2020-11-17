@@ -145,7 +145,7 @@ const Status = ({props}) => {
               )}
               {<ShippingStatus isBrand={isBrand} wasShipped={wasShipped} />}
               {hasTrackingNumber && !isBrand && (
-                <Text ml="auto" mr="auto" mt={1} color="navys.1" fs={"1.2rem"}>
+                <Text ml={2} mt={1} color="navys.1" fs={"1.2rem"}>
                   tracking #: {format(receipt.trackingNumber)}
                 </Text>
               )}

@@ -272,7 +272,10 @@ class ImageCard extends React.Component {
                     mt={0}
                     valueProps={{fw: 500, color: "navys.1"}}
                     title={"Price:"}
-                    value={`$${item.demoBoxItem.product.price.toFixed(2)}`}
+                    value={`$${(
+                      item.demoBoxItem.product.price +
+                      item.demoBoxItem.product.shippingPrice
+                    ).toFixed(2)}`}
                   />
                   <LineItem
                     mt={0}

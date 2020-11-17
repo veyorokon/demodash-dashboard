@@ -374,6 +374,7 @@ export const DEMO_CAMPAIGNS = gql`
             id
             name
             price
+            shippingPrice
           }
         }
       }

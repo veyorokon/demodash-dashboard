@@ -94,9 +94,10 @@ const PaymentStatus = props => {
 };
 
 const ShippingStatus = props => {
-  const {wasShipped} = props;
+  const {wasShipped, isBrand} = props;
   let color = "oranges.0";
-  let shippingStatus = "Shipping needed";
+  let shippingStatus = "Not yet shipped";
+  if (isBrand) shippingStatus = "Shipping needed";
   let displayIcon = (
     <Icon mr={2} color={color} h={"2.5rem"}>
       <TimeFive />
@@ -138,17 +139,11 @@ const Status = ({props}) => {
           return (
             <Flex key={index} mb={2} flexDirection="column">
               {!isBrand && (
-                <Text
-                  mb={1}
-                  key={`${index}`}
-                  color="navys.2"
-                  ml={2}
-                  w={"fit-content"}
-                >
+                <Text mb={1} key={`${index}`} color="navys.2">
                   {receipt.sellerAccount.profile.name}
                 </Text>
               )}
-              {<ShippingStatus wasShipped={wasShipped} />}
+              {<ShippingStatus isBrand={isBrand} wasShipped={wasShipped} />}
               {hasTrackingNumber && !isBrand && (
                 <Text ml="auto" mr="auto" mt={1} color="navys.1" fs={"1.2rem"}>
                   tracking #: {format(receipt.trackingNumber)}
@@ -195,9 +190,11 @@ const Order = ({props}) => {
   return (
     <Flex pt={2} pb={2} flexDirection="column">
       <Text mb={1}>#{order.uid}</Text>
-      <Text mb={1} color="navys.0">
-        {orderType}:
-      </Text>
+      {isBrand && (
+        <Text mb={1} color="navys.0">
+          {orderType}:
+        </Text>
+      )}
       {brandItems.map(function(receipt, index) {
         return (
           <Flex key={index} flexDirection="column">
@@ -253,16 +250,13 @@ const Order = ({props}) => {
 const Payout = ({props}) => {
   const {isBrand, payout} = props;
   const {total, fees, commission} = payout;
-  const netAmount = total - (fees + commission);
+  let netAmount = total - (fees + commission);
+  if (!isBrand) netAmount = commission - fees;
   return (
     <Flex pt={2} pb={2} flexDirection="column">
-      <Flex
-        pb={!isBrand ? 1 : 0}
-        borderBottom={!isBrand ? "1px solid #dae0e6" : ""}
-        justifyContent="space-between"
-      >
+      <Flex pb={!isBrand ? 1 : 0} justifyContent="space-between">
         <Text mr={1} color="navys.0">
-          Total:
+          Purchase total:
         </Text>
         <Flex flexGrow={0}>
           <Text color="navys.0">$</Text>
@@ -304,19 +298,37 @@ const Payout = ({props}) => {
         </Flex>
       </Flex>
 
-      {isBrand && (
-        <Flex mt={1} justifyContent="space-between" alignItems="center">
+      {!isBrand && (
+        <Flex
+          borderBottom={"1px solid #dae0e6"}
+          pt={1}
+          pb={1}
+          justifyContent="space-between"
+          alignItems="center"
+        >
           <Text mr={1} color="navys.0">
-            Net payout:
+            Fees:
           </Text>
           <Flex flexGrow={0}>
-            <Text color="greens.4">$</Text>
-            <Text color="greens.4" ml={1}>
-              {netAmount.toFixed(2)}
+            <Text color="navys.0">- $</Text>
+            <Text color="navys.0" ml={1}>
+              {fees.toFixed(2)}
             </Text>
           </Flex>
         </Flex>
       )}
+
+      <Flex mt={1} justifyContent="space-between" alignItems="center">
+        <Text mr={1} color="navys.0">
+          Net payout:
+        </Text>
+        <Flex flexGrow={0}>
+          <Text color="greens.4">$</Text>
+          <Text color="greens.4" ml={1}>
+            {netAmount.toFixed(2)}
+          </Text>
+        </Flex>
+      </Flex>
     </Flex>
   );
 };

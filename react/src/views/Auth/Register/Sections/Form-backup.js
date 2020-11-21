@@ -7,8 +7,9 @@ import {responsive as r} from "lib";
 import {MultiForm, ConnectedUserForm, AccountForm} from "./Forms";
 import {Section, Box, Text, Flex, Image, Link, Hidden, Icon} from "components";
 import {Mutation} from "@apollo/react-components";
-import {setToken, clearToken, getToken} from "lib";
+import {setToken, clearToken, getToken, formatGQLErrorMessage} from "lib";
 import {gql} from "apollo-boost";
+import {updateRegistrationForm} from "redux/actions";
 import checkmark from "assets/svg/checkmark.svg";
 import LogoIcon from "assets/svg/logo.js";
 const publicIp = require("public-ip");
@@ -134,15 +135,25 @@ class RegistrationForm extends React.Component {
   }
 
   async createUserMutation(createUser) {
-    const {registrationForm} = this.props;
+    const {registrationForm, updateRegistrationForm} = this.props;
     const ip = await (async () => {
       return await publicIp.v4();
     })();
-    const response = await createUser({
-      variables: {ip: ip, ...registrationForm}
-    });
-    const {token, expiration} = response.data.createUser;
-    return setToken(token, expiration);
+    try {
+      const response = await createUser({
+        variables: {ip: ip, ...registrationForm}
+      });
+      const {token, expiration} = response.data.createUser;
+      return setToken(token, expiration);
+    } catch (error) {
+      let gqlError = formatGQLErrorMessage(error, "");
+      console.log(error);
+      return updateRegistrationForm({
+        ...registrationForm,
+        ...gqlError,
+        recaptcha: null
+      });
+    }
   }
 
   async createAccountMutation(createAccount) {
@@ -303,10 +314,15 @@ const mapStateToProps = state => {
     accountForm: state.accountForm
   };
 };
+function mapDispatchToProps(dispatch) {
+  return {
+    updateRegistrationForm: payload => dispatch(updateRegistrationForm(payload))
+  };
+}
 
 const ConnectedRegistrationForm = connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(RegistrationForm);
 
 export default withRouter(ConnectedRegistrationForm);

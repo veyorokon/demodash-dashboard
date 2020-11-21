@@ -39,6 +39,7 @@ const initialState = {
     passwordConfirmation: "",
     errorMessage: "",
     errorField: "",
+    recaptcha: "",
     isValidEmail: false,
     isValidPassword: false
   },
@@ -232,7 +233,8 @@ export default function rootReducer(state = initialState, action) {
         newState = checkPasswords(newState);
       else if (payload.field === "errorMessage") {
         newState.registrationForm.errorField = "email";
-      }
+      } else if (payload.field === "recaptcha")
+        newState.registrationForm.recaptcha = payload.recaptcha;
       return Object.assign({}, state, newState);
     case UPDATE_ACCOUNT_FORM:
       return updateState(state, ["accountForm"], payload);

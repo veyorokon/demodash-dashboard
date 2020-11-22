@@ -2,7 +2,7 @@ import React from "react";
 import {DropDown} from "components";
 
 import {connect} from "react-redux";
-import {updateCurrentAccountUser} from "redux/actions";
+import {updateCurrentAccountUser, updatePanel} from "redux/actions";
 
 class _AccountUserDropDown extends React.Component {
   getAccounts(accountUserSet) {
@@ -23,7 +23,8 @@ class _AccountUserDropDown extends React.Component {
     const {
       accountUserSet,
       currentAccountUser,
-      updateCurrentAccountUser
+      updateCurrentAccountUser,
+      updatePanel
     } = this.props;
     const options = this.getAccounts(accountUserSet);
     return (
@@ -32,10 +33,15 @@ class _AccountUserDropDown extends React.Component {
         br={2}
         color={"navys.1"}
         useDefaultButton
-        onChange={e => updateCurrentAccountUser(e.target.value)}
+        onChange={e => {
+          if (e.target.value !== "-1") updateCurrentAccountUser(e.target.value);
+          else return updatePanel("createAccount");
+        }}
         options={options}
+        defaultButtonProps={{h: "3.5rem"}}
+        defaultButtonText={"Create an account"}
         defaultOption={"Create an account"}
-        defaultClick={() => console.log("test")}
+        defaultClick={() => updatePanel("createAccount")}
         iconProps={{h: "2.4rem"}}
         value={currentAccountUser}
         {...this.props}
@@ -54,7 +60,8 @@ const mapNavItemStateToProps = state => {
 function mapNavItemDispatchToProps(dispatch) {
   return {
     updateCurrentAccountUser: payload =>
-      dispatch(updateCurrentAccountUser(payload))
+      dispatch(updateCurrentAccountUser(payload)),
+    updatePanel: payload => dispatch(updatePanel(payload))
   };
 }
 

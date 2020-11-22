@@ -115,14 +115,14 @@ class NavigationTabs extends React.Component {
           </Hide>
         ))}
 
-        <Box>
+        <Box height="fit-content">
           <SubmitButton
             disabled={disabled}
             hoverBg={disabled ? "#b2afe2" : "#173bd0"}
             bg={disabled ? "#b2afe2" : "blues.0"}
             cursor={disabled ? "no-drop" : "pointer"}
             minHeight="5rem"
-            mt={4}
+            mt={2}
             mb={3}
             br={3}
             onClick={() => this.handleChange(selected + 1)}

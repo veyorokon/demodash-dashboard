@@ -1,15 +1,19 @@
 import React from "react";
 import {Flex, Text} from "components";
-import {IconCard} from "views/Dashboard/Components";
-import {Pricetags} from "@styled-icons/evaicons-solid/Pricetags";
-import {CoinDollar} from "@styled-icons/icomoon/CoinDollar";
-import {HandHoldingUsd} from "@styled-icons/fa-solid/HandHoldingUsd";
+import TotalSales from "./TotalSales";
+import SalesVolume from "./SalesVolume";
+import TotalCommission from "./TotalCommission";
 import {responsive as r} from "lib";
+import {connect} from "react-redux";
 
-import styled from "styled-components";
-const FlexGroup = styled(Flex)``;
+const mapStateToProps = state => {
+  return {
+    currentAccountUser: state.dashboard.currentAccountUser,
+    panel: state.panel
+  };
+};
 
-export default function Analytics(props) {
+function _Analytics(props) {
   return (
     <>
       <Flex mb={4}>
@@ -17,7 +21,7 @@ export default function Analytics(props) {
           Analytics
         </Text>
       </Flex>
-      <FlexGroup
+      <Flex
         flexWrap={r("wrap  ----> unset")}
         mb={4}
         justifyContent={[
@@ -30,31 +34,19 @@ export default function Analytics(props) {
         ]}
         alignItems="center"
       >
-        <IconCard
-          iconProps={{color: "blues.0", bg: "navys.3"}}
-          mr={r("2")}
-          mb={r("2")}
-          icon={<Pricetags />}
-          value={0}
-          title={"Total sales"}
-        />
-        <IconCard
-          mr={r("2")}
-          mb={r("2")}
-          icon={<CoinDollar />}
-          iconProps={{color: "greens.2", bg: "greens.3"}}
-          value={"$ 0"}
-          title={"Sales volume"}
-        />
-        <IconCard
-          mr={r("2")}
-          mb={r("2")}
-          icon={<HandHoldingUsd />}
-          iconProps={{color: "yellows.0", bg: "yellows.2"}}
-          value={"$ 0"}
-          title={"Commission paid"}
-        />
-      </FlexGroup>
+        {props.panel === "home" && (
+          <>
+            <TotalSales />
+            <SalesVolume />
+            <TotalCommission />
+          </>
+        )}
+      </Flex>
     </>
   );
 }
+
+export default connect(
+  mapStateToProps,
+  null
+)(_Analytics);

@@ -1,18 +1,92 @@
 import React from "react";
-import {Box, Flex, Text, DropDown, CallToActionButton} from "components";
+import {
+  Box,
+  Flex,
+  Text,
+  DropDown,
+  CallToActionButton,
+  Label,
+  Icon,
+  Input
+} from "components";
 import {
   FlexInput,
   FlexField,
   FormSection,
-  FormGroup
+  FormGroup,
+  FlexText
 } from "views/Dashboard/Components";
 import {Query, Mutation} from "@apollo/react-components";
 import {STATES, responsive as r, getEventVal} from "lib";
 import {getToken} from "lib";
 import {connect} from "react-redux";
 import {updateProfileForm} from "redux/actions";
-import {ACCOUNT_CATEGORIES, UPDATE_ACCOUNT} from "./gql";
-import {USER__ACCOUNT_USER_SET} from "views/Dashboard/gql";
+import {
+  ACCOUNT_CATEGORIES,
+  UPDATE_ACCOUNT,
+  USER__ACCOUNT_USER_SET
+} from "views/Dashboard/gql";
+import {AddCircle} from "@styled-icons/material/AddCircle";
+import {Image} from "@styled-icons/boxicons-solid/Image";
+
+class FileInput extends React.Component {
+  handleImageChange(e) {
+    e.preventDefault();
+    let file = e.target.files[0];
+    let reader = new FileReader();
+    try {
+      reader.readAsDataURL(file);
+      if (file.size > (this.props.maxSize || 2097152))
+        return this.props.onChange({
+          errorMessage: "Logo is too large! Max size allowed is 2MB."
+        });
+      reader.onloadend = () => {
+        this.setState({
+          file: file,
+          base64: reader.result
+        });
+        return this.props.onChange({
+          name: file.name,
+          encoding: reader.result.replace("data:image/svg+xml;base64,", "")
+        });
+      };
+    } catch {
+      return null;
+    }
+  }
+
+  render() {
+    return (
+      <>
+        <Label
+          hoverBackground="#FFC651"
+          cursor="pointer"
+          br={2}
+          bg={"yellows.1"}
+          display="flex"
+          alignItems="center"
+          h={"3.5rem"}
+          w="25rem"
+          maxWidth={"100%"}
+          htmlFor="account-logo-upload"
+          {...this.props}
+        >
+          <Icon ml={3} mr={2} h={"2.2rem"}>
+            <AddCircle />
+          </Icon>
+          <Text ml={4}>{this.props.children}</Text>
+        </Label>
+        <Input
+          display="none"
+          onChange={evt => this.handleImageChange(evt)}
+          id="account-logo-upload"
+          type="file"
+          accept=".svg"
+        />
+      </>
+    );
+  }
+}
 
 const CategoryDropDown = props => {
   return (
@@ -52,14 +126,20 @@ const CategoryDropDown = props => {
 class _AccountFormCard extends React.Component {
   async updateAccountMutation(updateAccount) {
     const {profileForm, currentAccountUser, updateProfileForm} = this.props;
+
     updateProfileForm({
       ...profileForm,
       isSubmitting: true
     });
-    profileForm.accountUserId = parseInt(currentAccountUser);
-    profileForm.token = getToken().token;
+    let flatForm = {...profileForm};
+
+    flatForm.accountUserId = parseInt(currentAccountUser);
+    flatForm.token = getToken().token;
+    if (flatForm.choice1 === -1) flatForm.choice1 = null;
+    if (flatForm.choice2 === -1) flatForm.choice2 = null;
+    if (flatForm.choice3 === -1) flatForm.choice3 = null;
     return updateAccount({
-      variables: profileForm
+      variables: flatForm
     });
   }
 
@@ -97,7 +177,22 @@ class _AccountFormCard extends React.Component {
               mt={1}
             />
           </FormGroup>
-          <FormGroup mt={3} mb={r("3 ----> 2")}>
+          <FormGroup mt={3}>
+            <FlexField mt={2} name={"Website:"} />
+            <FlexInput
+              onChange={evt =>
+                updateProfileForm({
+                  ...profileForm,
+                  website: getEventVal(evt),
+                  submitComplete: false
+                })
+              }
+              value={profileForm.website || ""}
+              placeholder="https://"
+              mb={1}
+            />
+          </FormGroup>
+          <FormGroup mt={r("3 ----> 2")}>
             <FlexField name={"Address:"} />
             <Flex flexBasis="60%" flexDirection="column" mt={2}>
               <FlexInput
@@ -178,6 +273,7 @@ class _AccountFormCard extends React.Component {
                     submitComplete: false
                   })
                 }
+                defaultOption={"Choose an industry"}
                 value={profileForm.choice1}
               />
               <CategoryDropDown
@@ -188,6 +284,7 @@ class _AccountFormCard extends React.Component {
                     submitComplete: false
                   })
                 }
+                defaultOption={"Choose an industry"}
                 value={profileForm.choice2}
                 mt={2}
               />
@@ -199,11 +296,45 @@ class _AccountFormCard extends React.Component {
                     submitComplete: false
                   })
                 }
+                defaultOption={"Choose an industry"}
                 value={profileForm.choice3}
                 mt={2}
               />
             </Flex>
           </FormGroup>
+
+          {profileForm.type === "Brand" && (
+            <FormGroup mt={3}>
+              <FlexField name={"Logo:"} />
+              <Flex flexBasis="60%" flexDirection="column" h="fit-content">
+                {profileForm.logo && (
+                  <Flex maxWidth="25rem" flexDirection="column" h="fit-content">
+                    <FlexText fw={400} h="2.2rem" mb={1} mt={3}>
+                      Logo name
+                    </FlexText>
+                    <Flex mt={1} mb={1} color="oranges.0" alignItems="center">
+                      <Icon ml={3} mr={2} h={"2.2rem"}>
+                        <Image />
+                      </Icon>
+                      <Text>{profileForm.logo.name}</Text>
+                    </Flex>
+                  </Flex>
+                )}
+                <FileInput
+                  mt={2}
+                  onChange={result =>
+                    updateProfileForm({
+                      ...profileForm,
+                      logo: result,
+                      submitComplete: false
+                    })
+                  }
+                >
+                  {profileForm.logo ? "Change brand logo" : "Add brand logo"}
+                </FileInput>
+              </Flex>
+            </FormGroup>
+          )}
         </FormSection>
 
         <FormSection
@@ -231,14 +362,23 @@ class _AccountFormCard extends React.Component {
                 variables: {token: getToken().token}
               }
             ]}
+            onCompleted={() =>
+              updateProfileForm({
+                ...profileForm,
+                logoUrl: profileForm.logo,
+                submitComplete: true,
+                isSubmitting: false,
+                disabled: true
+              })
+            }
           >
             {updateAccount => (
               <CallToActionButton
                 disabled={disabled}
                 cursor={disabled ? "no-drop" : "pointer"}
-                hoverBackground={disabled ? "#b2afe2" : "#173bd0"}
-                bg={disabled ? "#b2afe2" : "blues.0"}
-                color={disabled ? "whites.2" : "whites.0"}
+                hoverBackground={disabled ? "#ffb39f" : "#F87060"}
+                bg={disabled ? "#ffb39f" : "oranges.1"}
+                color={"whites.0"}
                 hoverColor={disabled ? "whites.2" : "whites.0"}
                 br={2}
                 w={r("100% 25rem ---> 10rem")}

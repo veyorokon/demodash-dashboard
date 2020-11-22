@@ -5,13 +5,21 @@ import {
   UDPATE_CURRENT_ACCOUNT_USER,
   UDPATE_PANEL,
   TOGGLE_NAV,
+  TOGGLE_CHECKOUT,
   UDPATE_ACCOUNT_USER_SET,
   UPDATE_PROFILE_FORM,
   ADD_VARIATION_PRODUCT_FORM,
   DELETE_VARIATION_PRODUCT_FORM,
   UPDATE_PRODUCT_FORM,
   ADD_IMAGE_PRODUCT_FORM,
-  DELETE_IMAGE_PRODUCT_FORM
+  DELETE_IMAGE_PRODUCT_FORM,
+  UPDATE_DEMO_BOX_FORM,
+  UPDATE_DEMO_CAMPAIGN_FORM,
+  UPDATE_BILLING_FORM,
+  UPDATE_DEMO_CHECKOUT_FORM,
+  UPDATE_SCROLLY,
+  UPDATE_DEPOSIT_FORM,
+  UPDATE_DEMODASH_STORE_FORM
 } from "redux/constants";
 import {updateState, validateEmail, validatePassword} from "lib";
 
@@ -23,45 +31,24 @@ const type =
     ? "influencer"
     : "brand";
 
-// const initialState = {
-//   registrationForm: {
-//     email: "",
-//     fullName: "",
-//     password: "",
-//     passwordConfirmation: "",
-//     errorMessage: "",
-//     errorField: "",
-//     isValidEmail: false,
-//     isValidPassword: false
-//   },
-//   accountForm: {
-//     type: type
-//   },
-//   loginForm: {
-//     email: "",
-//     password: "",
-//     errorMessage: ""
-//   },
-// dashboard:{}
-// };
-
 const initialState = {
   registrationForm: {
-    email: "veyorokon@gmail.com",
-    fullName: "Vahid Eyorokon",
-    password: "Ve12345",
-    passwordConfirmation: "Ve12345",
+    email: "",
+    fullName: "",
+    password: "",
+    passwordConfirmation: "",
     errorMessage: "",
     errorField: "",
-    isValidEmail: true,
-    isValidPassword: true
+    recaptcha: "",
+    isValidEmail: false,
+    isValidPassword: false
   },
   accountForm: {
     type: type
   },
   loginForm: {
-    email: "cherrys@barber.com",
-    password: "123456",
+    email: "",
+    password: "",
     errorMessage: ""
   },
   dashboard: {
@@ -73,19 +60,74 @@ const initialState = {
   productForm: {
     name: "",
     description: "",
-    disabled: true,
-    isSubmitting: false,
     variations: {
       data: []
     },
     images: {
       data: [],
       errorMessage: ""
-    }
+    },
+    price: (0.0).toFixed(2),
+    shippingPrice: (0.0).toFixed(2),
+    disabled: true,
+    isSubmitting: false
   },
-  panel: "myDemoBoxes",
+  demoBoxForm: {
+    productIds: {
+      data: []
+    },
+    price: (0.0).toFixed(2),
+    refillPrice: (0.0).toFixed(2),
+    shippingPrice: (0.0).toFixed(2),
+    disabled: true,
+    isSubmitting: false
+  },
+  demoCampaignForm: {
+    demoBoxId: -1,
+    type: -1,
+    name: "",
+    demoerLimit: 30,
+    refillLimit: 65,
+    commissions: {
+      data: []
+    },
+    disabled: true,
+    errorMessage: ""
+  },
+  billingForm: {
+    name: "",
+    cardNumber: "",
+    expirationMonth: "",
+    expirationYear: "",
+    cvc: "",
+    disabled: true
+  },
+  depositForm: {
+    routingNumber: "",
+    accountNumber: "",
+    accountNumberConfirmation: "",
+    disabled: true
+  },
+  demoCheckoutForm: {
+    demoCampaignId: null,
+    accountCardId: null,
+    sellerAccountId: null,
+    currentPanel: 0,
+    receiptUId: "",
+    isRefill: false
+  },
+  demodashStoreForm: {
+    handle: "",
+    name: "",
+    description: "",
+    disabled: true,
+    isSubmitting: false
+  },
+  panel: "home",
   previousPanel: "home",
-  navOpen: false
+  navOpen: false,
+  checkoutOpen: false,
+  lastScrollY: 0
 };
 
 function checkEmail(newState) {
@@ -112,20 +154,38 @@ function filterAccountUser(state, id) {
 }
 
 function populateProfileForm(state, accountUser, props = {}) {
+  const {industry} = accountUser.account.profile;
+  const choice1 = industry && industry.choice1 ? industry.choice1 : -1;
+  const choice2 = industry && industry.choice2 ? industry.choice2 : -1;
+  const choice3 = industry && industry.choice3 ? industry.choice3 : -1;
   state.profileForm = {
+    type: accountUser.account.type,
     accountName: accountUser.account.profile.name,
     disabled: true,
     isSubmitting: false,
     submitComplete: true,
+    website: accountUser.account.profile.website,
+    choice1: choice1,
+    choice2: choice2,
+    choice3: choice3,
+    logo: null,
+    logoUrl: accountUser.account.profile.logo,
     ...accountUser.account.profile.address,
-    ...accountUser.account.profile.industry,
     ...props
   };
   return state;
 }
 
+function populateDemodashStoreForm(state, accountUser) {
+  state.demodashStoreForm = {
+    ...accountUser.account.store,
+    disabled: true
+  };
+  return state;
+}
+
 function checkPanel(panel) {
-  const mutualPanels = ["home", "settings", "payoutBilling"];
+  const mutualPanels = ["home", "settings", "payoutBilling", "sales"];
   if (mutualPanels.includes(panel)) return true;
   else return false;
 }
@@ -151,10 +211,13 @@ function updateImageVariationLinks(imageData, index) {
 export default function rootReducer(state = initialState, action) {
   const {payload} = action;
   let newState, accountUser, isMutualPanel, data;
-
   switch (action.type) {
+    case UPDATE_SCROLLY:
+      return updateState(state, ["lastScrollY"], payload);
     case TOGGLE_NAV:
       return updateState(state, ["navOpen"], !state.navOpen);
+    case TOGGLE_CHECKOUT:
+      return updateState(state, ["checkoutOpen"], !state.checkoutOpen);
     case UPDATE_REGISTRATION_FORM:
       newState = updateState(
         state,
@@ -170,12 +233,15 @@ export default function rootReducer(state = initialState, action) {
         newState = checkPasswords(newState);
       else if (payload.field === "errorMessage") {
         newState.registrationForm.errorField = "email";
-      }
+      } else if (payload.field === "recaptcha")
+        newState.registrationForm.recaptcha = payload.recaptcha;
       return Object.assign({}, state, newState);
     case UPDATE_ACCOUNT_FORM:
       return updateState(state, ["accountForm"], payload);
     case UPDATE_LOGIN_FORM:
       return updateState(state, ["loginForm"], payload);
+    case UPDATE_BILLING_FORM:
+      return updateState(state, ["billingForm"], payload);
     case UDPATE_ACCOUNT_USER_SET:
       newState = updateState(
         state,
@@ -184,9 +250,12 @@ export default function rootReducer(state = initialState, action) {
         false
       );
       //Checks if a previous account user was selected to return user
-      if (!newState.dashboard.previousAccountUser) {
-        newState.dashboard.currentAccountUser = payload[1].id || null;
-        accountUser = filterAccountUser(newState, payload[1].id);
+      if (!newState.dashboard.previousAccountUser && payload.length) {
+        newState.dashboard.currentAccountUser = payload[0].id || null;
+        accountUser = filterAccountUser(newState, payload[0].id);
+        //Sets default values for profile form
+        newState = populateProfileForm(newState, accountUser);
+        newState = populateDemodashStoreForm(newState, accountUser);
       } else {
         newState.dashboard.currentAccountUser =
           state.dashboard.currentAccountUser;
@@ -194,13 +263,11 @@ export default function rootReducer(state = initialState, action) {
           newState,
           newState.dashboard.currentAccountUser
         );
+        //newState.panel = "createAccount";
       }
-      //Sets default values for profile form
-      newState = populateProfileForm(newState, accountUser);
       isMutualPanel = checkPanel(state.panel);
       //newState.panel = "home";
-      newState.panel = "myDemoBoxes";
-
+      if (newState.panel !== "createAccount") newState.panel = "home";
       //Restores previous panel if it is a mutual panel
       if (isMutualPanel) newState.panel = state.panel;
       return Object.assign({}, state, newState);
@@ -218,16 +285,18 @@ export default function rootReducer(state = initialState, action) {
       //Restores previous panel if it is a mutual panel
       isMutualPanel = checkPanel(state.panel);
       //newState.panel = "home";
-      newState.panel = "myDemoBoxes";
-
+      newState.panel = "home";
       if (isMutualPanel) newState.panel = state.panel;
       //Sets default values for profile form
       populateProfileForm(newState, accountUser);
+      newState = populateDemodashStoreForm(newState, accountUser);
+      newState.checkoutOpen = false;
       return Object.assign({}, state, newState);
     case UDPATE_PANEL:
       newState = updateState(state, ["panel"], payload, false);
       newState.previousPanel = state.panel;
       newState.navOpen = false;
+      newState.checkoutOpen = false;
       return Object.assign({}, state, newState);
     case UPDATE_PROFILE_FORM:
       newState = updateState(state, ["profileForm"], payload, false);
@@ -249,9 +318,7 @@ export default function rootReducer(state = initialState, action) {
     case DELETE_VARIATION_PRODUCT_FORM:
       data = [...state.productForm.variations.data];
       remove(data, payload);
-      console.log(
-        updateImageVariationLinks(state.productForm.images.data, payload)
-      );
+      updateImageVariationLinks(state.productForm.images.data, payload);
       newState = updateState(
         state,
         ["productForm", "variations", "data"],
@@ -297,6 +364,16 @@ export default function rootReducer(state = initialState, action) {
       );
       newState.productForm.images.errorMessage = "";
       return Object.assign({}, state, newState);
+    case UPDATE_DEMO_BOX_FORM:
+      return updateState(state, ["demoBoxForm"], payload);
+    case UPDATE_DEMO_CAMPAIGN_FORM:
+      return updateState(state, ["demoCampaignForm"], payload);
+    case UPDATE_DEMO_CHECKOUT_FORM:
+      return updateState(state, ["demoCheckoutForm"], payload);
+    case UPDATE_DEPOSIT_FORM:
+      return updateState(state, ["depositForm"], payload);
+    case UPDATE_DEMODASH_STORE_FORM:
+      return updateState(state, ["demodashStoreForm"], payload);
     default:
       return state;
   }

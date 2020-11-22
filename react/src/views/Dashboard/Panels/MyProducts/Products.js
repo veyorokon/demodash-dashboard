@@ -8,7 +8,8 @@ import styled, {css} from "styled-components";
 import {Mutation, Query} from "@apollo/react-components";
 import {connect} from "react-redux";
 import {API_MEDIA} from "api";
-import {ACCOUNT_USER__PRODUCTS, DELETE_PRODUCT} from "./gql";
+import {ACCOUNT_USER__PRODUCTS, DELETE_PRODUCT} from "views/Dashboard/gql";
+import {updatePanel} from "redux/actions";
 
 import {Delete} from "@styled-icons/material/Delete";
 
@@ -58,6 +59,34 @@ function checkIfStartsVowel(word) {
   if (vowels.includes(word[0])) return true;
   return false;
 }
+
+const _CardButton = props => (
+  <CallToActionButton
+    hoverBackground="#FFC651"
+    cursor="pointer"
+    br={2}
+    mt={2}
+    bg={"yellows.1"}
+    w="100%"
+    onClick={() => props.updatePanel("myDemoBoxes")}
+    {...props}
+  >
+    <Text ml="auto" mr="auto">
+      {props.children}
+    </Text>
+  </CallToActionButton>
+);
+
+function mapDispatchToProps(dispatch) {
+  return {
+    updatePanel: payload => dispatch(updatePanel(payload))
+  };
+}
+
+const CardButton = connect(
+  null,
+  mapDispatchToProps
+)(_CardButton);
 
 class ImageCard extends React.Component {
   constructor(props) {
@@ -118,7 +147,7 @@ class ImageCard extends React.Component {
       <Card
         p={3}
         maxWidth={r(
-          "26rem 28rem 30rem 33rem  30rem 22rem 29rem 32rem 24rem 30rem 27rem"
+          "26rem 28rem 30rem 33rem  30rem 28rem 29rem 32rem 25rem 29rem 27rem"
         )}
         mr={1}
         ml={1}
@@ -126,6 +155,7 @@ class ImageCard extends React.Component {
         mb={3}
         bg={"whites.0"}
         br={2}
+        h="fit-content"
         {...props}
       >
         <SwipeableViews
@@ -136,28 +166,35 @@ class ImageCard extends React.Component {
             <BackgroundImage
               key={indx}
               mt="auto"
-              mb={1}
+              mb={props.images.length > 1 ? 0 : 2}
               br={1}
               w={"100%"}
               image={API_MEDIA + image.image}
             />
           ))}
         </SwipeableViews>
-        <PanelNavigation mt={2} mb={2}>
-          {props.images.map((image, indx) => (
-            <NavigationBullet
-              alignItems="center"
-              justifyContent="center"
-              w={r("1rem")}
-              h={r("1rem")}
-              onClick={() => this.handleChangeIndex(indx)}
-              color={"blacks.0"}
-              key={indx}
-              active={index === indx}
-            />
-          ))}
-        </PanelNavigation>
-        <Flex flexGrow={0} alignItems="center" justifyContent="flex-end">
+        {props.images.length > 1 && (
+          <PanelNavigation mt={2} mb={2}>
+            {props.images.map((image, indx) => (
+              <NavigationBullet
+                alignItems="center"
+                justifyContent="center"
+                w={r("1rem")}
+                h={r("1rem")}
+                onClick={() => this.handleChangeIndex(indx)}
+                color={"blacks.0"}
+                key={indx}
+                active={index === indx}
+              />
+            ))}
+          </PanelNavigation>
+        )}
+        <Flex
+          mt={props.images.length > 1 ? 0 : 3}
+          flexGrow={0}
+          alignItems="center"
+          justifyContent="flex-end"
+        >
           <Mutation
             mutation={DELETE_PRODUCT}
             refetchQueries={[
@@ -187,42 +224,47 @@ class ImageCard extends React.Component {
             )}
           </Mutation>
         </Flex>
-        {props.brand && (
+        <Flex flexDirection="column" justifyContent="flex-start">
+          {props.brand && (
+            <Text
+              letterSpacing="0.5px"
+              color={"greys.0"}
+              mb={2}
+              fw={400}
+              w={"100%"}
+            >
+              {props.brand}
+            </Text>
+          )}
           <Text
-            mt="auto"
+            mt="2"
             letterSpacing="0.5px"
-            color={"greys.0"}
+            color={"navys.0"}
             mb={2}
-            fw={400}
+            fw={600}
             w={"100%"}
           >
-            {props.brand}
+            {props.title}
           </Text>
-        )}
-        <Text
-          mt="auto"
-          letterSpacing="0.5px"
-          color={"navys.0"}
-          mb={2}
-          fw={600}
-          w={"100%"}
-        >
-          {props.title}
-        </Text>
-        <Text
-          letterSpacing="0.5px"
-          color={"navys.0"}
-          mb={2}
-          fw={300}
-          w={"100%"}
-        >
-          {props.description}
-        </Text>
+          <Text
+            letterSpacing="0.5px"
+            color={"navys.0"}
+            mb={2}
+            fw={300}
+            w={"100%"}
+          >
+            {props.description}
+          </Text>
+        </Flex>
         {props.variations &&
           props.variations.map((variation, indx) => {
             let avAn = checkIfStartsVowel(variation.name);
             return (
-              <Flex flexDirection="column" key={`variation-${indx}`}>
+              <Flex
+                flexGrow={0}
+                flexDirection="column"
+                key={`variation-${indx}`}
+              >
                 <Text
                   letterSpacing="0.5px"
                   color={"navys.0"}
@@ -240,7 +282,7 @@ class ImageCard extends React.Component {
                   maxWidth="100%"
                   w="100%"
                   border={"1px solid lightslategrey"}
-                  hiddenOption={`Choose ${
+                  defaultOption={`Choose ${
                     avAn ? "an" : "a"
                   } ${variation.name.toLowerCase()}`}
                   {...props}
@@ -248,18 +290,48 @@ class ImageCard extends React.Component {
               </Flex>
             );
           })}
-        <CallToActionButton
-          hoverBackground="#FFC651"
-          cursor="pointer"
-          br={2}
-          mt={2}
-          bg={"yellows.1"}
-          w="100%"
-        >
-          <Text ml="auto" mr="auto">
-            Create a demo box
+        <Flex flexGrow={0} mt={1} mb={1} alignItems="center">
+          <Text letterSpacing="0.5px" color={"navys.0"} mr={2} fw={500}>
+            Price:
           </Text>
-        </CallToActionButton>
+          <Flex alignItems="center">
+            <Text letterSpacing="0.5px" color={"reds.1"} fw={500}>
+              ${props.price.toFixed(2)}
+            </Text>
+            <Text
+              ml={1}
+              letterSpacing="0.5px"
+              color={"navys.0"}
+              fw={500}
+              fs={"1.2rem"}
+            >
+              &#43;
+            </Text>
+            <Text
+              letterSpacing="0.5px"
+              color={"navys.1"}
+              fw={500}
+              ml={1}
+              fs={"1.2rem"}
+              h="fit-content"
+            >
+              {props.shippingPrice
+                ? `$${props.shippingPrice.toFixed(2)}`
+                : "FREE"}
+            </Text>
+            <Text
+              ml={1}
+              letterSpacing="0.5px"
+              color={"navys.1"}
+              fw={500}
+              fs={"1.2rem"}
+              h="fit-content"
+            >
+              Shipping
+            </Text>
+          </Flex>
+        </Flex>
+        <CardButton>Create a demo box</CardButton>
       </Card>
     );
   }
@@ -323,7 +395,7 @@ function _Products(props) {
                     p={r("0 --> 3 -----> 4")}
                     justifyContent={"center"}
                   >
-                    {products &&
+                    {products && products.length ? (
                       products.map((product, index) => (
                         <ImageCard
                           key={index}
@@ -335,9 +407,14 @@ function _Products(props) {
                           description={product.description}
                           images={product.images}
                           variations={product.variations}
+                          price={product.price}
+                          shippingPrice={product.shippingPrice}
                           currentAccountUser={currentAccountUser}
                         />
-                      ))}
+                      ))
+                    ) : (
+                      <Text color={"black"}>No products yet...</Text>
+                    )}
                   </Flex>
                 </FormSection>
               </Box>

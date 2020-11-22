@@ -17,7 +17,7 @@ const DemoerNav = props => {
       <NavCategory mt={3} text={"Demos"} />
       <ConnectedNavItem
         id={"findDemos"}
-        text="Find demos"
+        text="Find demo boxes"
         icon={<Search />}
         ml={3}
       />
@@ -33,10 +33,12 @@ const DemoerNav = props => {
         icon={<DemodashIcon />}
         ml={3}
       />
+      <NavCategory mt={3} text={"Sales"} />
+      <ConnectedNavItem id={"sales"} text="Sales" icon={<MoneyBill />} ml={3} />
       <NavCategory mt={3} text={"Account"} />
       <ConnectedNavItem
         id={"payoutBilling"}
-        text="Payout"
+        text="Payout & billing"
         icon={<DollarSign />}
         ml={3}
       />
@@ -74,23 +76,18 @@ const BrandNav = props => {
         icon={<DemodashIcon />}
         ml={3}
       />
-      <ConnectedNavItem
+      {/*<ConnectedNavItem
         id={"findDemoers"}
         text="Find demoers"
         icon={<Search />}
         ml={3}
-      />
+      />*/}
       <NavCategory mt={3} text={"Sales"} />
-      <ConnectedNavItem
-        id={"purchases"}
-        text="Purchases"
-        icon={<MoneyBill />}
-        ml={3}
-      />
+      <ConnectedNavItem id={"sales"} text="Sales" icon={<MoneyBill />} ml={3} />
       <NavCategory mt={3} text={"Account"} />
       <ConnectedNavItem
         id={"payoutBilling"}
-        text="Payout"
+        text="Payout & billing"
         icon={<DollarSign />}
         ml={3}
       />
@@ -133,20 +130,17 @@ const AllNav = props => {
         text="Demo campaigns"
         icon={<DemodashIcon />}
       />
-      <ConnectedNavItem
+      {/*<ConnectedNavItem
         id={"findDemoers"}
         text="Find demoers"
         icon={<Search />}
-      />
+        ml={3}
+      />*/}
       <ConnectedNavItem id={"findDemos"} text="Find demos" icon={<Search />} />
-      <ConnectedNavItem
-        id={"purchases"}
-        text="Purchases"
-        icon={<MoneyBill />}
-      />
+      <ConnectedNavItem id={"sales"} text="Sales" icon={<MoneyBill />} />
       <ConnectedNavItem
         id={"payoutBilling"}
-        text="Payout"
+        text="Payout & billing"
         icon={<DollarSign />}
       />
       <ConnectedNavItem

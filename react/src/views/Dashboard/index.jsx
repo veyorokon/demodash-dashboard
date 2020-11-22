@@ -7,6 +7,7 @@ import {
   QueryAccountUsers
 } from "views/Dashboard/Components";
 import {
+  CreateAccount,
   Home,
   FindDemos,
   Settings,
@@ -17,12 +18,12 @@ import {
   MyDemoBoxes,
   MyDemoCampaigns,
   FindDemoers,
-  Purchases
+  Sales
 } from "./Panels";
 import {LogoutBox} from "@styled-icons/remix-line/LogoutBox";
 import {
-  //DemoerNav,
-  //BrandNav,
+  // DemoerNav,
+  // BrandNav
   AllNav
 } from "./nav";
 
@@ -56,7 +57,7 @@ const _Dashboard = props => {
             <QueryAccountUsers />
             <AccountUserDropDown />
             <Flex w={"100%"} flexDirection="column">
-              {/*{type ? type === "Brand" ? <BrandNav /> : <DemoerNav /> : null}*/}
+              {/*type ? type === "Brand" ? <BrandNav /> : <DemoerNav /> : null*/}
               <AllNav />
             </Flex>
             <Flex mt={4} flexGrow={0} w={"100%"} flexDirection="column">
@@ -72,6 +73,7 @@ const _Dashboard = props => {
           </Flex>
         </LeftColumn>
         <ConnectedRightColumn bg={"navys.4"}>
+          <CreateAccount key={"createAccount"} />
           <Home key={"home"} />
           <FindDemos key={"findDemos"} />
           <MyDemos key={"myDemos"} />
@@ -81,7 +83,7 @@ const _Dashboard = props => {
           <MyDemoBoxes key={"myDemoBoxes"} />
           <MyDemoCampaigns key={"myDemoCampaigns"} />
           <FindDemoers key={"findDemoers"} />
-          <Purchases key={"purchases"} />
+          <Sales key={"sales"} />
 
           <PayoutBilling key={"payoutBilling"} />
           <Settings key={"settings"} />

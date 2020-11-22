@@ -15,7 +15,8 @@ import {
   FlexTextArea,
   FormSection,
   FormGroup,
-  FlexText
+  FlexText,
+  FormButton
 } from "views/Dashboard/Components";
 import {connect} from "react-redux";
 import {
@@ -30,8 +31,11 @@ import {Delete} from "@styled-icons/material/Delete";
 import {AddCircle} from "@styled-icons/material/AddCircle";
 import {Image} from "@styled-icons/boxicons-solid/Image";
 import {Mutation} from "@apollo/react-components";
-import {CREATE_PRODUCT, ACCOUNT_USER__PRODUCTS} from "./gql";
-import {USER__ACCOUNT_USER_SET} from "views/Dashboard/gql";
+import {
+  USER__ACCOUNT_USER_SET,
+  CREATE_PRODUCT,
+  ACCOUNT_USER__PRODUCTS
+} from "views/Dashboard/gql";
 
 import {
   responsive as r,
@@ -40,37 +44,27 @@ import {
   formatGQLErrorMessage
 } from "lib";
 
-const FormButton = props => (
-  <CallToActionButton
-    hoverBackground="#FFC651"
-    br={2}
-    bg={"yellows.1"}
-    w="25rem"
-    maxWidth={"100%"}
-    cursor={"pointer"}
-    {...props}
-  >
-    {props.children}
-  </CallToActionButton>
-);
-
 class ImageInput extends React.Component {
   handleImageChange(e) {
     e.preventDefault();
     let file = e.target.files[0];
     let reader = new FileReader();
-    reader.readAsDataURL(file);
-    if (file.size > (this.props.maxSize || 2097152))
-      return this.props.onChange({
-        errorMessage: "Image is too large! Max size allowed is 2MB."
-      });
-    reader.onloadend = () => {
-      this.setState({
-        file: file,
-        base64: reader.result
-      });
-      return this.props.onChange({name: file.name, encoding: reader.result});
-    };
+    try {
+      reader.readAsDataURL(file);
+      if (file.size > (this.props.maxSize || 2097152))
+        return this.props.onChange({
+          errorMessage: "Image is too large! Max size allowed is 2MB."
+        });
+      reader.onloadend = () => {
+        this.setState({
+          file: file,
+          base64: reader.result
+        });
+        return this.props.onChange({name: file.name, encoding: reader.result});
+      };
+    } catch {
+      return null;
+    }
   }
 
   render() {
@@ -147,7 +141,8 @@ class _FormCard extends React.Component {
       newImageData.push(img);
     }
     flatForm.images = newImageData;
-
+    flatForm.price = parseFloat(flatForm.price);
+    flatForm.shippingPrice = parseFloat(flatForm.shippingPrice);
     try {
       await createProduct({
         variables: flatForm
@@ -157,6 +152,8 @@ class _FormCard extends React.Component {
         description: "",
         disabled: true,
         isSubmitting: false,
+        price: (0.0).toFixed(2),
+        shippingPrice: (0.0).toFixed(2),
         errorMessage: "",
         variations: {
           data: []
@@ -218,12 +215,19 @@ class _FormCard extends React.Component {
             <FlexField name={"Product name:"} />
             <FlexInput
               value={productForm.name || ""}
+              borderColor={
+                productForm.errorField === "name"
+                  ? "oranges.0"
+                  : "lightslategrey"
+              }
               onChange={evt =>
                 updateProductForm({
                   ...productForm,
                   name: getEventVal(evt),
                   disabled: false,
-                  successMessage: ""
+                  successMessage: "",
+                  errorField: "",
+                  errorMessage: ""
                 })
               }
               mt={1}
@@ -233,16 +237,86 @@ class _FormCard extends React.Component {
             <FlexField name={"Description:"} />
             <FlexTextArea
               value={productForm.description || ""}
+              borderColor={
+                productForm.errorField === "description"
+                  ? "oranges.0"
+                  : "lightslategrey"
+              }
               onChange={evt =>
                 updateProductForm({
                   ...productForm,
                   description: getEventVal(evt),
                   disabled: false,
-                  successMessage: ""
+                  successMessage: "",
+                  errorField: "",
+                  errorMessage: ""
                 })
               }
               placeholder="About your product..."
               mt={1}
+            />
+          </FormGroup>
+          <FormGroup mb={r("3 ----> 2")}>
+            <FlexField name={"Price:"} />
+            <FlexInput
+              mt={1}
+              value={productForm.price}
+              borderColor={
+                productForm.errorField === "price"
+                  ? "oranges.0"
+                  : "lightslategrey"
+              }
+              type="number"
+              min="0"
+              onBlur={evt => {
+                let amount = getEventVal(evt)
+                  ? parseFloat(getEventVal(evt)).toFixed(2)
+                  : (0.0).toFixed(2);
+                amount = Math.max(amount, 0).toFixed(2);
+                updateProductForm({
+                  ...productForm,
+                  price: amount
+                });
+              }}
+              onChange={evt =>
+                updateProductForm({
+                  ...productForm,
+                  price: parseFloat(evt.target.value),
+                  disabled: false,
+                  successMessage: "",
+                  errorField: "",
+                  errorMessage: ""
+                })
+              }
+            />
+          </FormGroup>
+          <FormGroup mb={r("3 ----> 2")}>
+            <FlexField name={"Shipping price:"} />
+            <FlexInput
+              mt={1}
+              value={productForm.shippingPrice}
+              type="number"
+              min="0"
+              onBlur={evt => {
+                let amount = getEventVal(evt)
+                  ? parseFloat(getEventVal(evt)).toFixed(2)
+                  : (0.0).toFixed(2);
+                amount = Math.max(amount, 0).toFixed(2);
+                updateProductForm({
+                  ...productForm,
+                  shippingPrice: amount
+                });
+              }}
+              onChange={evt =>
+                updateProductForm({
+                  ...productForm,
+                  shippingPrice: parseFloat(evt.target.value),
+                  disabled: false,
+                  successMessage: "",
+                  errorField: "",
+                  errorMessage: ""
+                })
+              }
             />
           </FormGroup>
           <FormGroup mb={r("3 ----> 2")}>
@@ -252,7 +326,7 @@ class _FormCard extends React.Component {
                 variationData.map((variation, index) => {
                   return (
                     <Flex key={index} flexDirection="column" h="fit-content">
-                      <FlexText h="2.2rem" mb={1} mt={3}>
+                      <FlexText fw={400} h="2.2rem" mb={1} mt={3}>
                         Variation name
                       </FlexText>
                       <FlexInput
@@ -265,7 +339,9 @@ class _FormCard extends React.Component {
                             ...productForm,
                             variations: {data: newVariationData},
                             disabled: false,
-                            successMessage: ""
+                            successMessage: "",
+                            errorField: "",
+                            errorMessage: ""
                           });
                         }}
                         placeholder="Color, size etc."
@@ -283,7 +359,9 @@ class _FormCard extends React.Component {
                             ...productForm,
                             variations: {data: newVariationData},
                             disabled: false,
-                            successMessage: ""
+                            successMessage: "",
+                            errorField: "",
+                            errorMessage: ""
                           });
                         }}
                         placeholder="Variation choices..."
@@ -314,7 +392,7 @@ class _FormCard extends React.Component {
                   title="Add a variation"
                   onClick={addVariation}
                   mt={hasVariations ? 3 : r("0 ----> 2")}
-                  mb={hasVariations ? 3 : r("0 ----> 2")}
+                  mb={hasVariations ? 3 : r("0 ----> 1")}
                 >
                   <Flex alignItems="center">
                     <Icon ml={3} mr={2} h={"2.2rem"}>
@@ -327,7 +405,7 @@ class _FormCard extends React.Component {
             </Flex>
           </FormGroup>
           <FormGroup mb={r("3 ----> 2")}>
-            <FlexField name={"Images:"} mb={2} />
+            <FlexField name={"Images ( lim. 8 ):"} mb={2} />
             <Flex flexBasis="60%" flexDirection="column" h="fit-content">
               {imageData &&
                 imageData.map((image, index) => {
@@ -338,7 +416,7 @@ class _FormCard extends React.Component {
                       flexDirection="column"
                       h="fit-content"
                     >
-                      <FlexText h="2.2rem" mb={1} mt={3}>
+                      <FlexText fw={400} h="2.2rem" mb={1} mt={3}>
                         Image name
                       </FlexText>
                       <Flex mt={1} mb={1} color="oranges.0" alignItems="center">
@@ -359,7 +437,6 @@ class _FormCard extends React.Component {
                               br={2}
                               maxWidth="100%"
                               w="25rem"
-                              border={"1px solid lightslategrey"}
                               defaultOption={"Link image to variation"}
                               value={image.variationLink || -1}
                               onChange={evt => {
@@ -370,7 +447,9 @@ class _FormCard extends React.Component {
                                   ...productForm,
                                   images: {data: newImageData},
                                   disabled: false,
-                                  successMessage: ""
+                                  successMessage: "",
+                                  errorField: "",
+                                  errorMessage: ""
                                 });
                               }}
                               {...props}

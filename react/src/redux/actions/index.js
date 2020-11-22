@@ -11,7 +11,15 @@ import {
   DELETE_VARIATION_PRODUCT_FORM,
   UPDATE_PRODUCT_FORM,
   ADD_IMAGE_PRODUCT_FORM,
-  DELETE_IMAGE_PRODUCT_FORM
+  DELETE_IMAGE_PRODUCT_FORM,
+  UPDATE_DEMO_BOX_FORM,
+  UPDATE_DEMO_CAMPAIGN_FORM,
+  TOGGLE_CHECKOUT,
+  UPDATE_BILLING_FORM,
+  UPDATE_DEPOSIT_FORM,
+  UPDATE_DEMO_CHECKOUT_FORM,
+  UPDATE_SCROLLY,
+  UPDATE_DEMODASH_STORE_FORM
 } from "redux/constants";
 
 export function updateRegistrationForm(payload) {
@@ -59,6 +67,12 @@ export function toggleNav() {
   };
 }
 
+export function toggleCheckout() {
+  return function(dispatch) {
+    return dispatch({type: TOGGLE_CHECKOUT, payload: {}});
+  };
+}
+
 export function addVariationProductForm(payload) {
   return function(dispatch) {
     return dispatch({type: ADD_VARIATION_PRODUCT_FORM, payload: {}});
@@ -84,5 +98,47 @@ export function addImageProductForm(payload) {
 export function deleteImageProductForm(payload) {
   return function(dispatch) {
     return dispatch({type: DELETE_IMAGE_PRODUCT_FORM, payload: payload});
+  };
+}
+
+export function updateDemoBoxForm(payload) {
+  return function(dispatch) {
+    return dispatch({type: UPDATE_DEMO_BOX_FORM, payload: payload});
+  };
+}
+
+export function updateDemoCampaignForm(payload) {
+  return function(dispatch) {
+    return dispatch({type: UPDATE_DEMO_CAMPAIGN_FORM, payload: payload});
+  };
+}
+
+export function updateBillingForm(payload) {
+  return function(dispatch) {
+    return dispatch({type: UPDATE_BILLING_FORM, payload: payload});
+  };
+}
+
+export function updateDemoCheckoutForm(payload) {
+  return function(dispatch) {
+    return dispatch({type: UPDATE_DEMO_CHECKOUT_FORM, payload: payload});
+  };
+}
+
+export function updateScrollY(payload) {
+  return function(dispatch) {
+    return dispatch({type: UPDATE_SCROLLY, payload: payload});
+  };
+}
+
+export function updateDepositForm(payload) {
+  return function(dispatch) {
+    return dispatch({type: UPDATE_DEPOSIT_FORM, payload: payload});
+  };
+}
+
+export function updateDemodashStoreForm(payload) {
+  return function(dispatch) {
+    return dispatch({type: UPDATE_DEMODASH_STORE_FORM, payload: payload});
   };
 }

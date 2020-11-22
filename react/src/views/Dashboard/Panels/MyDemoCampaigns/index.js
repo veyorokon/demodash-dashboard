@@ -1,11 +1,11 @@
 import React from "react";
-import CreateCampaignForm from "./CreateCampaignForm";
+import AddCampaignForm from "./AddCampaignForm";
 import Campaigns from "./Campaigns";
 
 export default function FindDemos(props) {
   return (
     <>
-      <CreateCampaignForm />
+      <AddCampaignForm />
       <Campaigns />
     </>
   );

@@ -18,11 +18,14 @@ import {
   Td,
   Label
 } from "./core";
-import FeatureLink from "./composite/FeatureLink";
-import VertTabs, {TabPanel} from "./composite/VertTabs";
-import DropDown from "./composite/DropDown";
-import ProductCard from "./composite/ProductCard";
-import LogoTitle from "./composite/LogoTitle";
+import {
+  FeatureLink,
+  VertTabs,
+  TabPanel,
+  DropDown,
+  ProductCard,
+  LogoTitle
+} from "./composite";
 
 import Animate, {appear} from "./core/animation";
 import Hidden from "./core/hidden";

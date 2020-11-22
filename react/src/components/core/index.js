@@ -13,7 +13,8 @@ import {
   flexFields,
   letterSpacing,
   boxShadow,
-  fill
+  fill,
+  borderFields
 } from "theme";
 import styled from "styled-components";
 
@@ -21,6 +22,7 @@ const Box = themedComponent(
   styled.div`
     ${borderRadius}
     ${boxShadow}
+    ${borderFields}
   `
 );
 Box.defaultProps = {};
@@ -51,11 +53,13 @@ Flex.defaultProps = {
 const Input = themedComponent(
   styled.input`
     outline: none;
+    border: 1px solid;
+    transition: border-color 0.2s;
     ${borderRadius}
+    ${borderFields}
   `
 );
 Input.defaultProps = {
-  border: "1px solid lightslategrey",
   fontSize: "1.6rem",
   lineHeight: "1",
   borderRadius: "4px"
@@ -77,10 +81,10 @@ const TextArea = themedComponent(
     outline: none;
     font-family: inherit;
     ${borderRadius}
+    ${borderFields}
   `
 );
 TextArea.defaultProps = {
-  border: "1px solid lightslategrey",
   fontSize: "1.6rem",
   lineHeight: "1",
   borderRadius: "4px"
@@ -117,11 +121,13 @@ const Image = themedComponent(
 
 const Grid = themedComponent(
   styled.div`
-    display: grid;
     position: relative;
     ${gridFields}
   `
 );
+Grid.defaultProps = {
+  display: "grid"
+};
 
 const Link = themedComponent(styled.a`
   width: fit-content;
@@ -152,7 +158,7 @@ const Icon = props => (
   <IconBox {...props}>
     {React.cloneElement(props.children, {
       height: "100%",
-      fill: "currentColor"
+      fill: props.fill || "currentColor"
     })}
   </IconBox>
 );

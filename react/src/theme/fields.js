@@ -42,6 +42,7 @@ const lineHeight = configure("lineHeight", "lh");
 const textTransform = configure("textTransform");
 const cursor = configure("cursor");
 
+const fontFamily = configure("fontFamily", ["fm"], "fonts");
 const typography = compose(
   fontWeight,
   fontSize,
@@ -49,7 +50,8 @@ const typography = compose(
   textAlign,
   textTransform,
   cursor,
-  alignSelf
+  alignSelf,
+  fontFamily
 );
 
 const marginTop = configure("marginTop", ["marginTop", "mt"], "space");
@@ -113,6 +115,17 @@ const borderRight = configure("borderRight");
 const borderLeft = configure("borderLeft");
 const borderBottom = configure("borderBottom");
 const borderTop = configure("borderTop");
+const borderColor = configure("borderColor", [], "colors");
+
+const borderFields = compose(
+  border,
+  borderStyle,
+  borderRight,
+  borderLeft,
+  borderBottom,
+  borderTop,
+  borderColor
+);
 
 const borderRightColor = configure("borderRightColor", [], "colors");
 const borderLeftColor = configure("borderLeftColor", [], "colors");
@@ -270,5 +283,7 @@ export {
   gridFields,
   order,
   backgroundColor,
-  boxShadow
+  boxShadow,
+  borderFields,
+  fontFamily
 };

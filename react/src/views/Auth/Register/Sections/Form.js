@@ -9,13 +9,25 @@ import {Section, Box, Text, Flex, Image, Link, Hidden, Icon} from "components";
 import {Mutation} from "@apollo/react-components";
 import {setToken, clearToken, getToken} from "lib";
 import {gql} from "apollo-boost";
-
 import checkmark from "assets/svg/checkmark.svg";
 import LogoIcon from "assets/svg/logo.js";
+const publicIp = require("public-ip");
 
 const CREATE_USER = gql`
-  mutation createUser($email: String!, $fullName: String, $password: String!) {
-    createUser(email: $email, fullName: $fullName, password: $password) {
+  mutation createUser(
+    $email: String!
+    $fullName: String
+    $password: String!
+    $recaptcha: String!
+    $ip: String!
+  ) {
+    createUser(
+      email: $email
+      fullName: $fullName
+      password: $password
+      recaptcha: $recaptcha
+      ip: $ip
+    ) {
       token
       expiration
     }
@@ -23,8 +35,8 @@ const CREATE_USER = gql`
 `;
 
 const CREATE_ACCOUNT = gql`
-  mutation createAccount($token: String!, $type: String!) {
-    createAccount(token: $token, type: $type) {
+  mutation createAccount($token: String!, $type: String!, $ip: String!) {
+    createAccount(token: $token, type: $type, ip: $ip) {
       account {
         id
         liveMode
@@ -123,8 +135,11 @@ class RegistrationForm extends React.Component {
 
   async createUserMutation(createUser) {
     const {registrationForm} = this.props;
+    const ip = await (async () => {
+      return await publicIp.v4();
+    })();
     const response = await createUser({
-      variables: registrationForm
+      variables: {ip: ip, ...registrationForm}
     });
     const {token, expiration} = response.data.createUser;
     return setToken(token, expiration);
@@ -133,8 +148,11 @@ class RegistrationForm extends React.Component {
   async createAccountMutation(createAccount) {
     const {accountForm} = this.props;
     const token = getToken()["token"];
+    const ip = await (async () => {
+      return await publicIp.v4();
+    })();
     await createAccount({
-      variables: {token: token, ...accountForm}
+      variables: {token: token, ip: ip, ...accountForm}
     });
     return this.props.history.push("/dashboard");
   }
@@ -145,7 +163,9 @@ class RegistrationForm extends React.Component {
       anchor === "storefront" ? 1 : anchor === "influencer" ? 2 : 0;
     const {registrationForm} = this.props;
     const createUserButtonDisabled =
-      !registrationForm.isValidEmail || !registrationForm.isValidPassword;
+      !registrationForm.isValidEmail ||
+      !registrationForm.isValidPassword ||
+      !registrationForm.recaptcha;
     return (
       <Mutation mutation={CREATE_USER}>
         {createUser => (
@@ -211,8 +231,7 @@ class RegistrationForm extends React.Component {
                       h="fit-content"
                     >
                       <MultiForm
-                        minHeight="fit-content"
-                        h="60rem"
+                        h="fit-content"
                         callbacks={[
                           () => this.createUserMutation(createUser),
                           () => this.createAccountMutation(createAccount)
@@ -228,6 +247,7 @@ class RegistrationForm extends React.Component {
                           }
                         />
                         <AccountForm
+                          showTitle
                           header={
                             <Hidden height="fit-content" flexGrow="0" up={7}>
                               <LogoTitle />
@@ -236,20 +256,22 @@ class RegistrationForm extends React.Component {
                           account={account}
                         />
                       </MultiForm>
-                      <Flex
-                        alignItems="flex-start"
-                        flexGrow={0}
-                        w={"fit-content"}
-                        ml={"auto"}
-                        mr={"auto"}
-                        mt={4}
-                      >
-                        <Text mr={2}>Already have an account? </Text>
-                        <Link href="/login">
-                          <Text hoverColor={"#212C39"} color="navys.2">
-                            Login
-                          </Text>
-                        </Link>
+                      <Flex alignItems="center" flexDirection="column">
+                        <Flex
+                          alignItems="flex-start"
+                          flexGrow={0}
+                          w={"fit-content"}
+                          ml={"auto"}
+                          mr={"auto"}
+                          mt={3}
+                        >
+                          <Text mr={2}>Already have an account? </Text>
+                          <Link href="/login">
+                            <Text hoverColor={"#212C39"} color="navys.2">
+                              Login
+                            </Text>
+                          </Link>
+                        </Flex>
                       </Flex>
                       <Hidden up={7}>
                         <Flex

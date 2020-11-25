@@ -11,7 +11,6 @@ import {setToken, clearToken, getToken} from "lib";
 import {gql} from "apollo-boost";
 import checkmark from "assets/svg/checkmark.svg";
 import LogoIcon from "assets/svg/logo.js";
-import {API_SERVER} from "api";
 const publicIp = require("public-ip");
 
 const CREATE_USER = gql`
@@ -159,8 +158,6 @@ class RegistrationForm extends React.Component {
   }
 
   render() {
-    console.log(API_SERVER);
-    console.log(`${API_SERVER}/graphql/`);
     const anchor = window.location.hash.toLowerCase().replace("#", "");
     const account =
       anchor === "storefront" ? 1 : anchor === "influencer" ? 2 : 0;

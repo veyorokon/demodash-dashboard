@@ -2,20 +2,31 @@
 FROM node:10-alpine as build-stage
 WORKDIR /opt/app
 
-COPY package-lock.json package-lock.json
-COPY package.json package.json
-COPY jsconfig.json jsconfig.json
+COPY *.json .
 RUN npm install --silent \
   && npm audit fix
 
 COPY src src
 COPY public public
 
+ARG REACT_APP_API_HOST
+ARG REACT_APP_API_MEDIA
+ARG REACT_APP_RECAPTCHA_PUBLIC_KEY
+
+ENV REACT_APP_API_HOST ${REACT_APP_API_HOST}
+ENV REACT_APP_API_MEDIA ${REACT_APP_API_MEDIA}
+ENV REACT_APP_RECAPTCHA_PUBLIC_KEY ${REACT_APP_RECAPTCHA_PUBLIC_KEY}
+
 RUN npm run build
 
-# Stage 1, based on Nginx build app ready for production with Nginx
-FROM nginx:alpine
+# Stage 1, based on Nginx build app ready for production with Nginx.
+FROM bitnami/nginx:1.16
 
-COPY --from=build-stage /opt/app/build/ /usr/share/nginx/html
-# Copy the default nginx.conf
-COPY nginx/nginx.conf /etc/nginx/nginx.conf
+ARG APP_DIR
+ENV APP_DIR ${APP_DIR:-/app}
+
+COPY nginx/nginx_server_block.conf /opt/bitnami/nginx/conf/server_blocks/nginx_server_block.conf
+WORKDIR /app
+
+# use dist from previous stage
+COPY --from=build-stage /opt/app/build/ .

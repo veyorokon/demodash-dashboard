@@ -5,6 +5,7 @@ import {responsive as r} from "lib";
 import {connect} from "react-redux";
 import {updateRegistrationForm} from "redux/actions";
 
+import {RECAPTCHA_PUBLIC_KEY} from "api";
 function updateField(event, field) {
   return {value: event.target.value, field: field};
 }
@@ -93,7 +94,8 @@ export function UserForm(props) {
       )}
       <Flex mb={2} justifyContent="center">
         <ReCAPTCHA
-          sitekey="6Left-cZAAAAAEy5TuCT7AGnJ9YPmYqGpAbKAjJH"
+          sitekey={RECAPTCHA_PUBLIC_KEY}
+          size="normal"
           onChange={recaptcha =>
             updateRegistrationForm({
               ...registrationForm,

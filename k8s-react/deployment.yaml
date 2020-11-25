@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demodash-dashboard
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demodash-dashboard
+  template:
+    metadata:
+      labels:
+        app: demodash-dashboard
+    spec:
+      containers:
+        - name: main
+          image: registry.demodash.com/react/demodash_dashboard
+          ports:
+          - containerPort: 8080

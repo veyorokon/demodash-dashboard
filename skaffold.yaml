@@ -7,7 +7,7 @@ build:
       docker:
         buildArgs:
           REACT_APP_API_HOST: 'https://api.demodash.com'
-          REACT_APP_API_MEDIA: 'https://demodash-assets.sfo2.digitaloceanspaces.com/'
+          REACT_APP_API_MEDIA: 'https://demodash-assets.sfo2.digitaloceanspaces.com'
           REACT_APP_API_STATIC_BUCKET: 'demodash-assets'
           REACT_APP_RECAPTCHA_PUBLIC_KEY: '6LeitucZAAAAAN98ZuVuUntY6iypIuhaYZTjH5gp'
   tagPolicy:

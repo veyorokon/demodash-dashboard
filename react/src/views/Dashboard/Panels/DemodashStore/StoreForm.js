@@ -112,10 +112,10 @@ class _FormCard extends React.Component {
                   })
                 }
                 mt={1}
-                placeholder="demodash.com/s/..."
+                placeholder="shop.demodash.com..."
               />
               <Text fs={"1.2rem"} mt={1} ml={1} color="navys.2">
-                demodash.com/s/{demodashStoreForm.handle}
+                shop.demodash.com/{demodashStoreForm.handle}
               </Text>
             </Flex>
           </FormGroup>

@@ -65,6 +65,8 @@ class ImageInput extends React.Component {
     } catch {
       return null;
     }
+    let fileInput = document.getElementById("product-image-uploader");
+    fileInput.value = null;
   }
 
   render() {
@@ -80,7 +82,7 @@ class ImageInput extends React.Component {
           h={"3.5rem"}
           w="25rem"
           maxWidth={"100%"}
-          htmlFor="product-image-upload"
+          htmlFor="product-image-uploader"
           {...this.props}
         >
           <Icon ml={3} mr={2} h={"2.2rem"}>
@@ -91,7 +93,7 @@ class ImageInput extends React.Component {
         <Input
           display="none"
           onChange={evt => this.handleImageChange(evt)}
-          id="product-image-upload"
+          id="product-image-uploader"
           type="file"
           accept=".jpg,.jpeg,.png,.svg"
         />

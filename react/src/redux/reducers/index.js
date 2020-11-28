@@ -373,7 +373,9 @@ export default function rootReducer(state = initialState, action) {
     case UPDATE_DEPOSIT_FORM:
       return updateState(state, ["depositForm"], payload);
     case UPDATE_DEMODASH_STORE_FORM:
-      return updateState(state, ["demodashStoreForm"], payload);
+      newState = updateState(state, ["demodashStoreForm"], payload);
+      newState.panel = "demodashStore";
+      return Object.assign({}, state, newState);
     default:
       return state;
   }

@@ -29,6 +29,13 @@ import {
 
 import {responsive as r, clearToken} from "lib";
 import {connect} from "react-redux";
+import {updatePanel} from "redux/actions";
+
+function mapDispatchToProps(dispatch) {
+  return {
+    updatePanel: payload => dispatch(updatePanel(payload))
+  };
+}
 
 const mapStateToProps = state => {
   const {currentAccountUser, accountUserSet} = state.dashboard;
@@ -39,14 +46,15 @@ const mapStateToProps = state => {
 };
 
 const _Dashboard = props => {
-  const {accountUserSet, currentAccountUser} = props;
-  let type;
+  const {accountUserSet, currentAccountUser, updatePanel} = props;
+  let type = null;
   if (currentAccountUser) {
     const accountUser = accountUserSet.filter(
       option => option.id === currentAccountUser
     )[0];
-    type = accountUser.account.type;
+    if (accountUser) type = accountUser.account.type;
   }
+  if (!type) updatePanel("createAccount");
   return (
     <Section height={"fit-content"} overflow="hidden">
       <Flex h={"100vh"}>
@@ -95,5 +103,5 @@ const _Dashboard = props => {
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(_Dashboard);

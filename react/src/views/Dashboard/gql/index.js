@@ -779,9 +779,9 @@ export const CREATE_ACCOUNT_USER_PURCHASE = gql`
     ) {
       purchase {
         id
+        uid
         receipts {
           id
-          uid
         }
       }
     }

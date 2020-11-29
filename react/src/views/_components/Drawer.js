@@ -17,14 +17,13 @@ import {responsive as r, clearToken} from "lib";
 
 import logo from "assets/svg/logo.svg";
 import {connect} from "react-redux";
-import {toggleNav, updatePanel} from "redux/actions";
+import {toggleNav} from "redux/actions";
 
 import {CloseOutline} from "@styled-icons/evaicons-outline/CloseOutline";
 
 function mapDispatchToProps(dispatch) {
   return {
-    toggleNav: () => dispatch(toggleNav()),
-    updatePanel: payload => dispatch(updatePanel(payload))
+    toggleNav: () => dispatch(toggleNav())
   };
 }
 const mapStateToProps = state => {
@@ -96,13 +95,7 @@ const NavContainer = styled(ScrollContainer)`
 `;
 
 const _Drawer = props => {
-  const {
-    navOpen,
-    toggleNav,
-    updatePanel,
-    currentAccountUser,
-    accountUserSet
-  } = props;
+  const {navOpen, toggleNav, currentAccountUser, accountUserSet} = props;
   let type;
 
   if (currentAccountUser) {
@@ -110,7 +103,6 @@ const _Drawer = props => {
       option => option.id === currentAccountUser
     )[0];
     if (accountUser) type = accountUser.account.type;
-    if (!type) updatePanel("createAccount");
   }
 
   return (

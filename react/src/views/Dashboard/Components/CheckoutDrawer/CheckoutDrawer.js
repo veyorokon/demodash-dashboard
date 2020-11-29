@@ -72,7 +72,7 @@ const Checkout = connect(
   mapDispatchToProps
 )(_Checkout);
 
-export default props => {
+const CheckoutDrawer = props => {
   return (
     <Checkout>
       <Overview />
@@ -81,3 +81,4 @@ export default props => {
     </Checkout>
   );
 };
+export default CheckoutDrawer;

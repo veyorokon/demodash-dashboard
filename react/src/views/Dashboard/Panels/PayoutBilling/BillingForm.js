@@ -304,7 +304,7 @@ const FormCard = connect(
   mapDispatchToProps
 )(_FormCard);
 
-export default props => {
+const BillingForm = props => {
   return (
     <>
       <Flex mb={4}>
@@ -318,3 +318,4 @@ export default props => {
     </>
   );
 };
+export default BillingForm;

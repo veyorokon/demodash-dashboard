@@ -293,7 +293,7 @@ const Payout = ({props}) => {
         <Flex flexGrow={0}>
           {isBrand && <Text color="darkBlues.0">- $</Text>}
           <Text color={isBrand ? "darkBlues.0" : "greens.4"} ml={1}>
-            ${commission.toFixed(2)}
+            {commission.toFixed(2)}
           </Text>
         </Flex>
       </Flex>
@@ -600,12 +600,12 @@ function _PurchaseTable(props) {
   );
 }
 
-const PurchaseTable = connect(
+const Table = connect(
   mapStateToProps,
   null
 )(_PurchaseTable);
 
-export default props => {
+const PurchaseTable = props => {
   return (
     <>
       <Flex mb={4}>
@@ -614,8 +614,9 @@ export default props => {
         </Text>
       </Flex>
       <Flex mb={4} justifyContent="center">
-        <PurchaseTable title={"Sales"} />
+        <Table title={"Sales"} />
       </Flex>
     </>
   );
 };
+export default PurchaseTable;

@@ -10,7 +10,7 @@ const Logo = styled(Text)`
   letter-spacing: -0.8px;
 `;
 
-export default props => (
+const LogoTitle = props => (
   <Flex flexGrow={0} mb={4} alignItems="center" {...props}>
     <Icon justifyContent="center" mr={3} h={"3rem"} {...props.iconProps}>
       <LogoIcon />
@@ -27,3 +27,4 @@ export default props => (
     </Logo>
   </Flex>
 );
+export default LogoTitle;

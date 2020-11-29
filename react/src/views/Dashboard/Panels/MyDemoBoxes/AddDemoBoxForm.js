@@ -444,10 +444,11 @@ const CreateDemoBoxForm = connect(
   mapDispatchToProps
 )(_CreateDemoBoxForm);
 
-export default props => {
+const AddDemoBoxForm = props => {
   return (
     <Flex mb={4} justifyContent="center">
       <CreateDemoBoxForm title={"Create a demo box"} />
     </Flex>
   );
 };
+export default AddDemoBoxForm;

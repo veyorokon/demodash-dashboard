@@ -1,5 +1,5 @@
 import React from "react";
-export default props => (
+const demodashIcon = props => (
   <svg
     height="100%"
     viewBox="0 0 432 477"
@@ -156,3 +156,5 @@ export default props => (
     </g>
   </svg>
 );
+
+export default demodashIcon;

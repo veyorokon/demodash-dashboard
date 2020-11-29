@@ -77,10 +77,11 @@ const ProductForm = props => {
   );
 };
 
-export default props => {
+const Results = props => {
   return (
     <Flex mb={4} justifyContent="center">
       <ProductForm title={"Demoers"} />
     </Flex>
   );
 };
+export default Results;

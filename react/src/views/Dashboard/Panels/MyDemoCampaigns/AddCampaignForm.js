@@ -854,15 +854,16 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const AddCampaignForm = connect(
+const AddCampaign = connect(
   mapStateToProps,
   mapDispatchToProps
 )(_AddCampaignForm);
 
-export default props => {
+const AddCampaignForm = props => {
   return (
     <Flex mb={4} justifyContent="center">
-      <AddCampaignForm title={"Create a demo campaign"} />
+      <AddCampaign title={"Create a demo campaign"} />
     </Flex>
   );
 };
+export default AddCampaignForm;

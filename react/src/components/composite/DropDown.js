@@ -41,7 +41,7 @@ const DefaultButton = styled(Button)`
   background: transparent;
 `;
 
-export default props => {
+const DropDown = props => {
   if (!props.options.length && props.useDefaultButton) {
     if (props.defaultButtonProps)
       return (
@@ -96,3 +96,5 @@ export default props => {
     </DropSelect>
   );
 };
+
+export default DropDown;

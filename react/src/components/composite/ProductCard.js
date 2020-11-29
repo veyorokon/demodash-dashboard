@@ -43,7 +43,7 @@ const InterludeImage = styled(Image)`
   border: 7px solid transparent;
 `;
 
-export default props => {
+const ProductCard = props => {
   return (
     <Box display="inline-block" {...props}>
       <CardComponent>
@@ -95,3 +95,4 @@ export default props => {
     </Box>
   );
 };
+export default ProductCard;

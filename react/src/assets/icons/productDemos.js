@@ -1,5 +1,5 @@
 import React from "react";
-export default props => (
+const productDemos = props => (
   <svg
     height="100%"
     viewBox="0 0 99 93"
@@ -49,3 +49,5 @@ export default props => (
     </g>
   </svg>
 );
+
+export default productDemos;

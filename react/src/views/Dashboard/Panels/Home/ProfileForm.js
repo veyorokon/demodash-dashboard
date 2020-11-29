@@ -412,7 +412,7 @@ const AccountFormCard = connect(
   mapDispatchToProps
 )(_AccountFormCard);
 
-export default props => {
+const ProfileForm = props => {
   return (
     <>
       <Flex mb={4}>
@@ -431,3 +431,4 @@ export default props => {
     </>
   );
 };
+export default ProfileForm;

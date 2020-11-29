@@ -1,10 +1,11 @@
 import React from "react";
 import DemoBoxes from "./DemoBoxes";
 
-export default props => {
+const MyDemos = props => {
   return (
     <>
       <DemoBoxes />
     </>
   );
 };
+export default MyDemos;

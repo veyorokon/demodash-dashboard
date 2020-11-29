@@ -26,7 +26,7 @@ const Icon = props => {
   );
 };
 
-export default props => {
+const IconCard = props => {
   return (
     <Box
       p={3}
@@ -67,3 +67,4 @@ export default props => {
     </Box>
   );
 };
+export default IconCard;

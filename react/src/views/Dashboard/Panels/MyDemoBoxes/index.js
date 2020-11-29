@@ -2,7 +2,7 @@ import React from "react";
 import DemoBoxes from "./DemoBoxes";
 import AddDemoBoxForm from "./AddDemoBoxForm";
 
-export default props => {
+const MyDemoBoxes = props => {
   return (
     <>
       <AddDemoBoxForm />
@@ -10,3 +10,4 @@ export default props => {
     </>
   );
 };
+export default MyDemoBoxes;

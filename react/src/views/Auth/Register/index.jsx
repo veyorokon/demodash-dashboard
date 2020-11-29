@@ -1,10 +1,11 @@
 import React from "react";
 import Form from "./Sections/Form";
 
-export default () => {
+const Register = props => {
   return (
     <>
       <Form />
     </>
   );
 };
+export default Register;

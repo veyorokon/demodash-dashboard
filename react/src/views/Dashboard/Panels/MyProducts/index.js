@@ -2,7 +2,7 @@ import React from "react";
 import Products from "./Products";
 import AddProductForm from "./AddProductForm";
 
-export default props => {
+const MyProducts = props => {
   return (
     <>
       <AddProductForm />
@@ -10,3 +10,4 @@ export default props => {
     </>
   );
 };
+export default MyProducts;

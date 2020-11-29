@@ -600,10 +600,11 @@ const FormCard = connect(
   mapDispatchToProps
 )(_FormCard);
 
-export default props => {
+const AddProductForm = props => {
   return (
     <Flex mb={4} justifyContent="center">
       <FormCard title={"Add a product"} />
     </Flex>
   );
 };
+export default AddProductForm;

@@ -256,6 +256,7 @@ class _FormCard extends React.Component {
               }
               placeholder="About your product..."
               mt={1}
+              maxLength="128"
             />
           </FormGroup>
           <FormGroup mb={r("3 ----> 2")}>

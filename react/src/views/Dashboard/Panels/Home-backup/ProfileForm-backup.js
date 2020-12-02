@@ -53,6 +53,8 @@ class FileInput extends React.Component {
     } catch {
       return null;
     }
+    let fileInput = document.getElementById("home-account-logo-uploader");
+    fileInput.value = null;
   }
 
   render() {
@@ -68,7 +70,7 @@ class FileInput extends React.Component {
           h={"3.5rem"}
           w="25rem"
           maxWidth={"100%"}
-          htmlFor="account-logo-upload"
+          htmlFor="home-account-logo-uploader"
           {...this.props}
         >
           <Icon ml={3} mr={2} h={"2.2rem"}>
@@ -79,7 +81,7 @@ class FileInput extends React.Component {
         <Input
           display="none"
           onChange={evt => this.handleImageChange(evt)}
-          id="account-logo-upload"
+          id="home-account-logo-uploader"
           type="file"
           accept=".svg"
         />

@@ -6,7 +6,14 @@ import routes from "routes.js";
 const switchRoutes = (
   <Switch>
     {routes.map((prop, key) => {
-      return <Route path={prop.path} component={prop.component} key={key} />;
+      return (
+        <Route
+          exact={prop.exact || false}
+          path={prop.path}
+          component={prop.component}
+          key={key}
+        />
+      );
     })}
   </Switch>
 );

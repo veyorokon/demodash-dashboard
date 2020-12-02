@@ -1,14 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Flex,
-  Text,
-  DropDown,
-  CallToActionButton,
-  Label,
-  Icon,
-  Input
-} from "components";
+import {Box, Flex, Text, DropDown, CallToActionButton, Icon} from "components";
 import {
   FlexInput,
   FlexField,
@@ -16,114 +7,16 @@ import {
   FormGroup,
   FlexText
 } from "views/Dashboard/Components";
-import {Query, Mutation} from "@apollo/react-components";
+import {Mutation} from "@apollo/react-components";
 import {STATES, responsive as r, getEventVal} from "lib";
 import {getToken} from "lib";
 import {connect} from "react-redux";
 import {updateProfileForm} from "redux/actions";
-import {
-  ACCOUNT_CATEGORIES,
-  UPDATE_ACCOUNT,
-  USER__ACCOUNT_USER_SET
-} from "views/Dashboard/gql";
+import {UPDATE_ACCOUNT, USER__ACCOUNT_USER_SET} from "views/Dashboard/gql";
 import {AddCircle} from "@styled-icons/material/AddCircle";
 import {Image} from "@styled-icons/boxicons-solid/Image";
-
-class FileInput extends React.Component {
-  handleImageChange(e) {
-    e.preventDefault();
-    let file = e.target.files[0];
-    let reader = new FileReader();
-    try {
-      reader.readAsDataURL(file);
-      if (file.size > (this.props.maxSize || 2097152))
-        return this.props.onChange({
-          errorMessage: "Logo is too large! Max size allowed is 2MB."
-        });
-      reader.onloadend = () => {
-        this.setState({
-          file: file,
-          base64: reader.result
-        });
-        return this.props.onChange({
-          name: file.name,
-          encoding: reader.result.replace("data:image/svg+xml;base64,", "")
-        });
-      };
-    } catch {
-      return null;
-    }
-    let fileInput = document.getElementById("home-account-logo-uploader");
-    fileInput.value = null;
-  }
-
-  render() {
-    return (
-      <>
-        <Label
-          hoverBackground="#FFC651"
-          cursor="pointer"
-          br={2}
-          bg={"yellows.1"}
-          display="flex"
-          alignItems="center"
-          h={"3.5rem"}
-          w="25rem"
-          maxWidth={"100%"}
-          htmlFor="home-account-logo-uploader"
-          {...this.props}
-        >
-          <Icon ml={3} mr={2} h={"2.2rem"}>
-            <AddCircle />
-          </Icon>
-          <Text ml={4}>{this.props.children}</Text>
-        </Label>
-        <Input
-          display="none"
-          onChange={evt => this.handleImageChange(evt)}
-          id="home-account-logo-uploader"
-          type="file"
-          accept=".svg"
-        />
-      </>
-    );
-  }
-}
-
-const CategoryDropDown = props => {
-  return (
-    <Query query={ACCOUNT_CATEGORIES}>
-      {({loading, error, data}) => {
-        if (loading)
-          return (
-            <Box h="3.5rem" mb={4}>
-              <Text>Loading...</Text>
-            </Box>
-          );
-        if (error)
-          return (
-            <Box h="3.5rem" mb={4}>
-              <Text>Error! {error.message}</Text>
-            </Box>
-          );
-        const options = data.industries;
-        return (
-          <Flex>
-            <DropDown
-              options={options}
-              br={2}
-              maxWidth="100%"
-              w="25rem"
-              border={"1px solid lightslategrey"}
-              hiddenOption={"Select your industry"}
-              {...props}
-            />
-          </Flex>
-        );
-      }}
-    </Query>
-  );
-};
+import FileInput from "./Components/FileUploader";
+import CategoryDropdown from "./Components/CategoryDropdown";
 
 class _AccountFormCard extends React.Component {
   async updateAccountMutation(updateAccount) {
@@ -267,7 +160,7 @@ class _AccountFormCard extends React.Component {
           <FormGroup mt={2} mb={r("3 ----> 2")}>
             <FlexField name={"Industries"} />
             <Flex flexBasis="60%" flexDirection="column" mt={2}>
-              <CategoryDropDown
+              <CategoryDropdown
                 onChange={evt =>
                   updateProfileForm({
                     ...profileForm,
@@ -278,7 +171,7 @@ class _AccountFormCard extends React.Component {
                 defaultOption={"Choose an industry"}
                 value={profileForm.choice1}
               />
-              <CategoryDropDown
+              <CategoryDropdown
                 onChange={evt =>
                   updateProfileForm({
                     ...profileForm,
@@ -290,7 +183,7 @@ class _AccountFormCard extends React.Component {
                 value={profileForm.choice2}
                 mt={2}
               />
-              <CategoryDropDown
+              <CategoryDropdown
                 onChange={evt =>
                   updateProfileForm({
                     ...profileForm,
@@ -324,6 +217,8 @@ class _AccountFormCard extends React.Component {
                 )}
                 <FileInput
                   mt={2}
+                  inputName={"home-account-logo-uploader"}
+                  icon={<AddCircle />}
                   onChange={result =>
                     updateProfileForm({
                       ...profileForm,
@@ -332,7 +227,7 @@ class _AccountFormCard extends React.Component {
                     })
                   }
                 >
-                  {profileForm.logo ? "Change brand logo" : "Add brand logo"}
+                  Add brand logo
                 </FileInput>
               </Flex>
             </FormGroup>
@@ -414,23 +309,4 @@ const AccountFormCard = connect(
   mapDispatchToProps
 )(_AccountFormCard);
 
-const ProfileForm = props => {
-  return (
-    <>
-      <Flex mb={4}>
-        <Text fw={500} fs={"2rem"}>
-          Profile
-        </Text>
-      </Flex>
-      <Flex
-        w={r("80rem ---------> 100rem")}
-        maxWidth="100%"
-        mb={4}
-        justifyContent="center"
-      >
-        <AccountFormCard title={"Account settings"} />
-      </Flex>
-    </>
-  );
-};
-export default ProfileForm;
+export default AccountFormCard;

@@ -54,13 +54,13 @@ function AccountForm(props) {
       <Flex mt={3} h="100%">
         <VertTabs
           bg={props.bg ? props.bg : "whites.0"}
-          tabHeaders={["Brand", "Storefront", "Influencer"]}
+          tabHeaders={["Brand", "Store", "Influencer"]}
           selected={props.account}
         >
           <Panel
             bg={props.bg ? props.bg : "whites.0"}
             text={
-              "You ship demo products to storefronts and influencers; and purchases to customers."
+              "You ship demo products to stores and influencers; and purchases to customers."
             }
             svg={brand}
             callBack={() => updateAccountForm({type: "brand"})}
@@ -68,7 +68,7 @@ function AccountForm(props) {
           <Panel
             bg={props.bg ? props.bg : "whites.0"}
             text={
-              "Demo products on customers at your storefront and earn commission for each sale."
+              "Demo products on customers at your store and earn commission for each sale."
             }
             svg={storefront}
             callBack={() => updateAccountForm({type: "storefront"})}

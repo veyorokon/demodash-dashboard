@@ -8,15 +8,15 @@ import {
   FlexText
 } from "views/Dashboard/Components";
 import {Mutation} from "@apollo/react-components";
-import {STATES, responsive as r, getEventVal} from "lib";
-import {getToken} from "lib";
-import {connect} from "react-redux";
-import {updateProfileForm} from "redux/actions";
-import {UPDATE_ACCOUNT, USER__ACCOUNT_USER_SET} from "views/Dashboard/gql";
 import {AddCircle} from "@styled-icons/material/AddCircle";
 import {Image} from "@styled-icons/boxicons-solid/Image";
 import FileInput from "./Components/FileUploader";
 import CategoryDropdown from "./Components/CategoryDropdown";
+import {UPDATE_ACCOUNT, USER__ACCOUNT_USER_SET} from "views/Dashboard/gql";
+import {STATES, responsive as r, getEventVal} from "lib";
+import {getToken} from "lib";
+import {connect} from "react-redux";
+import {updateProfileForm} from "redux/actions";
 
 class _AccountFormCard extends React.Component {
   async updateAccountMutation(updateAccount) {

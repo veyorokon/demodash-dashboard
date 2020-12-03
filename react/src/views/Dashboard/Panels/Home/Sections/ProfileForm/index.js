@@ -1,9 +1,19 @@
 import React from "react";
 import {Flex, Text} from "components";
-import AccountFormCard from "./AccountFormCard";
-import {responsive as r} from "lib";
+import BusinessAccountForm from "./BusinessAccountForm";
+import InfluencerAccountForm from "./InfluencerAccountForm";
 
-const ProfileForm = props => {
+import {responsive as r} from "lib";
+import {connect} from "react-redux";
+
+const mapStateToProps = state => {
+  return {
+    accountType: state.profileForm.type
+  };
+};
+
+function _ProfileForm(props) {
+  const isInfluencer = props.accountType === "Influencer";
   return (
     <>
       <Flex mb={4}>
@@ -17,9 +27,19 @@ const ProfileForm = props => {
         mb={4}
         justifyContent="center"
       >
-        <AccountFormCard title={"Account settings"} />
+        {isInfluencer ? (
+          <InfluencerAccountForm title={"Account settings"} />
+        ) : (
+          <BusinessAccountForm title={"Account settings"} />
+        )}
       </Flex>
     </>
   );
-};
+}
+
+const ProfileForm = connect(
+  mapStateToProps,
+  null
+)(_ProfileForm);
+
 export default ProfileForm;

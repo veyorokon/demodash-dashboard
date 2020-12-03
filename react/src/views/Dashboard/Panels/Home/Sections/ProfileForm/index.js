@@ -1,6 +1,8 @@
 import React from "react";
 import {Flex, Text} from "components";
-import BusinessAccountForm from "./BusinessAccountForm";
+
+import BrandAccountForm from "./BrandAccountForm";
+import StoreAccountForm from "./StoreAccountForm";
 import InfluencerAccountForm from "./InfluencerAccountForm";
 
 import {responsive as r} from "lib";
@@ -14,6 +16,8 @@ const mapStateToProps = state => {
 
 function _ProfileForm(props) {
   const isInfluencer = props.accountType === "Influencer";
+  const isStore = props.accountType === "Storefront";
+  const isBrand = props.accountType === "Brand";
   return (
     <>
       <Flex mb={4}>
@@ -27,11 +31,9 @@ function _ProfileForm(props) {
         mb={4}
         justifyContent="center"
       >
-        {isInfluencer ? (
-          <InfluencerAccountForm title={"Account settings"} />
-        ) : (
-          <BusinessAccountForm title={"Account settings"} />
-        )}
+        {isBrand && <BrandAccountForm title={"Account settings"} />}
+        {isStore && <StoreAccountForm title={"Account settings"} />}
+        {isInfluencer && <InfluencerAccountForm title={"Account settings"} />}
       </Flex>
     </>
   );

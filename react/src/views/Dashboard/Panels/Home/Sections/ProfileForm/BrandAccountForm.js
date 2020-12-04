@@ -11,15 +11,17 @@ import {Mutation} from "@apollo/react-components";
 import {AddCircle} from "@styled-icons/material/AddCircle";
 import {Image} from "@styled-icons/boxicons-solid/Image";
 import FileInput from "./Components/FileUploader";
-import CategoryDropdown from "./Components/CategoryDropdown";
-import {UPDATE_ACCOUNT, USER__ACCOUNT_USER_SET} from "views/Dashboard/gql";
+import {
+  UPDATE_BRAND_ACCOUNT,
+  USER__ACCOUNT_USER_SET
+} from "views/Dashboard/gql";
 import {STATES, responsive as r, getEventVal} from "lib";
 import {getToken} from "lib";
 import {connect} from "react-redux";
 import {updateProfileForm} from "redux/actions";
 
 class _AccountFormCard extends React.Component {
-  async updateAccountMutation(updateAccount) {
+  async updateBrandAccount(updateAccount) {
     const {profileForm, currentAccountUser, updateProfileForm} = this.props;
 
     updateProfileForm({
@@ -30,9 +32,7 @@ class _AccountFormCard extends React.Component {
 
     flatForm.accountUserId = parseInt(currentAccountUser);
     flatForm.token = getToken().token;
-    if (flatForm.choice1 === -1) flatForm.choice1 = null;
-    if (flatForm.choice2 === -1) flatForm.choice2 = null;
-    if (flatForm.choice3 === -1) flatForm.choice3 = null;
+
     return updateAccount({
       variables: flatForm
     });
@@ -70,21 +70,6 @@ class _AccountFormCard extends React.Component {
               }
               value={profileForm.accountName || ""}
               mt={1}
-            />
-          </FormGroup>
-          <FormGroup mt={3}>
-            <FlexField mt={2} name={"Website:"} />
-            <FlexInput
-              onChange={evt =>
-                updateProfileForm({
-                  ...profileForm,
-                  website: getEventVal(evt),
-                  submitComplete: false
-                })
-              }
-              value={profileForm.website || ""}
-              placeholder="https://"
-              mb={1}
             />
           </FormGroup>
           <FormGroup mt={r("3 ----> 2")}>
@@ -157,47 +142,6 @@ class _AccountFormCard extends React.Component {
             </Flex>
           </FormGroup>
 
-          <FormGroup mt={2} mb={r("3 ----> 2")}>
-            <FlexField name={"Industries"} />
-            <Flex flexBasis="60%" flexDirection="column" mt={2}>
-              <CategoryDropdown
-                onChange={evt =>
-                  updateProfileForm({
-                    ...profileForm,
-                    choice1: getEventVal(evt),
-                    submitComplete: false
-                  })
-                }
-                defaultOption={"Choose an industry"}
-                value={profileForm.choice1}
-              />
-              <CategoryDropdown
-                onChange={evt =>
-                  updateProfileForm({
-                    ...profileForm,
-                    choice2: getEventVal(evt),
-                    submitComplete: false
-                  })
-                }
-                defaultOption={"Choose an industry"}
-                value={profileForm.choice2}
-                mt={2}
-              />
-              <CategoryDropdown
-                onChange={evt =>
-                  updateProfileForm({
-                    ...profileForm,
-                    choice3: getEventVal(evt),
-                    submitComplete: false
-                  })
-                }
-                defaultOption={"Choose an industry"}
-                value={profileForm.choice3}
-                mt={2}
-              />
-            </Flex>
-          </FormGroup>
-
           {profileForm.type === "Brand" && (
             <FormGroup mt={3}>
               <FlexField name={"Logo:"} />
@@ -252,7 +196,7 @@ class _AccountFormCard extends React.Component {
             </Flex>
           )}
           <Mutation
-            mutation={UPDATE_ACCOUNT}
+            mutation={UPDATE_BRAND_ACCOUNT}
             refetchQueries={[
               {
                 query: USER__ACCOUNT_USER_SET,
@@ -281,7 +225,7 @@ class _AccountFormCard extends React.Component {
                 w={r("100% 25rem ---> 10rem")}
                 maxWidth="100%"
                 fs={"1.6rem"}
-                onClick={() => this.updateAccountMutation(updateAccount)}
+                onClick={() => this.updateBrandAccount(updateAccount)}
               >
                 {profileForm.isSubmitting ? "Saving..." : "Save"}
               </CallToActionButton>

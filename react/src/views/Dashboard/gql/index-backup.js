@@ -47,8 +47,8 @@ export const ACCOUNT_CATEGORIES = gql`
   }
 `;
 
-export const UPDATE_BRAND_ACCOUNT = gql`
-  mutation updateBrandAccount(
+export const UPDATE_ACCOUNT = gql`
+  mutation updateAccount(
     $accountUserId: Int!
     $website: String
     $state: String
@@ -59,9 +59,12 @@ export const UPDATE_BRAND_ACCOUNT = gql`
     $zip: String
     $accountName: String
     $token: String!
+    $choice1: String
+    $choice2: String
+    $choice3: String
     $logo: Logo
   ) {
-    updateBrandAccount(
+    updateAccount(
       token: $token
       accountUserId: $accountUserId
       website: $website
@@ -72,67 +75,10 @@ export const UPDATE_BRAND_ACCOUNT = gql`
       zip: $zip
       city: $city
       accountName: $accountName
+      choice1: $choice1
+      choice2: $choice2
+      choice3: $choice3
       logo: $logo
-    ) {
-      account {
-        id
-      }
-    }
-  }
-`;
-
-export const UPDATE_STORE_ACCOUNT = gql`
-  mutation updateStoreAccount(
-    $accountUserId: Int!
-    $state: String
-    $city: String
-    $country: String
-    $line1: String
-    $line2: String
-    $zip: String
-    $accountName: String
-    $token: String!
-  ) {
-    updateStoreAccount(
-      token: $token
-      accountUserId: $accountUserId
-      state: $state
-      country: $country
-      line1: $line1
-      line2: $line2
-      zip: $zip
-      city: $city
-      accountName: $accountName
-    ) {
-      account {
-        id
-      }
-    }
-  }
-`;
-
-export const UPDATE_INFLUENCER_ACCOUNT = gql`
-  mutation updateInfluencerAccount(
-    $accountUserId: Int!
-    $state: String
-    $city: String
-    $country: String
-    $line1: String
-    $line2: String
-    $zip: String
-    $accountName: String
-    $token: String!
-  ) {
-    updateInfluencerAccount(
-      token: $token
-      accountUserId: $accountUserId
-      state: $state
-      country: $country
-      line1: $line1
-      line2: $line2
-      zip: $zip
-      city: $city
-      accountName: $accountName
     ) {
       account {
         id

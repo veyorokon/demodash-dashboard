@@ -53,7 +53,7 @@ class _FormCard extends React.Component {
       });
       return updateAccountForm({
         type: "Brand",
-        disabled: true,
+        disabled: false,
         isSubmitting: false
       });
     } catch (error) {

@@ -1,18 +1,16 @@
 import React from "react";
-import {Box, Flex, Text, DropDown, CallToActionButton, Icon} from "components";
+import {Box, Flex, Text, DropDown, CallToActionButton} from "components";
 import {
   FlexInput,
   FlexField,
   FormSection,
-  FormGroup,
-  FlexText
+  FormGroup
 } from "views/Dashboard/Components";
 import {Mutation} from "@apollo/react-components";
-import {AddCircle} from "@styled-icons/material/AddCircle";
-import {Image} from "@styled-icons/boxicons-solid/Image";
-import FileInput from "./Components/FileUploader";
-import CategoryDropdown from "./Components/CategoryDropdown";
-import {UPDATE_ACCOUNT, USER__ACCOUNT_USER_SET} from "views/Dashboard/gql";
+import {
+  UPDATE_STORE_ACCOUNT,
+  USER__ACCOUNT_USER_SET
+} from "views/Dashboard/gql";
 import {STATES, responsive as r, getEventVal} from "lib";
 import {getToken} from "lib";
 import {connect} from "react-redux";
@@ -30,9 +28,7 @@ class _AccountFormCard extends React.Component {
 
     flatForm.accountUserId = parseInt(currentAccountUser);
     flatForm.token = getToken().token;
-    if (flatForm.choice1 === -1) flatForm.choice1 = null;
-    if (flatForm.choice2 === -1) flatForm.choice2 = null;
-    if (flatForm.choice3 === -1) flatForm.choice3 = null;
+
     return updateAccount({
       variables: flatForm
     });
@@ -141,82 +137,6 @@ class _AccountFormCard extends React.Component {
               />
             </Flex>
           </FormGroup>
-
-          <FormGroup mt={2} mb={r("3 ----> 2")}>
-            <FlexField name={"Industries"} />
-            <Flex flexBasis="60%" flexDirection="column" mt={2}>
-              <CategoryDropdown
-                onChange={evt =>
-                  updateProfileForm({
-                    ...profileForm,
-                    choice1: getEventVal(evt),
-                    submitComplete: false
-                  })
-                }
-                defaultOption={"Choose an industry"}
-                value={profileForm.choice1}
-              />
-              <CategoryDropdown
-                onChange={evt =>
-                  updateProfileForm({
-                    ...profileForm,
-                    choice2: getEventVal(evt),
-                    submitComplete: false
-                  })
-                }
-                defaultOption={"Choose an industry"}
-                value={profileForm.choice2}
-                mt={2}
-              />
-              <CategoryDropdown
-                onChange={evt =>
-                  updateProfileForm({
-                    ...profileForm,
-                    choice3: getEventVal(evt),
-                    submitComplete: false
-                  })
-                }
-                defaultOption={"Choose an industry"}
-                value={profileForm.choice3}
-                mt={2}
-              />
-            </Flex>
-          </FormGroup>
-
-          {profileForm.type === "Brand" && (
-            <FormGroup mt={3}>
-              <FlexField name={"Logo:"} />
-              <Flex flexBasis="60%" flexDirection="column" h="fit-content">
-                {profileForm.logo && (
-                  <Flex maxWidth="25rem" flexDirection="column" h="fit-content">
-                    <FlexText fw={400} h="2.2rem" mb={1} mt={3}>
-                      Logo name
-                    </FlexText>
-                    <Flex mt={1} mb={1} color="oranges.0" alignItems="center">
-                      <Icon ml={3} mr={2} h={"2.2rem"}>
-                        <Image />
-                      </Icon>
-                      <Text>{profileForm.logo.name}</Text>
-                    </Flex>
-                  </Flex>
-                )}
-                <FileInput
-                  mt={2}
-                  inputName={"home-account-logo-uploader"}
-                  icon={<AddCircle />}
-                  onChange={result =>
-                    updateProfileForm({
-                      ...profileForm,
-                      logo: result,
-                      submitComplete: false
-                    })
-                  }
-                >
-                  Add brand logo
-                </FileInput>
-              </Flex>
-            </FormGroup>
-          )}
         </FormSection>
 
         <FormSection
@@ -237,7 +157,7 @@ class _AccountFormCard extends React.Component {
             </Flex>
           )}
           <Mutation
-            mutation={UPDATE_ACCOUNT}
+            mutation={UPDATE_STORE_ACCOUNT}
             refetchQueries={[
               {
                 query: USER__ACCOUNT_USER_SET,

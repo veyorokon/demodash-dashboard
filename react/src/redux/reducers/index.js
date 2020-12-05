@@ -299,7 +299,6 @@ export default function rootReducer(state = initialState, action) {
       newState.checkoutOpen = false;
       return Object.assign({}, state, newState);
     case UPDATE_PROFILE_FORM:
-      console.log(payload);
       newState = updateState(state, ["profileForm"], payload, false);
       newState.profileForm.disabled = false;
       if (newState.profileForm.isSubmitting)

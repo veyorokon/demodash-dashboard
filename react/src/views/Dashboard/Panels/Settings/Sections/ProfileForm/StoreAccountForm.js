@@ -170,7 +170,7 @@ class _AccountFormCard extends React.Component {
                 if (!profileForm.einVerified)
                   updateProfileForm({
                     ...profileForm,
-                    ein: getEventVal(evt),
+                    ein: format(getEventVal(evt)),
                     submitComplete: false,
                     disabled: false,
                     successMessage: "",
@@ -178,7 +178,7 @@ class _AccountFormCard extends React.Component {
                     errorMessage: ""
                   });
               }}
-              maxLength={9}
+              maxLength={10}
               value={profileForm.ein ? format(profileForm.ein) : ""}
               mt={1}
               borderColor={

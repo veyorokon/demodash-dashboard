@@ -154,23 +154,19 @@ function filterAccountUser(state, id) {
 }
 
 function populateProfileForm(state, accountUser, props = {}) {
-  const {industry} = accountUser.account.profile;
-  const choice1 = industry && industry.choice1 ? industry.choice1 : -1;
-  const choice2 = industry && industry.choice2 ? industry.choice2 : -1;
-  const choice3 = industry && industry.choice3 ? industry.choice3 : -1;
+  const {account} = accountUser;
   state.profileForm = {
-    type: accountUser.account.type,
-    accountName: accountUser.account.profile.name,
+    type: account.type,
+    accountName: account.profile.name,
     disabled: true,
     isSubmitting: false,
     submitComplete: true,
-    website: accountUser.account.profile.website,
-    choice1: choice1,
-    choice2: choice2,
-    choice3: choice3,
+    website: account.profile.website,
+    ein: account.profile.ein,
+    einVerified: account.profile.einVerified,
     logo: null,
-    logoUrl: accountUser.account.profile.logo,
-    ...accountUser.account.profile.address,
+    logoUrl: account.profile.logo,
+    ...account.profile.address,
     ...props
   };
   return state;

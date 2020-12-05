@@ -12,12 +12,27 @@ import {
   USER__ACCOUNT_USER_SET
 } from "views/Dashboard/gql";
 import {STATES, responsive as r, getEventVal} from "lib";
-import {getToken} from "lib";
+import {getToken, formatGQLErrorMessage} from "lib";
 import {connect} from "react-redux";
 import {updateProfileForm} from "redux/actions";
 
+function format(s) {
+  let dash = "-";
+  let position = 2;
+  if (!s.includes(dash) && s.length > 2) {
+    let output = [s.slice(0, position), dash, s.slice(position)].join("");
+    return output;
+  }
+  if ((s.includes(dash) && s.length <= 3) || s.indexOf(dash) !== position) {
+    s = s.replace(dash, "");
+    if (s.length > 2)
+      return [s.slice(0, position), dash, s.slice(position)].join("");
+  }
+  return s;
+}
+
 class _AccountFormCard extends React.Component {
-  async updateAccountMutation(updateAccount) {
+  async updateStoreAccount(updateAccount) {
     const {profileForm, currentAccountUser, updateProfileForm} = this.props;
 
     updateProfileForm({
@@ -28,10 +43,19 @@ class _AccountFormCard extends React.Component {
 
     flatForm.accountUserId = parseInt(currentAccountUser);
     flatForm.token = getToken().token;
-
-    return updateAccount({
-      variables: flatForm
-    });
+    try {
+      await updateAccount({
+        variables: flatForm
+      });
+    } catch (error) {
+      let gqlError = formatGQLErrorMessage(error, "");
+      return updateProfileForm({
+        ...profileForm,
+        ...gqlError,
+        isSubmitting: false,
+        disabled: true
+      });
+    }
   }
 
   render() {
@@ -137,6 +161,33 @@ class _AccountFormCard extends React.Component {
               />
             </Flex>
           </FormGroup>
+
+          <FormGroup mt={r("3 ----> 2")}>
+            <FlexField name={"EIN:"} />
+            <FlexInput
+              disabled={profileForm.einVerified}
+              onChange={evt => {
+                if (!profileForm.einVerified)
+                  updateProfileForm({
+                    ...profileForm,
+                    ein: getEventVal(evt),
+                    submitComplete: false,
+                    disabled: false,
+                    successMessage: "",
+                    errorField: "",
+                    errorMessage: ""
+                  });
+              }}
+              maxLength={9}
+              value={profileForm.ein ? format(profileForm.ein) : ""}
+              mt={1}
+              borderColor={
+                profileForm.errorField === "ein"
+                  ? "oranges.0"
+                  : "lightslategrey"
+              }
+            />
+          </FormGroup>
         </FormSection>
 
         <FormSection
@@ -151,10 +202,18 @@ class _AccountFormCard extends React.Component {
           flexDirection={r("column ----> row")}
           alignItems="center"
         >
-          {profileForm.submitComplete && (
+          {profileForm.submitComplete ? (
             <Flex>
               <Text mb={r("3 ----> 0")}>Settings are up to date.</Text>
             </Flex>
+          ) : profileForm.errorMessage ? (
+            <Flex>
+              <Text mb={r("3 ----> 0")} color="oranges.0">
+                {profileForm.errorMessage}
+              </Text>
+            </Flex>
+          ) : (
+            <></>
           )}
           <Mutation
             mutation={UPDATE_STORE_ACCOUNT}
@@ -186,7 +245,7 @@ class _AccountFormCard extends React.Component {
                 w={r("100% 25rem ---> 10rem")}
                 maxWidth="100%"
                 fs={"1.6rem"}
-                onClick={() => this.updateAccountMutation(updateAccount)}
+                onClick={() => this.updateStoreAccount(updateAccount)}
               >
                 {profileForm.isSubmitting ? "Saving..." : "Save"}
               </CallToActionButton>

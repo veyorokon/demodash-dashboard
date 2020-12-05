@@ -17,6 +17,7 @@ export const ACCOUNT_USER = gql`
           name
           website
           logo
+          ein
           address {
             id
             line1
@@ -25,12 +26,6 @@ export const ACCOUNT_USER = gql`
             city
             zip
             state
-          }
-          industry {
-            id
-            choice1
-            choice2
-            choice3
           }
         }
       }
@@ -58,6 +53,7 @@ export const UPDATE_BRAND_ACCOUNT = gql`
     $line2: String
     $zip: String
     $accountName: String
+    $ein: String
     $token: String!
     $logo: Logo
   ) {
@@ -72,6 +68,7 @@ export const UPDATE_BRAND_ACCOUNT = gql`
       zip: $zip
       city: $city
       accountName: $accountName
+      ein: $ein
       logo: $logo
     ) {
       account {
@@ -91,6 +88,7 @@ export const UPDATE_STORE_ACCOUNT = gql`
     $line2: String
     $zip: String
     $accountName: String
+    $ein: Strin
     $token: String!
   ) {
     updateStoreAccount(
@@ -102,6 +100,7 @@ export const UPDATE_STORE_ACCOUNT = gql`
       line2: $line2
       zip: $zip
       city: $city
+      ein: $ein
       accountName: $accountName
     ) {
       account {
@@ -162,6 +161,8 @@ export const USER__ACCOUNT_USER_SET = gql`
             name
             website
             logo
+            ein
+            einVerified
             address {
               id
               line1
@@ -170,12 +171,6 @@ export const USER__ACCOUNT_USER_SET = gql`
               state
               zip
               country
-            }
-            industry {
-              id
-              choice1
-              choice2
-              choice3
             }
           }
         }

@@ -189,7 +189,7 @@ class _AccountFormCard extends React.Component {
                 if (!profileForm.einVerified)
                   updateProfileForm({
                     ...profileForm,
-                    ein: getEventVal(evt),
+                    ein: format(getEventVal(evt)),
                     submitComplete: false,
                     disabled: false,
                     successMessage: "",

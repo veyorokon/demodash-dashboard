@@ -97,6 +97,21 @@ class _AccountFormCard extends React.Component {
             />
           </FormGroup>
           <FormGroup mt={r("3 ----> 2")}>
+            <FlexField name={"Website:"} />
+            <FlexInput
+              onChange={evt =>
+                updateProfileForm({
+                  ...profileForm,
+                  website: getEventVal(evt),
+                  submitComplete: false
+                })
+              }
+              value={profileForm.website || ""}
+              placeholder="https://"
+              mt={1}
+            />
+          </FormGroup>
+          <FormGroup mt={r("3 ----> 2")}>
             <FlexField name={"Address:"} />
             <Flex flexBasis="60%" flexDirection="column" mt={2}>
               <FlexInput

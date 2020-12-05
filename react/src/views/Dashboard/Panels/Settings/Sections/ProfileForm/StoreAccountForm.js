@@ -1,28 +1,38 @@
 import React from "react";
-import {Box, Flex, Text, DropDown, CallToActionButton, Icon} from "components";
+import {Box, Flex, Text, DropDown, CallToActionButton} from "components";
 import {
   FlexInput,
   FlexField,
   FormSection,
-  FormGroup,
-  FlexText
+  FormGroup
 } from "views/Dashboard/Components";
 import {Mutation} from "@apollo/react-components";
-import {AddCircle} from "@styled-icons/material/AddCircle";
-import {Image} from "@styled-icons/boxicons-solid/Image";
-import FileInput from "./Components/FileUploader";
-import CategoryDropdown from "./Components/CategoryDropdown";
 import {
   UPDATE_STORE_ACCOUNT,
   USER__ACCOUNT_USER_SET
 } from "views/Dashboard/gql";
 import {STATES, responsive as r, getEventVal} from "lib";
-import {getToken} from "lib";
+import {getToken, formatGQLErrorMessage} from "lib";
 import {connect} from "react-redux";
 import {updateProfileForm} from "redux/actions";
 
+function format(s) {
+  let dash = "-";
+  let position = 2;
+  if (!s.includes(dash) && s.length > 2) {
+    let output = [s.slice(0, position), dash, s.slice(position)].join("");
+    return output;
+  }
+  if ((s.includes(dash) && s.length <= 3) || s.indexOf(dash) !== position) {
+    s = s.replace(dash, "");
+    if (s.length > 2)
+      return [s.slice(0, position), dash, s.slice(position)].join("");
+  }
+  return s;
+}
+
 class _AccountFormCard extends React.Component {
-  async updateAccountMutation(updateAccount) {
+  async updateStoreAccount(updateAccount) {
     const {profileForm, currentAccountUser, updateProfileForm} = this.props;
 
     updateProfileForm({
@@ -33,12 +43,19 @@ class _AccountFormCard extends React.Component {
 
     flatForm.accountUserId = parseInt(currentAccountUser);
     flatForm.token = getToken().token;
-    if (flatForm.choice1 === -1) flatForm.choice1 = null;
-    if (flatForm.choice2 === -1) flatForm.choice2 = null;
-    if (flatForm.choice3 === -1) flatForm.choice3 = null;
-    return updateAccount({
-      variables: flatForm
-    });
+    try {
+      await updateAccount({
+        variables: flatForm
+      });
+    } catch (error) {
+      let gqlError = formatGQLErrorMessage(error, "");
+      return updateProfileForm({
+        ...profileForm,
+        ...gqlError,
+        isSubmitting: false,
+        disabled: true
+      });
+    }
   }
 
   render() {
@@ -145,81 +162,32 @@ class _AccountFormCard extends React.Component {
             </Flex>
           </FormGroup>
 
-          <FormGroup mt={2} mb={r("3 ----> 2")}>
-            <FlexField name={"Industries"} />
-            <Flex flexBasis="60%" flexDirection="column" mt={2}>
-              <CategoryDropdown
-                onChange={evt =>
+          <FormGroup mt={r("3 ----> 2")}>
+            <FlexField name={"EIN:"} />
+            <FlexInput
+              disabled={profileForm.einVerified}
+              onChange={evt => {
+                if (!profileForm.einVerified)
                   updateProfileForm({
                     ...profileForm,
-                    choice1: getEventVal(evt),
-                    submitComplete: false
-                  })
-                }
-                defaultOption={"Choose an industry"}
-                value={profileForm.choice1}
-              />
-              <CategoryDropdown
-                onChange={evt =>
-                  updateProfileForm({
-                    ...profileForm,
-                    choice2: getEventVal(evt),
-                    submitComplete: false
-                  })
-                }
-                defaultOption={"Choose an industry"}
-                value={profileForm.choice2}
-                mt={2}
-              />
-              <CategoryDropdown
-                onChange={evt =>
-                  updateProfileForm({
-                    ...profileForm,
-                    choice3: getEventVal(evt),
-                    submitComplete: false
-                  })
-                }
-                defaultOption={"Choose an industry"}
-                value={profileForm.choice3}
-                mt={2}
-              />
-            </Flex>
+                    ein: getEventVal(evt),
+                    submitComplete: false,
+                    disabled: false,
+                    successMessage: "",
+                    errorField: "",
+                    errorMessage: ""
+                  });
+              }}
+              maxLength={9}
+              value={profileForm.ein ? format(profileForm.ein) : ""}
+              mt={1}
+              borderColor={
+                profileForm.errorField === "ein"
+                  ? "oranges.0"
+                  : "lightslategrey"
+              }
+            />
           </FormGroup>
-
-          {profileForm.type === "Brand" && (
-            <FormGroup mt={3}>
-              <FlexField name={"Logo:"} />
-              <Flex flexBasis="60%" flexDirection="column" h="fit-content">
-                {profileForm.logo && (
-                  <Flex maxWidth="25rem" flexDirection="column" h="fit-content">
-                    <FlexText fw={400} h="2.2rem" mb={1} mt={3}>
-                      Logo name
-                    </FlexText>
-                    <Flex mt={1} mb={1} color="oranges.0" alignItems="center">
-                      <Icon ml={3} mr={2} h={"2.2rem"}>
-                        <Image />
-                      </Icon>
-                      <Text>{profileForm.logo.name}</Text>
-                    </Flex>
-                  </Flex>
-                )}
-                <FileInput
-                  mt={2}
-                  inputName={"home-account-logo-uploader"}
-                  icon={<AddCircle />}
-                  onChange={result =>
-                    updateProfileForm({
-                      ...profileForm,
-                      logo: result,
-                      submitComplete: false
-                    })
-                  }
-                >
-                  Add brand logo
-                </FileInput>
-              </Flex>
-            </FormGroup>
-          )}
         </FormSection>
 
         <FormSection
@@ -234,10 +202,18 @@ class _AccountFormCard extends React.Component {
           flexDirection={r("column ----> row")}
           alignItems="center"
         >
-          {profileForm.submitComplete && (
+          {profileForm.submitComplete ? (
             <Flex>
               <Text mb={r("3 ----> 0")}>Settings are up to date.</Text>
             </Flex>
+          ) : profileForm.errorMessage ? (
+            <Flex>
+              <Text mb={r("3 ----> 0")} color="oranges.0">
+                {profileForm.errorMessage}
+              </Text>
+            </Flex>
+          ) : (
+            <></>
           )}
           <Mutation
             mutation={UPDATE_STORE_ACCOUNT}
@@ -269,7 +245,7 @@ class _AccountFormCard extends React.Component {
                 w={r("100% 25rem ---> 10rem")}
                 maxWidth="100%"
                 fs={"1.6rem"}
-                onClick={() => this.updateAccountMutation(updateAccount)}
+                onClick={() => this.updateStoreAccount(updateAccount)}
               >
                 {profileForm.isSubmitting ? "Saving..." : "Save"}
               </CallToActionButton>

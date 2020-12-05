@@ -21,7 +21,7 @@ import {
   formatErrorMessage,
   formatGQLErrorMessage
 } from "./utility";
-import {STATES} from "./constants";
+import {STATES, MONTHS} from "./constants";
 
 export {
   updateState,
@@ -35,5 +35,6 @@ export {
   validateToken,
   formatErrorMessage,
   formatGQLErrorMessage,
-  STATES
+  STATES,
+  MONTHS
 };

@@ -1,22 +1,23 @@
 import React from "react";
-import {Box, Flex, Text, DropDown, CallToActionButton, Icon} from "components";
+import {Box, Flex, Text, DropDown, CallToActionButton} from "components";
 import {
   FlexInput,
   FlexField,
   FormSection,
-  FormGroup,
-  FlexText
+  FormGroup
 } from "views/Dashboard/Components";
 import {Mutation} from "@apollo/react-components";
-import {AddCircle} from "@styled-icons/material/AddCircle";
-import {Image} from "@styled-icons/boxicons-solid/Image";
-import FileInput from "./Components/FileUploader";
-import CategoryDropdown from "./Components/CategoryDropdown";
 import {
   UPDATE_INFLUENCER_ACCOUNT,
   USER__ACCOUNT_USER_SET
 } from "views/Dashboard/gql";
-import {STATES, responsive as r, getEventVal} from "lib";
+import {
+  STATES,
+  MONTHS,
+  responsive as r,
+  getEventVal,
+  formatGQLErrorMessage
+} from "lib";
 import {getToken} from "lib";
 import {connect} from "react-redux";
 import {updateProfileForm} from "redux/actions";
@@ -33,12 +34,26 @@ class _AccountFormCard extends React.Component {
 
     flatForm.accountUserId = parseInt(currentAccountUser);
     flatForm.token = getToken().token;
-    if (flatForm.choice1 === -1) flatForm.choice1 = null;
-    if (flatForm.choice2 === -1) flatForm.choice2 = null;
-    if (flatForm.choice3 === -1) flatForm.choice3 = null;
-    return updateAccount({
-      variables: flatForm
-    });
+    try {
+      await updateAccount({
+        variables: flatForm
+      });
+      return updateProfileForm({
+        ...profileForm,
+        successMessage: "Settings are up-to-date",
+        submitComplete: true,
+        isSubmitting: false,
+        disabled: true
+      });
+    } catch (error) {
+      let gqlError = formatGQLErrorMessage(error, "");
+      return updateProfileForm({
+        ...profileForm,
+        ...gqlError,
+        isSubmitting: false,
+        disabled: true
+      });
+    }
   }
 
   render() {
@@ -145,81 +160,107 @@ class _AccountFormCard extends React.Component {
             </Flex>
           </FormGroup>
 
-          <FormGroup mt={2} mb={r("3 ----> 2")}>
-            <FlexField name={"Industries"} />
+          <FormGroup mt={r("3 ----> 2")}>
+            <FlexField name={"Date of birth:"} />
             <Flex flexBasis="60%" flexDirection="column" mt={2}>
-              <CategoryDropdown
+              <Flex>
+                <DropDown
+                  br={2}
+                  maxWidth="100%"
+                  w="25rem"
+                  border={"1px solid lightslategrey"}
+                  defaultOption={"Month"}
+                  options={MONTHS}
+                  onChange={evt => {
+                    updateProfileForm({
+                      ...profileForm,
+                      dobMonth: parseInt(getEventVal(evt)),
+                      submitComplete: false,
+                      disabled: false,
+                      successMessage: "",
+                      errorField: "",
+                      errorMessage: ""
+                    });
+                  }}
+                  value={profileForm.dobMonth}
+                  borderColor={
+                    profileForm.errorField === "dobMonth"
+                      ? "oranges.0"
+                      : "lightslategrey"
+                  }
+                />
+              </Flex>
+              <FlexInput
+                placeholder={"Day"}
+                maxLength={2}
                 onChange={evt =>
                   updateProfileForm({
                     ...profileForm,
-                    choice1: getEventVal(evt),
-                    submitComplete: false
+                    dobDay: parseInt(getEventVal(evt)),
+                    submitComplete: false,
+                    disabled: false,
+                    successMessage: "",
+                    errorField: "",
+                    errorMessage: ""
                   })
                 }
-                defaultOption={"Choose an industry"}
-                value={profileForm.choice1}
+                value={profileForm.dobDay || ""}
+                borderColor={
+                  profileForm.errorField === "dobDay"
+                    ? "oranges.0"
+                    : "lightslategrey"
+                }
+                mt={1}
               />
-              <CategoryDropdown
+              <FlexInput
+                placeholder={"Year"}
+                maxLength={4}
                 onChange={evt =>
                   updateProfileForm({
                     ...profileForm,
-                    choice2: getEventVal(evt),
-                    submitComplete: false
+                    dobYear: parseInt(getEventVal(evt)),
+                    submitComplete: false,
+                    disabled: false,
+                    successMessage: "",
+                    errorField: "",
+                    errorMessage: ""
                   })
                 }
-                defaultOption={"Choose an industry"}
-                value={profileForm.choice2}
-                mt={2}
-              />
-              <CategoryDropdown
-                onChange={evt =>
-                  updateProfileForm({
-                    ...profileForm,
-                    choice3: getEventVal(evt),
-                    submitComplete: false
-                  })
+                value={profileForm.dobYear || ""}
+                borderColor={
+                  profileForm.errorField === "dobYear"
+                    ? "oranges.0"
+                    : "lightslategrey"
                 }
-                defaultOption={"Choose an industry"}
-                value={profileForm.choice3}
-                mt={2}
+                mt={1}
               />
             </Flex>
           </FormGroup>
 
-          {profileForm.type === "Brand" && (
-            <FormGroup mt={3}>
-              <FlexField name={"Logo:"} />
-              <Flex flexBasis="60%" flexDirection="column" h="fit-content">
-                {profileForm.logo && (
-                  <Flex maxWidth="25rem" flexDirection="column" h="fit-content">
-                    <FlexText fw={400} h="2.2rem" mb={1} mt={3}>
-                      Logo name
-                    </FlexText>
-                    <Flex mt={1} mb={1} color="oranges.0" alignItems="center">
-                      <Icon ml={3} mr={2} h={"2.2rem"}>
-                        <Image />
-                      </Icon>
-                      <Text>{profileForm.logo.name}</Text>
-                    </Flex>
-                  </Flex>
-                )}
-                <FileInput
-                  mt={2}
-                  inputName={"home-account-logo-uploader"}
-                  icon={<AddCircle />}
-                  onChange={result =>
-                    updateProfileForm({
-                      ...profileForm,
-                      logo: result,
-                      submitComplete: false
-                    })
-                  }
-                >
-                  Add brand logo
-                </FileInput>
-              </Flex>
-            </FormGroup>
-          )}
+          <FormGroup mt={r("3 ----> 2")}>
+            <FlexField name={"Last four ssn:"} />
+            <FlexInput
+              onChange={evt =>
+                updateProfileForm({
+                  ...profileForm,
+                  lastFourSsn: getEventVal(evt),
+                  submitComplete: false,
+                  disabled: false,
+                  successMessage: "",
+                  errorField: "",
+                  errorMessage: ""
+                })
+              }
+              maxLength={4}
+              value={profileForm.lastFourSsn || ""}
+              borderColor={
+                profileForm.errorField === "lastFourSsn"
+                  ? "oranges.0"
+                  : "lightslategrey"
+              }
+              mt={1}
+            />
+          </FormGroup>
         </FormSection>
 
         <FormSection
@@ -234,10 +275,18 @@ class _AccountFormCard extends React.Component {
           flexDirection={r("column ----> row")}
           alignItems="center"
         >
-          {profileForm.submitComplete && (
+          {profileForm.submitComplete ? (
             <Flex>
               <Text mb={r("3 ----> 0")}>Settings are up to date.</Text>
             </Flex>
+          ) : profileForm.errorMessage ? (
+            <Flex>
+              <Text mb={r("3 ----> 0")} color="oranges.0">
+                {profileForm.errorMessage}
+              </Text>
+            </Flex>
+          ) : (
+            <></>
           )}
           <Mutation
             mutation={UPDATE_INFLUENCER_ACCOUNT}
@@ -247,15 +296,6 @@ class _AccountFormCard extends React.Component {
                 variables: {token: getToken().token}
               }
             ]}
-            onCompleted={() =>
-              updateProfileForm({
-                ...profileForm,
-                logoUrl: profileForm.logo,
-                submitComplete: true,
-                isSubmitting: false,
-                disabled: true
-              })
-            }
           >
             {updateAccount => (
               <CallToActionButton

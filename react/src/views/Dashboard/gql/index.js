@@ -121,6 +121,10 @@ export const UPDATE_INFLUENCER_ACCOUNT = gql`
     $zip: String
     $accountName: String
     $token: String!
+    $dobDay: Int
+    $dobMonth: Int
+    $dobYear: Int
+    $lastFourSsn: String
   ) {
     updateInfluencerAccount(
       token: $token
@@ -132,6 +136,10 @@ export const UPDATE_INFLUENCER_ACCOUNT = gql`
       zip: $zip
       city: $city
       accountName: $accountName
+      dobDay: $dobDay
+      dobMonth: $dobMonth
+      dobYear: $dobYear
+      lastFourSsn: $lastFourSsn
     ) {
       account {
         id
@@ -163,6 +171,10 @@ export const USER__ACCOUNT_USER_SET = gql`
             logo
             ein
             einVerified
+            dobDay
+            dobMonth
+            dobYear
+            lastFourSsn
             address {
               id
               line1

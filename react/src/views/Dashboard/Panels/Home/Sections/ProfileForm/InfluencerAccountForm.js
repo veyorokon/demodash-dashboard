@@ -11,7 +11,13 @@ import {
   UPDATE_INFLUENCER_ACCOUNT,
   USER__ACCOUNT_USER_SET
 } from "views/Dashboard/gql";
-import {STATES, responsive as r, getEventVal} from "lib";
+import {
+  STATES,
+  MONTHS,
+  responsive as r,
+  getEventVal,
+  formatGQLErrorMessage
+} from "lib";
 import {getToken} from "lib";
 import {connect} from "react-redux";
 import {updateProfileForm} from "redux/actions";
@@ -28,9 +34,26 @@ class _AccountFormCard extends React.Component {
 
     flatForm.accountUserId = parseInt(currentAccountUser);
     flatForm.token = getToken().token;
-    return updateAccount({
-      variables: flatForm
-    });
+    try {
+      await updateAccount({
+        variables: flatForm
+      });
+      return updateProfileForm({
+        ...profileForm,
+        successMessage: "Settings are up-to-date",
+        submitComplete: true,
+        isSubmitting: false,
+        disabled: true
+      });
+    } catch (error) {
+      let gqlError = formatGQLErrorMessage(error, "");
+      return updateProfileForm({
+        ...profileForm,
+        ...gqlError,
+        isSubmitting: false,
+        disabled: true
+      });
+    }
   }
 
   render() {
@@ -136,6 +159,108 @@ class _AccountFormCard extends React.Component {
               />
             </Flex>
           </FormGroup>
+
+          <FormGroup mt={r("3 ----> 2")}>
+            <FlexField name={"Date of birth:"} />
+            <Flex flexBasis="60%" flexDirection="column" mt={2}>
+              <Flex>
+                <DropDown
+                  br={2}
+                  maxWidth="100%"
+                  w="25rem"
+                  border={"1px solid lightslategrey"}
+                  defaultOption={"Month"}
+                  options={MONTHS}
+                  onChange={evt => {
+                    updateProfileForm({
+                      ...profileForm,
+                      dobMonth: parseInt(getEventVal(evt)),
+                      submitComplete: false,
+                      disabled: false,
+                      successMessage: "",
+                      errorField: "",
+                      errorMessage: ""
+                    });
+                  }}
+                  value={profileForm.dobMonth}
+                  borderColor={
+                    profileForm.errorField === "dobMonth"
+                      ? "oranges.0"
+                      : "lightslategrey"
+                  }
+                />
+              </Flex>
+              <FlexInput
+                placeholder={"Day"}
+                maxLength={2}
+                onChange={evt =>
+                  updateProfileForm({
+                    ...profileForm,
+                    dobDay: parseInt(getEventVal(evt)),
+                    submitComplete: false,
+                    disabled: false,
+                    successMessage: "",
+                    errorField: "",
+                    errorMessage: ""
+                  })
+                }
+                value={profileForm.dobDay || ""}
+                borderColor={
+                  profileForm.errorField === "dobDay"
+                    ? "oranges.0"
+                    : "lightslategrey"
+                }
+                mt={1}
+              />
+              <FlexInput
+                placeholder={"Year"}
+                maxLength={4}
+                onChange={evt =>
+                  updateProfileForm({
+                    ...profileForm,
+                    dobYear: parseInt(getEventVal(evt)),
+                    submitComplete: false,
+                    disabled: false,
+                    successMessage: "",
+                    errorField: "",
+                    errorMessage: ""
+                  })
+                }
+                value={profileForm.dobYear || ""}
+                borderColor={
+                  profileForm.errorField === "dobYear"
+                    ? "oranges.0"
+                    : "lightslategrey"
+                }
+                mt={1}
+              />
+            </Flex>
+          </FormGroup>
+
+          <FormGroup mt={r("3 ----> 2")}>
+            <FlexField name={"Last four ssn:"} />
+            <FlexInput
+              onChange={evt =>
+                updateProfileForm({
+                  ...profileForm,
+                  lastFourSsn: getEventVal(evt),
+                  submitComplete: false,
+                  disabled: false,
+                  successMessage: "",
+                  errorField: "",
+                  errorMessage: ""
+                })
+              }
+              maxLength={4}
+              value={profileForm.lastFourSsn || ""}
+              borderColor={
+                profileForm.errorField === "lastFourSsn"
+                  ? "oranges.0"
+                  : "lightslategrey"
+              }
+              mt={1}
+            />
+          </FormGroup>
         </FormSection>
 
         <FormSection
@@ -150,10 +275,18 @@ class _AccountFormCard extends React.Component {
           flexDirection={r("column ----> row")}
           alignItems="center"
         >
-          {profileForm.submitComplete && (
+          {profileForm.submitComplete ? (
             <Flex>
               <Text mb={r("3 ----> 0")}>Settings are up to date.</Text>
             </Flex>
+          ) : profileForm.errorMessage ? (
+            <Flex>
+              <Text mb={r("3 ----> 0")} color="oranges.0">
+                {profileForm.errorMessage}
+              </Text>
+            </Flex>
+          ) : (
+            <></>
           )}
           <Mutation
             mutation={UPDATE_INFLUENCER_ACCOUNT}
@@ -163,15 +296,6 @@ class _AccountFormCard extends React.Component {
                 variables: {token: getToken().token}
               }
             ]}
-            onCompleted={() =>
-              updateProfileForm({
-                ...profileForm,
-                logoUrl: profileForm.logo,
-                submitComplete: true,
-                isSubmitting: false,
-                disabled: true
-              })
-            }
           >
             {updateAccount => (
               <CallToActionButton

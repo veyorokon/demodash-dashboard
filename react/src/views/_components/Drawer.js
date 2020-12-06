@@ -174,6 +174,7 @@ const _Drawer = props => {
               <NavItem
                 onClick={() => {
                   clearToken();
+                  toggleNav();
                   return props.history.push("/login");
                 }}
                 text="Logout"

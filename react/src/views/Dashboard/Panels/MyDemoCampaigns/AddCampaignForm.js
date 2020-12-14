@@ -750,6 +750,11 @@ class _AddCampaignForm extends React.Component {
                   defaultOption={"Choose a demo box"}
                   defaultButtonText={"Create a demo box"}
                   defaultButtonProps={{h: "3.5rem"}}
+                  borderColor={
+                    demoCampaignForm.errorField === "demoBoxId"
+                      ? "oranges.0"
+                      : "lightslategrey"
+                  }
                   onChange={evt => {
                     updateDemoCampaignForm({
                       ...demoCampaignForm,

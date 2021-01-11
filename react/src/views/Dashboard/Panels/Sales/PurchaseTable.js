@@ -291,7 +291,11 @@ const Payout = ({props}) => {
           Commission:
         </Text>
         <Flex flexGrow={0}>
-          {isBrand && <Text color="darkBlues.0">- $</Text>}
+          {isBrand ? (
+            <Text color="darkBlues.0">- $</Text>
+          ) : (
+            <Text color="greens.4">$</Text>
+          )}
           <Text color={isBrand ? "darkBlues.0" : "greens.4"} ml={1}>
             {commission.toFixed(2)}
           </Text>

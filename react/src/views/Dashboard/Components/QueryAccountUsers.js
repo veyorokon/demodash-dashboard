@@ -1,14 +1,22 @@
 import React from "react";
 import {Query} from "@apollo/react-components";
 import {Box, Text} from "components";
-import {getToken} from "lib";
-
+import {getToken, clearToken} from "lib";
+import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import {updateAccountUserSet} from "redux/actions";
 import {USER__ACCOUNT_USER_SET} from "views/Dashboard/gql";
 
+function logout(props) {
+  if (props && props.history) {
+    clearToken();
+    return props.history.push("/login");
+  }
+}
+
 class _QueryAccountUsers extends React.Component {
   render() {
+    const {props} = this;
     const {token} = getToken();
     const {updateAccountUserSet} = this.props;
     return (
@@ -23,7 +31,7 @@ class _QueryAccountUsers extends React.Component {
           if (error)
             return (
               <Box h="3.5rem" mb={4}>
-                <Text>Error! {error.message}</Text>
+                <Text onClick={logout(props)}>Error! {error.message}</Text>
               </Box>
             );
           const {accountUsers} = data.user;
@@ -44,4 +52,4 @@ function mapNavItemDispatchToProps(dispatch) {
 export default connect(
   null,
   mapNavItemDispatchToProps
-)(_QueryAccountUsers);
+)(withRouter(_QueryAccountUsers));

@@ -7,8 +7,8 @@ import {connect} from "react-redux";
 import {updateAccountUserSet} from "redux/actions";
 import {USER__ACCOUNT_USER_SET} from "views/Dashboard/gql";
 
-function logout(props) {
-  if (props && props.history) {
+function logout(props, error) {
+  if (props && props.history && error.message === "Signature has expired") {
     clearToken();
     return props.history.push("/login");
   }
@@ -31,7 +31,9 @@ class _QueryAccountUsers extends React.Component {
           if (error)
             return (
               <Box h="3.5rem" mb={4}>
-                <Text onClick={logout(props)}>Error! {error.message}</Text>
+                <Text onClick={logout(props, error)}>
+                  Error! {error.message}
+                </Text>
               </Box>
             );
           const {accountUsers} = data.user;

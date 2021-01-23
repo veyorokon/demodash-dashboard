@@ -491,8 +491,8 @@ const ShippingInfo = ({props}) => {
   );
 };
 
-function logout(props) {
-  if (props && props.history) {
+function logout(props, error) {
+  if (props && props.history && error.message === "Signature has expired") {
     clearToken();
     return props.history.push("/login");
   }
@@ -587,7 +587,7 @@ function _PurchaseTable(props) {
               if (error)
                 return (
                   <Box h="3.5rem" mb={4}>
-                    <Text onClick={logout(props)}>Error! </Text>
+                    <Text onClick={logout(props, error)}>Error! </Text>
                   </Box>
                 );
               let queryData = data.sales;

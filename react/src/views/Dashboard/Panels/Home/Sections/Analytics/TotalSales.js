@@ -13,8 +13,8 @@ const mapStateToProps = state => {
   };
 };
 
-function logout(props) {
-  if (props && props.history) {
+function logout(props, error) {
+  if (props && props.history && error.message === "Signature has expired") {
     clearToken();
     return props.history.push("/login");
   }
@@ -42,7 +42,7 @@ function _TotalSales(props) {
   if (error)
     return (
       <IconCard
-        onClick={logout(props)}
+        onClick={logout(props, error)}
         iconProps={{color: "blues.0", bg: "navys.3"}}
         mr={r("2")}
         mb={r("2")}

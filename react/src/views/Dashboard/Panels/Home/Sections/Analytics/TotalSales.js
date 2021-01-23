@@ -3,7 +3,8 @@ import {IconCard} from "views/Dashboard/Components";
 import {Pricetags} from "@styled-icons/evaicons-solid/Pricetags";
 import {connect} from "react-redux";
 import {useQuery} from "@apollo/react-hooks";
-import {responsive as r, getToken} from "lib";
+import {responsive as r, getToken, clearToken} from "lib";
+import {withRouter} from "react-router";
 import {QUERY_TOTAL_ACCOUNT_SALES} from "views/Dashboard/gql";
 
 const mapStateToProps = state => {
@@ -11,6 +12,13 @@ const mapStateToProps = state => {
     accountUserId: parseInt(state.dashboard.currentAccountUser)
   };
 };
+
+function logout(props) {
+  if (props && props.history) {
+    clearToken();
+    return props.history.push("/login");
+  }
+}
 
 function _TotalSales(props) {
   const {accountUserId} = props;
@@ -34,6 +42,7 @@ function _TotalSales(props) {
   if (error)
     return (
       <IconCard
+        onClick={logout(props)}
         iconProps={{color: "blues.0", bg: "navys.3"}}
         mr={r("2")}
         mb={r("2")}
@@ -58,4 +67,4 @@ function _TotalSales(props) {
 export default connect(
   mapStateToProps,
   null
-)(_TotalSales);
+)(withRouter(_TotalSales));

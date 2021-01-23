@@ -4,7 +4,7 @@ import {HttpLink} from "apollo-link-http";
 
 export const API_SERVER = process.env.REACT_APP_API_HOST
   ? `${process.env.REACT_APP_API_HOST}`
-  : "http://192.168.1.22:8000";
+  : "http://192.168.200.238:8000";
 
 export const API_MEDIA = process.env.REACT_APP_API_MEDIA
   ? `${process.env.REACT_APP_API_MEDIA}/${process.env.REACT_APP_API_STATIC_BUCKET}/media/`

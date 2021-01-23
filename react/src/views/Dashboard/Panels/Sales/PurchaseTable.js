@@ -2,8 +2,6 @@ import React, {useState, useEffect} from "react";
 import {Box, Flex, Text, Icon} from "components";
 import {FormSection, FlexInput, FormButton} from "views/Dashboard/Components";
 
-import {responsive as r, getToken} from "lib";
-import {connect} from "react-redux";
 import DataTable from "react-data-table-component";
 import {Query, Mutation} from "@apollo/react-components";
 import {SALES, UPDATE_PURCHASE_TRACKING} from "views/Dashboard/gql";
@@ -14,6 +12,10 @@ import {CheckCircle} from "@styled-icons/boxicons-solid/CheckCircle";
 import {TimesCircle} from "@styled-icons/fa-regular/TimesCircle";
 import {TimeFive} from "@styled-icons/boxicons-solid/TimeFive";
 import Moment from "react-moment";
+
+import {withRouter} from "react-router";
+import {responsive as r, getToken, clearToken} from "lib";
+import {connect} from "react-redux";
 
 const mapStateToProps = state => {
   return {
@@ -489,6 +491,13 @@ const ShippingInfo = ({props}) => {
   );
 };
 
+function logout(props) {
+  if (props && props.history) {
+    clearToken();
+    return props.history.push("/login");
+  }
+}
+
 function _PurchaseTable(props) {
   const {currentAccountUser, panel, accountType} = props;
   const isBrand = accountType === "Brand";
@@ -578,7 +587,7 @@ function _PurchaseTable(props) {
               if (error)
                 return (
                   <Box h="3.5rem" mb={4}>
-                    <Text>Error! {error.message}</Text>
+                    <Text onClick={logout(props)}>Error! </Text>
                   </Box>
                 );
               let queryData = data.sales;
@@ -618,9 +627,9 @@ const PurchaseTable = props => {
         </Text>
       </Flex>
       <Flex mb={4} justifyContent="center">
-        <Table title={"Sales"} />
+        <Table title={"Sales"} {...props} />
       </Flex>
     </>
   );
 };
-export default PurchaseTable;
+export default withRouter(PurchaseTable);

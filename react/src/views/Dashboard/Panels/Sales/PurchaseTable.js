@@ -492,7 +492,11 @@ const ShippingInfo = ({props}) => {
 };
 
 function logout(props, error) {
-  if (props && props.history && error.message === "Signature has expired") {
+  if (
+    props &&
+    props.history &&
+    error.message.includes("Signature has expired")
+  ) {
     clearToken();
     return props.history.push("/login");
   }

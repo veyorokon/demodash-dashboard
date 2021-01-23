@@ -8,7 +8,11 @@ import {updateAccountUserSet} from "redux/actions";
 import {USER__ACCOUNT_USER_SET} from "views/Dashboard/gql";
 
 function logout(props, error) {
-  if (props && props.history && error.message === "Signature has expired") {
+  if (
+    props &&
+    props.history &&
+    error.message.includes("Signature has expired")
+  ) {
     clearToken();
     return props.history.push("/login");
   }
